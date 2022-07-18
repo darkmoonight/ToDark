@@ -38,6 +38,8 @@ dependencies:
   get_storage: ^2.0.3
   equatable: ^2.0.3
   flutter_easyloading: ^3.0.5
+  dotted_border: ^2.0.0+2
+  step_progress_indicator: ^1.0.2
 
 dev_dependencies:
   flutter_test:
