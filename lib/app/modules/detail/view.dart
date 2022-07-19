@@ -1,4 +1,5 @@
 import 'package:dark_todo/app/core/utils/extensions.dart';
+import 'package:dark_todo/app/modules/detail/widgets/doind_list.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -140,7 +141,8 @@ class DetailPage extends StatelessWidget {
                   return null;
                 },
               ),
-            )
+            ),
+            DoingList(),
           ],
         ),
       ),
