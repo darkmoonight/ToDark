@@ -1,4 +1,4 @@
-import 'package:dark_todo/app/core/utils/extensions.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/data/models/task.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
@@ -22,13 +22,14 @@ class HomePage extends GetView<HomeController> {
           children: [
             SafeArea(
               child: ListView(
+                controller: ScrollController(),
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(4.0.wp),
+                    padding: EdgeInsets.all(4.w),
                     child: Text(
                       'My List',
                       style: TextStyle(
-                        fontSize: 24.0.sp,
+                        fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -105,7 +106,7 @@ class HomePage extends GetView<HomeController> {
                 label: 'Home',
                 icon: Padding(
                   padding: EdgeInsets.only(
-                    right: 15.0.wp,
+                    right: 15.w,
                   ),
                   child: const Icon(
                     Icons.apps,
@@ -116,7 +117,7 @@ class HomePage extends GetView<HomeController> {
                 label: 'Report',
                 icon: Padding(
                   padding: EdgeInsets.only(
-                    left: 15.0.wp,
+                    left: 15.w,
                   ),
                   child: const Icon(
                     Icons.data_usage,

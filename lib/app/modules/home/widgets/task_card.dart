@@ -1,4 +1,5 @@
 import 'package:dark_todo/app/core/utils/extensions.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:dark_todo/app/data/models/task.dart';
 import 'package:dark_todo/app/modules/detail/view.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
@@ -14,7 +15,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = HexColor.fromHex(task.color);
-    final squareWidth = Get.width - 12.0.wp;
+    final squareWidth = Get.width - 12.w;
 
     return GestureDetector(
       onTap: () {
@@ -25,7 +26,7 @@ class TaskCard extends StatelessWidget {
       child: Container(
         width: squareWidth / 2,
         height: squareWidth / 2,
-        margin: EdgeInsets.all(3.0.wp),
+        margin: EdgeInsets.all(3.w),
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(
             color: Colors.grey[300]!,
@@ -54,14 +55,14 @@ class TaskCard extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(6.0.wp),
+              padding: EdgeInsets.all(6.w),
               child: Icon(
                 IconData(task.icon, fontFamily: 'MaterialIcons'),
                 color: color,
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(6.0.wp),
+              padding: EdgeInsets.all(6.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -69,12 +70,12 @@ class TaskCard extends StatelessWidget {
                     task.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 12.0.sp,
+                      fontSize: 12.sp,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(
-                    height: 2.0.wp,
+                    height: 2.w,
                   ),
                   Text(
                     '${task.todos?.length ?? 0} Task',

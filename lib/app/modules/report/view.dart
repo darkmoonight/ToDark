@@ -1,4 +1,4 @@
-import 'package:dark_todo/app/core/utils/extensions.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
@@ -21,35 +21,36 @@ class ReportPage extends StatelessWidget {
           var precent =
               (completedTasks / createdTasks * 100).toStringAsFixed(0);
           return ListView(
+            controller: ScrollController(),
             children: [
               Padding(
-                padding: EdgeInsets.all(4.0.wp),
+                padding: EdgeInsets.all(4.w),
                 child: Text(
                   'My Report',
                   style: TextStyle(
-                    fontSize: 24.0.sp,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 4.0.wp,
+                  horizontal: 4.w,
                 ),
                 child: Text(
                   DateFormat.yMMMMd().format(
                     DateTime.now(),
                   ),
                   style: TextStyle(
-                    fontSize: 14.0.sp,
+                    fontSize: 14.sp,
                     color: Colors.grey,
                   ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 3.0.wp,
-                  horizontal: 4.0.wp,
+                  vertical: 3.w,
+                  horizontal: 4.w,
                 ),
                 child: const Divider(
                   thickness: 2,
@@ -57,8 +58,8 @@ class ReportPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 3.0.wp,
-                  horizontal: 5.0.wp,
+                  vertical: 3.w,
+                  horizontal: 5.w,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,12 +71,12 @@ class ReportPage extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 8.0.wp,
+                height: 8.w,
               ),
               UnconstrainedBox(
                 child: SizedBox(
-                  width: 70.0.wp,
-                  height: 70.0.wp,
+                  width: 70.w,
+                  height: 70.w,
                   child: CircularStepProgressIndicator(
                     totalSteps: createdTasks == 0 ? 1 : createdTasks,
                     currentStep: completedTasks,
@@ -94,18 +95,18 @@ class ReportPage extends StatelessWidget {
                           '${createdTasks == 0 ? 0 : precent} %',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20.0.sp,
+                            fontSize: 20.sp,
                           ),
                         ),
                         SizedBox(
-                          height: 1.0.wp,
+                          height: 1.w,
                         ),
                         Text(
                           'Efficiency',
                           style: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12.0.sp,
+                            fontSize: 12.sp,
                           ),
                         )
                       ],
@@ -125,18 +126,18 @@ class ReportPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 3.0.wp,
-          width: 3.0.wp,
+          height: 3.w,
+          width: 3.w,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              width: 0.5.wp,
+              width: Adaptive.h(0.5),
               color: color,
             ),
           ),
         ),
         SizedBox(
-          width: 3.0.wp,
+          width: 3.w,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -145,16 +146,16 @@ class ReportPage extends StatelessWidget {
               '$number',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 16.0.sp,
+                fontSize: 16.sp,
               ),
             ),
             SizedBox(
-              height: 2.0.wp,
+              height: 2.w,
             ),
             Text(
               text,
               style: TextStyle(
-                fontSize: 12.0.sp,
+                fontSize: 12.sp,
                 color: Colors.grey,
               ),
             )

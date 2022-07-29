@@ -7,6 +7,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddCard extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -15,15 +16,15 @@ class AddCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final icons = getIcons();
-    var squareWidth = Get.width - 12.0.wp;
+    var squareWidth = Get.width - 12.w;
     return Container(
       width: squareWidth / 2,
       height: squareWidth / 2,
-      margin: EdgeInsets.all(3.0.wp),
+      margin: EdgeInsets.all(3.w),
       child: InkWell(
         onTap: () async {
           await Get.defaultDialog(
-            titlePadding: EdgeInsets.symmetric(vertical: 5.0.wp),
+            titlePadding: EdgeInsets.symmetric(vertical: 5.w),
             radius: 5,
             title: 'Task Type',
             content: Form(
@@ -31,7 +32,7 @@ class AddCard extends StatelessWidget {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 3.0.wp),
+                    padding: EdgeInsets.symmetric(horizontal: 3.w),
                     child: TextFormField(
                       controller: homeCtrl.editCtrl,
                       decoration: const InputDecoration(
@@ -47,9 +48,9 @@ class AddCard extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 5.0.wp),
+                    padding: EdgeInsets.symmetric(vertical: 5.w),
                     child: Wrap(
-                      spacing: 2.0.wp,
+                      spacing: 2.w,
                       children: icons
                           .map((e) => Obx(() {
                                 final index = icons.indexOf(e);
@@ -107,7 +108,7 @@ class AddCard extends StatelessWidget {
           child: Center(
             child: Icon(
               Icons.add,
-              size: 10.0.wp,
+              size: 10.w,
               color: Colors.grey,
             ),
           ),

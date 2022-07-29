@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DetailPage extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -23,7 +24,7 @@ class DetailPage extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(3.0.wp),
+                padding: EdgeInsets.all(3.w),
                 child: Row(
                   children: [
                     IconButton(
@@ -40,7 +41,7 @@ class DetailPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 8.0.wp,
+                  horizontal: 8.w,
                 ),
                 child: Row(
                   children: [
@@ -49,12 +50,12 @@ class DetailPage extends StatelessWidget {
                       color: color,
                     ),
                     SizedBox(
-                      width: 3.0.wp,
+                      width: 3.w,
                     ),
                     Text(
                       task.title,
                       style: TextStyle(
-                        fontSize: 12.0.sp,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     )
@@ -66,21 +67,21 @@ class DetailPage extends StatelessWidget {
                     homeCtrl.doingTodos.length + homeCtrl.doneTodos.length;
                 return Padding(
                   padding: EdgeInsets.only(
-                    left: 16.0.wp,
-                    top: 3.0.wp,
-                    right: 16.0.wp,
+                    left: 16.w,
+                    top: 3.w,
+                    right: 16.w,
                   ),
                   child: Row(
                     children: [
                       Text(
                         '$totalTodos Task',
                         style: TextStyle(
-                          fontSize: 12.0.sp,
+                          fontSize: 12.sp,
                           color: Colors.grey,
                         ),
                       ),
                       SizedBox(
-                        width: 3.0.wp,
+                        width: 3.w,
                       ),
                       Expanded(
                         child: StepProgressIndicator(
@@ -105,8 +106,7 @@ class DetailPage extends StatelessWidget {
                 );
               }),
               Padding(
-                padding:
-                    EdgeInsets.symmetric(vertical: 2.0.wp, horizontal: 5.0.wp),
+                padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 5.w),
                 child: TextFormField(
                   controller: homeCtrl.editCtrl,
                   autofocus: true,

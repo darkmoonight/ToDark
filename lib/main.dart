@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() async {
   await GetStorage.init();
@@ -17,12 +18,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'DarkToDo',
-      home: const HomePage(),
-      initialBinding: HomeBinding(),
-      builder: EasyLoading.init(),
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'DarkToDo',
+          home: const HomePage(),
+          initialBinding: HomeBinding(),
+          builder: EasyLoading.init(),
+        );
+      },
     );
   }
 }

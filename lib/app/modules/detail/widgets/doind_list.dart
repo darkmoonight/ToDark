@@ -1,7 +1,7 @@
-import 'package:dark_todo/app/core/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DoingList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -16,13 +16,13 @@ class DoingList extends StatelessWidget {
                 Image.asset(
                   'assets/images/pngwing.png',
                   fit: BoxFit.cover,
-                  width: 65.0.wp,
+                  width: 65.w,
                 ),
                 Text(
                   'Add Task',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16.0.sp,
+                    fontSize: 16.sp,
                   ),
                 )
               ],
@@ -34,8 +34,8 @@ class DoingList extends StatelessWidget {
                 ...homeCtrl.doingTodos
                     .map((element) => Padding(
                         padding: EdgeInsets.symmetric(
-                          vertical: 3.0.wp,
-                          horizontal: 9.0.wp,
+                          vertical: 3.w,
+                          horizontal: 9.w,
                         ),
                         child: Row(
                           children: [
@@ -51,7 +51,7 @@ class DoingList extends StatelessWidget {
                                   }),
                             ),
                             Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4.0.wp),
+                              padding: EdgeInsets.symmetric(horizontal: 4.w),
                               child: Text(
                                 element['title'],
                                 overflow: TextOverflow.ellipsis,
@@ -62,7 +62,7 @@ class DoingList extends StatelessWidget {
                     .toList(),
                 if (homeCtrl.doingTodos.isNotEmpty)
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.0.wp),
+                    padding: EdgeInsets.symmetric(horizontal: 5.w),
                     child: const Divider(
                       thickness: 2,
                     ),

@@ -1,7 +1,7 @@
-import 'package:dark_todo/app/core/utils/extensions.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:get/get.dart';
 
 class DoneList extends StatelessWidget {
@@ -17,12 +17,12 @@ class DoneList extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 2.0.wp,
-                  horizontal: 5.0.wp,
+                  vertical: 2.w,
+                  horizontal: 5.w,
                 ),
                 child: Text(
                   'Completed(${homeCtrl.doingTodos.length})',
-                  style: TextStyle(fontSize: 14.0.sp, color: Colors.grey),
+                  style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                 ),
               ),
               ...homeCtrl.doneTodos
@@ -35,7 +35,7 @@ class DoneList extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         child: Padding(
                           padding: EdgeInsets.only(
-                            right: 5.0.wp,
+                            right: 5.w,
                           ),
                           child: const Icon(
                             Icons.delete,
@@ -45,8 +45,8 @@ class DoneList extends StatelessWidget {
                       ),
                       child: Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 3.0.wp,
-                            horizontal: 9.0.wp,
+                            vertical: 3.w,
+                            horizontal: 9.w,
                           ),
                           child: Row(
                             children: [
@@ -60,7 +60,7 @@ class DoneList extends StatelessWidget {
                               ),
                               Padding(
                                 padding: EdgeInsets.symmetric(
-                                  horizontal: 4.0.wp,
+                                  horizontal: 4.w,
                                 ),
                                 child: Text(
                                   element['title'],
