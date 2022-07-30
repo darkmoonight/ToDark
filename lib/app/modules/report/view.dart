@@ -13,6 +13,7 @@ class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 30, 30, 30),
       body: SafeArea(child: Obx(
         () {
           var createdTasks = homeCtrl.getTotalTask();
@@ -30,6 +31,7 @@ class ReportPage extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/data/models/task.dart';
@@ -16,6 +17,7 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 30, 30, 30),
       body: Obx(
         () => IndexedStack(
           index: controller.tabIndex.value,
@@ -25,12 +27,25 @@ class HomePage extends GetView<HomeController> {
                 controller: ScrollController(),
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(4.w),
+                    padding: EdgeInsets.only(top: 4.w, left: 6.w, bottom: 2.w),
                     child: Text(
-                      'My List',
+                      DateFormat.yMMMMEEEEd().format(
+                        DateTime.now(),
+                      ),
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 6.w),
+                    child: Text(
+                      'Hey, Yoshi!',
                       style: TextStyle(
                         fontSize: 24.sp,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                   ),
@@ -97,6 +112,7 @@ class HomePage extends GetView<HomeController> {
         ),
         child: Obx(
           () => BottomNavigationBar(
+            backgroundColor: Color.fromARGB(255, 25, 25, 25),
             onTap: (int index) => controller.changeTabIndex(index),
             currentIndex: controller.tabIndex.value,
             showSelectedLabels: false,

@@ -30,7 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       height: 2.w,
       width: isActive ? 4.w : 2.w,
       decoration: BoxDecoration(
-        color: isActive ? Colors.white : const Color(0xFF7B51D3),
+        color: isActive ? Colors.white : Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
     );
@@ -38,6 +38,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -48,10 +49,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               end: Alignment.bottomCenter,
               stops: [0.1, 0.4, 0.7, 0.9],
               colors: [
-                Color(0xFF3594DD),
-                Color(0xFF4563DB),
-                Color(0xFF5036D5),
-                Color(0xFF5B16D0),
+                Color.fromARGB(255, 40, 40, 40),
+                Color.fromARGB(255, 30, 30, 30),
+                Color.fromARGB(255, 20, 20, 20),
+                Color.fromARGB(255, 10, 10, 10),
               ],
             ),
           ),
@@ -64,7 +65,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   alignment: Alignment.centerRight,
                   // ignore: deprecated_member_use
                   child: FlatButton(
-                    onPressed: () => print('Skip'),
+                    onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const HomePage())),
                     child: Text(
                       'Skip',
                       style: TextStyle(
@@ -75,7 +78,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
                 SizedBox(
-                  height: 120.w,
+                  width: size.width,
+                  height: size.height / 1.35,
                   child: PageView(
                     physics: const ClampingScrollPhysics(),
                     controller: _pageController,
@@ -95,13 +99,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: const AssetImage(
                                   'assets/images/1.png',
                                 ),
-                                height: 70.w,
-                                width: 100.w,
+                                width: size.width,
+                                height: size.height / 2.5,
                               ),
                             ),
                             SizedBox(height: 3.w),
                             Text(
-                              'Connect people around the world',
+                              'Организуйте свои задачи',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'CM Sans Serif',
@@ -111,10 +115,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: Adaptive.w(0.2)),
                             Text(
-                              'Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod tempor incididunt ut labore et.',
+                              'В нашем приложении вы сможете распределить задачи по категориям и постепено их выполнять.',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 height: Adaptive.w(0.6),
                               ),
                             ),
@@ -131,13 +135,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: const AssetImage(
                                   'assets/images/2.png',
                                 ),
-                                height: 70.w,
-                                width: 100.w,
+                                width: size.width,
+                                height: size.height / 2.5,
                               ),
                             ),
                             SizedBox(height: 3.w),
                             Text(
-                              'Live your life smarter with us!',
+                              'Удобный дизайн',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'CM Sans Serif',
@@ -147,10 +151,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: Adaptive.w(0.2)),
                             Text(
-                              'Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod tempor incididunt ut labore et.',
+                              'Вся навигация сделана так, чтобы можно было максимально удобно и быстро взаимодействовать с приложением.',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 height: Adaptive.w(0.6),
                               ),
                             ),
@@ -167,13 +171,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 image: const AssetImage(
                                   'assets/images/3.png',
                                 ),
-                                height: 70.w,
-                                width: 100.w,
+                                width: size.width,
+                                height: size.height / 2.5,
                               ),
                             ),
                             SizedBox(height: 3.w),
                             Text(
-                              'Get a new experience of imag',
+                              'Пользуйтесь с удовольствием',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'CM Sans Serif',
@@ -183,10 +187,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: Adaptive.w(0.2)),
                             Text(
-                              'Lorem ipsum dolor sit amet, consect adipiscing elit, sed do eiusmod tempor incididunt ut labore et.',
+                              'Если вы столкнулись с какими-либо проблемами пишите нам на почту или в отзывы приложения.',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 17.sp,
+                                fontSize: 18.sp,
                                 height: Adaptive.w(0.6),
                               ),
                             ),
@@ -254,7 +258,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     child: Text(
                       'Get started',
                       style: TextStyle(
-                        color: const Color(0xFF5B16D0),
+                        color: Colors.black,
                         fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
                       ),
