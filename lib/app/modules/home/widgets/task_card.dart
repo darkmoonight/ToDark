@@ -27,7 +27,7 @@ class TaskCard extends StatelessWidget {
         width: squareWidth / 2,
         height: squareWidth / 2,
         margin: EdgeInsets.all(3.w),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromARGB(255, 40, 40, 40),
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
         ),
@@ -74,7 +74,7 @@ class TaskCard extends StatelessWidget {
                           : homeCtrl.getDoneTodo(task),
                       size: 5,
                       padding: 0,
-                      roundedEdges: Radius.circular(10),
+                      roundedEdges: const Radius.circular(10),
                       selectedGradientColor: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,

@@ -13,7 +13,7 @@ class ReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 30, 30, 30),
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
       body: SafeArea(child: Obx(
         () {
           var createdTasks = homeCtrl.getTotalTask();
@@ -44,7 +44,7 @@ class ReportPage extends StatelessWidget {
                     DateTime.now(),
                   ),
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 20.sp,
                     color: Colors.grey,
                   ),
                 ),
@@ -97,7 +97,8 @@ class ReportPage extends StatelessWidget {
                           '${createdTasks == 0 ? 0 : precent} %',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20.sp,
+                            fontSize: 24.sp,
+                            color: Colors.white,
                           ),
                         ),
                         SizedBox(
@@ -108,7 +109,7 @@ class ReportPage extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.bold,
-                            fontSize: 12.sp,
+                            fontSize: 16.sp,
                           ),
                         )
                       ],
@@ -148,7 +149,8 @@ class ReportPage extends StatelessWidget {
               '$number',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 16.sp,
+                fontSize: 20.sp,
+                color: Colors.white,
               ),
             ),
             SizedBox(
@@ -157,7 +159,7 @@ class ReportPage extends StatelessWidget {
             Text(
               text,
               style: TextStyle(
-                fontSize: 12.sp,
+                fontSize: 16.sp,
                 color: Colors.grey,
               ),
             )
