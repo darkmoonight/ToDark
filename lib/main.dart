@@ -19,7 +19,7 @@ void main() async {
   ));
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  isviewed = prefs.getInt('onBoard');
+  isviewed = prefs.getInt('OnboardingScreen');
   runApp(const MyApp());
 }
 

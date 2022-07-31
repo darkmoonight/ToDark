@@ -19,6 +19,7 @@ class DetailPage extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         body: Form(
           key: homeCtrl.formKey,
           child: ListView(
@@ -35,6 +36,7 @@ class DetailPage extends StatelessWidget {
                         homeCtrl.editCtrl.clear();
                       },
                       icon: const Icon(Icons.arrow_back),
+                      color: Colors.white,
                     )
                   ],
                 ),
@@ -55,8 +57,9 @@ class DetailPage extends StatelessWidget {
                     Text(
                       task.title,
                       style: TextStyle(
-                        fontSize: 12.sp,
+                        fontSize: 20.sp,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     )
                   ],
@@ -67,16 +70,16 @@ class DetailPage extends StatelessWidget {
                     homeCtrl.doingTodos.length + homeCtrl.doneTodos.length;
                 return Padding(
                   padding: EdgeInsets.only(
-                    left: 16.w,
-                    top: 3.w,
-                    right: 16.w,
+                    left: 8.w,
+                    top: 4.w,
+                    right: 5.w,
                   ),
                   child: Row(
                     children: [
                       Text(
                         '$totalTodos Task',
                         style: TextStyle(
-                          fontSize: 12.sp,
+                          fontSize: 18.sp,
                           color: Colors.grey,
                         ),
                       ),
@@ -108,6 +111,7 @@ class DetailPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 5.w),
                 child: TextFormField(
+                  style: const TextStyle(color: Colors.white),
                   controller: homeCtrl.editCtrl,
                   autofocus: true,
                   decoration: InputDecoration(

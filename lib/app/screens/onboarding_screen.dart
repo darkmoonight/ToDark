@@ -78,7 +78,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 SizedBox(
                   width: size.width,
-                  height: size.height / 1.35,
+                  height: size.height / 1.45,
                   child: PageView(
                     physics: const ClampingScrollPhysics(),
                     controller: _pageController,
@@ -96,7 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Center(
                               child: Image(
                                 image: const AssetImage(
-                                  'assets/images/1.png',
+                                  'assets/images/Task-bro.png',
                                 ),
                                 width: size.width,
                                 height: size.height / 2.5,
@@ -108,17 +108,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'CM Sans Serif',
-                                fontSize: 22.sp,
-                                height: Adaptive.w(1),
+                                fontSize: 24.sp,
                               ),
                             ),
-                            SizedBox(height: Adaptive.w(0.2)),
+                            SizedBox(height: Adaptive.w(5)),
                             Text(
                               'В нашем приложении вы сможете распределить задачи по категориям и постепено их выполнять.',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.sp,
-                                height: Adaptive.w(0.6),
+                                fontSize: 20.sp,
                               ),
                             ),
                           ],
@@ -132,7 +130,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Center(
                               child: Image(
                                 image: const AssetImage(
-                                  'assets/images/2.png',
+                                  'assets/images/ScrumBoard.png',
                                 ),
                                 width: size.width,
                                 height: size.height / 2.5,
@@ -144,17 +142,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'CM Sans Serif',
-                                fontSize: 22.sp,
-                                height: Adaptive.w(1),
+                                fontSize: 24.sp,
                               ),
                             ),
-                            SizedBox(height: Adaptive.w(0.2)),
+                            SizedBox(height: Adaptive.w(5)),
                             Text(
                               'Вся навигация сделана так, чтобы можно было максимально удобно и быстро взаимодействовать с приложением.',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.sp,
-                                height: Adaptive.w(0.6),
+                                fontSize: 20.sp,
                               ),
                             ),
                           ],
@@ -168,7 +164,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             Center(
                               child: Image(
                                 image: const AssetImage(
-                                  'assets/images/3.png',
+                                  'assets/images/Done-bro.png',
                                 ),
                                 width: size.width,
                                 height: size.height / 2.5,
@@ -180,17 +176,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               style: TextStyle(
                                 color: Colors.white,
                                 fontFamily: 'CM Sans Serif',
-                                fontSize: 22.sp,
-                                height: Adaptive.w(1),
+                                fontSize: 24.sp,
                               ),
                             ),
-                            SizedBox(height: Adaptive.w(0.2)),
+                            SizedBox(height: Adaptive.w(5)),
                             Text(
                               'Если вы столкнулись с какими-либо проблемами пишите нам на почту или в отзывы приложения.',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 18.sp,
-                                height: Adaptive.w(0.6),
+                                fontSize: 20.sp,
                               ),
                             ),
                           ],

@@ -80,7 +80,6 @@ class HomePage extends GetView<HomeController> {
                                   fontSize: 22.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
-                                  height: Adaptive.w(0.5),
                                 ),
                               ),
                               Text(

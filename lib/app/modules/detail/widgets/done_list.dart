@@ -22,7 +22,7 @@ class DoneList extends StatelessWidget {
                 ),
                 child: Text(
                   'Completed(${homeCtrl.doingTodos.length})',
-                  style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                  style: TextStyle(fontSize: 16.sp, color: Colors.grey),
                 ),
               ),
               ...homeCtrl.doneTodos
@@ -65,8 +65,10 @@ class DoneList extends StatelessWidget {
                                 child: Text(
                                   element['title'],
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     decoration: TextDecoration.lineThrough,
+                                    color: Colors.white,
+                                    fontSize: 18.sp,
                                   ),
                                 ),
                               ),

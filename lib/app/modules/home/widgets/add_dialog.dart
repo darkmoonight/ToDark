@@ -14,6 +14,7 @@ class AddDialog extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         body: Form(
           key: homeCtrl.formKey,
           child: ListView(
@@ -30,6 +31,7 @@ class AddDialog extends StatelessWidget {
                         homeCtrl.changeTask(null);
                       },
                       icon: const Icon(Icons.close),
+                      color: Colors.white,
                     ),
                     TextButton(
                         style: ButtonStyle(
@@ -60,7 +62,7 @@ class AddDialog extends StatelessWidget {
                         child: Text(
                           'Done',
                           style: TextStyle(
-                            fontSize: Adaptive.sp(14.4),
+                            fontSize: 18.sp,
                           ),
                         ))
                   ],
@@ -71,14 +73,19 @@ class AddDialog extends StatelessWidget {
                 child: Text(
                   'New Task',
                   style: TextStyle(
-                    fontSize: 20.sp,
+                    fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: TextFormField(
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18.sp,
+                  ),
                   controller: homeCtrl.editCtrl,
                   decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
@@ -104,7 +111,7 @@ class AddDialog extends StatelessWidget {
                 child: Text(
                   'Add to ',
                   style: TextStyle(
-                    fontSize: 14.sp,
+                    fontSize: 18.sp,
                     color: Colors.grey,
                   ),
                 ),
@@ -135,9 +142,9 @@ class AddDialog extends StatelessWidget {
                                   Text(
                                     element.title,
                                     style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        fontSize: 18.sp,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
                                   ),
                                 ],
                               ),

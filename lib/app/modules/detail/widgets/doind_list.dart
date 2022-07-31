@@ -11,21 +11,25 @@ class DoingList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => homeCtrl.doingTodos.isEmpty && homeCtrl.doneTodos.isEmpty
-          ? Column(
-              children: [
-                Image.asset(
-                  'assets/images/pngwing.png',
-                  fit: BoxFit.cover,
-                  width: 65.w,
-                ),
-                Text(
-                  'Add Task',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.sp,
+          ? Padding(
+              padding: EdgeInsets.symmetric(vertical: 6.w),
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/AddTasks.png',
+                    fit: BoxFit.cover,
+                    width: 65.w,
                   ),
-                )
-              ],
+                  Text(
+                    'Add Task',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20.sp,
+                      color: Colors.white,
+                    ),
+                  )
+                ],
+              ),
             )
           : ListView(
               shrinkWrap: true,
@@ -55,6 +59,10 @@ class DoingList extends StatelessWidget {
                               child: Text(
                                 element['title'],
                                 overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.sp,
+                                ),
                               ),
                             )
                           ],
