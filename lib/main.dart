@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'DarkToDo',
-          home: isviewed != 0 ? const OnboardingScreen() : const HomePage(),
+          home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
           initialBinding: HomeBinding(),
           builder: EasyLoading.init(),
         );

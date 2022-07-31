@@ -10,76 +10,183 @@ import 'package:dark_todo/app/modules/report/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class HomePage extends GetView<HomeController> {
-  const HomePage({Key? key}) : super(key: key);
+  final homeCtrl = Get.find<HomeController>();
+  HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 30, 30, 30),
       body: Obx(
-        () => IndexedStack(
-          index: controller.tabIndex.value,
-          children: [
-            SafeArea(
-              child: ListView(
-                controller: ScrollController(),
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 4.w, left: 4.w, bottom: 2.w),
-                    child: Text(
-                      DateFormat.yMMMMEEEEd().format(
-                        DateTime.now(),
-                      ),
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 4.w),
-                    child: Text(
-                      'Hey, Yoshi!',
-                      style: TextStyle(
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+        () {
+          var createdTasks = homeCtrl.getTotalTask();
+          var completedTasks = homeCtrl.getTotalDoneTask();
+          var precent =
+              (completedTasks / createdTasks * 100).toStringAsFixed(0);
+          return IndexedStack(
+            index: controller.tabIndex.value,
+            children: [
+              SafeArea(
+                child: ListView(
+                  controller: ScrollController(),
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 4.w, left: 4.w, bottom: 2.w),
+                      child: Text(
+                        DateFormat.yMMMMEEEEd().format(
+                          DateTime.now(),
+                        ),
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
-                  ),
-                  Obx(
-                    () => GridView.count(
-                      crossAxisCount: 2,
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      children: [
-                        ...controller.tasks
-                            .map((element) => LongPressDraggable(
-                                data: element,
-                                onDragStarted: () =>
-                                    controller.changeDeleting(true),
-                                onDraggableCanceled: (_, __) =>
-                                    controller.changeDeleting(false),
-                                onDragEnd: (_) =>
-                                    controller.changeDeleting(false),
-                                feedback: Opacity(
-                                  opacity: 0.8,
-                                  child: TaskCard(task: element),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w),
+                      child: Text(
+                        'Hey, Yoshi!',
+                        style: TextStyle(
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    //////////////////
+                    SizedBox(
+                      height: 4.w,
+                    ),
+                    Container(
+                      height: 40.w,
+                      margin: EdgeInsets.symmetric(horizontal: 4.w),
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 40, 40, 40),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                'You tasks plan\nalmost done',
+                                style: TextStyle(
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  height: Adaptive.w(0.5),
                                 ),
-                                child: TaskCard(task: element)))
-                            .toList(),
-                        AddCard()
-                      ],
+                              ),
+                              Text(
+                                '$completedTasks of $createdTasks completed',
+                                style: TextStyle(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey[400],
+                                ),
+                              ),
+                            ],
+                          ),
+                          UnconstrainedBox(
+                            child: SizedBox(
+                              width: 35.w,
+                              height: 35.w,
+                              child: CircularStepProgressIndicator(
+                                totalSteps:
+                                    createdTasks == 0 ? 1 : createdTasks,
+                                currentStep: completedTasks,
+                                stepSize: 6,
+                                selectedColor: green,
+                                unselectedColor: Colors.grey[200],
+                                padding: 0,
+                                width: 150,
+                                height: 150,
+                                selectedStepSize: 8,
+                                roundedCap: (_, __) => true,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      '${createdTasks == 0 ? 0 : precent} %',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 24.sp,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 1.w,
+                                    ),
+                                    Text(
+                                      'Efficiency',
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  )
-                ],
+                    //////////////////
+                    SizedBox(
+                      height: 3.w,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.w),
+                      child: Text(
+                        'In Progress',
+                        style: TextStyle(
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Obx(
+                      () => GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        children: [
+                          ...controller.tasks
+                              .map((element) => LongPressDraggable(
+                                  data: element,
+                                  onDragStarted: () =>
+                                      controller.changeDeleting(true),
+                                  onDraggableCanceled: (_, __) =>
+                                      controller.changeDeleting(false),
+                                  onDragEnd: (_) =>
+                                      controller.changeDeleting(false),
+                                  feedback: Opacity(
+                                    opacity: 0.8,
+                                    child: TaskCard(task: element),
+                                  ),
+                                  child: TaskCard(task: element)))
+                              .toList(),
+                          AddCard()
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            ReportPage(),
-          ],
-        ),
+              ReportPage(),
+            ],
+          );
+        },
       ),
       floatingActionButton: DragTarget<Task>(
         builder: (_, __, ___) {
@@ -117,6 +224,8 @@ class HomePage extends GetView<HomeController> {
             currentIndex: controller.tabIndex.value,
             showSelectedLabels: false,
             showUnselectedLabels: false,
+            selectedItemColor: Colors.blue,
+            unselectedItemColor: Colors.white,
             items: [
               BottomNavigationBarItem(
                 label: 'Home',
@@ -136,7 +245,7 @@ class HomePage extends GetView<HomeController> {
                     left: 15.w,
                   ),
                   child: const Icon(
-                    Icons.data_usage,
+                    Icons.settings,
                   ),
                 ),
               ),

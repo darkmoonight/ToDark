@@ -66,8 +66,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // ignore: deprecated_member_use
                   child: FlatButton(
                     onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage())),
+                        MaterialPageRoute(builder: (context) => HomePage())),
                     child: Text(
                       'Skip',
                       style: TextStyle(
@@ -250,8 +249,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               width: double.infinity,
               color: Colors.white,
               child: GestureDetector(
-                onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const HomePage())),
+                onTap: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => HomePage())),
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 0.w),
