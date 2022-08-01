@@ -71,16 +71,16 @@ class AddDialog extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: Text(
-                  'New Task',
+                  'Create New Task',
                   style: TextStyle(
-                    fontSize: 22.sp,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.w),
                 child: TextFormField(
                   style: TextStyle(
                     color: Colors.white,
@@ -88,8 +88,23 @@ class AddDialog extends StatelessWidget {
                   ),
                   controller: homeCtrl.editCtrl,
                   decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey[400]!),
+                    fillColor: const Color.fromARGB(255, 40, 40, 40),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 40, 40, 40),
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 40, 40, 40),
+                      ),
+                    ),
+                    hintText: "Task Name",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
                     ),
                   ),
                   autofocus: true,

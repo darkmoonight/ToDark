@@ -12,7 +12,7 @@ class DoingList extends StatelessWidget {
     return Obx(
       () => homeCtrl.doingTodos.isEmpty && homeCtrl.doneTodos.isEmpty
           ? Padding(
-              padding: EdgeInsets.symmetric(vertical: 6.w),
+              padding: EdgeInsets.symmetric(vertical: 10.w),
               child: Column(
                 children: [
                   Image.asset(
@@ -35,46 +35,74 @@ class DoingList extends StatelessWidget {
               shrinkWrap: true,
               physics: const ClampingScrollPhysics(),
               children: [
-                ...homeCtrl.doingTodos
-                    .map((element) => Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 3.w,
-                          horizontal: 9.w,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: Checkbox(
-                                  fillColor: MaterialStateProperty.resolveWith(
-                                      (states) => Colors.grey),
-                                  value: element['done'],
-                                  onChanged: (value) {
-                                    homeCtrl.doneTodo(element['title']);
-                                  }),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 2.w,
+                    horizontal: 5.w,
+                  ),
+                  child: Text(
+                    'Tasks(${homeCtrl.doingTodos.length})',
+                    style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                  ),
+                ),
+                Column(
+                  children: [
+                    ...homeCtrl.doingTodos
+                        .map((element) => Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 2.w,
+                              horizontal: 5.w,
                             ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 4.w),
-                              child: Text(
-                                element['title'],
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.sp,
+                            child: Container(
+                                height: 15.w,
+                                decoration: const BoxDecoration(
+                                  color: Color.fromARGB(255, 40, 40, 40),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15)),
                                 ),
-                              ),
-                            )
-                          ],
-                        )))
-                    .toList(),
-                if (homeCtrl.doingTodos.isNotEmpty)
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    child: const Divider(
-                      thickness: 2,
-                    ),
-                  )
+                                child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 20,
+                                          height: 20,
+                                          child: Checkbox(
+                                              fillColor: MaterialStateProperty
+                                                  .resolveWith(
+                                                      (states) => Colors.grey),
+                                              value: element['done'],
+                                              onChanged: (value) {
+                                                homeCtrl
+                                                    .doneTodo(element['title']);
+                                              }),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 4.w),
+                                          child: Text(
+                                            element['title'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18.sp,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    )))))
+                        .toList(),
+                    if (homeCtrl.doingTodos.isNotEmpty)
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 4.w),
+                        child: const Divider(
+                          // thickness: 1,
+                          color: Colors.white,
+                        ),
+                      )
+                  ],
+                ),
               ],
             ),
     );

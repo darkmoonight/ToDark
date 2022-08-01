@@ -25,7 +25,7 @@ class DetailPage extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(3.w),
+                padding: EdgeInsets.all(2.w),
                 child: Row(
                   children: [
                     IconButton(
@@ -43,7 +43,7 @@ class DetailPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 8.w,
+                  horizontal: 6.w,
                 ),
                 child: Row(
                   children: [
@@ -70,9 +70,9 @@ class DetailPage extends StatelessWidget {
                     homeCtrl.doingTodos.length + homeCtrl.doneTodos.length;
                 return Padding(
                   padding: EdgeInsets.only(
-                    left: 8.w,
+                    left: 6.w,
                     top: 4.w,
-                    right: 5.w,
+                    right: 6.w,
                   ),
                   child: Row(
                     children: [
@@ -92,6 +92,7 @@ class DetailPage extends StatelessWidget {
                           currentStep: homeCtrl.doneTodos.length,
                           size: 5,
                           padding: 0,
+                          roundedEdges: const Radius.circular(10),
                           selectedGradientColor: LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -109,22 +110,32 @@ class DetailPage extends StatelessWidget {
                 );
               }),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 2.w, horizontal: 5.w),
+                padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 5.w),
                 child: TextFormField(
                   style: const TextStyle(color: Colors.white),
                   controller: homeCtrl.editCtrl,
                   autofocus: true,
                   decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.grey[400]!,
+                    fillColor: const Color.fromARGB(255, 40, 40, 40),
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 40, 40, 40),
                       ),
                     ),
-                    prefixIcon: Icon(
-                      Icons.check_box_outline_blank,
-                      color: Colors.grey[400],
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 40, 40, 40),
+                      ),
+                    ),
+                    hintText: "Task Name",
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
                     ),
                     suffixIcon: IconButton(
+                      color: Colors.white,
                       onPressed: () {
                         if (homeCtrl.formKey.currentState!.validate()) {
                           var success =
@@ -148,6 +159,12 @@ class DetailPage extends StatelessWidget {
                     }
                     return null;
                   },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                child: const Divider(
+                  color: Colors.white,
                 ),
               ),
               DoingList(),

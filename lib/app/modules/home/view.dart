@@ -35,7 +35,7 @@ class HomePage extends GetView<HomeController> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(top: 4.w, left: 4.w, bottom: 2.w),
+                          EdgeInsets.only(top: 4.w, left: 5.w, bottom: 2.w),
                       child: Text(
                         DateFormat.yMMMMEEEEd().format(
                           DateTime.now(),
@@ -46,17 +46,17 @@ class HomePage extends GetView<HomeController> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.w),
-                      child: Text(
-                        'Hey, Yoshi!',
-                        style: TextStyle(
-                          fontSize: 22.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 5.w),
+                    //   child: Text(
+                    //     'Hey, Yoshi!',
+                    //     style: TextStyle(
+                    //       fontSize: 22.sp,
+                    //       fontWeight: FontWeight.bold,
+                    //       color: Colors.white,
+                    //     ),
+                    //   ),
+                    // ),
                     //////////////////
                     SizedBox(
                       height: 4.w,
@@ -144,7 +144,7 @@ class HomePage extends GetView<HomeController> {
                     ),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.w),
+                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.w),
                       child: Text(
                         'In Progress',
                         style: TextStyle(
@@ -194,7 +194,7 @@ class HomePage extends GetView<HomeController> {
               backgroundColor: controller.deleting.value ? Colors.red : blue,
               onPressed: () {
                 if (controller.tasks.isNotEmpty) {
-                  Get.to(() => AddDialog(), transition: Transition.downToUp);
+                  Get.to(() => AddDialog());
                 } else {
                   EasyLoading.showInfo('Please create your task type');
                 }
