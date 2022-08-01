@@ -55,14 +55,16 @@ class DoingList extends StatelessWidget {
                           ),
                           child: Dismissible(
                               key: ObjectKey(element),
-                              direction: DismissDirection.startToEnd,
-                              onDismissed: (_) =>
-                                  homeCtrl.deleteDoingTodo(element),
+                              // direction: DismissDirection.startToEnd,
+                              onDismissed: (DismissDirection direction) {
+                                if (direction == DismissDirection.startToEnd) {
+                                  homeCtrl.deleteDoingTodo(element);
+                                } else if (direction ==
+                                    DismissDirection.endToStart) {
+                                  homeCtrl.doneTodo(element['title']);
+                                }
+                              },
                               background: Container(
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
-                                ),
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(
@@ -70,6 +72,18 @@ class DoingList extends StatelessWidget {
                                   ),
                                   child: const Icon(
                                     Icons.delete,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              secondaryBackground: Container(
+                                alignment: Alignment.centerRight,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 5.w,
+                                  ),
+                                  child: const Icon(
+                                    Icons.add,
                                     color: Colors.white,
                                   ),
                                 ),
@@ -86,18 +100,13 @@ class DoingList extends StatelessWidget {
                                           EdgeInsets.symmetric(horizontal: 5.w),
                                       child: Row(
                                         children: [
-                                          SizedBox(
+                                          const SizedBox(
                                             width: 20,
                                             height: 20,
-                                            child: Checkbox(
-                                                fillColor: MaterialStateProperty
-                                                    .resolveWith((states) =>
-                                                        Colors.grey),
-                                                value: element['done'],
-                                                onChanged: (value) {
-                                                  homeCtrl.doneTodo(
-                                                      element['title']);
-                                                }),
+                                            child: Icon(
+                                              Icons.trip_origin,
+                                              color: Colors.blue,
+                                            ),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
