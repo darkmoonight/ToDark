@@ -1,5 +1,5 @@
 import 'package:dark_todo/app/core/utils/extensions.dart';
-import 'package:dark_todo/app/modules/detail/widgets/doind_list.dart';
+import 'package:dark_todo/app/modules/detail/widgets/doing_list.dart';
 import 'package:dark_todo/app/modules/detail/widgets/done_list.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
