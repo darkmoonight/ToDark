@@ -55,7 +55,6 @@ class DoingList extends StatelessWidget {
                           ),
                           child: Dismissible(
                               key: ObjectKey(element),
-                              // direction: DismissDirection.startToEnd,
                               onDismissed: (DismissDirection direction) {
                                 if (direction == DismissDirection.startToEnd) {
                                   homeCtrl.deleteDoingTodo(element);
@@ -83,7 +82,7 @@ class DoingList extends StatelessWidget {
                                     right: 5.w,
                                   ),
                                   child: const Icon(
-                                    Icons.add,
+                                    Icons.done,
                                     color: Colors.white,
                                   ),
                                 ),
