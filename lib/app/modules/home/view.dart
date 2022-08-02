@@ -47,18 +47,6 @@ class HomePage extends GetView<HomeController> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 5.w),
-                    //   child: Text(
-                    //     'Hey, Yoshi!',
-                    //     style: TextStyle(
-                    //       fontSize: 22.sp,
-                    //       fontWeight: FontWeight.bold,
-                    //       color: Colors.white,
-                    //     ),
-                    //   ),
-                    // ),
-                    //////////////////
                     SizedBox(
                       height: 4.w,
                     ),

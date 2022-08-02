@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.17.0
   responsive_sizer: ^3.1.0
   shared_preferences: ^2.0.15
+  carousel_slider: ^4.1.1
 
 dev_dependencies:
   flutter_test:
