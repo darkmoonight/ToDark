@@ -3,7 +3,8 @@ import 'package:dark_todo/app/modules/home/view.dart';
 import 'package:dark_todo/app/screens/dummy.dart';
 import 'package:dark_todo/app/screens/item_model.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -27,18 +28,18 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             scale: 8,
           ),
           SizedBox(
-            height: 6.w,
+            height: 40.w,
           ),
           Text(
             item.title,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 26.sp,
+              fontSize: 24.sp,
               color: Colors.white,
             ),
           ),
           SizedBox(
-            height: 2.w,
+            height: 20.w,
           ),
           Text(
             item.subtitle,
@@ -49,36 +50,36 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: 2.w,
+            height: 20.w,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 2.w,
-                width: 2.w,
+                height: 10.w,
+                width: 10.w,
                 decoration: BoxDecoration(
                   color: currentIndex == 0 ? Colors.blue : Colors.white,
                   shape: BoxShape.circle,
                 ),
               ),
               SizedBox(
-                width: 2.w,
+                width: 10.w,
               ),
               Container(
-                height: 2.w,
-                width: 2.w,
+                height: 10.w,
+                width: 10.w,
                 decoration: BoxDecoration(
                   color: currentIndex == 1 ? Colors.blue : Colors.white,
                   shape: BoxShape.circle,
                 ),
               ),
               SizedBox(
-                width: 2.w,
+                width: 10.w,
               ),
               Container(
-                height: 2.w,
-                width: 2.w,
+                height: 10.w,
+                width: 10.w,
                 decoration: BoxDecoration(
                   color: currentIndex == 2 ? Colors.blue : Colors.white,
                   shape: BoxShape.circle,
@@ -87,20 +88,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
           SizedBox(
-            height: 2.w,
+            height: 20.w,
           ),
           MaterialButton(
             onPressed: () {
               if (currentIndex != 2) {
                 carouselController.nextPage();
               } else {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => HomePage()));
+                Get.to(() => HomePage(), transition: Transition.upToDown);
               }
             },
             color: Colors.white,
-            minWidth: 35.w,
-            padding: EdgeInsets.symmetric(vertical: Adaptive.w(2.5)),
+            minWidth: 160.w,
+            padding: EdgeInsets.symmetric(vertical: 15.w),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -152,7 +152,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 2.w, vertical: 4.w),
+                                horizontal: 15.w, vertical: 10.w),
                             child: Text(
                               'Skip',
                               style: TextStyle(

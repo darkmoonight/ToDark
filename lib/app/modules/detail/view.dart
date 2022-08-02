@@ -4,9 +4,9 @@ import 'package:dark_todo/app/modules/detail/widgets/done_list.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DetailPage extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -25,7 +25,7 @@ class DetailPage extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(2.w),
+                padding: EdgeInsets.all(12.w),
                 child: Row(
                   children: [
                     IconButton(
@@ -43,7 +43,7 @@ class DetailPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 6.w,
+                  horizontal: 16.w,
                 ),
                 child: Row(
                   children: [
@@ -52,7 +52,7 @@ class DetailPage extends StatelessWidget {
                       color: color,
                     ),
                     SizedBox(
-                      width: 3.w,
+                      width: 13.w,
                     ),
                     Text(
                       task.title,
@@ -70,9 +70,9 @@ class DetailPage extends StatelessWidget {
                     homeCtrl.doingTodos.length + homeCtrl.doneTodos.length;
                 return Padding(
                   padding: EdgeInsets.only(
-                    left: 6.w,
-                    top: 4.w,
-                    right: 6.w,
+                    left: 16.w,
+                    top: 14.w,
+                    right: 16.w,
                   ),
                   child: Row(
                     children: [
@@ -84,7 +84,7 @@ class DetailPage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 3.w,
+                        width: 13.w,
                       ),
                       Expanded(
                         child: StepProgressIndicator(
@@ -110,7 +110,7 @@ class DetailPage extends StatelessWidget {
                 );
               }),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 5.w),
+                padding: EdgeInsets.symmetric(vertical: 14.w, horizontal: 15.w),
                 child: TextFormField(
                   style: const TextStyle(color: Colors.white),
                   controller: homeCtrl.editCtrl,
@@ -162,7 +162,7 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4.w),
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
                 child: const Divider(
                   color: Colors.white,
                 ),

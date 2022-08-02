@@ -1,4 +1,4 @@
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +134,7 @@ class ReportPage extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              width: Adaptive.h(0.5),
+              width: 0.5.w,
               color: color,
             ),
           ),

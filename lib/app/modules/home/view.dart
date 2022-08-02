@@ -1,5 +1,5 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/data/models/task.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
@@ -36,7 +36,7 @@ class HomePage extends GetView<HomeController> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(top: 4.w, left: 5.w, bottom: 2.w),
+                          EdgeInsets.only(top: 14.w, left: 15.w, bottom: 12.w),
                       child: Text(
                         DateFormat.yMMMMEEEEd().format(
                           DateTime.now(),
@@ -48,11 +48,11 @@ class HomePage extends GetView<HomeController> {
                       ),
                     ),
                     SizedBox(
-                      height: 4.w,
+                      height: 14.w,
                     ),
                     Container(
-                      height: 40.w,
-                      margin: EdgeInsets.symmetric(horizontal: 4.w),
+                      height: 140.w,
+                      margin: EdgeInsets.symmetric(horizontal: 14.w),
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 40, 40, 40),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -83,8 +83,8 @@ class HomePage extends GetView<HomeController> {
                           ),
                           UnconstrainedBox(
                             child: SizedBox(
-                              width: 35.w,
-                              height: 35.w,
+                              width: 135.w,
+                              height: 135.w,
                               child: CircularStepProgressIndicator(
                                 totalSteps:
                                     createdTasks == 0 ? 1 : createdTasks,
@@ -109,7 +109,7 @@ class HomePage extends GetView<HomeController> {
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 1.w,
+                                      height: 11.w,
                                     ),
                                     Text(
                                       'Efficiency',
@@ -127,13 +127,12 @@ class HomePage extends GetView<HomeController> {
                         ],
                       ),
                     ),
-                    //////////////////
                     SizedBox(
-                      height: 3.w,
+                      height: 13.w,
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.w),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.w, vertical: 12.w),
                       child: Text(
                         'In Progress',
                         style: TextStyle(
@@ -183,7 +182,7 @@ class HomePage extends GetView<HomeController> {
               backgroundColor: controller.deleting.value ? Colors.red : blue,
               onPressed: () {
                 if (controller.tasks.isNotEmpty) {
-                  Get.to(() => AddDialog());
+                  Get.to(() => AddDialog(), transition: Transition.downToUp);
                 } else {
                   EasyLoading.showInfo('Please create your task type');
                 }
@@ -219,7 +218,7 @@ class HomePage extends GetView<HomeController> {
                 label: 'Home',
                 icon: Padding(
                   padding: EdgeInsets.only(
-                    right: 15.w,
+                    right: 115.w,
                   ),
                   child: const Icon(
                     Icons.apps,
@@ -230,7 +229,7 @@ class HomePage extends GetView<HomeController> {
                 label: 'Report',
                 icon: Padding(
                   padding: EdgeInsets.only(
-                    left: 15.w,
+                    left: 115.w,
                   ),
                   child: const Icon(
                     Icons.settings,

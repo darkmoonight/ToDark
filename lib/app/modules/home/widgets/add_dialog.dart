@@ -2,8 +2,8 @@ import 'package:dark_todo/app/core/utils/extensions.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddDialog extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -20,7 +20,7 @@ class AddDialog extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(3.w),
+                padding: EdgeInsets.all(13.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -69,7 +69,7 @@ class AddDialog extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Text(
                   'Create New Task',
                   style: TextStyle(
@@ -80,7 +80,7 @@ class AddDialog extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.w),
                 child: TextFormField(
                   style: TextStyle(
                     color: Colors.white,
@@ -118,10 +118,10 @@ class AddDialog extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 5.w,
-                  left: 5.w,
-                  right: 5.w,
-                  bottom: 2.w,
+                  top: 15.w,
+                  left: 15.w,
+                  right: 15.w,
+                  bottom: 12.w,
                 ),
                 child: Text(
                   'Add to ',
@@ -136,8 +136,8 @@ class AddDialog extends StatelessWidget {
                       onTap: () => homeCtrl.changeTask(element),
                       child: Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 3.w,
-                            horizontal: 5.w,
+                            vertical: 13.w,
+                            horizontal: 15.w,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,7 +152,7 @@ class AddDialog extends StatelessWidget {
                                     color: HexColor.fromHex(element.color),
                                   ),
                                   SizedBox(
-                                    width: 3.w,
+                                    width: 13.w,
                                   ),
                                   Text(
                                     element.title,

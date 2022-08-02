@@ -2,8 +2,8 @@ import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:dark_todo/app/modules/home/widgets/add_card_list.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddCard extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -15,10 +15,10 @@ class AddCard extends StatelessWidget {
     return Container(
       width: squareWidth / 2,
       height: squareWidth / 2,
-      margin: EdgeInsets.all(3.w),
+      margin: EdgeInsets.all(13.w),
       child: InkWell(
         onTap: () {
-          Get.to(() => AddCardList());
+          Get.to(() => AddCardList(), transition: Transition.downToUp);
         },
         child: DottedBorder(
           color: Colors.grey[400]!,
@@ -28,7 +28,7 @@ class AddCard extends StatelessWidget {
           child: Center(
             child: Icon(
               Icons.add,
-              size: 10.w,
+              size: 30.w,
               color: Colors.grey,
             ),
           ),

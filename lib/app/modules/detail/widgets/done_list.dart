@@ -1,7 +1,7 @@
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class DoneList extends StatelessWidget {
@@ -17,8 +17,8 @@ class DoneList extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 2.w,
-                  horizontal: 5.w,
+                  vertical: 12.w,
+                  horizontal: 15.w,
                 ),
                 child: Text(
                   'Completed(${homeCtrl.doneTodos.length})',
@@ -30,8 +30,8 @@ class DoneList extends StatelessWidget {
                   ...homeCtrl.doneTodos.map((element) {
                     return Padding(
                         padding: EdgeInsets.symmetric(
-                          vertical: 2.w,
-                          horizontal: 5.w,
+                          vertical: 12.w,
+                          horizontal: 15.w,
                         ),
                         child: Dismissible(
                             key: ObjectKey(element),
@@ -39,6 +39,7 @@ class DoneList extends StatelessWidget {
                             onDismissed: (_) =>
                                 homeCtrl.deleteDoneTodo(element),
                             background: Container(
+                              height: 40.w,
                               decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15)),
@@ -46,7 +47,7 @@ class DoneList extends StatelessWidget {
                               alignment: Alignment.centerRight,
                               child: Padding(
                                 padding: EdgeInsets.only(
-                                  right: 5.w,
+                                  right: 15.w,
                                 ),
                                 child: const Icon(
                                   Icons.delete,
@@ -55,7 +56,7 @@ class DoneList extends StatelessWidget {
                               ),
                             ),
                             child: Container(
-                                height: 15.w,
+                                height: 60.w,
                                 decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 40, 40, 40),
                                   borderRadius:
@@ -76,7 +77,7 @@ class DoneList extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: EdgeInsets.symmetric(
-                                            horizontal: 4.w,
+                                            horizontal: 14.w,
                                           ),
                                           child: Text(
                                             element['title'],

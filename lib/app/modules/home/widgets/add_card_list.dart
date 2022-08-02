@@ -4,8 +4,8 @@ import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:dark_todo/app/widgets/icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AddCardList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -23,7 +23,7 @@ class AddCardList extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(3.w),
+                padding: EdgeInsets.all(13.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -72,7 +72,7 @@ class AddCardList extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Text(
                   'Task Type',
                   style: TextStyle(
@@ -83,7 +83,7 @@ class AddCardList extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 4.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.w),
                 child: TextFormField(
                   style: TextStyle(
                     color: Colors.white,
@@ -121,10 +121,10 @@ class AddCardList extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 2.w,
-                  left: 5.w,
-                  right: 5.w,
-                  bottom: 2.w,
+                  top: 12.w,
+                  left: 15.w,
+                  right: 15.w,
+                  bottom: 12.w,
                 ),
                 child: Text(
                   'Icons',
@@ -135,9 +135,9 @@ class AddCardList extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 1.w, horizontal: 5.w),
+                padding: EdgeInsets.symmetric(vertical: 11.w, horizontal: 15.w),
                 child: Wrap(
-                  spacing: 2.w,
+                  spacing: 8.w,
                   children: icons
                       .map((e) => Obx(() {
                             final index = icons.indexOf(e);

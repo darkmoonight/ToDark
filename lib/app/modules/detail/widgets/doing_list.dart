@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DoingList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -12,13 +12,13 @@ class DoingList extends StatelessWidget {
     return Obx(
       () => homeCtrl.doingTodos.isEmpty && homeCtrl.doneTodos.isEmpty
           ? Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.w),
+              padding: EdgeInsets.symmetric(vertical: 30.w),
               child: Column(
                 children: [
                   Image.asset(
                     'assets/images/AddTasks.png',
                     fit: BoxFit.cover,
-                    width: 65.w,
+                    width: 255.w,
                   ),
                   Text(
                     'Add Task',
@@ -37,8 +37,8 @@ class DoingList extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    vertical: 2.w,
-                    horizontal: 5.w,
+                    vertical: 12.w,
+                    horizontal: 15.w,
                   ),
                   child: Text(
                     'Tasks(${homeCtrl.doingTodos.length})',
@@ -50,8 +50,8 @@ class DoingList extends StatelessWidget {
                     ...homeCtrl.doingTodos.map((element) {
                       return Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 2.w,
-                            horizontal: 5.w,
+                            vertical: 12.w,
+                            horizontal: 15.w,
                           ),
                           child: Dismissible(
                               key: ObjectKey(element),
@@ -67,7 +67,7 @@ class DoingList extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    right: 5.w,
+                                    right: 15.w,
                                   ),
                                   child: const Icon(
                                     Icons.delete,
@@ -79,7 +79,7 @@ class DoingList extends StatelessWidget {
                                 alignment: Alignment.centerRight,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    right: 5.w,
+                                    right: 15.w,
                                   ),
                                   child: const Icon(
                                     Icons.done,
@@ -88,7 +88,7 @@ class DoingList extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                  height: 15.w,
+                                  height: 60.w,
                                   decoration: const BoxDecoration(
                                     color: Color.fromARGB(255, 40, 40, 40),
                                     borderRadius:
@@ -109,7 +109,7 @@ class DoingList extends StatelessWidget {
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 4.w),
+                                                horizontal: 14.w),
                                             child: Text(
                                               element['title'],
                                               overflow: TextOverflow.ellipsis,
@@ -124,7 +124,7 @@ class DoingList extends StatelessWidget {
                     }).toList(),
                     if (homeCtrl.doingTodos.isNotEmpty)
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 4.w),
+                        padding: EdgeInsets.symmetric(horizontal: 14.w),
                         child: const Divider(
                           // thickness: 1,
                           color: Colors.white,

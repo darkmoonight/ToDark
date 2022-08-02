@@ -1,5 +1,5 @@
 import 'package:dark_todo/app/core/utils/extensions.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:dark_todo/app/data/models/task.dart';
 import 'package:dark_todo/app/modules/detail/view.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
@@ -26,7 +26,7 @@ class TaskCard extends StatelessWidget {
       child: Container(
         width: squareWidth / 2,
         height: squareWidth / 2,
-        margin: EdgeInsets.all(4.w),
+        margin: EdgeInsets.all(14.w),
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 40, 40, 40),
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -35,14 +35,14 @@ class TaskCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 4.w),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.w),
               child: Icon(
                 IconData(task.icon, fontFamily: 'MaterialIcons'),
                 color: color,
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: 6.w, left: 6.w, top: 8.w),
+              padding: EdgeInsets.only(right: 16.w, left: 16.w, top: 18.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -55,7 +55,7 @@ class TaskCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(
-                    height: 2.w,
+                    height: 12.w,
                   ),
                   Text(
                     '${task.todos?.length ?? 0} Task',
@@ -65,7 +65,7 @@ class TaskCard extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 2.w),
+                    padding: EdgeInsets.only(top: 12.w),
                     child: StepProgressIndicator(
                       totalSteps:
                           homeCtrl.isTodosEmpty(task) ? 1 : task.todos!.length,

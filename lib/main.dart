@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 int? isviewed;
@@ -24,16 +24,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(
-      builder: (context, orientation, screenType) {
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'DarkToDo',
-          home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
-          initialBinding: HomeBinding(),
-          builder: EasyLoading.init(),
-        );
-      },
+    return ScreenUtilInit(
+      designSize: const Size(360, 640),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'DarkToDo',
+        home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
+        initialBinding: HomeBinding(),
+        builder: EasyLoading.init(),
+      ),
     );
   }
 }
