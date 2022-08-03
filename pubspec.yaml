@@ -42,7 +42,6 @@ dependencies:
   step_progress_indicator: ^1.0.2
   intl: ^0.17.0
   flutter_screenutil: ^5.5.3+2
-  shared_preferences: ^2.0.15
   carousel_slider: ^4.1.1
 
 dev_dependencies:

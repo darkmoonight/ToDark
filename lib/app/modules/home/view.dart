@@ -6,7 +6,6 @@ import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:dark_todo/app/modules/home/widgets/add_card.dart';
 import 'package:dark_todo/app/modules/home/widgets/add_dialog.dart';
 import 'package:dark_todo/app/modules/home/widgets/task_card.dart';
-import 'package:dark_todo/app/modules/report/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -36,23 +35,23 @@ class HomePage extends GetView<HomeController> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(top: 14.w, left: 15.w, bottom: 12.w),
+                          EdgeInsets.only(top: 15.h, left: 15.w, bottom: 5.h),
                       child: Text(
                         DateFormat.yMMMMEEEEd().format(
                           DateTime.now(),
                         ),
                         style: TextStyle(
-                          fontSize: 20.sp,
+                          fontSize: 18.sp,
                           color: Colors.grey,
                         ),
                       ),
                     ),
                     SizedBox(
-                      height: 14.w,
+                      height: 10.h,
                     ),
                     Container(
-                      height: 140.w,
-                      margin: EdgeInsets.symmetric(horizontal: 14.w),
+                      height: 155.w,
+                      margin: EdgeInsets.symmetric(horizontal: 16.w),
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 40, 40, 40),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -66,7 +65,7 @@ class HomePage extends GetView<HomeController> {
                               Text(
                                 'You tasks plan\nalmost done',
                                 style: TextStyle(
-                                  fontSize: 22.sp,
+                                  fontSize: 20.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -74,7 +73,7 @@ class HomePage extends GetView<HomeController> {
                               Text(
                                 '$completedTasks of $createdTasks completed',
                                 style: TextStyle(
-                                  fontSize: 20.sp,
+                                  fontSize: 17.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey[400],
                                 ),
@@ -83,8 +82,8 @@ class HomePage extends GetView<HomeController> {
                           ),
                           UnconstrainedBox(
                             child: SizedBox(
-                              width: 135.w,
-                              height: 135.w,
+                              width: 130.w,
+                              height: 130.w,
                               child: CircularStepProgressIndicator(
                                 totalSteps:
                                     createdTasks == 0 ? 1 : createdTasks,
@@ -93,8 +92,6 @@ class HomePage extends GetView<HomeController> {
                                 selectedColor: green,
                                 unselectedColor: Colors.grey[200],
                                 padding: 0,
-                                width: 150,
-                                height: 150,
                                 selectedStepSize: 8,
                                 roundedCap: (_, __) => true,
                                 child: Column(
@@ -104,12 +101,12 @@ class HomePage extends GetView<HomeController> {
                                       '${createdTasks == 0 ? 0 : precent} %',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 24.sp,
+                                        fontSize: 20.sp,
                                         color: Colors.white,
                                       ),
                                     ),
                                     SizedBox(
-                                      height: 11.w,
+                                      height: 6.h,
                                     ),
                                     Text(
                                       'Efficiency',
@@ -128,15 +125,15 @@ class HomePage extends GetView<HomeController> {
                       ),
                     ),
                     SizedBox(
-                      height: 13.w,
+                      height: 10.w,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 15.w, vertical: 12.w),
+                          horizontal: 16.w, vertical: 10.h),
                       child: Text(
                         'In Progress',
                         style: TextStyle(
-                          fontSize: 22.sp,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
@@ -163,14 +160,13 @@ class HomePage extends GetView<HomeController> {
                                   ),
                                   child: TaskCard(task: element)))
                               .toList(),
-                          AddCard()
+                          AddCard(),
                         ],
                       ),
                     )
                   ],
                 ),
               ),
-              ReportPage(),
             ],
           );
         },
@@ -218,7 +214,7 @@ class HomePage extends GetView<HomeController> {
                 label: 'Home',
                 icon: Padding(
                   padding: EdgeInsets.only(
-                    right: 115.w,
+                    right: 40.w,
                   ),
                   child: const Icon(
                     Icons.apps,
@@ -229,7 +225,7 @@ class HomePage extends GetView<HomeController> {
                 label: 'Report',
                 icon: Padding(
                   padding: EdgeInsets.only(
-                    left: 115.w,
+                    left: 40.w,
                   ),
                   child: const Icon(
                     Icons.settings,

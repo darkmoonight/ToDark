@@ -15,7 +15,7 @@ class TaskCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = HexColor.fromHex(task.color);
-    final squareWidth = Get.width - 12.w;
+    final squareWidth = Get.width - 40.w;
 
     return GestureDetector(
       onTap: () {
@@ -24,9 +24,10 @@ class TaskCard extends StatelessWidget {
         Get.to(() => DetailPage());
       },
       child: Container(
+        padding: EdgeInsets.only(right: 15.w, left: 15.w, top: 18.w),
         width: squareWidth / 2,
         height: squareWidth / 2,
-        margin: EdgeInsets.all(14.w),
+        margin: EdgeInsets.all(15.w),
         decoration: const BoxDecoration(
           color: Color.fromARGB(255, 40, 40, 40),
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -34,60 +35,53 @@ class TaskCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.w),
-              child: Icon(
-                IconData(task.icon, fontFamily: 'MaterialIcons'),
-                color: color,
+            Icon(
+              IconData(task.icon, fontFamily: 'MaterialIcons'),
+              color: color,
+              size: 35,
+            ),
+            SizedBox(
+              height: 35.w,
+            ),
+            Text(
+              task.title,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.sp,
+                  color: Colors.white),
+              overflow: TextOverflow.ellipsis,
+            ),
+            SizedBox(
+              height: 10.w,
+            ),
+            Text(
+              '${task.todos?.length ?? 0} Task',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(right: 16.w, left: 16.w, top: 18.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    task.title,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.sp,
-                        color: Colors.white),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  SizedBox(
-                    height: 12.w,
-                  ),
-                  Text(
-                    '${task.todos?.length ?? 0} Task',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 12.w),
-                    child: StepProgressIndicator(
-                      totalSteps:
-                          homeCtrl.isTodosEmpty(task) ? 1 : task.todos!.length,
-                      currentStep: homeCtrl.isTodosEmpty(task)
-                          ? 0
-                          : homeCtrl.getDoneTodo(task),
-                      size: 5,
-                      padding: 0,
-                      roundedEdges: const Radius.circular(10),
-                      selectedGradientColor: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [color.withOpacity(0.5), color],
-                      ),
-                      unselectedGradientColor: const LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Colors.white, Colors.white],
-                      ),
-                    ),
-                  ),
-                ],
+              padding: EdgeInsets.only(top: 12.w),
+              child: StepProgressIndicator(
+                totalSteps:
+                    homeCtrl.isTodosEmpty(task) ? 1 : task.todos!.length,
+                currentStep: homeCtrl.isTodosEmpty(task)
+                    ? 0
+                    : homeCtrl.getDoneTodo(task),
+                size: 5,
+                padding: 0,
+                roundedEdges: const Radius.circular(10),
+                selectedGradientColor: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [color.withOpacity(0.5), color],
+                ),
+                unselectedGradientColor: const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.white, Colors.white],
+                ),
               ),
             ),
           ],

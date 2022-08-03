@@ -20,7 +20,7 @@ class AddDialog extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(13.w),
+                padding: EdgeInsets.all(12.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -80,7 +80,7 @@ class AddDialog extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 13.w),
                 child: TextFormField(
                   style: TextStyle(
                     color: Colors.white,
@@ -118,10 +118,10 @@ class AddDialog extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 15.w,
+                  top: 5.w,
                   left: 15.w,
                   right: 15.w,
-                  bottom: 12.w,
+                  bottom: 10.w,
                 ),
                 child: Text(
                   'Add to ',
@@ -136,8 +136,8 @@ class AddDialog extends StatelessWidget {
                       onTap: () => homeCtrl.changeTask(element),
                       child: Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 13.w,
-                            horizontal: 15.w,
+                            vertical: 10.h,
+                            horizontal: 12.w,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,7 +152,7 @@ class AddDialog extends StatelessWidget {
                                     color: HexColor.fromHex(element.color),
                                   ),
                                   SizedBox(
-                                    width: 13.w,
+                                    width: 10.w,
                                   ),
                                   Text(
                                     element.title,

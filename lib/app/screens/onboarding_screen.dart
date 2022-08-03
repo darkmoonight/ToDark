@@ -25,61 +25,61 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           Image.asset(
             item.imageUrl,
-            scale: 8,
+            scale: 5,
           ),
           SizedBox(
-            height: 40.w,
+            height: 35.h,
           ),
           Text(
             item.title,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 24.sp,
+              fontSize: 22.sp,
               color: Colors.white,
             ),
           ),
           SizedBox(
-            height: 20.w,
+            height: 15.h,
           ),
           Text(
             item.subtitle,
             style: TextStyle(
-              fontSize: 20.sp,
+              fontSize: 18.sp,
               color: Colors.white,
             ),
             textAlign: TextAlign.center,
           ),
           SizedBox(
-            height: 20.w,
+            height: 20.h,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 10.w,
-                width: 10.w,
+                height: 10,
+                width: 10,
                 decoration: BoxDecoration(
                   color: currentIndex == 0 ? Colors.blue : Colors.white,
                   shape: BoxShape.circle,
                 ),
               ),
-              SizedBox(
-                width: 10.w,
+              const SizedBox(
+                width: 12,
               ),
               Container(
-                height: 10.w,
-                width: 10.w,
+                height: 10,
+                width: 10,
                 decoration: BoxDecoration(
                   color: currentIndex == 1 ? Colors.blue : Colors.white,
                   shape: BoxShape.circle,
                 ),
               ),
-              SizedBox(
-                width: 10.w,
+              const SizedBox(
+                width: 12,
               ),
               Container(
-                height: 10.w,
-                width: 10.w,
+                height: 10,
+                width: 10,
                 decoration: BoxDecoration(
                   color: currentIndex == 2 ? Colors.blue : Colors.white,
                   shape: BoxShape.circle,
@@ -88,7 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ],
           ),
           SizedBox(
-            height: 20.w,
+            height: 20.h,
           ),
           MaterialButton(
             onPressed: () {
@@ -99,15 +99,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               }
             },
             color: Colors.white,
-            minWidth: 160.w,
-            padding: EdgeInsets.symmetric(vertical: 15.w),
+            minWidth: 150.w,
+            padding: EdgeInsets.symmetric(vertical: 15.h),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
               currentIndex == 2 ? 'Get Started' : 'Next',
               style: TextStyle(
-                fontSize: 20.sp,
+                fontSize: 18.sp,
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -152,12 +152,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           },
                           child: Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: 15.w, vertical: 10.w),
+                                horizontal: 15.w, vertical: 10.h),
                             child: Text(
                               'Skip',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.sp,
+                                fontSize: 18.sp,
                               ),
                             ),
                           ),

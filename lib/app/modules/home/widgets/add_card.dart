@@ -15,7 +15,7 @@ class AddCard extends StatelessWidget {
     return Container(
       width: squareWidth / 2,
       height: squareWidth / 2,
-      margin: EdgeInsets.all(13.w),
+      margin: EdgeInsets.all(14.w),
       child: InkWell(
         onTap: () {
           Get.to(() => AddCardList(), transition: Transition.downToUp);
@@ -28,7 +28,7 @@ class AddCard extends StatelessWidget {
           child: Center(
             child: Icon(
               Icons.add,
-              size: 30.w,
+              size: 25.w,
               color: Colors.grey,
             ),
           ),

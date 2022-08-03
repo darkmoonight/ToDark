@@ -23,7 +23,7 @@ class AddCardList extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(13.w),
+                padding: EdgeInsets.all(12.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -76,18 +76,18 @@ class AddCardList extends StatelessWidget {
                 child: Text(
                   'Task Type',
                   style: TextStyle(
-                    fontSize: 24.sp,
+                    fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 14.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 13.w),
                 child: TextFormField(
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                   ),
                   controller: homeCtrl.editCtrl,
                   decoration: InputDecoration(
@@ -121,10 +121,10 @@ class AddCardList extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 12.w,
+                  top: 5.w,
                   left: 15.w,
                   right: 15.w,
-                  bottom: 12.w,
+                  bottom: 10.w,
                 ),
                 child: Text(
                   'Icons',
@@ -135,7 +135,7 @@ class AddCardList extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 11.w, horizontal: 15.w),
+                padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 15.w),
                 child: Wrap(
                   spacing: 8.w,
                   children: icons
