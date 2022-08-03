@@ -5,6 +5,7 @@ import 'package:dark_todo/app/screens/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -16,6 +17,12 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentIndex = 0;
   CarouselController carouselController = CarouselController();
+
+  storeOnboardInfo() async {
+    int isViewed = 0;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('OnboardingScreen', isViewed);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +102,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               if (currentIndex != 2) {
                 carouselController.nextPage();
               } else {
-                Get.to(() => HomePage(), transition: Transition.upToDown);
+                storeOnboardInfo();
+                Get.to(() => const HomePage(), transition: Transition.upToDown);
               }
             },
             color: Colors.white,

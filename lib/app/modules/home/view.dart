@@ -12,8 +12,7 @@ import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class HomePage extends GetView<HomeController> {
-  final homeCtrl = Get.find<HomeController>();
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +21,8 @@ class HomePage extends GetView<HomeController> {
       backgroundColor: const Color.fromARGB(255, 30, 30, 30),
       body: Obx(
         () {
-          var createdTasks = homeCtrl.getTotalTask();
-          var completedTasks = homeCtrl.getTotalDoneTask();
+          var createdTasks = controller.getTotalTask();
+          var completedTasks = controller.getTotalDoneTask();
           var precent =
               (completedTasks / createdTasks * 100).toStringAsFixed(0);
           return IndexedStack(
@@ -65,7 +64,7 @@ class HomePage extends GetView<HomeController> {
                               Text(
                                 'You tasks plan\nalmost done',
                                 style: TextStyle(
-                                  fontSize: 19.sp,
+                                  fontSize: 20.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),

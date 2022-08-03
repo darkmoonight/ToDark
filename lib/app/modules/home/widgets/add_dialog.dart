@@ -106,7 +106,7 @@ class AddDialog extends StatelessWidget {
                     hintText: "Task Name",
                     hintStyle: TextStyle(
                       color: Colors.grey[600],
-                      fontSize: 14.sp,
+                      fontSize: 15.sp,
                     ),
                   ),
                   autofocus: true,

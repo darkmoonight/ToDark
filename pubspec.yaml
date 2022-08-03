@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.17.0
   flutter_screenutil: ^5.5.3+2
   carousel_slider: ^4.1.1
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
