@@ -35,7 +35,7 @@ class HomePage extends GetView<HomeController> {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(top: 15.h, left: 15.w, bottom: 5.h),
+                          EdgeInsets.only(top: 15.w, left: 16.w, bottom: 5.w),
                       child: Text(
                         DateFormat.yMMMMEEEEd().format(
                           DateTime.now(),
@@ -51,7 +51,7 @@ class HomePage extends GetView<HomeController> {
                     ),
                     Container(
                       height: 155.w,
-                      margin: EdgeInsets.symmetric(horizontal: 16.w),
+                      margin: EdgeInsets.symmetric(horizontal: 15.w),
                       decoration: const BoxDecoration(
                         color: Color.fromARGB(255, 40, 40, 40),
                         borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -129,7 +129,7 @@ class HomePage extends GetView<HomeController> {
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 10.h),
+                          horizontal: 16.w, vertical: 10.w),
                       child: Text(
                         'In Progress',
                         style: TextStyle(

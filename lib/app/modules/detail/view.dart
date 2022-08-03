@@ -25,7 +25,7 @@ class DetailPage extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(12.w),
+                padding: EdgeInsets.all(10.w),
                 child: Row(
                   children: [
                     IconButton(
@@ -37,13 +37,14 @@ class DetailPage extends StatelessWidget {
                       },
                       icon: const Icon(Icons.arrow_back),
                       color: Colors.white,
+                      iconSize: 20.sp,
                     )
                   ],
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
+                  horizontal: 15.w,
                 ),
                 child: Row(
                   children: [
@@ -79,7 +80,7 @@ class DetailPage extends StatelessWidget {
                       Text(
                         '$totalTodos Task',
                         style: TextStyle(
-                          fontSize: 18.sp,
+                          fontSize: 16.sp,
                           color: Colors.grey,
                         ),
                       ),
@@ -110,7 +111,7 @@ class DetailPage extends StatelessWidget {
                 );
               }),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 14.w, horizontal: 15.w),
+                padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 15.w),
                 child: TextFormField(
                   style: const TextStyle(color: Colors.white),
                   controller: homeCtrl.editCtrl,
@@ -133,6 +134,7 @@ class DetailPage extends StatelessWidget {
                     hintText: "Task Name",
                     hintStyle: TextStyle(
                       color: Colors.grey[600],
+                      fontSize: 14.sp,
                     ),
                     suffixIcon: IconButton(
                       color: Colors.white,
@@ -162,7 +164,7 @@ class DetailPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 14.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: const Divider(
                   color: Colors.white,
                 ),

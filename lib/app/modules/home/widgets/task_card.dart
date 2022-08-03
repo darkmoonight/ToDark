@@ -24,7 +24,7 @@ class TaskCard extends StatelessWidget {
         Get.to(() => DetailPage());
       },
       child: Container(
-        padding: EdgeInsets.only(right: 15.w, left: 15.w, top: 18.w),
+        padding: EdgeInsets.only(right: 15.w, left: 15.w, top: 15.w),
         width: squareWidth / 2,
         height: squareWidth / 2,
         margin: EdgeInsets.all(15.w),
@@ -38,10 +38,13 @@ class TaskCard extends StatelessWidget {
             Icon(
               IconData(task.icon, fontFamily: 'MaterialIcons'),
               color: color,
-              size: 35,
+              size: 30,
             ),
-            SizedBox(
-              height: 35.w,
+            Flexible(
+              fit: FlexFit.loose,
+              child: SizedBox(
+                height: 30.w,
+              ),
             ),
             Text(
               task.title,
@@ -51,37 +54,42 @@ class TaskCard extends StatelessWidget {
                   color: Colors.white),
               overflow: TextOverflow.ellipsis,
             ),
-            SizedBox(
-              height: 10.w,
+            Flexible(
+              fit: FlexFit.loose,
+              child: SizedBox(
+                height: 30.w,
+              ),
             ),
             Text(
               '${task.todos?.length ?? 0} Task',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,
+                fontSize: 12.sp,
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 12.w),
-              child: StepProgressIndicator(
-                totalSteps:
-                    homeCtrl.isTodosEmpty(task) ? 1 : task.todos!.length,
-                currentStep: homeCtrl.isTodosEmpty(task)
-                    ? 0
-                    : homeCtrl.getDoneTodo(task),
-                size: 5,
-                padding: 0,
-                roundedEdges: const Radius.circular(10),
-                selectedGradientColor: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [color.withOpacity(0.5), color],
-                ),
-                unselectedGradientColor: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Colors.white, Colors.white],
-                ),
+            Flexible(
+              fit: FlexFit.loose,
+              child: SizedBox(
+                height: 10.w,
+              ),
+            ),
+            StepProgressIndicator(
+              totalSteps: homeCtrl.isTodosEmpty(task) ? 1 : task.todos!.length,
+              currentStep:
+                  homeCtrl.isTodosEmpty(task) ? 0 : homeCtrl.getDoneTodo(task),
+              size: 5,
+              padding: 0,
+              roundedEdges: const Radius.circular(10),
+              selectedGradientColor: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [color.withOpacity(0.5), color],
+              ),
+              unselectedGradientColor: const LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.white, Colors.white],
               ),
             ),
           ],

@@ -20,7 +20,7 @@ class AddDialog extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(12.w),
+                padding: EdgeInsets.all(10.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -32,6 +32,7 @@ class AddDialog extends StatelessWidget {
                       },
                       icon: const Icon(Icons.close),
                       color: Colors.white,
+                      iconSize: 20.sp,
                     ),
                     TextButton(
                         style: ButtonStyle(
@@ -62,7 +63,7 @@ class AddDialog extends StatelessWidget {
                         child: Text(
                           'Done',
                           style: TextStyle(
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                           ),
                         ))
                   ],
@@ -73,18 +74,18 @@ class AddDialog extends StatelessWidget {
                 child: Text(
                   'Create New Task',
                   style: TextStyle(
-                    fontSize: 24.sp,
+                    fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 13.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
                 child: TextFormField(
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                   ),
                   controller: homeCtrl.editCtrl,
                   decoration: InputDecoration(
@@ -105,6 +106,7 @@ class AddDialog extends StatelessWidget {
                     hintText: "Task Name",
                     hintStyle: TextStyle(
                       color: Colors.grey[600],
+                      fontSize: 14.sp,
                     ),
                   ),
                   autofocus: true,
@@ -118,15 +120,14 @@ class AddDialog extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 5.w,
                   left: 15.w,
                   right: 15.w,
-                  bottom: 10.w,
+                  bottom: 5.w,
                 ),
                 child: Text(
                   'Add to ',
                   style: TextStyle(
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     color: Colors.grey,
                   ),
                 ),
@@ -136,8 +137,8 @@ class AddDialog extends StatelessWidget {
                       onTap: () => homeCtrl.changeTask(element),
                       child: Padding(
                           padding: EdgeInsets.symmetric(
-                            vertical: 10.h,
-                            horizontal: 12.w,
+                            vertical: 10.w,
+                            horizontal: 15.w,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +158,7 @@ class AddDialog extends StatelessWidget {
                                   Text(
                                     element.title,
                                     style: TextStyle(
-                                        fontSize: 18.sp,
+                                        fontSize: 16.sp,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
                                   ),

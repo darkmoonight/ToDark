@@ -17,29 +17,26 @@ class DoneList extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 12.w,
+                  vertical: 5.w,
                   horizontal: 15.w,
                 ),
                 child: Text(
                   'Completed(${homeCtrl.doneTodos.length})',
-                  style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                  style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                 ),
               ),
               Column(
                 children: [
                   ...homeCtrl.doneTodos.map((element) {
                     return Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12.w,
-                          horizontal: 15.w,
-                        ),
+                        padding: EdgeInsets.only(
+                            top: 5.w, left: 15.w, right: 15.w, bottom: 10.w),
                         child: Dismissible(
                             key: ObjectKey(element),
                             direction: DismissDirection.endToStart,
                             onDismissed: (_) =>
                                 homeCtrl.deleteDoneTodo(element),
                             background: Container(
-                              height: 40.w,
                               decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15)),
@@ -56,7 +53,7 @@ class DoneList extends StatelessWidget {
                               ),
                             ),
                             child: Container(
-                                height: 60.w,
+                                height: 55.w,
                                 decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 40, 40, 40),
                                   borderRadius:
@@ -64,20 +61,19 @@ class DoneList extends StatelessWidget {
                                 ),
                                 child: Padding(
                                     padding:
-                                        EdgeInsets.symmetric(horizontal: 5.w),
+                                        EdgeInsets.symmetric(horizontal: 10.w),
                                     child: Row(
                                       children: [
-                                        const SizedBox(
-                                          width: 20,
-                                          height: 20,
+                                        SizedBox(
                                           child: Icon(
                                             Icons.done,
                                             color: blue,
+                                            size: 20.sp,
                                           ),
                                         ),
                                         Padding(
                                           padding: EdgeInsets.symmetric(
-                                            horizontal: 14.w,
+                                            horizontal: 15.w,
                                           ),
                                           child: Text(
                                             element['title'],
@@ -86,7 +82,7 @@ class DoneList extends StatelessWidget {
                                               decoration:
                                                   TextDecoration.lineThrough,
                                               color: Colors.white,
-                                              fontSize: 18.sp,
+                                              fontSize: 16.sp,
                                             ),
                                           ),
                                         ),

@@ -23,7 +23,7 @@ class AddCardList extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.all(12.w),
+                padding: EdgeInsets.all(10.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -35,6 +35,7 @@ class AddCardList extends StatelessWidget {
                       },
                       icon: const Icon(Icons.close),
                       color: Colors.white,
+                      iconSize: 20.sp,
                     ),
                     TextButton(
                         style: ButtonStyle(
@@ -65,7 +66,7 @@ class AddCardList extends StatelessWidget {
                         child: Text(
                           'Done',
                           style: TextStyle(
-                            fontSize: 18.sp,
+                            fontSize: 16.sp,
                           ),
                         ))
                   ],
@@ -76,14 +77,14 @@ class AddCardList extends StatelessWidget {
                 child: Text(
                   'Task Type',
                   style: TextStyle(
-                    fontSize: 22.sp,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 13.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
                 child: TextFormField(
                   style: TextStyle(
                     color: Colors.white,
@@ -108,6 +109,7 @@ class AddCardList extends StatelessWidget {
                     hintText: "Task Type",
                     hintStyle: TextStyle(
                       color: Colors.grey[600],
+                      fontSize: 14.sp,
                     ),
                   ),
                   autofocus: true,
@@ -121,15 +123,14 @@ class AddCardList extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  top: 5.w,
                   left: 15.w,
                   right: 15.w,
-                  bottom: 10.w,
+                  bottom: 5.w,
                 ),
                 child: Text(
                   'Icons',
                   style: TextStyle(
-                    fontSize: 18.sp,
+                    fontSize: 16.sp,
                     color: Colors.grey,
                   ),
                 ),

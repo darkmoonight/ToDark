@@ -37,22 +37,20 @@ class DoingList extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    vertical: 12.w,
+                    vertical: 5.w,
                     horizontal: 15.w,
                   ),
                   child: Text(
                     'Tasks(${homeCtrl.doingTodos.length})',
-                    style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+                    style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                   ),
                 ),
                 Column(
                   children: [
                     ...homeCtrl.doingTodos.map((element) {
                       return Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 12.w,
-                            horizontal: 15.w,
-                          ),
+                          padding: EdgeInsets.only(
+                              top: 5.w, left: 15.w, right: 15.w, bottom: 10.w),
                           child: Dismissible(
                               key: ObjectKey(element),
                               onDismissed: (DismissDirection direction) {
@@ -88,34 +86,33 @@ class DoingList extends StatelessWidget {
                                 ),
                               ),
                               child: Container(
-                                  height: 60.w,
+                                  height: 55.w,
                                   decoration: const BoxDecoration(
                                     color: Color.fromARGB(255, 40, 40, 40),
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15)),
                                   ),
                                   child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 5.w),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w),
                                       child: Row(
                                         children: [
-                                          const SizedBox(
-                                            width: 20,
-                                            height: 20,
+                                          SizedBox(
                                             child: Icon(
                                               Icons.trip_origin,
                                               color: Colors.blue,
+                                              size: 20.sp,
                                             ),
                                           ),
                                           Padding(
                                             padding: EdgeInsets.symmetric(
-                                                horizontal: 14.w),
+                                                horizontal: 15.w),
                                             child: Text(
                                               element['title'],
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
                                                 color: Colors.white,
-                                                fontSize: 18.sp,
+                                                fontSize: 16.sp,
                                               ),
                                             ),
                                           )
@@ -124,7 +121,7 @@ class DoingList extends StatelessWidget {
                     }).toList(),
                     if (homeCtrl.doingTodos.isNotEmpty)
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 14.w),
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
                         child: const Divider(
                           // thickness: 1,
                           color: Colors.white,
