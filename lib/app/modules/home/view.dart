@@ -65,7 +65,7 @@ class HomePage extends GetView<HomeController> {
                               Text(
                                 'You tasks plan\nalmost done',
                                 style: TextStyle(
-                                  fontSize: 20.sp,
+                                  fontSize: 19.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -73,7 +73,7 @@ class HomePage extends GetView<HomeController> {
                               Text(
                                 '$completedTasks of $createdTasks completed',
                                 style: TextStyle(
-                                  fontSize: 17.sp,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.grey[400],
                                 ),
@@ -82,17 +82,17 @@ class HomePage extends GetView<HomeController> {
                           ),
                           UnconstrainedBox(
                             child: SizedBox(
-                              width: 130.w,
-                              height: 130.w,
+                              width: 120.w,
+                              height: 120.w,
                               child: CircularStepProgressIndicator(
                                 totalSteps:
                                     createdTasks == 0 ? 1 : createdTasks,
                                 currentStep: completedTasks,
-                                stepSize: 6,
+                                stepSize: 4.w,
                                 selectedColor: green,
                                 unselectedColor: Colors.grey[200],
                                 padding: 0,
-                                selectedStepSize: 8,
+                                selectedStepSize: 6.w,
                                 roundedCap: (_, __) => true,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,

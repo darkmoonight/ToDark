@@ -51,6 +51,7 @@ class DetailPage extends StatelessWidget {
                     Icon(
                       IconData(task.icon, fontFamily: 'MaterialIcons'),
                       color: color,
+                      size: 22.sp,
                     ),
                     SizedBox(
                       width: 13.w,
@@ -91,7 +92,7 @@ class DetailPage extends StatelessWidget {
                         child: StepProgressIndicator(
                           totalSteps: totalTodos == 0 ? 1 : totalTodos,
                           currentStep: homeCtrl.doneTodos.length,
-                          size: 5,
+                          size: 4.w,
                           padding: 0,
                           roundedEdges: const Radius.circular(10),
                           selectedGradientColor: LinearGradient(
@@ -113,7 +114,10 @@ class DetailPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 15.w),
                 child: TextFormField(
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16.sp,
+                  ),
                   controller: homeCtrl.editCtrl,
                   autofocus: true,
                   decoration: InputDecoration(
@@ -150,8 +154,9 @@ class DetailPage extends StatelessWidget {
                           homeCtrl.editCtrl.clear();
                         }
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.done,
+                        size: 18.sp,
                       ),
                     ),
                   ),

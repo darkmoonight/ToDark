@@ -145,6 +145,8 @@ class AddCardList extends StatelessWidget {
                             return ChoiceChip(
                               selectedColor: Colors.grey[200],
                               pressElevation: 0,
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.padded,
                               backgroundColor:
                                   const Color.fromARGB(255, 40, 40, 40),
                               label: e,

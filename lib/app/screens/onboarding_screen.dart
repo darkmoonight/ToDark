@@ -118,7 +118,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     }
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 40, 40, 40),
+      backgroundColor: const Color.fromARGB(255, 30, 30, 30),
       body: SafeArea(
         child: Center(
           child: Padding(

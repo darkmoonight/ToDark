@@ -21,7 +21,7 @@ class TaskCard extends StatelessWidget {
       onTap: () {
         homeCtrl.changeTask(task);
         homeCtrl.changeTodos(task.todos ?? []);
-        Get.to(() => DetailPage());
+        Get.to(() => DetailPage(), transition: Transition.cupertino);
       },
       child: Container(
         padding: EdgeInsets.only(right: 15.w, left: 15.w, top: 15.w),
@@ -38,7 +38,7 @@ class TaskCard extends StatelessWidget {
             Icon(
               IconData(task.icon, fontFamily: 'MaterialIcons'),
               color: color,
-              size: 30,
+              size: 20.sp,
             ),
             Flexible(
               fit: FlexFit.loose,
@@ -57,7 +57,7 @@ class TaskCard extends StatelessWidget {
             Flexible(
               fit: FlexFit.loose,
               child: SizedBox(
-                height: 30.w,
+                height: 26.w,
               ),
             ),
             Text(
@@ -71,14 +71,14 @@ class TaskCard extends StatelessWidget {
             Flexible(
               fit: FlexFit.loose,
               child: SizedBox(
-                height: 10.w,
+                height: 9.w,
               ),
             ),
             StepProgressIndicator(
               totalSteps: homeCtrl.isTodosEmpty(task) ? 1 : task.todos!.length,
               currentStep:
                   homeCtrl.isTodosEmpty(task) ? 0 : homeCtrl.getDoneTodo(task),
-              size: 5,
+              size: 4.w,
               padding: 0,
               roundedEdges: const Radius.circular(10),
               selectedGradientColor: LinearGradient(

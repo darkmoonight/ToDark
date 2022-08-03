@@ -151,6 +151,7 @@ class AddDialog extends StatelessWidget {
                                       fontFamily: 'MaterialIcons',
                                     ),
                                     color: HexColor.fromHex(element.color),
+                                    size: 20.sp,
                                   ),
                                   SizedBox(
                                     width: 10.w,
