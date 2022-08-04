@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddCardList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -58,13 +59,16 @@ class AddCardList extends StatelessWidget {
                               Get.back();
                               homeCtrl.editCtrl.clear();
                               homeCtrl.addTask(task)
-                                  ? EasyLoading.showSuccess('Create sucess')
-                                  : EasyLoading.showError('Duplicated Task');
+                                  ? EasyLoading.showSuccess(
+                                      AppLocalizations.of(context)!
+                                          .createSucess)
+                                  : EasyLoading.showError(
+                                      AppLocalizations.of(context)!.duplicated);
                             }
                           }
                         },
                         child: Text(
-                          'Done',
+                          AppLocalizations.of(context)!.done,
                           style: TextStyle(
                             fontSize: 16.sp,
                           ),
@@ -75,7 +79,7 @@ class AddCardList extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Text(
-                  'Task Type',
+                  AppLocalizations.of(context)!.taskType,
                   style: TextStyle(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
@@ -106,7 +110,7 @@ class AddCardList extends StatelessWidget {
                         color: Color.fromARGB(255, 40, 40, 40),
                       ),
                     ),
-                    hintText: "Task Type",
+                    hintText: AppLocalizations.of(context)!.taskType,
                     hintStyle: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 15.sp,
@@ -115,7 +119,7 @@ class AddCardList extends StatelessWidget {
                   autofocus: true,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your task type';
+                      return AppLocalizations.of(context)!.showEnterType;
                     }
                     return null;
                   },
@@ -128,7 +132,7 @@ class AddCardList extends StatelessWidget {
                   bottom: 5.w,
                 ),
                 child: Text(
-                  'Icons',
+                  AppLocalizations.of(context)!.icons,
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.grey,

@@ -3,6 +3,7 @@ import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DoneList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -21,7 +22,7 @@ class DoneList extends StatelessWidget {
                   horizontal: 15.w,
                 ),
                 child: Text(
-                  'Completed(${homeCtrl.doneTodos.length})',
+                  '${AppLocalizations.of(context)!.complet}(${homeCtrl.doneTodos.length})',
                   style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                 ),
               ),

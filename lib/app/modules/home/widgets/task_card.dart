@@ -6,6 +6,7 @@ import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TaskCard extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -21,7 +22,7 @@ class TaskCard extends StatelessWidget {
       onTap: () {
         homeCtrl.changeTask(task);
         homeCtrl.changeTodos(task.todos ?? []);
-        Get.to(() => DetailPage(), transition: Transition.cupertino);
+        Get.to(() => DetailPage(), transition: Transition.downToUp);
       },
       child: Container(
         padding: EdgeInsets.only(right: 15.w, left: 15.w, top: 15.w),
@@ -61,7 +62,7 @@ class TaskCard extends StatelessWidget {
               ),
             ),
             Text(
-              '${task.todos?.length ?? 0} Task',
+              '${task.todos?.length ?? 0} ${AppLocalizations.of(context)!.task}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,

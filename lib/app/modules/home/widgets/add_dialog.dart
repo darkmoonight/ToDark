@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddDialog extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -41,7 +42,8 @@ class AddDialog extends StatelessWidget {
                         onPressed: () {
                           if (homeCtrl.formKey.currentState!.validate()) {
                             if (homeCtrl.task.value == null) {
-                              EasyLoading.showError('Please select task type');
+                              EasyLoading.showError(
+                                  AppLocalizations.of(context)!.showSelect);
                             } else {
                               var success = homeCtrl.updateTask(
                                 homeCtrl.task.value!,
@@ -49,19 +51,19 @@ class AddDialog extends StatelessWidget {
                               );
                               if (success) {
                                 EasyLoading.showSuccess(
-                                    'Todo item add success');
+                                    AppLocalizations.of(context)!.todoAdd);
                                 Get.back();
                                 homeCtrl.changeTask(null);
                               } else {
                                 EasyLoading.showError(
-                                    'Todo item already exist');
+                                    AppLocalizations.of(context)!.todoExist);
                               }
                               homeCtrl.editCtrl.clear();
                             }
                           }
                         },
                         child: Text(
-                          'Done',
+                          AppLocalizations.of(context)!.done,
                           style: TextStyle(
                             fontSize: 16.sp,
                           ),
@@ -72,7 +74,7 @@ class AddDialog extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Text(
-                  'Create New Task',
+                  AppLocalizations.of(context)!.createTask,
                   style: TextStyle(
                     fontSize: 22.sp,
                     fontWeight: FontWeight.bold,
@@ -103,7 +105,7 @@ class AddDialog extends StatelessWidget {
                         color: Color.fromARGB(255, 40, 40, 40),
                       ),
                     ),
-                    hintText: "Task Name",
+                    hintText: AppLocalizations.of(context)!.taskName,
                     hintStyle: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 15.sp,
@@ -112,7 +114,7 @@ class AddDialog extends StatelessWidget {
                   autofocus: true,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your todo item';
+                      return AppLocalizations.of(context)!.showEnter;
                     }
                     return null;
                   },
@@ -125,7 +127,7 @@ class AddDialog extends StatelessWidget {
                   bottom: 5.w,
                 ),
                 child: Text(
-                  'Add to ',
+                  AppLocalizations.of(context)!.add,
                   style: TextStyle(
                     fontSize: 16.sp,
                     color: Colors.grey,

@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DetailPage extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -79,7 +80,7 @@ class DetailPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '$totalTodos Task',
+                        '${task.todos?.length ?? 0} ${AppLocalizations.of(context)!.task}',
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: Colors.grey,
@@ -135,7 +136,7 @@ class DetailPage extends StatelessWidget {
                         color: Color.fromARGB(255, 40, 40, 40),
                       ),
                     ),
-                    hintText: "Task Name",
+                    hintText: AppLocalizations.of(context)!.taskName,
                     hintStyle: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 15.sp,
@@ -147,9 +148,11 @@ class DetailPage extends StatelessWidget {
                           var success =
                               homeCtrl.addTodo(homeCtrl.editCtrl.text);
                           if (success) {
-                            EasyLoading.showSuccess('Todo item add success');
+                            EasyLoading.showSuccess(
+                                AppLocalizations.of(context)!.todoAdd);
                           } else {
-                            EasyLoading.showError('Todo item already exist');
+                            EasyLoading.showError(
+                                AppLocalizations.of(context)!.todoExist);
                           }
                           homeCtrl.editCtrl.clear();
                         }
@@ -162,7 +165,7 @@ class DetailPage extends StatelessWidget {
                   ),
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
-                      return 'Please enter your todo item';
+                      return AppLocalizations.of(context)!.showEnter;
                     }
                     return null;
                   },

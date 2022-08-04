@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dark_todo/app/modules/home/view.dart';
-import 'package:dark_todo/app/screens/dummy.dart';
 import 'package:dark_todo/app/screens/item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -26,6 +26,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List data = [
+      {
+        'title': AppLocalizations.of(context)!.titile1,
+        'subtitle': AppLocalizations.of(context)!.subtitle1,
+        'imageUrl': 'assets/images/Task-bro.png',
+      },
+      {
+        'title': AppLocalizations.of(context)!.titile2,
+        'subtitle': AppLocalizations.of(context)!.subtitle2,
+        'imageUrl': 'assets/images/ScrumBoard.png',
+      },
+      {
+        'title': AppLocalizations.of(context)!.titile3,
+        'subtitle': AppLocalizations.of(context)!.subtitle3,
+        'imageUrl': 'assets/images/Done-bro.png',
+      },
+    ];
     onboardingItem(ItemModel item) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -34,8 +51,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             item.imageUrl,
             scale: 5,
           ),
-          SizedBox(
-            height: 35.h,
+          Flexible(
+            fit: FlexFit.loose,
+            child: SizedBox(
+              height: 35.h,
+            ),
           ),
           Text(
             item.title,
@@ -45,8 +65,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               color: Colors.white,
             ),
           ),
-          SizedBox(
-            height: 15.h,
+          Flexible(
+            fit: FlexFit.loose,
+            child: SizedBox(
+              height: 15.h,
+            ),
           ),
           Text(
             item.subtitle,
@@ -56,8 +79,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             textAlign: TextAlign.center,
           ),
-          SizedBox(
-            height: 20.h,
+          Flexible(
+            fit: FlexFit.loose,
+            child: SizedBox(
+              height: 20.h,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +139,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              currentIndex == 2 ? 'Get Started' : 'Next',
+              currentIndex == 2
+                  ? AppLocalizations.of(context)!.getStart
+                  : AppLocalizations.of(context)!.next,
               style: TextStyle(
                 fontSize: 18.sp,
                 color: Colors.black,
@@ -162,7 +190,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 15.w, vertical: 10.h),
                             child: Text(
-                              'Skip',
+                              AppLocalizations.of(context)!.skip,
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.sp,

@@ -3,11 +3,13 @@ import 'package:dark_todo/app/modules/home/binding.dart';
 import 'package:dark_todo/app/modules/home/view.dart';
 import 'package:dark_todo/app/screens/onboarding_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 int? isviewed;
 void main() async {
@@ -30,8 +32,23 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) => GetMaterialApp(
+        localeResolutionCallback: (
+          locale,
+          supportedLocales,
+        ) {
+          return locale;
+        },
+        localizationsDelegates: const [
+          AppLocalizations.delegate, // Add this line
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', ''), // English, no country code
+          Locale('ru', ''), // Spanish, no country code
+        ],
         debugShowCheckedModeBanner: false,
-        title: 'DarkToDo',
         home: isviewed != 0 ? const OnboardingScreen() : const HomePage(),
         initialBinding: HomeBinding(),
         builder: EasyLoading.init(),

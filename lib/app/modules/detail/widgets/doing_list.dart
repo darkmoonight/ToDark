@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DoingList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -21,10 +22,10 @@ class DoingList extends StatelessWidget {
                     width: 255.w,
                   ),
                   Text(
-                    'Add Task',
+                    AppLocalizations.of(context)!.addTask,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 20.sp,
+                      fontSize: 18.sp,
                       color: Colors.white,
                     ),
                   )
@@ -41,7 +42,7 @@ class DoingList extends StatelessWidget {
                     horizontal: 15.w,
                   ),
                   child: Text(
-                    'Tasks(${homeCtrl.doingTodos.length})',
+                    '${AppLocalizations.of(context)!.tasks} (${homeCtrl.doingTodos.length})',
                     style: TextStyle(fontSize: 14.sp, color: Colors.grey),
                   ),
                 ),
