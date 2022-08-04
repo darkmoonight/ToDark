@@ -80,7 +80,7 @@ class DetailPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        '${task.todos?.length ?? 0} ${AppLocalizations.of(context)!.task}',
+                        '$totalTodos ${AppLocalizations.of(context)!.task(totalTodos)}',
                         style: TextStyle(
                           fontSize: 16.sp,
                           color: Colors.grey,

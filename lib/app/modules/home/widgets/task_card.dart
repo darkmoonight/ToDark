@@ -62,7 +62,7 @@ class TaskCard extends StatelessWidget {
               ),
             ),
             Text(
-              '${task.todos?.length ?? 0} ${AppLocalizations.of(context)!.task}',
+              '${task.todos?.length ?? 0} ${AppLocalizations.of(context)!.task(task.todos?.length ?? 0)}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,

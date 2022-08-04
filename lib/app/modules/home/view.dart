@@ -19,8 +19,6 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    Locale myLocale = Localizations.localeOf(context);
-    String local = myLocale.toString();
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
@@ -43,7 +41,7 @@ class HomePage extends GetView<HomeController> {
                         padding:
                             EdgeInsets.only(top: 15.w, left: 16.w, bottom: 5.w),
                         child: Text(
-                          DateFormat.yMMMMEEEEd(local).format(
+                          DateFormat.yMMMMEEEEd().format(
                             DateTime.now(),
                           ),
                           style: TextStyle(
@@ -71,7 +69,7 @@ class HomePage extends GetView<HomeController> {
                                 Text(
                                   AppLocalizations.of(context)!.motiv,
                                   style: TextStyle(
-                                    fontSize: 18.sp,
+                                    fontSize: 20.sp,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),

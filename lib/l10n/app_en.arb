@@ -30,8 +30,12 @@
     "@showCreate": {},
     "delete": "Delete Sucess",
     "@delete": {},
-    "task": "Task",
-    "@task": {},
+    "task": "{count,plural, =0{Task} =1{Task} other{Tasks}}",
+    "@task": {
+        "placeholders": {
+            "count": {}
+        }
+    },
     "showSelect": "Please select task type",
     "@showSelect": {},
     "done": "Done",

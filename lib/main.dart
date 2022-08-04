@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
           locale,
           supportedLocales,
         ) {
-          return locale;
+          return const Locale('en', '');
         },
         localizationsDelegates: const [
           AppLocalizations.delegate, // Add this line
@@ -45,8 +45,7 @@ class MyApp extends StatelessWidget {
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: const [
-          Locale('en', ''), // English, no country code
-          Locale('ru', ''), // Spanish, no country code
+          Locale('en', ''),
         ],
         debugShowCheckedModeBanner: false,
         home: isviewed != 0 ? const OnboardingScreen() : const HomePage(),
