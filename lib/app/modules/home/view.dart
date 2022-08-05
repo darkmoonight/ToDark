@@ -12,8 +12,6 @@ import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../settings/settings.dart';
-
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
 
@@ -172,7 +170,7 @@ class HomePage extends GetView<HomeController> {
                     ],
                   ),
                 ),
-                const SettingPage(),
+                // const SettingPage(),
               ],
             );
           },
@@ -180,18 +178,29 @@ class HomePage extends GetView<HomeController> {
         floatingActionButton: DragTarget<Task>(
           builder: (_, __, ___) {
             return Obx(
-              () => FloatingActionButton(
-                backgroundColor: controller.deleting.value ? Colors.red : blue,
-                onPressed: () {
-                  if (controller.tasks.isNotEmpty) {
-                    Get.to(() => AddDialog(), transition: Transition.downToUp);
-                  } else {
-                    EasyLoading.showInfo(
-                        AppLocalizations.of(context)!.showCreate);
-                  }
-                },
-                child: Icon(
-                  controller.deleting.value ? Icons.delete : Icons.add,
+              () => Padding(
+                padding: EdgeInsets.all(25.h),
+                child: FloatingActionButton.extended(
+                  label: Text(
+                    controller.deleting.value
+                        ? AppLocalizations.of(context)!.todoDelete
+                        : AppLocalizations.of(context)!.todoCreate,
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                  ),
+                  backgroundColor:
+                      controller.deleting.value ? Colors.red : blue,
+                  onPressed: () {
+                    if (controller.tasks.isNotEmpty) {
+                      Get.to(() => AddDialog(),
+                          transition: Transition.downToUp);
+                    } else {
+                      EasyLoading.showInfo(
+                          AppLocalizations.of(context)!.showCreate);
+                    }
+                  },
+                  icon: Icon(
+                    controller.deleting.value ? Icons.delete : Icons.add,
+                  ),
                 ),
               ),
             );
@@ -202,47 +211,47 @@ class HomePage extends GetView<HomeController> {
           },
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: Theme(
-          data: ThemeData(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-          ),
-          child: Obx(
-            () => BottomNavigationBar(
-              backgroundColor: const Color.fromARGB(255, 25, 25, 25),
-              onTap: (int index) => controller.changeTabIndex(index),
-              currentIndex: controller.tabIndex.value,
-              showSelectedLabels: false,
-              showUnselectedLabels: false,
-              selectedItemColor: Colors.blue,
-              unselectedItemColor: Colors.white,
-              items: [
-                BottomNavigationBarItem(
-                  label: 'Home',
-                  icon: Padding(
-                    padding: EdgeInsets.only(
-                      right: 40.w,
-                    ),
-                    child: const Icon(
-                      Icons.apps,
-                    ),
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: 'Settings',
-                  icon: Padding(
-                    padding: EdgeInsets.only(
-                      left: 40.w,
-                    ),
-                    child: const Icon(
-                      Icons.settings,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // bottomNavigationBar: Theme(
+        //   data: ThemeData(
+        //     splashColor: Colors.transparent,
+        //     highlightColor: Colors.transparent,
+        //   ),
+        //   child: Obx(
+        //     () => BottomNavigationBar(
+        //       backgroundColor: const Color.fromARGB(255, 25, 25, 25),
+        //       onTap: (int index) => controller.changeTabIndex(index),
+        //       currentIndex: controller.tabIndex.value,
+        //       showSelectedLabels: false,
+        //       showUnselectedLabels: false,
+        //       selectedItemColor: Colors.blue,
+        //       unselectedItemColor: Colors.white,
+        //       items: [
+        //         BottomNavigationBarItem(
+        //           label: 'Home',
+        //           icon: Padding(
+        //             padding: EdgeInsets.only(
+        //               right: 40.w,
+        //             ),
+        //             child: const Icon(
+        //               Icons.apps,
+        //             ),
+        //           ),
+        //         ),
+        //         BottomNavigationBarItem(
+        //           label: 'Settings',
+        //           icon: Padding(
+        //             padding: EdgeInsets.only(
+        //               left: 40.w,
+        //             ),
+        //             child: const Icon(
+        //               Icons.settings,
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
