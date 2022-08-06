@@ -25,10 +25,16 @@ dependencies:
   carousel_slider: ^4.1.1
   shared_preferences: ^2.0.15
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.9.3
+
+flutter_icons:
+  android: true
+  image_path: "assets/images/icons_todo.png"
 
 flutter:
   generate: true
