@@ -16,7 +16,11 @@ class AddCardList extends StatelessWidget {
   Widget build(BuildContext context) {
     final icons = getIcons();
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        homeCtrl.editCtrl.clear();
+        homeCtrl.changeChipIndex(0);
+        return true;
+      },
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         body: Form(

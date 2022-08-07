@@ -13,7 +13,11 @@ class AddDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        homeCtrl.editCtrl.clear();
+        homeCtrl.changeTask(null);
+        return true;
+      },
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         body: Form(

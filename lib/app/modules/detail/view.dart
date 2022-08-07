@@ -18,7 +18,12 @@ class DetailPage extends StatelessWidget {
     var task = homeCtrl.task.value!;
     var color = HexColor.fromHex(task.color);
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        homeCtrl.updateTodos();
+        homeCtrl.changeTask(null);
+        homeCtrl.editCtrl.clear();
+        return true;
+      },
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         body: Form(
