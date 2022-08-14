@@ -1,3 +1,4 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:dark_todo/app/data/services/storage/services.dart';
 import 'package:dark_todo/app/modules/home/binding.dart';
 import 'package:dark_todo/app/modules/home/view.dart';
@@ -31,27 +32,32 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 640),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => GetMaterialApp(
-        localeResolutionCallback: (
-          locale,
-          supportedLocales,
-        ) {
-          return const Locale('en', '');
-        },
-        localizationsDelegates: const [
-          AppLocalizations.delegate, // Add this line
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en', ''),
-        ],
-        debugShowCheckedModeBanner: false,
-        home: isviewed != 0 ? const OnboardingScreen() : const HomePage(),
-        initialBinding: HomeBinding(),
-        builder: EasyLoading.init(),
-      ),
+      builder: (context, child) => ThemeProvider(
+          initTheme: ThemeData.dark(),
+          builder: (_, theme) {
+            return GetMaterialApp(
+              theme: theme,
+              localeResolutionCallback: (
+                locale,
+                supportedLocales,
+              ) {
+                return const Locale('en', '');
+              },
+              localizationsDelegates: const [
+                AppLocalizations.delegate, // Add this line
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en', ''),
+              ],
+              debugShowCheckedModeBanner: false,
+              home: isviewed != 0 ? const OnboardingScreen() : const HomePage(),
+              initialBinding: HomeBinding(),
+              builder: EasyLoading.init(),
+            );
+          }),
     );
   }
 }
