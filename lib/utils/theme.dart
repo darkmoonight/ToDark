@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-TodoTheme currentTheme = TodoTheme();
 final ThemeData baseLigth = ThemeData.light();
 final ThemeData baseDark = ThemeData.dark();
 
 class TodoTheme with ChangeNotifier {
-  static bool _isDarkTheme = false;
-  ThemeMode get currentTheme => _isDarkTheme ? ThemeMode.dark : ThemeMode.light;
-
-  void toggleTheme() {
-    _isDarkTheme = !_isDarkTheme;
-    notifyListeners();
-  }
-
   static ThemeData get lightTheme {
     return baseLigth.copyWith(
       brightness: Brightness.light,

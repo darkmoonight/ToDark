@@ -18,7 +18,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isviewed = prefs.getInt('OnboardingScreen');
-
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
   runApp(const MyApp());
@@ -33,13 +32,12 @@ class MyApp extends StatelessWidget {
       designSize: const Size(360, 640),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) => ThemeProvider(
+      builder: (context, child) {
+        return ThemeProvider(
           initTheme: TodoTheme.darkTheme,
           builder: (_, theme) {
             return GetMaterialApp(
-              theme: TodoTheme.lightTheme,
-              darkTheme: TodoTheme.darkTheme,
-              themeMode: currentTheme.currentTheme,
+              theme: theme,
               localeResolutionCallback: (
                 locale,
                 supportedLocales,
@@ -60,7 +58,9 @@ class MyApp extends StatelessWidget {
               initialBinding: HomeBinding(),
               builder: EasyLoading.init(),
             );
-          }),
+          },
+        );
+      },
     );
   }
 }

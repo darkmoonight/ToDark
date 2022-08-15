@@ -54,7 +54,6 @@ class HomePage extends GetView<HomeController> {
                               ThemeSwitcher(
                                 builder: (context) => IconButton(
                                   onPressed: () {
-                                    currentTheme.toggleTheme();
                                     ThemeSwitcher.of(context).changeTheme(
                                       theme: ThemeModelInheritedNotifier.of(
                                                       context)
