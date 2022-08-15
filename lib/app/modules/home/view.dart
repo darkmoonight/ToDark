@@ -13,17 +13,20 @@ import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../utils/theme.dart';
+
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () async => false,
       child: ThemeSwitchingArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+          backgroundColor: theme.scaffoldBackgroundColor,
           body: Obx(
             () {
               var createdTasks = controller.getTotalTask();
@@ -39,35 +42,33 @@ class HomePage extends GetView<HomeController> {
                       children: [
                         Padding(
                           padding: EdgeInsets.only(
-                              top: 15.w, left: 16.w, bottom: 5.w, right: 15.w),
+                              top: 15.w, left: 17.w, bottom: 5.w, right: 14.w),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                DateFormat.yMMMMEEEEd().format(
-                                  DateTime.now(),
-                                ),
-                                style: TextStyle(
-                                  fontSize: 18.sp,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                                  DateFormat.yMMMMEEEEd().format(
+                                    DateTime.now(),
+                                  ),
+                                  style: theme.textTheme.headline3),
                               ThemeSwitcher(
                                 builder: (context) => IconButton(
                                   onPressed: () {
+                                    currentTheme.toggleTheme();
                                     ThemeSwitcher.of(context).changeTheme(
                                       theme: ThemeModelInheritedNotifier.of(
                                                       context)
                                                   .theme
                                                   .brightness ==
                                               Brightness.light
-                                          ? ThemeData.dark()
-                                          : ThemeData.light(),
+                                          ? TodoTheme.darkTheme
+                                          : TodoTheme.lightTheme,
                                     );
                                   },
                                   icon: Icon(
                                     Icons.brightness_4_outlined,
-                                    size: 20.sp,
+                                    size: theme.iconTheme.size,
+                                    color: theme.iconTheme.color,
                                   ),
                                 ),
                               ),
@@ -80,10 +81,10 @@ class HomePage extends GetView<HomeController> {
                         Container(
                           height: 155.w,
                           margin: EdgeInsets.symmetric(horizontal: 15.w),
-                          decoration: const BoxDecoration(
-                            color: Color.fromARGB(255, 40, 40, 40),
+                          decoration: BoxDecoration(
+                            color: theme.primaryColor,
                             borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
+                                const BorderRadius.all(Radius.circular(20.0)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,21 +93,11 @@ class HomePage extends GetView<HomeController> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Text(
-                                    AppLocalizations.of(context)!.motiv,
-                                    style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  Text(AppLocalizations.of(context)!.motiv,
+                                      style: theme.textTheme.headline2),
                                   Text(
                                     '$completedTasks ${AppLocalizations.of(context)!.ofMotiv} $createdTasks ${AppLocalizations.of(context)!.completed}',
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey[400],
-                                    ),
+                                    style: theme.textTheme.subtitle1,
                                   ),
                                 ],
                               ),
@@ -120,7 +111,8 @@ class HomePage extends GetView<HomeController> {
                                     currentStep: completedTasks,
                                     stepSize: 4.w,
                                     selectedColor: green,
-                                    unselectedColor: Colors.grey[200],
+                                    unselectedColor:
+                                        theme.unselectedWidgetColor,
                                     padding: 0,
                                     selectedStepSize: 6.w,
                                     roundedCap: (_, __) => true,
@@ -129,25 +121,15 @@ class HomePage extends GetView<HomeController> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          '${createdTasks == 0 ? 0 : precent} %',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20.sp,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                            '${createdTasks == 0 ? 0 : precent} %',
+                                            style: theme.textTheme.headline2),
                                         SizedBox(
                                           height: 6.h,
                                         ),
                                         Text(
-                                          AppLocalizations.of(context)!
-                                              .efficiency,
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16.sp,
-                                          ),
-                                        )
+                                            AppLocalizations.of(context)!
+                                                .efficiency,
+                                            style: theme.textTheme.subtitle1)
                                       ],
                                     ),
                                   ),
@@ -162,14 +144,8 @@ class HomePage extends GetView<HomeController> {
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: 16.w, vertical: 10.w),
-                          child: Text(
-                            AppLocalizations.of(context)!.tasks,
-                            style: TextStyle(
-                              fontSize: 20.sp,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
+                          child: Text(AppLocalizations.of(context)!.tasks,
+                              style: theme.textTheme.headline2),
                         ),
                         Obx(
                           () => GridView.count(

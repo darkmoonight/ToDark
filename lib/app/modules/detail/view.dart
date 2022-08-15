@@ -15,6 +15,7 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     var task = homeCtrl.task.value!;
     var color = HexColor.fromHex(task.color);
     return WillPopScope(
@@ -25,7 +26,7 @@ class DetailPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: Form(
           key: homeCtrl.formKey,
           child: ListView(
@@ -42,8 +43,8 @@ class DetailPage extends StatelessWidget {
                         homeCtrl.editCtrl.clear();
                       },
                       icon: const Icon(Icons.arrow_back),
-                      color: Colors.white,
-                      iconSize: 20.sp,
+                      color: theme.iconTheme.color,
+                      iconSize: theme.iconTheme.size,
                     )
                   ],
                 ),
@@ -64,11 +65,7 @@ class DetailPage extends StatelessWidget {
                     ),
                     Text(
                       task.title,
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
+                      style: theme.textTheme.headline2,
                     )
                   ],
                 ),
@@ -86,10 +83,7 @@ class DetailPage extends StatelessWidget {
                     children: [
                       Text(
                         '$totalTodos ${AppLocalizations.of(context)!.task(totalTodos)}',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          color: Colors.grey,
-                        ),
+                        style: theme.primaryTextTheme.subtitle2,
                       ),
                       SizedBox(
                         width: 13.w,
@@ -106,11 +100,7 @@ class DetailPage extends StatelessWidget {
                             end: Alignment.bottomRight,
                             colors: [color.withOpacity(0.5), color],
                           ),
-                          unselectedGradientColor: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Colors.grey[300]!, Colors.grey[300]!],
-                          ),
+                          unselectedColor: theme.unselectedWidgetColor,
                         ),
                       )
                     ],
@@ -120,25 +110,22 @@ class DetailPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 15.w),
                 child: TextFormField(
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                  ),
+                  style: theme.textTheme.headline6,
                   controller: homeCtrl.editCtrl,
                   autofocus: true,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromARGB(255, 40, 40, 40),
+                    fillColor: theme.primaryColor,
                     filled: true,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 40, 40, 40),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 40, 40, 40),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
                       ),
                     ),
                     hintText: AppLocalizations.of(context)!.taskName,
@@ -147,7 +134,8 @@ class DetailPage extends StatelessWidget {
                       fontSize: 15.sp,
                     ),
                     suffixIcon: IconButton(
-                      color: Colors.white,
+                      color: theme.iconTheme.color,
+                      iconSize: theme.iconTheme.size,
                       onPressed: () {
                         if (homeCtrl.formKey.currentState!.validate()) {
                           var success =
@@ -178,8 +166,8 @@ class DetailPage extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: const Divider(
-                  color: Colors.white,
+                child: Divider(
+                  color: theme.dividerColor,
                 ),
               ),
               DoingList(),

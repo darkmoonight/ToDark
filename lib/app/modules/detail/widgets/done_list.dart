@@ -11,6 +11,7 @@ class DoneList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Obx(() => homeCtrl.doneTodos.isNotEmpty
         ? ListView(
             shrinkWrap: true,
@@ -23,7 +24,7 @@ class DoneList extends StatelessWidget {
                 ),
                 child: Text(
                   '${AppLocalizations.of(context)!.complet}(${homeCtrl.doneTodos.length})',
-                  style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                  style: theme.primaryTextTheme.subtitle1,
                 ),
               ),
               Column(
@@ -47,18 +48,19 @@ class DoneList extends StatelessWidget {
                                 padding: EdgeInsets.only(
                                   right: 15.w,
                                 ),
-                                child: const Icon(
+                                child: Icon(
                                   Icons.delete,
-                                  color: Colors.white,
+                                  color: theme.iconTheme.color,
+                                  size: theme.iconTheme.size,
                                 ),
                               ),
                             ),
                             child: Container(
                                 height: 55.w,
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 40, 40, 40),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15)),
+                                decoration: BoxDecoration(
+                                  color: theme.primaryColor,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(15)),
                                 ),
                                 child: Padding(
                                     padding:
@@ -69,7 +71,7 @@ class DoneList extends StatelessWidget {
                                           child: Icon(
                                             Icons.done,
                                             color: blue,
-                                            size: 20.sp,
+                                            size: theme.iconTheme.size,
                                           ),
                                         ),
                                         Padding(
@@ -79,12 +81,8 @@ class DoneList extends StatelessWidget {
                                           child: Text(
                                             element['title'],
                                             overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              color: Colors.white,
-                                              fontSize: 16.sp,
-                                            ),
+                                            style: theme
+                                                .primaryTextTheme.headline6,
                                           ),
                                         ),
                                       ],

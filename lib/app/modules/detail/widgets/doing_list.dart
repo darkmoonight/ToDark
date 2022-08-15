@@ -10,6 +10,7 @@ class DoingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return Obx(
       () => homeCtrl.doingTodos.isEmpty && homeCtrl.doneTodos.isEmpty
           ? Padding(
@@ -23,11 +24,7 @@ class DoingList extends StatelessWidget {
                   ),
                   Text(
                     AppLocalizations.of(context)!.addTask,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.sp,
-                      color: Colors.white,
-                    ),
+                    style: theme.textTheme.headline4,
                   )
                 ],
               ),
@@ -43,7 +40,7 @@ class DoingList extends StatelessWidget {
                   ),
                   child: Text(
                     '${AppLocalizations.of(context)!.tasks} (${homeCtrl.doingTodos.length})',
-                    style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                    style: theme.primaryTextTheme.subtitle1,
                   ),
                 ),
                 Column(
@@ -68,9 +65,10 @@ class DoingList extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                     right: 15.w,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.delete,
-                                    color: Colors.white,
+                                    color: theme.iconTheme.color,
+                                    size: theme.iconTheme.size,
                                   ),
                                 ),
                               ),
@@ -80,18 +78,19 @@ class DoingList extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                     right: 15.w,
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.done,
-                                    color: Colors.white,
+                                    color: theme.iconTheme.color,
+                                    size: theme.iconTheme.size,
                                   ),
                                 ),
                               ),
                               child: Container(
                                   height: 55.w,
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 40, 40, 40),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(15)),
+                                  decoration: BoxDecoration(
+                                    color: theme.primaryColor,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(15)),
                                   ),
                                   child: Padding(
                                       padding: EdgeInsets.symmetric(
@@ -102,7 +101,7 @@ class DoingList extends StatelessWidget {
                                             child: Icon(
                                               Icons.trip_origin,
                                               color: Colors.blue,
-                                              size: 20.sp,
+                                              size: theme.iconTheme.size,
                                             ),
                                           ),
                                           Padding(
@@ -111,10 +110,7 @@ class DoingList extends StatelessWidget {
                                             child: Text(
                                               element['title'],
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16.sp,
-                                              ),
+                                              style: theme.textTheme.headline6,
                                             ),
                                           )
                                         ],
@@ -123,9 +119,9 @@ class DoingList extends StatelessWidget {
                     if (homeCtrl.doingTodos.isNotEmpty)
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: const Divider(
+                        child: Divider(
                           // thickness: 1,
-                          color: Colors.white,
+                          color: theme.dividerColor,
                         ),
                       )
                   ],

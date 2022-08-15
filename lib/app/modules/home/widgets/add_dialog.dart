@@ -12,6 +12,7 @@ class AddDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () async {
         homeCtrl.editCtrl.clear();
@@ -19,7 +20,7 @@ class AddDialog extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: Form(
           key: homeCtrl.formKey,
           child: ListView(
@@ -36,8 +37,8 @@ class AddDialog extends StatelessWidget {
                         homeCtrl.changeTask(null);
                       },
                       icon: const Icon(Icons.close),
-                      color: Colors.white,
-                      iconSize: 20.sp,
+                      iconSize: theme.iconTheme.size,
+                      color: theme.iconTheme.color,
                     ),
                     TextButton(
                         style: ButtonStyle(
@@ -79,34 +80,27 @@ class AddDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Text(
                   AppLocalizations.of(context)!.createTask,
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: theme.textTheme.headline2,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
                 child: TextFormField(
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                  ),
+                  style: theme.textTheme.headline6,
                   controller: homeCtrl.editCtrl,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromARGB(255, 40, 40, 40),
+                    fillColor: theme.primaryColor,
                     filled: true,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 40, 40, 40),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 40, 40, 40),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
                       ),
                     ),
                     hintText: AppLocalizations.of(context)!.taskName,
@@ -132,10 +126,7 @@ class AddDialog extends StatelessWidget {
                 ),
                 child: Text(
                   AppLocalizations.of(context)!.add,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.grey,
-                  ),
+                  style: theme.textTheme.subtitle1,
                 ),
               ),
               ...homeCtrl.tasks
@@ -164,10 +155,7 @@ class AddDialog extends StatelessWidget {
                                   ),
                                   Text(
                                     element.title,
-                                    style: TextStyle(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
+                                    style: theme.textTheme.headline5,
                                   ),
                                 ],
                               ),

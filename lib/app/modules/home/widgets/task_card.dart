@@ -15,6 +15,7 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     final color = HexColor.fromHex(task.color);
     final squareWidth = Get.width - 40.w;
 
@@ -29,9 +30,9 @@ class TaskCard extends StatelessWidget {
         width: squareWidth / 2,
         height: squareWidth / 2,
         margin: EdgeInsets.all(15.w),
-        decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 40, 40, 40),
-          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+        decoration: BoxDecoration(
+          color: theme.primaryColor,
+          borderRadius: const BorderRadius.all(Radius.circular(20.0)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,10 +50,7 @@ class TaskCard extends StatelessWidget {
             ),
             Text(
               task.title,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
-                  color: Colors.white),
+              style: theme.textTheme.headline4,
               overflow: TextOverflow.ellipsis,
             ),
             Flexible(
@@ -63,11 +61,7 @@ class TaskCard extends StatelessWidget {
             ),
             Text(
               '${task.todos?.length ?? 0} ${AppLocalizations.of(context)!.task(task.todos?.length ?? 0)}',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-                fontSize: 12.sp,
-              ),
+              style: theme.textTheme.subtitle2,
             ),
             Flexible(
               fit: FlexFit.loose,
@@ -87,11 +81,7 @@ class TaskCard extends StatelessWidget {
                 end: Alignment.bottomRight,
                 colors: [color.withOpacity(0.5), color],
               ),
-              unselectedGradientColor: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.white, Colors.white],
-              ),
+              unselectedColor: theme.unselectedWidgetColor,
             ),
           ],
         ),

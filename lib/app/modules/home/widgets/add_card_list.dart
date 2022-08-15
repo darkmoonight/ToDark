@@ -14,6 +14,7 @@ class AddCardList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     final icons = getIcons();
     return WillPopScope(
       onWillPop: () async {
@@ -22,7 +23,7 @@ class AddCardList extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: Form(
           key: homeCtrl.formKey,
           child: ListView(
@@ -39,8 +40,8 @@ class AddCardList extends StatelessWidget {
                         homeCtrl.changeChipIndex(0);
                       },
                       icon: const Icon(Icons.close),
-                      color: Colors.white,
-                      iconSize: 20.sp,
+                      color: theme.iconTheme.color,
+                      iconSize: theme.iconTheme.size,
                     ),
                     TextButton(
                         style: ButtonStyle(
@@ -84,34 +85,27 @@ class AddCardList extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Text(
                   AppLocalizations.of(context)!.taskType,
-                  style: TextStyle(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  style: theme.textTheme.headline2,
                 ),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
                 child: TextFormField(
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                  ),
+                  style: theme.textTheme.headline6,
                   controller: homeCtrl.editCtrl,
                   decoration: InputDecoration(
-                    fillColor: const Color.fromARGB(255, 40, 40, 40),
+                    fillColor: theme.primaryColor,
                     filled: true,
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 40, 40, 40),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
-                      borderSide: const BorderSide(
-                        color: Color.fromARGB(255, 40, 40, 40),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
                       ),
                     ),
                     hintText: AppLocalizations.of(context)!.taskType,
@@ -137,10 +131,7 @@ class AddCardList extends StatelessWidget {
                 ),
                 child: Text(
                   AppLocalizations.of(context)!.icons,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.grey,
-                  ),
+                  style: theme.textTheme.subtitle1,
                 ),
               ),
               Padding(
@@ -151,12 +142,11 @@ class AddCardList extends StatelessWidget {
                       .map((e) => Obx(() {
                             final index = icons.indexOf(e);
                             return ChoiceChip(
-                              selectedColor: Colors.grey[200],
+                              selectedColor: theme.selectedRowColor,
                               pressElevation: 0,
                               materialTapTargetSize:
                                   MaterialTapTargetSize.padded,
-                              backgroundColor:
-                                  const Color.fromARGB(255, 40, 40, 40),
+                              backgroundColor: theme.primaryColor,
                               label: e,
                               selected: homeCtrl.chipIndex.value == index,
                               onSelected: (bool selected) {

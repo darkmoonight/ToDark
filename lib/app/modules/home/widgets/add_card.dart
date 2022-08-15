@@ -11,6 +11,7 @@ class AddCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     var squareWidth = Get.width - 12.w;
     return Container(
       width: squareWidth / 2,
@@ -21,15 +22,15 @@ class AddCard extends StatelessWidget {
           Get.to(() => AddCardList(), transition: Transition.downToUp);
         },
         child: DottedBorder(
-          color: Colors.grey[400]!,
+          color: theme.unselectedWidgetColor,
           dashPattern: const [8, 4],
           borderType: BorderType.RRect,
           radius: const Radius.circular(20),
           child: Center(
             child: Icon(
               Icons.add,
-              size: 22.w,
-              color: Colors.grey,
+              size: theme.iconTheme.size,
+              color: theme.unselectedWidgetColor,
             ),
           ),
         ),
