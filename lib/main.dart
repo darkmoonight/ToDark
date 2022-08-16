@@ -38,34 +38,31 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return ThemeProvider(
           initTheme: themeController.themes,
-          child: Builder(
-            builder: (context) {
-              return GetMaterialApp(
-                themeMode: themeController.theme,
-                theme: lightTheme,
-                darkTheme: darkTheme,
-                localeResolutionCallback: (
-                  locale,
-                  supportedLocales,
-                ) {
-                  return const Locale('en', '');
-                },
-                localizationsDelegates: const [
-                  AppLocalizations.delegate, // Add this line
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: const [
-                  Locale('en', ''),
-                ],
-                debugShowCheckedModeBanner: false,
-                home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
-                initialBinding: HomeBinding(),
-                builder: EasyLoading.init(),
-              );
-            },
-          ),
+          builder: (_, theme) {
+            return GetMaterialApp(
+              themeMode: themeController.theme,
+              theme: theme,
+              localeResolutionCallback: (
+                locale,
+                supportedLocales,
+              ) {
+                return const Locale('en', '');
+              },
+              localizationsDelegates: const [
+                AppLocalizations.delegate, // Add this line
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('en', ''),
+              ],
+              debugShowCheckedModeBanner: false,
+              home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
+              initialBinding: HomeBinding(),
+              builder: EasyLoading.init(),
+            );
+          },
         );
       },
     );
