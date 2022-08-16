@@ -129,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 carouselController.nextPage();
               } else {
                 storeOnboardInfo();
-                Get.to(() => const HomePage(), transition: Transition.upToDown);
+                Get.to(() => HomePage(), transition: Transition.upToDown);
               }
             },
             color: Colors.white,

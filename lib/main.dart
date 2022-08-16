@@ -4,6 +4,7 @@ import 'package:dark_todo/app/modules/home/binding.dart';
 import 'package:dark_todo/app/modules/home/view.dart';
 import 'package:dark_todo/app/screens/onboarding_screen.dart';
 import 'package:dark_todo/utils/theme.dart';
+import 'package:dark_todo/utils/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -20,11 +21,13 @@ void main() async {
   isviewed = prefs.getInt('OnboardingScreen');
   await GetStorage.init();
   await Get.putAsync(() => StorageService().init());
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final themeController = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,31 +37,35 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return ThemeProvider(
-          initTheme: TodoTheme.darkTheme,
-          builder: (_, theme) {
-            return GetMaterialApp(
-              theme: theme,
-              localeResolutionCallback: (
-                locale,
-                supportedLocales,
-              ) {
-                return const Locale('en', '');
-              },
-              localizationsDelegates: const [
-                AppLocalizations.delegate, // Add this line
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en', ''),
-              ],
-              debugShowCheckedModeBanner: false,
-              home: isviewed != 0 ? const OnboardingScreen() : const HomePage(),
-              initialBinding: HomeBinding(),
-              builder: EasyLoading.init(),
-            );
-          },
+          initTheme: themeController.themes,
+          child: Builder(
+            builder: (context) {
+              return GetMaterialApp(
+                themeMode: themeController.theme,
+                theme: lightTheme,
+                darkTheme: darkTheme,
+                localeResolutionCallback: (
+                  locale,
+                  supportedLocales,
+                ) {
+                  return const Locale('en', '');
+                },
+                localizationsDelegates: const [
+                  AppLocalizations.delegate, // Add this line
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: const [
+                  Locale('en', ''),
+                ],
+                debugShowCheckedModeBanner: false,
+                home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
+                initialBinding: HomeBinding(),
+                builder: EasyLoading.init(),
+              );
+            },
+          ),
         );
       },
     );

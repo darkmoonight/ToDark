@@ -1,4 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:dark_todo/utils/theme_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
@@ -16,7 +17,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../utils/theme.dart';
 
 class HomePage extends GetView<HomeController> {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+  final themeController = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +56,19 @@ class HomePage extends GetView<HomeController> {
                               ThemeSwitcher(
                                 builder: (context) => IconButton(
                                   onPressed: () {
-                                    ThemeSwitcher.of(context).changeTheme(
-                                      theme: ThemeModelInheritedNotifier.of(
-                                                      context)
-                                                  .theme
-                                                  .brightness ==
-                                              Brightness.light
-                                          ? TodoTheme.darkTheme
-                                          : TodoTheme.lightTheme,
-                                    );
+                                    if (Get.isDarkMode) {
+                                      ThemeSwitcher.of(context)
+                                          .changeTheme(theme: lightTheme);
+                                      themeController
+                                          .changeThemeMode(ThemeMode.light);
+                                      themeController.saveTheme(false);
+                                    } else {
+                                      ThemeSwitcher.of(context)
+                                          .changeTheme(theme: darkTheme);
+                                      themeController
+                                          .changeThemeMode(ThemeMode.dark);
+                                      themeController.saveTheme(true);
+                                    }
                                   },
                                   icon: Icon(
                                     Icons.brightness_4_outlined,
