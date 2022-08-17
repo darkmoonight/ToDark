@@ -9,7 +9,8 @@ class ThemeController extends GetxController {
 
   ThemeMode get theme => _loadTheme() ? ThemeMode.dark : ThemeMode.light;
 
-  ThemeData get themes => _loadTheme() ? darkTheme : lightTheme;
+  ThemeData get themes =>
+      _loadTheme() ? TodoTheme.darkTheme : TodoTheme.lightTheme;
 
   bool _loadTheme() => _box.read(_key) ?? false;
 

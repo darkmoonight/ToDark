@@ -57,14 +57,14 @@ class HomePage extends GetView<HomeController> {
                                 builder: (context) => IconButton(
                                   onPressed: () {
                                     if (Get.isDarkMode) {
-                                      ThemeSwitcher.of(context)
-                                          .changeTheme(theme: lightTheme);
+                                      ThemeSwitcher.of(context).changeTheme(
+                                          theme: TodoTheme.lightTheme);
                                       themeController
                                           .changeThemeMode(ThemeMode.light);
                                       themeController.saveTheme(false);
                                     } else {
-                                      ThemeSwitcher.of(context)
-                                          .changeTheme(theme: darkTheme);
+                                      ThemeSwitcher.of(context).changeTheme(
+                                          theme: TodoTheme.darkTheme);
                                       themeController
                                           .changeThemeMode(ThemeMode.dark);
                                       themeController.saveTheme(true);
