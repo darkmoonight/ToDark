@@ -39,8 +39,8 @@ flutter_icons:
   image_path: "assets/images/icons_todo.png"
 
 flutter_native_splash:
-  color: "#282828"
-  image: "assets/images/icons_todo.png"
+  color: "#1F1F1F"
+  image: "assets/images/icons.png"
 
 flutter:
   generate: true
