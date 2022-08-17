@@ -32,10 +32,15 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^2.0.0
   flutter_launcher_icons: ^0.9.3
+  flutter_native_splash: ^2.2.7
 
 flutter_icons:
   android: true
   image_path: "assets/images/icons_todo.png"
+
+flutter_native_splash:
+  color: "#282828"
+  image: "assets/images/icons_todo.png"
 
 flutter:
   generate: true

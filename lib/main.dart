@@ -3,7 +3,6 @@ import 'package:dark_todo/app/data/services/storage/services.dart';
 import 'package:dark_todo/app/modules/home/binding.dart';
 import 'package:dark_todo/app/modules/home/view.dart';
 import 'package:dark_todo/app/screens/onboarding_screen.dart';
-import 'package:dark_todo/utils/theme.dart';
 import 'package:dark_todo/utils/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
