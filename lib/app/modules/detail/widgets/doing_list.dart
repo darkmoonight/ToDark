@@ -107,23 +107,23 @@ class DoingList extends StatelessWidget {
                                               size: theme.iconTheme.size,
                                             ),
                                           ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15.w),
-                                            child: Text(
-                                              element['title'],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: theme.textTheme.headline6,
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 15.w),
+                                              child: Text(
+                                                element['title'],
+                                                overflow: TextOverflow.ellipsis,
+                                                style:
+                                                    theme.textTheme.headline6,
+                                              ),
                                             ),
                                           ),
-                                          Expanded(
-                                              child: SizedBox(
-                                            width: 175.w,
-                                          )),
                                           Text(
                                             element['date'],
                                             overflow: TextOverflow.ellipsis,
-                                            style: theme.textTheme.headline6,
+                                            style: theme
+                                                .primaryTextTheme.subtitle2,
                                           ),
                                         ],
                                       )))));

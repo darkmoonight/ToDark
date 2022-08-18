@@ -7,20 +7,16 @@ import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
-class AddDialog extends StatelessWidget {
-  final homeCtrl = Get.find<HomeController>();
-  AddDialog({Key? key}) : super(key: key);
+class AddDialog extends StatefulWidget {
+  const AddDialog({Key? key}) : super(key: key);
 
-  _selectedDate(BuildContext context) async {
-    var picerDate = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2022),
-        lastDate: DateTime(2100));
-    if (picerDate != null) {
-      homeCtrl.dateCtrl.text = DateFormat('dd/MM').format(picerDate);
-    }
-  }
+  @override
+  State<AddDialog> createState() => _AddDialogState();
+}
+
+class _AddDialogState extends State<AddDialog> {
+  final homeCtrl = Get.find<HomeController>();
+  DateTime dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -144,8 +140,8 @@ class AddDialog extends StatelessWidget {
                     fillColor: theme.primaryColor,
                     filled: true,
                     prefixIcon: InkWell(
-                      onTap: () {
-                        _selectedDate(context);
+                      onTap: () async {
+                        pickDateTime();
                       },
                       child: const Icon(
                         Icons.calendar_month_outlined,
@@ -227,4 +223,33 @@ class AddDialog extends StatelessWidget {
       ),
     );
   }
+
+  Future pickDateTime() async {
+    DateTime? date = await pickDate();
+    if (date == null) return;
+
+    TimeOfDay? time = await pickTime();
+    if (time == null) return;
+    final dateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+    setState(() {
+      this.dateTime = dateTime;
+    });
+    homeCtrl.dateCtrl.text =
+        '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+      context: context,
+      initialDate: dateTime,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100));
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
 }

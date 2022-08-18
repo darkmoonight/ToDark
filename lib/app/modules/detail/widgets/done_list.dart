@@ -74,16 +74,23 @@ class DoneList extends StatelessWidget {
                                             size: theme.iconTheme.size,
                                           ),
                                         ),
-                                        Padding(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 15.w,
+                                        Expanded(
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 15.w),
+                                            child: Text(
+                                              element['title'],
+                                              overflow: TextOverflow.ellipsis,
+                                              style: theme
+                                                  .primaryTextTheme.headline6,
+                                            ),
                                           ),
-                                          child: Text(
-                                            element['title'],
-                                            overflow: TextOverflow.ellipsis,
-                                            style: theme
-                                                .primaryTextTheme.headline6,
-                                          ),
+                                        ),
+                                        Text(
+                                          element['date'],
+                                          overflow: TextOverflow.ellipsis,
+                                          style:
+                                              theme.primaryTextTheme.subtitle2,
                                         ),
                                       ],
                                     )))));
