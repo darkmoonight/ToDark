@@ -8,6 +8,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../core/values/colors.dart';
+
 class AddCardList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
   AddCardList({Key? key}) : super(key: key);
@@ -31,7 +33,6 @@ class AddCardList extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(10.w),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       onPressed: () {
@@ -43,53 +44,19 @@ class AddCardList extends StatelessWidget {
                       color: theme.iconTheme.color,
                       iconSize: theme.iconTheme.size,
                     ),
-                    TextButton(
-                        style: ButtonStyle(
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent)),
-                        onPressed: () {
-                          if (homeCtrl.formKey.currentState!.validate()) {
-                            if (homeCtrl.task.value == null) {
-                              int icon = icons[homeCtrl.chipIndex.value]
-                                  .icon!
-                                  .codePoint;
-                              String color = icons[homeCtrl.chipIndex.value]
-                                  .color!
-                                  .toHex();
-                              var task = Task(
-                                title: homeCtrl.editCtrl.text,
-                                icon: icon,
-                                color: color,
-                              );
-                              Get.back();
-                              homeCtrl.editCtrl.clear();
-                              homeCtrl.addTask(task)
-                                  ? EasyLoading.showSuccess(
-                                      AppLocalizations.of(context)!
-                                          .createSucess)
-                                  : EasyLoading.showError(
-                                      AppLocalizations.of(context)!.duplicated);
-                            }
-                          }
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.done,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                          ),
-                        ))
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Text(
+                        AppLocalizations.of(context)!.taskType,
+                        style: theme.textTheme.headline2,
+                      ),
+                    ),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Text(
-                  AppLocalizations.of(context)!.taskType,
-                  style: theme.textTheme.headline2,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
+                padding: EdgeInsets.only(
+                    left: 15.w, right: 15.w, bottom: 15.w, top: 5.w),
                 child: TextFormField(
                   style: theme.textTheme.headline6,
                   controller: homeCtrl.editCtrl,
@@ -158,6 +125,36 @@ class AddCardList extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+        ),
+        floatingActionButton: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: FloatingActionButton(
+            onPressed: () {
+              if (homeCtrl.formKey.currentState!.validate()) {
+                if (homeCtrl.task.value == null) {
+                  int icon = icons[homeCtrl.chipIndex.value].icon!.codePoint;
+                  String color = icons[homeCtrl.chipIndex.value].color!.toHex();
+                  var task = Task(
+                    title: homeCtrl.editCtrl.text,
+                    icon: icon,
+                    color: color,
+                  );
+                  Get.back();
+                  homeCtrl.editCtrl.clear();
+                  homeCtrl.addTask(task)
+                      ? EasyLoading.showSuccess(
+                          AppLocalizations.of(context)!.createSucess)
+                      : EasyLoading.showError(
+                          AppLocalizations.of(context)!.duplicated);
+                }
+              }
+            },
+            backgroundColor: blue,
+            child: const Icon(
+              Icons.save,
+              color: Colors.white,
+            ),
           ),
         ),
       ),

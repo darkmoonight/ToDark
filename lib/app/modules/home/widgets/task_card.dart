@@ -23,7 +23,7 @@ class TaskCard extends StatelessWidget {
       onTap: () {
         homeCtrl.changeTask(task);
         homeCtrl.changeTodos(task.todos ?? []);
-        Get.to(() => DetailPage(), transition: Transition.downToUp);
+        Get.to(() => const DetailPage(), transition: Transition.downToUp);
       },
       child: Container(
         padding: EdgeInsets.only(right: 15.w, left: 15.w, top: 15.w),

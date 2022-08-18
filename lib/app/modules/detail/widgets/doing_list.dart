@@ -55,10 +55,7 @@ class DoingList extends StatelessWidget {
                                 if (direction == DismissDirection.startToEnd) {
                                   homeCtrl.deleteDoingTodo(element);
                                 } else if (direction ==
-                                    DismissDirection.endToStart) {
-                                  homeCtrl.doneTodo(
-                                      element['title'], element['date']);
-                                }
+                                    DismissDirection.endToStart) {}
                               },
                               background: Container(
                                 alignment: Alignment.centerLeft,
@@ -80,7 +77,7 @@ class DoingList extends StatelessWidget {
                                     right: 15.w,
                                   ),
                                   child: Icon(
-                                    Icons.done,
+                                    Icons.edit,
                                     color: theme.iconTheme.color,
                                     size: theme.iconTheme.size,
                                   ),
@@ -94,15 +91,20 @@ class DoingList extends StatelessWidget {
                                         Radius.circular(15)),
                                   ),
                                   child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 10.w),
+                                      padding: EdgeInsets.only(
+                                          left: 5.w, right: 10.w),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          SizedBox(
-                                            child: Icon(
-                                              Icons.trip_origin,
+                                          IconButton(
+                                            onPressed: () {
+                                              homeCtrl.doneTodo(
+                                                  element['title'],
+                                                  element['date']);
+                                            },
+                                            icon: Icon(
+                                              Icons.radio_button_unchecked,
                                               color: Colors.blue,
                                               size: theme.iconTheme.size,
                                             ),
@@ -110,7 +112,7 @@ class DoingList extends StatelessWidget {
                                           Expanded(
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(
-                                                  horizontal: 15.w),
+                                                  horizontal: 5.w),
                                               child: Text(
                                                 element['title'],
                                                 overflow: TextOverflow.ellipsis,

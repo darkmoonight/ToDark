@@ -9,9 +9,18 @@ import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class DetailPage extends StatelessWidget {
+import '../../core/values/colors.dart';
+
+class DetailPage extends StatefulWidget {
+  const DetailPage({Key? key}) : super(key: key);
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
   final homeCtrl = Get.find<HomeController>();
-  DetailPage({Key? key}) : super(key: key);
+  DateTime dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +32,7 @@ class DetailPage extends StatelessWidget {
         homeCtrl.updateTodos();
         homeCtrl.changeTask(null);
         homeCtrl.editCtrl.clear();
+        homeCtrl.dateCtrl.clear();
         return true;
       },
       child: Scaffold(
@@ -34,6 +44,7 @@ class DetailPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(10.w),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     IconButton(
                       onPressed: () {
@@ -41,32 +52,27 @@ class DetailPage extends StatelessWidget {
                         homeCtrl.updateTodos();
                         homeCtrl.changeTask(null);
                         homeCtrl.editCtrl.clear();
+                        homeCtrl.dateCtrl.clear();
                       },
                       icon: const Icon(Icons.arrow_back),
                       color: theme.iconTheme.color,
                       iconSize: theme.iconTheme.size,
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 15.w,
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      IconData(task.icon, fontFamily: 'MaterialIcons'),
-                      color: color,
-                      size: 22.sp,
                     ),
-                    SizedBox(
-                      width: 13.w,
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Icon(
+                        IconData(task.icon, fontFamily: 'MaterialIcons'),
+                        color: color,
+                        size: 22.sp,
+                      ),
                     ),
-                    Text(
-                      task.title,
-                      style: theme.textTheme.headline2,
-                    )
+                    Expanded(
+                      child: Text(
+                        task.title,
+                        style: theme.textTheme.headline2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -76,7 +82,7 @@ class DetailPage extends StatelessWidget {
                 return Padding(
                   padding: EdgeInsets.only(
                     left: 16.w,
-                    top: 14.w,
+                    top: 5.w,
                     right: 16.w,
                   ),
                   child: Row(
@@ -108,11 +114,10 @@ class DetailPage extends StatelessWidget {
                 );
               }),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.w, horizontal: 15.w),
+                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
                 child: TextFormField(
                   style: theme.textTheme.headline6,
                   controller: homeCtrl.editCtrl,
-                  autofocus: true,
                   decoration: InputDecoration(
                     fillColor: theme.primaryColor,
                     filled: true,
@@ -133,35 +138,52 @@ class DetailPage extends StatelessWidget {
                       color: Colors.grey[600],
                       fontSize: 15.sp,
                     ),
-                    suffixIcon: IconButton(
-                      color: theme.iconTheme.color,
-                      iconSize: theme.iconTheme.size,
-                      onPressed: () {
-                        if (homeCtrl.formKey.currentState!.validate()) {
-                          var success = homeCtrl.addTodo(
-                              homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
-                          if (success) {
-                            EasyLoading.showSuccess(
-                                AppLocalizations.of(context)!.todoAdd);
-                          } else {
-                            EasyLoading.showError(
-                                AppLocalizations.of(context)!.todoExist);
-                          }
-                          homeCtrl.editCtrl.clear();
-                        }
-                      },
-                      icon: Icon(
-                        Icons.done,
-                        size: 18.sp,
-                      ),
-                    ),
                   ),
+                  autofocus: true,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return AppLocalizations.of(context)!.showEnter;
                     }
                     return null;
                   },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 15.w, left: 15.w, bottom: 15.w),
+                child: TextField(
+                  readOnly: true,
+                  style: theme.textTheme.headline6,
+                  controller: homeCtrl.dateCtrl,
+                  decoration: InputDecoration(
+                    fillColor: theme.primaryColor,
+                    filled: true,
+                    prefixIcon: InkWell(
+                      onTap: () async {
+                        pickDateTime();
+                      },
+                      child: const Icon(
+                        Icons.calendar_month_outlined,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.taskDate,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                  autofocus: true,
                 ),
               ),
               Padding(
@@ -175,7 +197,61 @@ class DetailPage extends StatelessWidget {
             ],
           ),
         ),
+        floatingActionButton: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: FloatingActionButton(
+            onPressed: () {
+              if (homeCtrl.formKey.currentState!.validate()) {
+                var success = homeCtrl.addTodo(
+                    homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
+                if (success) {
+                  EasyLoading.showSuccess(
+                      AppLocalizations.of(context)!.todoAdd);
+                } else {
+                  EasyLoading.showError(
+                      AppLocalizations.of(context)!.todoExist);
+                }
+                homeCtrl.editCtrl.clear();
+                homeCtrl.dateCtrl.clear();
+              }
+            },
+            backgroundColor: blue,
+            child: const Icon(
+              Icons.save,
+              color: Colors.white,
+            ),
+          ),
+        ),
       ),
     );
   }
+
+  Future pickDateTime() async {
+    DateTime? date = await pickDate();
+    if (date == null) return;
+
+    TimeOfDay? time = await pickTime();
+    if (time == null) return;
+    final dateTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+    setState(() {
+      this.dateTime = dateTime;
+    });
+    homeCtrl.dateCtrl.text =
+        '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+      context: context,
+      initialDate: dateTime,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100));
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
 }

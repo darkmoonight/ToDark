@@ -201,7 +201,7 @@ class HomePage extends GetView<HomeController> {
                         controller.deleting.value ? Colors.red : blue,
                     onPressed: () {
                       if (controller.tasks.isNotEmpty) {
-                        Get.to(() => AddDialog(),
+                        Get.to(() => const AddDialog(),
                             transition: Transition.downToUp);
                       } else {
                         EasyLoading.showInfo(

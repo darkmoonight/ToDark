@@ -5,7 +5,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:intl/intl.dart';
+
+import '../../../core/values/colors.dart';
 
 class AddDialog extends StatefulWidget {
   const AddDialog({Key? key}) : super(key: key);
@@ -37,7 +38,6 @@ class _AddDialogState extends State<AddDialog> {
               Padding(
                 padding: EdgeInsets.all(10.w),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
                       onPressed: () {
@@ -50,53 +50,19 @@ class _AddDialogState extends State<AddDialog> {
                       iconSize: theme.iconTheme.size,
                       color: theme.iconTheme.color,
                     ),
-                    TextButton(
-                        style: ButtonStyle(
-                            overlayColor:
-                                MaterialStateProperty.all(Colors.transparent)),
-                        onPressed: () {
-                          if (homeCtrl.formKey.currentState!.validate()) {
-                            if (homeCtrl.task.value == null) {
-                              EasyLoading.showError(
-                                  AppLocalizations.of(context)!.showSelect);
-                            } else {
-                              var success = homeCtrl.updateTask(
-                                homeCtrl.task.value!,
-                                homeCtrl.editCtrl.text,
-                                homeCtrl.dateCtrl.text,
-                              );
-                              if (success) {
-                                EasyLoading.showSuccess(
-                                    AppLocalizations.of(context)!.todoAdd);
-                                Get.back();
-                                homeCtrl.changeTask(null);
-                              } else {
-                                EasyLoading.showError(
-                                    AppLocalizations.of(context)!.todoExist);
-                              }
-                              homeCtrl.editCtrl.clear();
-                              homeCtrl.dateCtrl.clear();
-                            }
-                          }
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.done,
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                          ),
-                        ))
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      child: Text(
+                        AppLocalizations.of(context)!.createTask,
+                        style: theme.textTheme.headline2,
+                      ),
+                    ),
                   ],
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Text(
-                  AppLocalizations.of(context)!.createTask,
-                  style: theme.textTheme.headline2,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
+                padding: EdgeInsets.only(
+                    left: 15.w, right: 15.w, bottom: 15.w, top: 5.w),
                 child: TextFormField(
                   style: theme.textTheme.headline6,
                   controller: homeCtrl.editCtrl,
@@ -190,24 +156,23 @@ class _AddDialogState extends State<AddDialog> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Row(
-                                children: [
-                                  Icon(
-                                    IconData(
-                                      element.icon,
-                                      fontFamily: 'MaterialIcons',
-                                    ),
-                                    color: HexColor.fromHex(element.color),
-                                    size: 20.sp,
+                              Padding(
+                                padding: EdgeInsets.only(right: 5.w),
+                                child: Icon(
+                                  IconData(
+                                    element.icon,
+                                    fontFamily: 'MaterialIcons',
                                   ),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Text(
-                                    element.title,
-                                    style: theme.textTheme.headline5,
-                                  ),
-                                ],
+                                  color: HexColor.fromHex(element.color),
+                                  size: 20.sp,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  element.title,
+                                  style: theme.textTheme.headline5,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                               if (homeCtrl.task.value == element)
                                 const Icon(
@@ -218,6 +183,41 @@ class _AddDialogState extends State<AddDialog> {
                           )))))
                   .toList()
             ],
+          ),
+        ),
+        floatingActionButton: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: FloatingActionButton(
+            onPressed: () {
+              if (homeCtrl.formKey.currentState!.validate()) {
+                if (homeCtrl.task.value == null) {
+                  EasyLoading.showError(
+                      AppLocalizations.of(context)!.showSelect);
+                } else {
+                  var success = homeCtrl.updateTask(
+                    homeCtrl.task.value!,
+                    homeCtrl.editCtrl.text,
+                    homeCtrl.dateCtrl.text,
+                  );
+                  if (success) {
+                    EasyLoading.showSuccess(
+                        AppLocalizations.of(context)!.todoAdd);
+                    Get.back();
+                    homeCtrl.changeTask(null);
+                  } else {
+                    EasyLoading.showError(
+                        AppLocalizations.of(context)!.todoExist);
+                  }
+                  homeCtrl.editCtrl.clear();
+                  homeCtrl.dateCtrl.clear();
+                }
+              }
+            },
+            backgroundColor: blue,
+            child: const Icon(
+              Icons.save,
+              color: Colors.white,
+            ),
           ),
         ),
       ),
