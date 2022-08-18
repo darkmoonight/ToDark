@@ -5,10 +5,22 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 class AddDialog extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
   AddDialog({Key? key}) : super(key: key);
+
+  _selectedDate(BuildContext context) async {
+    var picerDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2022),
+        lastDate: DateTime(2100));
+    if (picerDate != null) {
+      homeCtrl.dateCtrl.text = DateFormat('dd/MM').format(picerDate);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +28,7 @@ class AddDialog extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         homeCtrl.editCtrl.clear();
+        homeCtrl.dateCtrl.clear();
         homeCtrl.changeTask(null);
         return true;
       },
@@ -34,6 +47,7 @@ class AddDialog extends StatelessWidget {
                       onPressed: () {
                         Get.back();
                         homeCtrl.editCtrl.clear();
+                        homeCtrl.dateCtrl.clear();
                         homeCtrl.changeTask(null);
                       },
                       icon: const Icon(Icons.close),
@@ -53,6 +67,7 @@ class AddDialog extends StatelessWidget {
                               var success = homeCtrl.updateTask(
                                 homeCtrl.task.value!,
                                 homeCtrl.editCtrl.text,
+                                homeCtrl.dateCtrl.text,
                               );
                               if (success) {
                                 EasyLoading.showSuccess(
@@ -64,6 +79,7 @@ class AddDialog extends StatelessWidget {
                                     AppLocalizations.of(context)!.todoExist);
                               }
                               homeCtrl.editCtrl.clear();
+                              homeCtrl.dateCtrl.clear();
                             }
                           }
                         },
@@ -116,6 +132,44 @@ class AddDialog extends StatelessWidget {
                     }
                     return null;
                   },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 15.w, left: 15.w, bottom: 15.w),
+                child: TextField(
+                  readOnly: true,
+                  style: theme.textTheme.headline6,
+                  controller: homeCtrl.dateCtrl,
+                  decoration: InputDecoration(
+                    fillColor: theme.primaryColor,
+                    filled: true,
+                    prefixIcon: InkWell(
+                      onTap: () {
+                        _selectedDate(context);
+                      },
+                      child: const Icon(
+                        Icons.calendar_month_outlined,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.taskDate,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                  autofocus: true,
                 ),
               ),
               Padding(

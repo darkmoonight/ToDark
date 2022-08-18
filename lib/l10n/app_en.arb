@@ -48,6 +48,8 @@
     "@createTask": {},
     "taskName": "Task Name",
     "@taskName": {},
+    "taskDate": "Task Date",
+    "@taskName": {},
     "showEnter": "Please enter your todo item",
     "@showEnter": {},
     "add": "Add to",

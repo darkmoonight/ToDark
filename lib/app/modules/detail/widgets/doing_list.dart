@@ -56,7 +56,8 @@ class DoingList extends StatelessWidget {
                                   homeCtrl.deleteDoingTodo(element);
                                 } else if (direction ==
                                     DismissDirection.endToStart) {
-                                  homeCtrl.doneTodo(element['title']);
+                                  homeCtrl.doneTodo(
+                                      element['title'], element['date']);
                                 }
                               },
                               background: Container(
@@ -96,6 +97,8 @@ class DoingList extends StatelessWidget {
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 10.w),
                                       child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
                                         children: [
                                           SizedBox(
                                             child: Icon(
@@ -112,7 +115,16 @@ class DoingList extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               style: theme.textTheme.headline6,
                                             ),
-                                          )
+                                          ),
+                                          Expanded(
+                                              child: SizedBox(
+                                            width: 175.w,
+                                          )),
+                                          Text(
+                                            element['date'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: theme.textTheme.headline6,
+                                          ),
                                         ],
                                       )))));
                     }).toList(),

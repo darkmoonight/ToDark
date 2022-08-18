@@ -10,6 +10,7 @@ class HomeController extends GetxController {
 
   final formKey = GlobalKey<FormState>();
   final editCtrl = TextEditingController();
+  final dateCtrl = TextEditingController();
   final tabIndex = 0.obs;
   final chipIndex = 0.obs;
   final deleting = false.obs;
@@ -73,12 +74,12 @@ class HomeController extends GetxController {
     tasks.remove(task);
   }
 
-  updateTask(Task task, String title) {
+  updateTask(Task task, String title, String? date) {
     var todos = task.todos ?? [];
     if (containeTodo(todos, title)) {
       return false;
     }
-    var todo = {'title': title, 'done': false};
+    var todo = {'title': title, 'date': date, 'done': false};
     todos.add(todo);
     var newTask = task.copyWith(todos: todos);
     int oldIdx = tasks.indexOf(task);
@@ -91,13 +92,13 @@ class HomeController extends GetxController {
     return todos.any((element) => element['title'] == title);
   }
 
-  bool addTodo(String title) {
-    var todo = {'title': title, 'done': false};
+  bool addTodo(String title, String? date) {
+    var todo = {'title': title, 'date': date, 'done': false};
     if (doingTodos
         .any((element) => mapEquals<String, dynamic>(todo, element))) {
       return false;
     }
-    var doneTodo = {'title': title, 'done': true};
+    var doneTodo = {'title': title, 'date': date, 'done': true};
     if (doneTodos
         .any((element) => mapEquals<String, dynamic>(doneTodo, element))) {
       return false;
@@ -118,12 +119,12 @@ class HomeController extends GetxController {
     tasks.refresh();
   }
 
-  void doneTodo(String title) {
-    var doingTodo = {'title': title, 'done': false};
+  void doneTodo(String title, String? date) {
+    var doingTodo = {'title': title, 'date': date, 'done': false};
     int index = doingTodos.indexWhere(
         (element) => mapEquals<String, dynamic>(doingTodo, element));
     doingTodos.removeAt(index);
-    var doneTodo = {'title': title, 'done': true};
+    var doneTodo = {'title': title, 'date': date, 'done': true};
     doneTodos.add(doneTodo);
     doingTodos.refresh();
     doneTodos.refresh();

@@ -138,8 +138,8 @@ class DetailPage extends StatelessWidget {
                       iconSize: theme.iconTheme.size,
                       onPressed: () {
                         if (homeCtrl.formKey.currentState!.validate()) {
-                          var success =
-                              homeCtrl.addTodo(homeCtrl.editCtrl.text);
+                          var success = homeCtrl.addTodo(
+                              homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
                           if (success) {
                             EasyLoading.showSuccess(
                                 AppLocalizations.of(context)!.todoAdd);
