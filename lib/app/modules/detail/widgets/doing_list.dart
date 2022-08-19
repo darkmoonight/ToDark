@@ -4,9 +4,16 @@ import 'package:get/get.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class DoingList extends StatelessWidget {
+class DoingList extends StatefulWidget {
+  const DoingList({Key? key}) : super(key: key);
+
+  @override
+  State<DoingList> createState() => _DoingListState();
+}
+
+class _DoingListState extends State<DoingList> {
   final homeCtrl = Get.find<HomeController>();
-  DoingList({Key? key}) : super(key: key);
+  DateTime dateTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +62,10 @@ class DoingList extends StatelessWidget {
                                 if (direction == DismissDirection.startToEnd) {
                                   homeCtrl.deleteDoingTodo(element);
                                 } else if (direction ==
-                                    DismissDirection.endToStart) {}
+                                    DismissDirection.endToStart) {
+                                  homeCtrl.doneTodo(
+                                      element['title'], element['date']);
+                                }
                               },
                               background: Container(
                                 alignment: Alignment.centerLeft,
@@ -77,7 +87,7 @@ class DoingList extends StatelessWidget {
                                     right: 15.w,
                                   ),
                                   child: Icon(
-                                    Icons.edit,
+                                    Icons.done,
                                     color: theme.iconTheme.color,
                                     size: theme.iconTheme.size,
                                   ),
@@ -99,12 +109,14 @@ class DoingList extends StatelessWidget {
                                         children: [
                                           IconButton(
                                             onPressed: () {
-                                              homeCtrl.doneTodo(
-                                                  element['title'],
-                                                  element['date']);
+                                              showDialod(
+                                                context,
+                                                element['title'],
+                                                element['date'],
+                                              );
                                             },
                                             icon: Icon(
-                                              Icons.radio_button_unchecked,
+                                              Icons.edit_outlined,
                                               color: Colors.blue,
                                               size: theme.iconTheme.size,
                                             ),
@@ -144,4 +156,145 @@ class DoingList extends StatelessWidget {
             ),
     );
   }
+
+  void showDialod(BuildContext context, String title, String date) {
+    final editText = TextEditingController(text: title);
+    final editDate = TextEditingController(text: date);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15.w))),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: Text(
+          AppLocalizations.of(context)!.editTask,
+          style: Theme.of(context).textTheme.headline4,
+          textAlign: TextAlign.center,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 15.w),
+              child: TextFormField(
+                key: homeCtrl.formKeyDialog,
+                style: Theme.of(context).textTheme.headline6,
+                controller: editText,
+                decoration: InputDecoration(
+                  fillColor: Theme.of(context).primaryColor,
+                  filled: true,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  hintText: AppLocalizations.of(context)!.taskName,
+                  hintStyle: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: 15.sp,
+                  ),
+                ),
+                autofocus: true,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return AppLocalizations.of(context)!.showEnter;
+                  }
+                  return null;
+                },
+              ),
+            ),
+            TextField(
+              readOnly: true,
+              style: Theme.of(context).textTheme.headline6,
+              controller: editDate,
+              decoration: InputDecoration(
+                fillColor: Theme.of(context).primaryColor,
+                filled: true,
+                prefixIcon: InkWell(
+                  onTap: () async {
+                    DateTime? date = await pickDate();
+                    if (date == null) return;
+
+                    TimeOfDay? time = await pickTime();
+                    if (time == null) return;
+                    final dateTime = DateTime(
+                      date.year,
+                      date.month,
+                      date.day,
+                      time.hour,
+                      time.minute,
+                    );
+                    setState(() {
+                      this.dateTime = dateTime;
+                    });
+                    editDate.text =
+                        '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+                  },
+                  child: const Icon(
+                    Icons.calendar_month_outlined,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15.0),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                hintText: AppLocalizations.of(context)!.taskDate,
+                hintStyle: TextStyle(
+                  color: Colors.grey[600],
+                  fontSize: 15.sp,
+                ),
+              ),
+              autofocus: true,
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'Cancel'),
+            child: Text(
+              'Cancel',
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              if (homeCtrl.formKeyDialog.currentState!.validate()) {
+                homeCtrl.updateDoingTodo(
+                    title, date, editText.text, editDate.text);
+                Navigator.pop(context, 'Ok');
+              }
+            },
+            child: Text(
+              'OK',
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+      context: context,
+      initialDate: dateTime,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100));
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
 }

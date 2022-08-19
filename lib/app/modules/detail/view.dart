@@ -59,7 +59,7 @@ class _DetailPageState extends State<DetailPage> {
                       iconSize: theme.iconTheme.size,
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      padding: EdgeInsets.only(left: 5.w, right: 7.w),
                       child: Icon(
                         IconData(task.icon, fontFamily: 'MaterialIcons'),
                         color: color,
@@ -192,7 +192,7 @@ class _DetailPageState extends State<DetailPage> {
                   color: theme.dividerColor,
                 ),
               ),
-              DoingList(),
+              const DoingList(),
               DoneList(),
             ],
           ),

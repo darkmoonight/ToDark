@@ -9,6 +9,7 @@ class HomeController extends GetxController {
   HomeController({required this.taskRepository});
 
   final formKey = GlobalKey<FormState>();
+  final formKeyDialog = GlobalKey<FormFieldState>();
   final editCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   final tabIndex = 0.obs;
@@ -141,6 +142,16 @@ class HomeController extends GetxController {
     int index = doingTodos.indexWhere(
         (element) => mapEquals<String, dynamic>(doingTodo, element));
     doingTodos.removeAt(index);
+    doingTodos.refresh();
+  }
+
+  void updateDoingTodo(
+      String title, String? date, String newTitle, String? newDate) {
+    var doingTodo = {'title': title, 'date': date, 'done': false};
+    int index = doingTodos.indexWhere(
+        (element) => mapEquals<String, dynamic>(doingTodo, element));
+    var newDoingTodo = {'title': newTitle, 'date': newDate, 'done': false};
+    doingTodos[index] = newDoingTodo;
     doingTodos.refresh();
   }
 

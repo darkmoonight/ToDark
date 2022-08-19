@@ -157,7 +157,7 @@ class _AddDialogState extends State<AddDialog> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 5.w),
+                                padding: EdgeInsets.only(right: 7.w),
                                 child: Icon(
                                   IconData(
                                     element.icon,
