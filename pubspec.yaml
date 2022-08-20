@@ -25,6 +25,7 @@ dependencies:
   carousel_slider: ^4.1.1
   shared_preferences: ^2.0.15
   animated_theme_switcher: ^2.0.6
+  flutter_local_notifications: ^9.8.0+1
 
 
 dev_dependencies:
@@ -37,6 +38,8 @@ dev_dependencies:
 flutter_icons:
   android: true
   image_path: "assets/images/icons_todo.png"
+  adaptive_icon_background: "#1F1F1F"
+  adaptive_icon_foreground: "assets/images/icons_todo.png"
 
 flutter_native_splash:
   color: "#1F1F1F"
