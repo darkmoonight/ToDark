@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import '../../../../main.dart';
 
 class DoingList extends StatefulWidget {
   const DoingList({Key? key}) : super(key: key);
@@ -61,10 +65,14 @@ class _DoingListState extends State<DoingList> {
                               onDismissed: (DismissDirection direction) {
                                 if (direction == DismissDirection.startToEnd) {
                                   homeCtrl.deleteDoingTodo(element);
+                                  flutterLocalNotificationsPlugin
+                                      .cancel(element['id']);
                                 } else if (direction ==
                                     DismissDirection.endToStart) {
-                                  homeCtrl.doneTodo(
+                                  homeCtrl.doneTodo(element['id'],
                                       element['title'], element['date']);
+                                  flutterLocalNotificationsPlugin
+                                      .cancel(element['id']);
                                 }
                               },
                               background: Container(
@@ -111,6 +119,7 @@ class _DoingListState extends State<DoingList> {
                                             onPressed: () {
                                               showDialod(
                                                 context,
+                                                element['id'],
                                                 element['title'],
                                                 element['date'],
                                               );
@@ -157,7 +166,7 @@ class _DoingListState extends State<DoingList> {
     );
   }
 
-  void showDialod(BuildContext context, String title, String date) {
+  void showDialod(BuildContext context, int id, String title, String date) {
     final editText = TextEditingController(text: title);
     final editDate = TextEditingController(text: date);
     showDialog(
@@ -235,7 +244,7 @@ class _DoingListState extends State<DoingList> {
                       this.dateTime = dateTime;
                     });
                     editDate.text =
-                        '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+                        '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
                   },
                   child: const Icon(
                     Icons.calendar_month_outlined,
@@ -275,7 +284,9 @@ class _DoingListState extends State<DoingList> {
             onPressed: () {
               if (homeCtrl.formKeyDialog.currentState!.validate()) {
                 homeCtrl.updateDoingTodo(
-                    title, date, editText.text, editDate.text);
+                    id, title, date, editText.text, editDate.text);
+                flutterLocalNotificationsPlugin.cancel(id);
+                showNotification(id, editText.text, editDate.text);
                 Navigator.pop(context, 'Ok');
               }
             },
@@ -287,6 +298,21 @@ class _DoingListState extends State<DoingList> {
         ],
       ),
     );
+  }
+
+  Future showNotification(int id, String title, String date) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('13', 'ToDark',
+            importance: Importance.max, priority: Priority.high);
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    var scheduledTime = tz.TZDateTime.parse(tz.local, date);
+    flutterLocalNotificationsPlugin.zonedSchedule(id, title,
+        'Task completion time', scheduledTime, platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
 
   Future<DateTime?> pickDate() => showDatePicker(

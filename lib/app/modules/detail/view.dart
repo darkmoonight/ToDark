@@ -4,11 +4,14 @@ import 'package:dark_todo/app/modules/detail/widgets/done_list.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+import '../../../main.dart';
 import '../../core/values/colors.dart';
 
 class DetailPage extends StatefulWidget {
@@ -201,12 +204,15 @@ class _DetailPageState extends State<DetailPage> {
           padding: EdgeInsets.all(8.w),
           child: FloatingActionButton(
             onPressed: () {
+              final id = homeCtrl.random.nextInt(1000000);
               if (homeCtrl.formKey.currentState!.validate()) {
                 var success = homeCtrl.addTodo(
-                    homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
+                    id, homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
                 if (success) {
                   EasyLoading.showSuccess(
                       AppLocalizations.of(context)!.todoAdd);
+                  showNotification(
+                      id, homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
                 } else {
                   EasyLoading.showError(
                       AppLocalizations.of(context)!.todoExist);
@@ -243,7 +249,22 @@ class _DetailPageState extends State<DetailPage> {
       this.dateTime = dateTime;
     });
     homeCtrl.dateCtrl.text =
-        '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+        '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
+  }
+
+  Future showNotification(int id, String title, String date) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('13', 'ToDark',
+            importance: Importance.max, priority: Priority.high);
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    var scheduledTime = tz.TZDateTime.parse(tz.local, date);
+    flutterLocalNotificationsPlugin.zonedSchedule(id, title,
+        'Task completion time', scheduledTime, platformChannelSpecifics,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
 
   Future<DateTime?> pickDate() => showDatePicker(

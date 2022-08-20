@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dark_todo/app/data/models/task.dart';
 import 'package:dark_todo/app/data/services/storage/repository.dart';
 import 'package:flutter/foundation.dart';
@@ -19,6 +21,8 @@ class HomeController extends GetxController {
   final task = Rx<Task?>(null);
   final doingTodos = <dynamic>[].obs;
   final doneTodos = <dynamic>[].obs;
+
+  var random = new Random();
 
   @override
   void onInit() {
@@ -75,12 +79,12 @@ class HomeController extends GetxController {
     tasks.remove(task);
   }
 
-  updateTask(Task task, String title, String? date) {
+  updateTask(Task task, int id, String title, String? date) {
     var todos = task.todos ?? [];
     if (containeTodo(todos, title)) {
       return false;
     }
-    var todo = {'title': title, 'date': date, 'done': false};
+    var todo = {'id': id, 'title': title, 'date': date, 'done': false};
     todos.add(todo);
     var newTask = task.copyWith(todos: todos);
     int oldIdx = tasks.indexOf(task);
@@ -93,13 +97,13 @@ class HomeController extends GetxController {
     return todos.any((element) => element['title'] == title);
   }
 
-  bool addTodo(String title, String? date) {
-    var todo = {'title': title, 'date': date, 'done': false};
+  bool addTodo(int id, String title, String? date) {
+    var todo = {'id': id, 'title': title, 'date': date, 'done': false};
     if (doingTodos
         .any((element) => mapEquals<String, dynamic>(todo, element))) {
       return false;
     }
-    var doneTodo = {'title': title, 'date': date, 'done': true};
+    var doneTodo = {'id': id, 'title': title, 'date': date, 'done': true};
     if (doneTodos
         .any((element) => mapEquals<String, dynamic>(doneTodo, element))) {
       return false;
@@ -120,12 +124,12 @@ class HomeController extends GetxController {
     tasks.refresh();
   }
 
-  void doneTodo(String title, String? date) {
-    var doingTodo = {'title': title, 'date': date, 'done': false};
+  void doneTodo(int id, String title, String? date) {
+    var doingTodo = {'id': id, 'title': title, 'date': date, 'done': false};
     int index = doingTodos.indexWhere(
         (element) => mapEquals<String, dynamic>(doingTodo, element));
     doingTodos.removeAt(index);
-    var doneTodo = {'title': title, 'date': date, 'done': true};
+    var doneTodo = {'id': id, 'title': title, 'date': date, 'done': true};
     doneTodos.add(doneTodo);
     doingTodos.refresh();
     doneTodos.refresh();
@@ -146,11 +150,16 @@ class HomeController extends GetxController {
   }
 
   void updateDoingTodo(
-      String title, String? date, String newTitle, String? newDate) {
-    var doingTodo = {'title': title, 'date': date, 'done': false};
+      int id, String title, String? date, String newTitle, String? newDate) {
+    var doingTodo = {'id': id, 'title': title, 'date': date, 'done': false};
     int index = doingTodos.indexWhere(
         (element) => mapEquals<String, dynamic>(doingTodo, element));
-    var newDoingTodo = {'title': newTitle, 'date': newDate, 'done': false};
+    var newDoingTodo = {
+      'id': id,
+      'title': newTitle,
+      'date': newDate,
+      'done': false
+    };
     doingTodos[index] = newDoingTodo;
     doingTodos.refresh();
   }
