@@ -22,7 +22,7 @@ class HomeController extends GetxController {
   final doingTodos = <dynamic>[].obs;
   final doneTodos = <dynamic>[].obs;
 
-  var random = new Random();
+  var random = Random();
 
   @override
   void onInit() {

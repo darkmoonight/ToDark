@@ -4,7 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// ignore: unused_import, depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
+// ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 import '../../../../main.dart';
 
