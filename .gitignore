@@ -31,7 +31,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-.upload-keystore.jks
+.upload-keystore
 
 # Web related
 lib/generated_plugin_registrant.dart
