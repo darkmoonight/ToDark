@@ -23,7 +23,7 @@ class DoneList extends StatelessWidget {
                   horizontal: 15.w,
                 ),
                 child: Text(
-                  '${AppLocalizations.of(context)!.complet}(${homeCtrl.doneTodos.length})',
+                  '${AppLocalizations.of(context)!.complet} (${homeCtrl.doneTodos.length})',
                   style: theme.primaryTextTheme.subtitle1,
                 ),
               ),

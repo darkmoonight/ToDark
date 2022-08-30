@@ -278,7 +278,7 @@ class _DoingListState extends State<DoingList> {
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
             child: Text(
-              'Cancel',
+              AppLocalizations.of(context)!.cancel,
               style: Theme.of(context).textTheme.subtitle2,
             ),
           ),

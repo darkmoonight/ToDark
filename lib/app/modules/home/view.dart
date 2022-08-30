@@ -22,6 +22,7 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    var tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
     var theme = Theme.of(context);
     return WillPopScope(
       onWillPop: () async => false,
@@ -49,7 +50,7 @@ class HomePage extends GetView<HomeController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                  DateFormat.yMMMMEEEEd().format(
+                                  DateFormat.yMMMMEEEEd(tag).format(
                                     DateTime.now(),
                                   ),
                                   style: theme.textTheme.headline3),

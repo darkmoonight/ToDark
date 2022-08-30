@@ -63,12 +63,6 @@ class MyApp extends StatelessWidget {
             return GetMaterialApp(
               themeMode: themeController.theme,
               theme: theme,
-              localeResolutionCallback: (
-                locale,
-                supportedLocales,
-              ) {
-                return const Locale('en', '');
-              },
               localizationsDelegates: const [
                 AppLocalizations.delegate, // Add this line
                 GlobalMaterialLocalizations.delegate,
@@ -77,7 +71,16 @@ class MyApp extends StatelessWidget {
               ],
               supportedLocales: const [
                 Locale('en', ''),
+                Locale('ru', ''),
               ],
+              localeResolutionCallback: (locale, supportedLocales) {
+                for (var supportedLocale in supportedLocales) {
+                  if (supportedLocale.languageCode == locale?.languageCode) {
+                    return supportedLocale;
+                  }
+                }
+                return supportedLocales.first;
+              },
               debugShowCheckedModeBanner: false,
               home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
               initialBinding: HomeBinding(),
