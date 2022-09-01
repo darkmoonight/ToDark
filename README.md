@@ -4,14 +4,12 @@
 </div>
 
 ### Description
-In our application, you can group your tasks into categories and assign them a completion time. Localization and themes are also present.
+In our application, you can group your tasks into categories and assign them a completion time.
+
+Localization and themes are also present.
 
 ### Screenshots:
-![](/readme/Screenshot_20220831-141423.jpg)
-![](/readme/Screenshot_20220831-141440.jpg)
-![](/readme/Screenshot_20220831-141501.jpg)
-![](/readme/Screenshot_20220831-141515.jpg)
-![](/readme/Screenshot_20220831-141612.jpg)
+<img src="/readme/Screenshot_20220831-141423.jpg" width="150"/> <img src="/readme/Screenshot_20220831-141440.jpg" width="150"/> <img src="/readme/Screenshot_20220831-141501.jpg" width="150"/> <img src="/readme/Screenshot_20220831-141515.jpg" width="150"/> <img src="/readme/Screenshot_20220831-141612.jpg" width="150"/>
 
 ### Download: 
 [![Play Store](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.yoshi.todark) 
