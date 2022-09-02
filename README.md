@@ -1,5 +1,5 @@
 <div align="center">
-<img src="/assets/images/icons_todo.png" width="200"/>
+<img src="/assets/images/icons_todo.png" width="150"/>
 <h2>ToDark</h2>
 </div>
 
