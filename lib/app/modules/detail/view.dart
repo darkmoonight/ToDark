@@ -215,6 +215,7 @@ class _DetailPageState extends State<DetailPage> {
                       AppLocalizations.of(context)!.todoAdd);
                   showNotification(
                       id, homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
+                  homeCtrl.updateTodos();
                 } else {
                   EasyLoading.showError(
                       AppLocalizations.of(context)!.todoExist);

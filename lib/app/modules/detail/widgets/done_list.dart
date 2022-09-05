@@ -1,9 +1,15 @@
 import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// ignore: unused_import, depend_on_referenced_packages
+import 'package:timezone/data/latest_all.dart' as tz;
+// ignore: depend_on_referenced_packages
+import 'package:timezone/timezone.dart' as tz;
+import '../../../../main.dart';
 
 class DoneList extends StatelessWidget {
   final homeCtrl = Get.find<HomeController>();
@@ -35,14 +41,33 @@ class DoneList extends StatelessWidget {
                             top: 5.w, left: 15.w, right: 15.w, bottom: 10.w),
                         child: Dismissible(
                             key: ObjectKey(element),
-                            direction: DismissDirection.endToStart,
-                            onDismissed: (_) =>
-                                homeCtrl.deleteDoneTodo(element),
+                            onDismissed: (DismissDirection direction) {
+                              if (direction == DismissDirection.endToStart) {
+                                homeCtrl.deleteDoneTodo(element);
+                                homeCtrl.updateTodos();
+                              } else if (direction ==
+                                  DismissDirection.startToEnd) {
+                                homeCtrl.doingTodo(element['id'],
+                                    element['title'], element['date']);
+                                showNotification(element['id'],
+                                    element['title'], element['date']);
+                                homeCtrl.updateTodos();
+                              }
+                            },
                             background: Container(
-                              decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(15)),
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: 15.w,
+                                ),
+                                child: Icon(
+                                  Icons.close,
+                                  color: theme.iconTheme.color,
+                                  size: theme.iconTheme.size,
+                                ),
                               ),
+                            ),
+                            secondaryBackground: Container(
                               alignment: Alignment.centerRight,
                               child: Padding(
                                 padding: EdgeInsets.only(
@@ -101,4 +126,19 @@ class DoneList extends StatelessWidget {
           )
         : Container());
   }
+}
+
+Future showNotification(int id, String title, String date) async {
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+      AndroidNotificationDetails('13', 'ToDark',
+          importance: Importance.max, priority: Priority.high);
+  const NotificationDetails platformChannelSpecifics =
+      NotificationDetails(android: androidPlatformChannelSpecifics);
+
+  var scheduledTime = tz.TZDateTime.parse(tz.local, date);
+  flutterLocalNotificationsPlugin.zonedSchedule(id, title,
+      'Task completion time', scheduledTime, platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime);
 }

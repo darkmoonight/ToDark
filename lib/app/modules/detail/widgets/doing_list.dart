@@ -69,12 +69,14 @@ class _DoingListState extends State<DoingList> {
                                   homeCtrl.deleteDoingTodo(element);
                                   flutterLocalNotificationsPlugin
                                       .cancel(element['id']);
+                                  homeCtrl.updateTodos();
                                 } else if (direction ==
                                     DismissDirection.endToStart) {
                                   homeCtrl.doneTodo(element['id'],
                                       element['title'], element['date']);
                                   flutterLocalNotificationsPlugin
                                       .cancel(element['id']);
+                                  homeCtrl.updateTodos();
                                 }
                               },
                               background: Container(
