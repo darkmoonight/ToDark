@@ -28,12 +28,11 @@ dependencies:
   flutter_local_notifications: ^9.8.0+1
   flutter_native_timezone: ^2.0.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
-  flutter_launcher_icons: ^0.9.3
+  flutter_launcher_icons: ^0.10.0
   flutter_native_splash: ^2.2.7
 
 flutter_icons:
