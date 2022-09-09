@@ -144,7 +144,7 @@ class _DetailPageState extends State<DetailPage> {
                       fontSize: 15.sp,
                     ),
                   ),
-                  autofocus: true,
+                  autofocus: false,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
                       return AppLocalizations.of(context)!.showEnter;
@@ -188,7 +188,7 @@ class _DetailPageState extends State<DetailPage> {
                       fontSize: 15.sp,
                     ),
                   ),
-                  autofocus: true,
+                  autofocus: false,
                 ),
               ),
               Padding(
