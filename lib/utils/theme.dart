@@ -56,7 +56,7 @@ class TodoTheme {
       ),
       primaryTextTheme: baseLigth.primaryTextTheme.copyWith(
         subtitle1: TextStyle(
-          color: Colors.grey[600],
+          color: Colors.black,
           fontSize: 14.sp,
         ),
         subtitle2: TextStyle(
@@ -125,7 +125,7 @@ class TodoTheme {
       ),
       primaryTextTheme: baseLigth.primaryTextTheme.copyWith(
         subtitle1: TextStyle(
-          color: Colors.grey,
+          color: Colors.white,
           fontSize: 14.sp,
         ),
         subtitle2: TextStyle(

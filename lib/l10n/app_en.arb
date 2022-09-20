@@ -39,5 +39,6 @@
     "tasks": "Tasks",
     "addTask": "Add Task",
     "complet": "Completed",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "todo_list": "To-do list"
     }
