@@ -142,19 +142,18 @@ class _AddDialogState extends State<AddDialog> {
               ),
               Padding(
                 padding: EdgeInsets.only(
-                  left: 15.w,
-                  right: 15.w,
-                  bottom: 5.w,
-                ),
+                    left: 15.w, right: 15.w, bottom: 10.w, top: 5.w),
                 child: Text(
                   AppLocalizations.of(context)!.add,
                   style: theme.textTheme.subtitle1,
                 ),
               ),
               ...homeCtrl.tasks
-                  .map((element) => Obx(() => InkWell(
-                      onTap: () => homeCtrl.changeTask(element),
-                      child: Padding(
+                  .map(
+                    (element) => Obx(
+                      () => InkWell(
+                        onTap: () => homeCtrl.changeTask(element),
+                        child: Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: 10.w,
                             horizontal: 15.w,
@@ -176,7 +175,7 @@ class _AddDialogState extends State<AddDialog> {
                               Expanded(
                                 child: Text(
                                   element.title,
-                                  style: theme.textTheme.headline5,
+                                  style: theme.textTheme.headline6,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -186,7 +185,11 @@ class _AddDialogState extends State<AddDialog> {
                                   color: Colors.blue,
                                 )
                             ],
-                          )))))
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
                   .toList()
             ],
           ),
@@ -194,6 +197,9 @@ class _AddDialogState extends State<AddDialog> {
         floatingActionButton: Padding(
           padding: EdgeInsets.all(8.w),
           child: FloatingActionButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            elevation: 0,
             onPressed: () {
               final id = homeCtrl.random.nextInt(1000000);
               if (homeCtrl.formKey.currentState!.validate()) {

@@ -205,6 +205,9 @@ class _DetailPageState extends State<DetailPage> {
         floatingActionButton: Padding(
           padding: EdgeInsets.all(8.w),
           child: FloatingActionButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            elevation: 0,
             onPressed: () {
               final id = homeCtrl.random.nextInt(1000000);
               if (homeCtrl.formKey.currentState!.validate()) {

@@ -106,7 +106,9 @@ class AddCardList extends StatelessWidget {
                 child: Wrap(
                   spacing: 8.w,
                   children: icons
-                      .map((e) => Obx(() {
+                      .map(
+                        (e) => Obx(
+                          () {
                             final index = icons.indexOf(e);
                             return ChoiceChip(
                               selectedColor: theme.selectedRowColor,
@@ -120,7 +122,9 @@ class AddCardList extends StatelessWidget {
                                 homeCtrl.chipIndex.value = selected ? index : 0;
                               },
                             );
-                          }))
+                          },
+                        ),
+                      )
                       .toList(),
                 ),
               ),
@@ -130,6 +134,9 @@ class AddCardList extends StatelessWidget {
         floatingActionButton: Padding(
           padding: EdgeInsets.all(8.w),
           child: FloatingActionButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            elevation: 0,
             onPressed: () {
               if (homeCtrl.formKey.currentState!.validate()) {
                 if (homeCtrl.task.value == null) {
