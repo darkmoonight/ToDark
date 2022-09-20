@@ -1,5 +1,5 @@
-import 'package:dark_todo/app/core/values/colors.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,113 +18,108 @@ class DoneList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    return Obx(() => homeCtrl.doneTodos.isNotEmpty
-        ? ListView(
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 5.w,
-                  horizontal: 15.w,
+    return Obx(
+      () => homeCtrl.doneTodos.isNotEmpty
+          ? ListView(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 5.w,
+                    horizontal: 15.w,
+                  ),
+                  child: Text(
+                    '${AppLocalizations.of(context)!.complet} (${homeCtrl.doneTodos.length})',
+                    style: theme.primaryTextTheme.subtitle1,
+                  ),
                 ),
-                child: Text(
-                  '${AppLocalizations.of(context)!.complet} (${homeCtrl.doneTodos.length})',
-                  style: theme.primaryTextTheme.subtitle1,
-                ),
-              ),
-              Column(
-                children: [
-                  ...homeCtrl.doneTodos.map((element) {
-                    return Padding(
+                Column(
+                  children: [
+                    ...homeCtrl.doneTodos.map((element) {
+                      return Padding(
                         padding: EdgeInsets.only(
                             top: 5.w, left: 15.w, right: 15.w, bottom: 10.w),
                         child: Dismissible(
-                            key: ObjectKey(element),
-                            onDismissed: (DismissDirection direction) {
-                              if (direction == DismissDirection.endToStart) {
-                                homeCtrl.deleteDoneTodo(element);
-                                homeCtrl.updateTodos();
-                              } else if (direction ==
-                                  DismissDirection.startToEnd) {
-                                homeCtrl.doingTodo(element['id'],
-                                    element['title'], element['date']);
-                                showNotification(element['id'],
-                                    element['title'], element['date']);
-                                homeCtrl.updateTodos();
-                              }
-                            },
-                            background: Container(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15.w,
-                                ),
-                                child: Icon(
-                                  Icons.close,
-                                  color: theme.iconTheme.color,
-                                  size: theme.iconTheme.size,
+                          key: ObjectKey(element),
+                          onDismissed: (DismissDirection direction) {
+                            if (direction == DismissDirection.endToStart) {
+                              homeCtrl.deleteDoneTodo(element);
+                              homeCtrl.updateTodos();
+                            } else if (direction ==
+                                DismissDirection.startToEnd) {
+                              homeCtrl.doingTodo(element['id'],
+                                  element['title'], element['date']);
+                              showNotification(element['id'], element['title'],
+                                  element['date']);
+                              homeCtrl.updateTodos();
+                            }
+                          },
+                          background: Container(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                right: 15.w,
+                              ),
+                              child: Icon(
+                                Icons.close,
+                                color: theme.iconTheme.color,
+                                size: theme.iconTheme.size,
+                              ),
+                            ),
+                          ),
+                          secondaryBackground: Container(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                right: 15.w,
+                              ),
+                              child: Icon(
+                                Icons.delete,
+                                color: theme.iconTheme.color,
+                                size: theme.iconTheme.size,
+                              ),
+                            ),
+                          ),
+                          child: Container(
+                            height: 55.w,
+                            decoration: BoxDecoration(
+                              color: theme.primaryColor,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.w),
+                              child: CupertinoButton(
+                                onPressed: null,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        element['title'],
+                                        overflow: TextOverflow.ellipsis,
+                                        style: theme.primaryTextTheme.headline6,
+                                      ),
+                                    ),
+                                    Text(
+                                      element['date'],
+                                      overflow: TextOverflow.ellipsis,
+                                      style: theme.primaryTextTheme.subtitle2,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            secondaryBackground: Container(
-                              alignment: Alignment.centerRight,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15.w,
-                                ),
-                                child: Icon(
-                                  Icons.delete,
-                                  color: theme.iconTheme.color,
-                                  size: theme.iconTheme.size,
-                                ),
-                              ),
-                            ),
-                            child: Container(
-                                height: 55.w,
-                                decoration: BoxDecoration(
-                                  color: theme.primaryColor,
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(15)),
-                                ),
-                                child: Padding(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 10.w),
-                                    child: Row(
-                                      children: [
-                                        SizedBox(
-                                          child: Icon(
-                                            Icons.done,
-                                            color: blue,
-                                            size: theme.iconTheme.size,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 15.w),
-                                            child: Text(
-                                              element['title'],
-                                              overflow: TextOverflow.ellipsis,
-                                              style: theme
-                                                  .primaryTextTheme.headline6,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          element['date'],
-                                          overflow: TextOverflow.ellipsis,
-                                          style:
-                                              theme.primaryTextTheme.subtitle2,
-                                        ),
-                                      ],
-                                    )))));
-                  }).toList()
-                ],
-              )
-            ],
-          )
-        : Container());
+                          ),
+                        ),
+                      );
+                    }).toList()
+                  ],
+                ),
+              ],
+            )
+          : Container(),
+    );
   }
 }
 

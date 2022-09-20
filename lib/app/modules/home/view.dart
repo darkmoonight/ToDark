@@ -1,4 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
+import 'package:dark_todo/app/modules/shedule/view.dart';
 import 'package:dark_todo/utils/theme_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -181,7 +182,7 @@ class HomePage extends GetView<HomeController> {
                       ],
                     ),
                   ),
-                  // const SettingPage(),
+                  const ShedulePage(),
                 ],
               );
             },
@@ -191,13 +192,10 @@ class HomePage extends GetView<HomeController> {
               return Obx(
                 () => Padding(
                   padding: EdgeInsets.all(25.h),
-                  child: FloatingActionButton.extended(
-                    label: Text(
-                      controller.deleting.value
-                          ? AppLocalizations.of(context)!.todoDelete
-                          : AppLocalizations.of(context)!.todoCreate,
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                    ),
+                  child: FloatingActionButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    elevation: 0,
                     backgroundColor:
                         controller.deleting.value ? Colors.red : blue,
                     onPressed: () {
@@ -209,7 +207,7 @@ class HomePage extends GetView<HomeController> {
                             AppLocalizations.of(context)!.showCreate);
                       }
                     },
-                    icon: Icon(
+                    child: Icon(
                       controller.deleting.value ? Icons.delete : Icons.add,
                       color: Colors.white,
                     ),
@@ -224,6 +222,37 @@ class HomePage extends GetView<HomeController> {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
+          bottomNavigationBar: Obx(
+            () => Theme(
+              data: Theme.of(context).copyWith(
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+              ),
+              child: BottomNavigationBar(
+                onTap: (int index) => controller.changeTabIndex(index),
+                currentIndex: controller.tabIndex.value,
+                showSelectedLabels: false,
+                showUnselectedLabels: false,
+                selectedItemColor: blue,
+                items: const [
+                  BottomNavigationBarItem(
+                    label: 'Home',
+                    icon: Padding(
+                      padding: EdgeInsets.only(right: 20),
+                      child: Icon(Icons.apps_outlined),
+                    ),
+                  ),
+                  BottomNavigationBarItem(
+                    label: 'Shedule',
+                    icon: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Icon(Icons.calendar_month_outlined),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

@@ -61,7 +61,7 @@ class TodoTheme {
         ),
         subtitle2: TextStyle(
           color: Colors.grey[600],
-          fontSize: 13.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.bold,
         ),
         headline6: TextStyle(
@@ -130,7 +130,7 @@ class TodoTheme {
         ),
         subtitle2: TextStyle(
           color: Colors.grey,
-          fontSize: 13.sp,
+          fontSize: 12.sp,
           fontWeight: FontWeight.bold,
         ),
         headline6: TextStyle(
