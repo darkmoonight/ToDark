@@ -40,5 +40,6 @@
     "addTask": "Add Task",
     "complet": "Completed",
     "cancel": "Cancel",
-    "todo_list": "To-do list"
+    "todo_list": "To-do list",
+    "taskTime": "Task completion time"
     }

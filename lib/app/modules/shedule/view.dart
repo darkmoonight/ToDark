@@ -34,17 +34,25 @@ class _ShedulePageState extends State<ShedulePage> {
             ),
             Container(
               margin: EdgeInsets.symmetric(vertical: 5.w, horizontal: 10.w),
-              child: HorizontalDatePickerWidget(
-                locale: '$tag',
-                selectedColor: Colors.blue,
-                normalColor: theme.primaryColor,
-                normalTextColor: theme.dividerColor,
-                startDate: DateTime(2022, 09, 01),
-                endDate: DateTime(2100, 09, 01),
-                selectedDate: selectedDay,
-                widgetWidth: MediaQuery.of(context).size.width,
-                datePickerController: datePickerController,
-                onValueSelected: (date) {},
+              decoration: BoxDecoration(
+                color: theme.primaryColor,
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: HorizontalDatePickerWidget(
+                  locale: '$tag',
+                  selectedColor: Colors.blue,
+                  normalColor: theme.primaryColor,
+                  disabledColor: theme.primaryColor,
+                  normalTextColor: theme.dividerColor,
+                  startDate: DateTime(2022, 09, 01),
+                  endDate: DateTime(2100, 09, 01),
+                  selectedDate: selectedDay,
+                  widgetWidth: MediaQuery.of(context).size.width,
+                  datePickerController: datePickerController,
+                  onValueSelected: (date) {},
+                ),
               ),
             ),
             Divider(

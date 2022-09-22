@@ -159,7 +159,7 @@ class AddCardList extends StatelessWidget {
             },
             backgroundColor: blue,
             child: const Icon(
-              Icons.save,
+              Icons.add,
               color: Colors.white,
             ),
           ),

@@ -3,6 +3,7 @@
 import 'package:dark_todo/app/core/utils/extensions.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -112,8 +113,25 @@ class _AddDialogState extends State<AddDialog> {
                     fillColor: theme.primaryColor,
                     filled: true,
                     prefixIcon: InkWell(
-                      onTap: () async {
-                        pickDateTime();
+                      onTap: () {
+                        DatePicker.showDateTimePicker(
+                          context,
+                          showTitleActions: true,
+                          theme: DatePickerTheme(
+                            backgroundColor: theme.scaffoldBackgroundColor,
+                            cancelStyle: const TextStyle(color: Colors.red),
+                            itemStyle: TextStyle(
+                                color: theme.textTheme.headline6?.color),
+                          ),
+                          minTime: DateTime(2022, 09, 01),
+                          maxTime: DateTime(2100, 09, 01),
+                          onConfirm: (date) {
+                            homeCtrl.dateCtrl.text =
+                                '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+                          },
+                          currentTime: DateTime.now(),
+                          locale: getLocale(),
+                        );
                       },
                       child: const Icon(
                         Icons.calendar_month_outlined,
@@ -231,33 +249,13 @@ class _AddDialogState extends State<AddDialog> {
             },
             backgroundColor: blue,
             child: const Icon(
-              Icons.save,
+              Icons.add,
               color: Colors.white,
             ),
           ),
         ),
       ),
     );
-  }
-
-  Future pickDateTime() async {
-    DateTime? date = await pickDate();
-    if (date == null) return;
-
-    TimeOfDay? time = await pickTime();
-    if (time == null) return;
-    final dateTime = DateTime(
-      date.year,
-      date.month,
-      date.day,
-      time.hour,
-      time.minute,
-    );
-    setState(() {
-      this.dateTime = dateTime;
-    });
-    homeCtrl.dateCtrl.text =
-        '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
   }
 
   Future showNotification(int id, String title, String date) async {
@@ -268,19 +266,25 @@ class _AddDialogState extends State<AddDialog> {
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
     var scheduledTime = tz.TZDateTime.parse(tz.local, date);
-    flutterLocalNotificationsPlugin.zonedSchedule(id, title,
-        'Task completion time', scheduledTime, platformChannelSpecifics,
+    flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        AppLocalizations.of(context)!.taskTime,
+        scheduledTime,
+        platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  Future<DateTime?> pickDate() => showDatePicker(
-      context: context,
-      initialDate: dateTime,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100));
-  Future<TimeOfDay?> pickTime() => showTimePicker(
-      context: context,
-      initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
+  getLocale() {
+    Locale locale = Localizations.localeOf(context);
+    final LocaleType myLocal;
+    if (locale.toString() == "ru") {
+      myLocal = LocaleType.ru;
+    } else {
+      myLocal = LocaleType.en;
+    }
+    return myLocal;
+  }
 }

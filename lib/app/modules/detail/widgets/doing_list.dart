@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -225,24 +226,27 @@ class _DoingListState extends State<DoingList> {
                 fillColor: Theme.of(context).primaryColor,
                 filled: true,
                 prefixIcon: InkWell(
-                  onTap: () async {
-                    DateTime? date = await pickDate();
-                    if (date == null) return;
-
-                    TimeOfDay? time = await pickTime();
-                    if (time == null) return;
-                    final dateTime = DateTime(
-                      date.year,
-                      date.month,
-                      date.day,
-                      time.hour,
-                      time.minute,
+                  onTap: () {
+                    DatePicker.showDateTimePicker(
+                      context,
+                      showTitleActions: true,
+                      theme: DatePickerTheme(
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        cancelStyle: const TextStyle(color: Colors.red),
+                        itemStyle: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.headline6?.color),
+                      ),
+                      minTime: DateTime(2022, 09, 01),
+                      maxTime: DateTime(2100, 09, 01),
+                      onConfirm: (date) {
+                        editDate.text =
+                            '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+                      },
+                      currentTime: DateTime.now(),
+                      locale: getLocale(),
                     );
-                    setState(() {
-                      this.dateTime = dateTime;
-                    });
-                    editDate.text =
-                        '${dateTime.year}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
                   },
                   child: const Icon(
                     Icons.calendar_month_outlined,
@@ -306,19 +310,25 @@ class _DoingListState extends State<DoingList> {
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
     var scheduledTime = tz.TZDateTime.parse(tz.local, date);
-    flutterLocalNotificationsPlugin.zonedSchedule(id, title,
-        'Task completion time', scheduledTime, platformChannelSpecifics,
+    flutterLocalNotificationsPlugin.zonedSchedule(
+        id,
+        title,
+        AppLocalizations.of(context)!.taskTime,
+        scheduledTime,
+        platformChannelSpecifics,
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);
   }
 
-  Future<DateTime?> pickDate() => showDatePicker(
-      context: context,
-      initialDate: dateTime,
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100));
-  Future<TimeOfDay?> pickTime() => showTimePicker(
-      context: context,
-      initialTime: TimeOfDay(hour: dateTime.hour, minute: dateTime.minute));
+  getLocale() {
+    Locale locale = Localizations.localeOf(context);
+    final LocaleType myLocal;
+    if (locale.toString() == "ru") {
+      myLocal = LocaleType.ru;
+    } else {
+      myLocal = LocaleType.en;
+    }
+    return myLocal;
+  }
 }
