@@ -1,5 +1,4 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:dark_todo/app/modules/shedule/view.dart';
 import 'package:dark_todo/utils/theme_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -37,153 +36,143 @@ class HomePage extends GetView<HomeController> {
               var completedTasks = controller.getTotalDoneTask();
               var precent =
                   (completedTasks / createdTasks * 100).toStringAsFixed(0);
-              return IndexedStack(
-                index: controller.tabIndex.value,
-                children: [
-                  SafeArea(
-                    child: ListView(
-                      controller: ScrollController(),
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(
-                              top: 15.w, left: 17.w, bottom: 5.w, right: 14.w),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                  DateFormat.yMMMMEEEEd(tag).format(
-                                    DateTime.now(),
-                                  ),
-                                  style: theme.textTheme.headline3),
-                              ThemeSwitcher(
-                                builder: (context) => IconButton(
-                                  onPressed: () {
-                                    if (Get.isDarkMode) {
-                                      ThemeSwitcher.of(context).changeTheme(
-                                          theme: TodoTheme.lightTheme);
-                                      themeController
-                                          .changeThemeMode(ThemeMode.light);
-                                      themeController.saveTheme(false);
-                                    } else {
-                                      ThemeSwitcher.of(context).changeTheme(
-                                          theme: TodoTheme.darkTheme);
-                                      themeController
-                                          .changeThemeMode(ThemeMode.dark);
-                                      themeController.saveTheme(true);
-                                    }
-                                  },
-                                  icon: Icon(
-                                    Icons.brightness_4_outlined,
-                                    size: theme.iconTheme.size,
-                                    color: theme.iconTheme.color,
-                                  ),
-                                ),
+              return SafeArea(
+                child: ListView(
+                  controller: ScrollController(),
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 15.w, left: 17.w, bottom: 5.w, right: 14.w),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              DateFormat.yMMMMEEEEd(tag).format(
+                                DateTime.now(),
                               ),
-                            ],
+                              style: theme.textTheme.headline3),
+                          ThemeSwitcher(
+                            builder: (context) => IconButton(
+                              onPressed: () {
+                                if (Get.isDarkMode) {
+                                  ThemeSwitcher.of(context)
+                                      .changeTheme(theme: TodoTheme.lightTheme);
+                                  themeController
+                                      .changeThemeMode(ThemeMode.light);
+                                  themeController.saveTheme(false);
+                                } else {
+                                  ThemeSwitcher.of(context)
+                                      .changeTheme(theme: TodoTheme.darkTheme);
+                                  themeController
+                                      .changeThemeMode(ThemeMode.dark);
+                                  themeController.saveTheme(true);
+                                }
+                              },
+                              icon: Icon(
+                                Icons.brightness_4_outlined,
+                                size: theme.iconTheme.size,
+                                color: theme.iconTheme.color,
+                              ),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
-                        Container(
-                          height: 155.w,
-                          margin: EdgeInsets.symmetric(horizontal: 15.w),
-                          decoration: BoxDecoration(
-                            color: theme.primaryColor,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          child: Row(
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Container(
+                      height: 155.w,
+                      margin: EdgeInsets.symmetric(horizontal: 15.w),
+                      decoration: BoxDecoration(
+                        color: theme.primaryColor,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(20.0)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text(AppLocalizations.of(context)!.motiv,
-                                      style: theme.textTheme.headline2),
-                                  Text(
-                                    '$completedTasks ${AppLocalizations.of(context)!.ofMotiv} $createdTasks ${AppLocalizations.of(context)!.completed}',
-                                    style: theme.textTheme.subtitle1,
-                                  ),
-                                ],
+                              Text(AppLocalizations.of(context)!.motiv,
+                                  style: theme.textTheme.headline2),
+                              Text(
+                                '$completedTasks ${AppLocalizations.of(context)!.ofMotiv} $createdTasks ${AppLocalizations.of(context)!.completed}',
+                                style: theme.textTheme.subtitle1,
                               ),
-                              UnconstrainedBox(
-                                child: SizedBox(
-                                  width: 120.w,
-                                  height: 120.w,
-                                  child: CircularStepProgressIndicator(
-                                    totalSteps:
-                                        createdTasks == 0 ? 1 : createdTasks,
-                                    currentStep: completedTasks,
-                                    stepSize: 4.w,
-                                    selectedColor: green,
-                                    unselectedColor:
-                                        theme.unselectedWidgetColor,
-                                    padding: 0,
-                                    selectedStepSize: 6.w,
-                                    roundedCap: (_, __) => true,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                            '${createdTasks == 0 ? 0 : precent} %',
-                                            style: theme.textTheme.headline2),
-                                        SizedBox(
-                                          height: 6.h,
-                                        ),
-                                        Text(
-                                            AppLocalizations.of(context)!
-                                                .efficiency,
-                                            style: theme.textTheme.subtitle1)
-                                      ],
+                            ],
+                          ),
+                          UnconstrainedBox(
+                            child: SizedBox(
+                              width: 120.w,
+                              height: 120.w,
+                              child: CircularStepProgressIndicator(
+                                totalSteps:
+                                    createdTasks == 0 ? 1 : createdTasks,
+                                currentStep: completedTasks,
+                                stepSize: 4.w,
+                                selectedColor: green,
+                                unselectedColor: theme.unselectedWidgetColor,
+                                padding: 0,
+                                selectedStepSize: 6.w,
+                                roundedCap: (_, __) => true,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('${createdTasks == 0 ? 0 : precent} %',
+                                        style: theme.textTheme.headline2),
+                                    SizedBox(
+                                      height: 6.h,
                                     ),
-                                  ),
+                                    Text(
+                                        AppLocalizations.of(context)!
+                                            .efficiency,
+                                        style: theme.textTheme.subtitle1)
+                                  ],
                                 ),
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 10.w,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 16.w, vertical: 10.w),
-                          child: Text(AppLocalizations.of(context)!.tasks,
-                              style: theme.textTheme.headline2),
-                        ),
-                        Obx(
-                          () => GridView.count(
-                            crossAxisCount: 2,
-                            shrinkWrap: true,
-                            physics: const ClampingScrollPhysics(),
-                            children: [
-                              ...controller.tasks
-                                  .map((element) => LongPressDraggable(
-                                      data: element,
-                                      onDragStarted: () =>
-                                          controller.changeDeleting(true),
-                                      onDraggableCanceled: (_, __) =>
-                                          controller.changeDeleting(false),
-                                      onDragEnd: (_) =>
-                                          controller.changeDeleting(false),
-                                      feedback: Opacity(
-                                        opacity: 0.8,
-                                        child: TaskCard(task: element),
-                                      ),
-                                      child: TaskCard(task: element)))
-                                  .toList(),
-                              AddCard(),
-                            ],
-                          ),
-                        )
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const ShedulePage(),
-                ],
+                    SizedBox(
+                      height: 10.w,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 10.w),
+                      child: Text(AppLocalizations.of(context)!.tasks,
+                          style: theme.textTheme.headline2),
+                    ),
+                    Obx(
+                      () => GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        children: [
+                          ...controller.tasks
+                              .map((element) => LongPressDraggable(
+                                  data: element,
+                                  onDragStarted: () =>
+                                      controller.changeDeleting(true),
+                                  onDraggableCanceled: (_, __) =>
+                                      controller.changeDeleting(false),
+                                  onDragEnd: (_) =>
+                                      controller.changeDeleting(false),
+                                  feedback: Opacity(
+                                    opacity: 0.8,
+                                    child: TaskCard(task: element),
+                                  ),
+                                  child: TaskCard(task: element)))
+                              .toList(),
+                          AddCard(),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               );
             },
           ),
@@ -191,7 +180,7 @@ class HomePage extends GetView<HomeController> {
             builder: (_, __, ___) {
               return Obx(
                 () => Padding(
-                  padding: EdgeInsets.all(25.h),
+                  padding: EdgeInsets.all(8.w),
                   child: FloatingActionButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
@@ -219,39 +208,6 @@ class HomePage extends GetView<HomeController> {
               controller.deleteTask(task);
               EasyLoading.showSuccess(AppLocalizations.of(context)!.delete);
             },
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          bottomNavigationBar: Obx(
-            () => Theme(
-              data: Theme.of(context).copyWith(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              child: BottomNavigationBar(
-                onTap: (int index) => controller.changeTabIndex(index),
-                currentIndex: controller.tabIndex.value,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                selectedItemColor: blue,
-                items: const [
-                  BottomNavigationBarItem(
-                    label: 'Home',
-                    icon: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Icon(Icons.apps_outlined),
-                    ),
-                  ),
-                  BottomNavigationBarItem(
-                    label: 'Shedule',
-                    icon: Padding(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Icon(Icons.calendar_month_outlined),
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ),
         ),
       ),

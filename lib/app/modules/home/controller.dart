@@ -14,7 +14,6 @@ class HomeController extends GetxController {
   final formKeyDialog = GlobalKey<FormFieldState>();
   final editCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
-  final tabIndex = 0.obs;
   final chipIndex = 0.obs;
   final deleting = false.obs;
   final tasks = <Task>[].obs;
@@ -35,10 +34,6 @@ class HomeController extends GetxController {
   void onClose() {
     editCtrl.dispose();
     super.onClose();
-  }
-
-  void changeTabIndex(int index) {
-    tabIndex.value = index;
   }
 
   void changeChipIndex(int value) {

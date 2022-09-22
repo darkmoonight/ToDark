@@ -27,8 +27,6 @@ dependencies:
   animated_theme_switcher: ^2.0.6
   flutter_local_notifications: ^9.8.0+1
   flutter_native_timezone: ^2.0.0
-  timeline_tile: ^2.0.0
-  horizontal_center_date_picker: ^2.1.1
   flutter_datetime_picker: ^1.5.1
 
 dev_dependencies:
