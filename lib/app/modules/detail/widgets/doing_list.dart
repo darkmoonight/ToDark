@@ -222,36 +222,29 @@ class _DoingListState extends State<DoingList> {
               readOnly: true,
               style: Theme.of(context).textTheme.headline6,
               controller: editDate,
+              onTap: () {
+                DatePicker.showDateTimePicker(
+                  context,
+                  showTitleActions: true,
+                  theme: DatePickerTheme(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    cancelStyle: const TextStyle(color: Colors.red),
+                    itemStyle: TextStyle(
+                        color: Theme.of(context).textTheme.headline6?.color),
+                  ),
+                  minTime: DateTime(2022, 09, 01),
+                  maxTime: DateTime(2100, 09, 01),
+                  onConfirm: (date) {
+                    editDate.text =
+                        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+                  },
+                  currentTime: DateTime.now(),
+                  locale: getLocale(),
+                );
+              },
               decoration: InputDecoration(
                 fillColor: Theme.of(context).primaryColor,
                 filled: true,
-                prefixIcon: InkWell(
-                  onTap: () {
-                    DatePicker.showDateTimePicker(
-                      context,
-                      showTitleActions: true,
-                      theme: DatePickerTheme(
-                        backgroundColor:
-                            Theme.of(context).scaffoldBackgroundColor,
-                        cancelStyle: const TextStyle(color: Colors.red),
-                        itemStyle: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.headline6?.color),
-                      ),
-                      minTime: DateTime(2022, 09, 01),
-                      maxTime: DateTime(2100, 09, 01),
-                      onConfirm: (date) {
-                        editDate.text =
-                            '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-                      },
-                      currentTime: DateTime.now(),
-                      locale: getLocale(),
-                    );
-                  },
-                  child: const Icon(
-                    Icons.calendar_month_outlined,
-                  ),
-                ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(15.0),
                   borderSide: BorderSide(

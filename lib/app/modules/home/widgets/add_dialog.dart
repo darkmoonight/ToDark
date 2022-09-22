@@ -109,34 +109,29 @@ class _AddDialogState extends State<AddDialog> {
                   readOnly: true,
                   style: theme.textTheme.headline6,
                   controller: homeCtrl.dateCtrl,
+                  onTap: () {
+                    DatePicker.showDateTimePicker(
+                      context,
+                      showTitleActions: true,
+                      theme: DatePickerTheme(
+                        backgroundColor: theme.scaffoldBackgroundColor,
+                        cancelStyle: const TextStyle(color: Colors.red),
+                        itemStyle:
+                            TextStyle(color: theme.textTheme.headline6?.color),
+                      ),
+                      minTime: DateTime(2022, 09, 01),
+                      maxTime: DateTime(2100, 09, 01),
+                      onConfirm: (date) {
+                        homeCtrl.dateCtrl.text =
+                            '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+                      },
+                      currentTime: DateTime.now(),
+                      locale: getLocale(),
+                    );
+                  },
                   decoration: InputDecoration(
                     fillColor: theme.primaryColor,
                     filled: true,
-                    prefixIcon: InkWell(
-                      onTap: () {
-                        DatePicker.showDateTimePicker(
-                          context,
-                          showTitleActions: true,
-                          theme: DatePickerTheme(
-                            backgroundColor: theme.scaffoldBackgroundColor,
-                            cancelStyle: const TextStyle(color: Colors.red),
-                            itemStyle: TextStyle(
-                                color: theme.textTheme.headline6?.color),
-                          ),
-                          minTime: DateTime(2022, 09, 01),
-                          maxTime: DateTime(2100, 09, 01),
-                          onConfirm: (date) {
-                            homeCtrl.dateCtrl.text =
-                                '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-                          },
-                          currentTime: DateTime.now(),
-                          locale: getLocale(),
-                        );
-                      },
-                      child: const Icon(
-                        Icons.calendar_month_outlined,
-                      ),
-                    ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15.0),
                       borderSide: BorderSide(
