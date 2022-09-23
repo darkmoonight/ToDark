@@ -4,15 +4,15 @@
 </div>
 
 ### Description
-In our application, you can group your tasks into categories and assign them a completion time.
+Our application allows you to distribute tasks into categories that you create yourself. You can also assign a time to each task and you will receive notifications at the specified time.
 
-Localization and themes are also present.
+There are two themes - light and dark, and localization is also present.
 
 ### Screenshots:
 <img src="/readme/home.jpg" width="150"/> <img src="/readme/add_card.jpg" width="150"/> <img src="/readme/add_task.jpg" width="150"/> <img src="/readme/null_task.jpg" width="150"/> <img src="/readme/tasks.jpg" width="150"/>
 
 ### Download: 
 [![Play Store](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.yoshi.todark) 
-[![AppGallery](https://img.shields.io/badge/AppGallery-red?style=for-the-badge)]() 
+[![AppGallery](https://img.shields.io/badge/AppGallery-red?style=for-the-badge)](https://appgallery.huawei.ru/app/C107003991) 
 [![RuStore](https://img.shields.io/badge/RuStore-blue?style=for-the-badge&logo=vk&logoColor=white)]() 
 
