@@ -154,7 +154,6 @@ class _DoingListState extends State<DoingList> {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15.w),
                         child: Divider(
-                          // thickness: 1,
                           color: theme.dividerColor,
                         ),
                       ),

@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
               themeMode: themeController.theme,
               theme: theme,
               localizationsDelegates: const [
-                AppLocalizations.delegate, // Add this line
+                AppLocalizations.delegate,
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
