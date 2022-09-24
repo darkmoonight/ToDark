@@ -3,7 +3,7 @@
 <h2>ToDark</h2>
 </div>
 
-### Description
+### Description:
 Our application allows you to distribute tasks into categories that you create yourself. You can also assign a time to each task and you will receive notifications at the specified time.
 
 There are two themes - light and dark, and localization is also present.
