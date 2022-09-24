@@ -14,5 +14,5 @@ There are two themes - light and dark, and localization is also present.
 ### Download: 
 [![Play Store](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.yoshi.todark) 
 [![AppGallery](https://img.shields.io/badge/AppGallery-red?style=for-the-badge)](https://appgallery.huawei.ru/app/C107003991) 
-[![RuStore](https://img.shields.io/badge/RuStore-blue?style=for-the-badge&logo=vk&logoColor=white)]() 
+[![RuStore](https://img.shields.io/badge/RuStore-blue?style=for-the-badge&logo=vk&logoColor=white)](https://apps.rustore.ru/app/com.yoshi.todark) 
 
