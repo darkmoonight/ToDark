@@ -54,8 +54,11 @@ class _DoneListState extends State<DoneList> {
                               homeCtrl.updateTodos();
                             } else if (direction ==
                                 DismissDirection.startToEnd) {
-                              homeCtrl.doingTodo(element['id'],
-                                  element['title'], element['date']);
+                              homeCtrl.doingTodo(
+                                  element['id'],
+                                  element['title'],
+                                  element['desc'],
+                                  element['date']);
                               showNotification(element['id'], element['title'],
                                   element['date']);
                               homeCtrl.updateTodos();

@@ -13,6 +13,7 @@ class HomeController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final formKeyDialog = GlobalKey<FormFieldState>();
   final editCtrl = TextEditingController();
+  final descCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
   final chipIndex = 0.obs;
   final deleting = false.obs;
@@ -74,12 +75,18 @@ class HomeController extends GetxController {
     tasks.remove(task);
   }
 
-  updateTask(Task task, int id, String title, String? date) {
+  updateTask(Task task, int id, String title, String? desc, String? date) {
     var todos = task.todos ?? [];
     if (containeTodo(todos, title)) {
       return false;
     }
-    var todo = {'id': id, 'title': title, 'date': date, 'done': false};
+    var todo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': false
+    };
     todos.add(todo);
     var newTask = task.copyWith(todos: todos);
     int oldIdx = tasks.indexOf(task);
@@ -92,13 +99,25 @@ class HomeController extends GetxController {
     return todos.any((element) => element['title'] == title);
   }
 
-  bool addTodo(int id, String title, String? date) {
-    var todo = {'id': id, 'title': title, 'date': date, 'done': false};
+  bool addTodo(int id, String title, String? desc, String? date) {
+    var todo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': false
+    };
     if (doingTodos
         .any((element) => mapEquals<String, dynamic>(todo, element))) {
       return false;
     }
-    var doneTodo = {'id': id, 'title': title, 'date': date, 'done': true};
+    var doneTodo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': true
+    };
     if (doneTodos
         .any((element) => mapEquals<String, dynamic>(doneTodo, element))) {
       return false;
@@ -119,23 +138,47 @@ class HomeController extends GetxController {
     tasks.refresh();
   }
 
-  void doneTodo(int id, String title, String? date) {
-    var doingTodo = {'id': id, 'title': title, 'date': date, 'done': false};
+  void doneTodo(int id, String title, String? desc, String? date) {
+    var doingTodo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': false
+    };
     int index = doingTodos.indexWhere(
         (element) => mapEquals<String, dynamic>(doingTodo, element));
     doingTodos.removeAt(index);
-    var doneTodo = {'id': id, 'title': title, 'date': date, 'done': true};
+    var doneTodo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': true
+    };
     doneTodos.add(doneTodo);
     doingTodos.refresh();
     doneTodos.refresh();
   }
 
-  void doingTodo(int id, String title, String? date) {
-    var doneTodo = {'id': id, 'title': title, 'date': date, 'done': true};
+  void doingTodo(int id, String title, String? desc, String? date) {
+    var doneTodo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': true
+    };
     int index = doneTodos
         .indexWhere((element) => mapEquals<String, dynamic>(doneTodo, element));
     doneTodos.removeAt(index);
-    var doingTodo = {'id': id, 'title': title, 'date': date, 'done': false};
+    var doingTodo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': false
+    };
     doingTodos.add(doingTodo);
     doneTodos.refresh();
     doingTodos.refresh();
@@ -155,14 +198,21 @@ class HomeController extends GetxController {
     doingTodos.refresh();
   }
 
-  void updateDoingTodo(
-      int id, String title, String? date, String newTitle, String? newDate) {
-    var doingTodo = {'id': id, 'title': title, 'date': date, 'done': false};
+  void updateDoingTodo(int id, String title, String? desc, String? date,
+      String newTitle, String? newDesc, String? newDate) {
+    var doingTodo = {
+      'id': id,
+      'title': title,
+      'desc': desc,
+      'date': date,
+      'done': false
+    };
     int index = doingTodos.indexWhere(
         (element) => mapEquals<String, dynamic>(doingTodo, element));
     var newDoingTodo = {
       'id': id,
       'title': newTitle,
+      'desc': newDesc,
       'date': newDate,
       'done': false
     };

@@ -11,6 +11,7 @@ import 'package:timezone/data/latest_all.dart' as tz;
 // ignore: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;
 import '../../../../main.dart';
+import '../../../core/values/colors.dart';
 
 class DoingList extends StatefulWidget {
   const DoingList({Key? key}) : super(key: key);
@@ -74,8 +75,12 @@ class _DoingListState extends State<DoingList> {
                               homeCtrl.updateTodos();
                             } else if (direction ==
                                 DismissDirection.endToStart) {
-                              homeCtrl.doneTodo(element['id'], element['title'],
-                                  element['date']);
+                              homeCtrl.doneTodo(
+                                element['id'],
+                                element['title'],
+                                element['desc'],
+                                element['date'],
+                              );
                               flutterLocalNotificationsPlugin
                                   .cancel(element['id']);
                               homeCtrl.updateTodos();
@@ -108,7 +113,7 @@ class _DoingListState extends State<DoingList> {
                             ),
                           ),
                           child: Container(
-                            height: 55.w,
+                            width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               color: theme.primaryColor,
                               borderRadius:
@@ -122,26 +127,45 @@ class _DoingListState extends State<DoingList> {
                                     context,
                                     element['id'],
                                     element['title'],
+                                    element['desc'],
                                     element['date'],
                                   );
                                 },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Expanded(
-                                      child: Text(
-                                        element['title'],
-                                        overflow: TextOverflow.ellipsis,
-                                        style: theme.textTheme.headline6,
-                                        textAlign: TextAlign.start,
-                                      ),
-                                    ),
                                     Text(
-                                      element['date'],
+                                      element['title'],
                                       overflow: TextOverflow.ellipsis,
-                                      style: theme.primaryTextTheme.subtitle2,
-                                      textAlign: TextAlign.end,
+                                      style: theme.textTheme.headline6,
                                     ),
+                                    element['desc'].toString().isEmpty
+                                        ? const SizedBox.shrink()
+                                        : Flexible(
+                                            child: SizedBox(height: 10.w)),
+                                    element['desc'].toString().isEmpty
+                                        ? const SizedBox.shrink()
+                                        : Text(
+                                            element['desc'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: theme
+                                                .primaryTextTheme.subtitle2,
+                                          ),
+                                    element['date'].toString().isEmpty
+                                        ? const SizedBox.shrink()
+                                        : Flexible(
+                                            child: SizedBox(height: 10.w)),
+                                    element['date'].toString().isEmpty
+                                        ? const SizedBox.shrink()
+                                        : Text(
+                                            element['date'],
+                                            overflow: TextOverflow.ellipsis,
+                                            style: theme
+                                                .primaryTextTheme.subtitle2,
+                                          ),
                                   ],
                                 ),
                               ),
@@ -164,132 +188,196 @@ class _DoingListState extends State<DoingList> {
     );
   }
 
-  void showDialod(BuildContext context, int id, String title, String date) {
+  void showDialod(
+      BuildContext context, int id, String title, String desc, String date) {
     final editText = TextEditingController(text: title);
+    final editDesc = TextEditingController(text: desc);
     final editDate = TextEditingController(text: date);
+    var theme = Theme.of(context);
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(15.w))),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Text(
-          AppLocalizations.of(context)!.editTask,
-          style: Theme.of(context).textTheme.headline4,
-          textAlign: TextAlign.center,
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: EdgeInsets.only(bottom: 15.w),
-              child: TextFormField(
-                key: homeCtrl.formKeyDialog,
-                style: Theme.of(context).textTheme.headline6,
-                controller: editText,
-                decoration: InputDecoration(
-                  fillColor: Theme.of(context).primaryColor,
-                  filled: true,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+      builder: (context) => Scaffold(
+        body: SafeArea(
+          child: ListView(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(10.w),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(Icons.close),
+                      color: theme.iconTheme.color,
+                      iconSize: theme.iconTheme.size,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+                    Expanded(
+                      child: Text(
+                        AppLocalizations.of(context)!.editTask,
+                        style: Theme.of(context).textTheme.headline4,
+                      ),
                     ),
-                  ),
-                  hintText: AppLocalizations.of(context)!.taskName,
-                  hintStyle: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 15.sp,
-                  ),
+                  ],
                 ),
-                autofocus: true,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return AppLocalizations.of(context)!.showEnter;
-                  }
-                  return null;
-                },
               ),
-            ),
-            TextField(
-              readOnly: true,
-              style: Theme.of(context).textTheme.headline6,
-              controller: editDate,
-              onTap: () {
-                DatePicker.showDateTimePicker(
-                  context,
-                  showTitleActions: true,
-                  theme: DatePickerTheme(
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    cancelStyle: const TextStyle(color: Colors.red),
-                    itemStyle: TextStyle(
-                        color: Theme.of(context).textTheme.headline6?.color),
+              Padding(
+                padding: EdgeInsets.only(
+                    left: 15.w, right: 15.w, bottom: 10.w, top: 5.w),
+                child: TextFormField(
+                  key: homeCtrl.formKeyDialog,
+                  style: Theme.of(context).textTheme.headline6,
+                  controller: editText,
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).primaryColor,
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.taskName,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15.sp,
+                    ),
                   ),
-                  minTime: DateTime(2022, 09, 01),
-                  maxTime: DateTime(2100, 09, 01),
-                  onConfirm: (date) {
-                    editDate.text =
-                        '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+                  autofocus: false,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return AppLocalizations.of(context)!.showEnter;
+                    }
+                    return null;
                   },
-                  currentTime: DateTime.now(),
-                  locale: getLocale(),
-                );
-              },
-              decoration: InputDecoration(
-                fillColor: Theme.of(context).primaryColor,
-                filled: true,
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).primaryColor,
-                  ),
-                ),
-                hintText: AppLocalizations.of(context)!.taskDate,
-                hintStyle: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: 15.sp,
                 ),
               ),
-              autofocus: true,
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: Text(
-              AppLocalizations.of(context)!.cancel,
-              style: Theme.of(context).textTheme.subtitle2,
-            ),
+              Padding(
+                padding: EdgeInsets.only(
+                    left: 15.w, right: 15.w, bottom: 10.w, top: 5.w),
+                child: TextFormField(
+                  maxLines: 8,
+                  minLines: 1,
+                  style: Theme.of(context).textTheme.headline6,
+                  controller: editDesc,
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).primaryColor,
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.taskDesc,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                  autofocus: false,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                    left: 15.w, right: 15.w, bottom: 10.w, top: 5.w),
+                child: TextField(
+                  readOnly: true,
+                  style: Theme.of(context).textTheme.headline6,
+                  controller: editDate,
+                  onTap: () {
+                    DatePicker.showDateTimePicker(
+                      context,
+                      showTitleActions: true,
+                      theme: DatePickerTheme(
+                        backgroundColor:
+                            Theme.of(context).scaffoldBackgroundColor,
+                        cancelStyle: const TextStyle(color: Colors.red),
+                        itemStyle: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.headline6?.color),
+                      ),
+                      minTime: DateTime(2022, 09, 01),
+                      maxTime: DateTime(2100, 09, 01),
+                      onConfirm: (date) {
+                        editDate.text =
+                            '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+                      },
+                      currentTime: DateTime.now(),
+                      locale: getLocale(),
+                    );
+                  },
+                  decoration: InputDecoration(
+                    fillColor: Theme.of(context).primaryColor,
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.taskDate,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                  autofocus: false,
+                ),
+              ),
+            ],
           ),
-          TextButton(
+        ),
+        floatingActionButton: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: FloatingActionButton(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            elevation: 0,
             onPressed: () {
               if (homeCtrl.formKeyDialog.currentState!.validate()) {
                 homeCtrl.updateDoingTodo(
-                    id, title, date, editText.text, editDate.text);
+                  id,
+                  title,
+                  desc,
+                  date,
+                  editText.text,
+                  editDesc.text,
+                  editDate.text,
+                );
                 flutterLocalNotificationsPlugin.cancel(id);
                 showNotification(id, editText.text, editDate.text);
-                Navigator.pop(context, 'Ok');
+                Get.back();
               }
             },
-            child: Text(
-              'OK',
-              style: Theme.of(context).textTheme.subtitle2,
+            backgroundColor: blue,
+            child: const Icon(
+              Icons.save,
+              color: Colors.white,
             ),
           ),
-        ],
+        ),
       ),
     );
   }

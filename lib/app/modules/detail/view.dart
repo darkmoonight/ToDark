@@ -38,6 +38,7 @@ class _DetailPageState extends State<DetailPage> {
         homeCtrl.updateTodos();
         homeCtrl.changeTask(null);
         homeCtrl.editCtrl.clear();
+        homeCtrl.descCtrl.clear();
         homeCtrl.dateCtrl.clear();
         return true;
       },
@@ -57,12 +58,15 @@ class _DetailPageState extends State<DetailPage> {
                         Get.back();
                         homeCtrl.updateTodos();
                         homeCtrl.changeTask(null);
+                        homeCtrl.descCtrl.clear();
                         homeCtrl.editCtrl.clear();
                         homeCtrl.dateCtrl.clear();
                       },
                       icon: const Icon(Icons.arrow_back),
                       color: theme.iconTheme.color,
                       iconSize: theme.iconTheme.size,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 5.w, right: 7.w),
@@ -156,6 +160,37 @@ class _DetailPageState extends State<DetailPage> {
               ),
               Padding(
                 padding: EdgeInsets.only(right: 15.w, left: 15.w, bottom: 15.w),
+                child: TextFormField(
+                  maxLines: 8,
+                  minLines: 1,
+                  style: theme.textTheme.headline6,
+                  controller: homeCtrl.descCtrl,
+                  decoration: InputDecoration(
+                    fillColor: theme.primaryColor,
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.taskDesc,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                  autofocus: false,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(right: 15.w, left: 15.w, bottom: 15.w),
                 child: TextField(
                   readOnly: true,
                   style: theme.textTheme.headline6,
@@ -225,18 +260,26 @@ class _DetailPageState extends State<DetailPage> {
               final id = homeCtrl.random.nextInt(1000000);
               if (homeCtrl.formKey.currentState!.validate()) {
                 var success = homeCtrl.addTodo(
-                    id, homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
+                  id,
+                  homeCtrl.editCtrl.text,
+                  homeCtrl.descCtrl.text,
+                  homeCtrl.dateCtrl.text,
+                );
                 if (success) {
                   EasyLoading.showSuccess(
                       AppLocalizations.of(context)!.todoAdd);
                   showNotification(
-                      id, homeCtrl.editCtrl.text, homeCtrl.dateCtrl.text);
+                    id,
+                    homeCtrl.editCtrl.text,
+                    homeCtrl.dateCtrl.text,
+                  );
                   homeCtrl.updateTodos();
                 } else {
                   EasyLoading.showError(
                       AppLocalizations.of(context)!.todoExist);
                 }
                 homeCtrl.editCtrl.clear();
+                homeCtrl.descCtrl.clear();
                 homeCtrl.dateCtrl.clear();
               }
             },

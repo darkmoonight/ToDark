@@ -43,6 +43,8 @@ class AddCardList extends StatelessWidget {
                       icon: const Icon(Icons.close),
                       color: theme.iconTheme.color,
                       iconSize: theme.iconTheme.size,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.w),

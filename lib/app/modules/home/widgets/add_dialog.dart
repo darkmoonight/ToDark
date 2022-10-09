@@ -31,6 +31,7 @@ class _AddDialogState extends State<AddDialog> {
     return WillPopScope(
       onWillPop: () async {
         homeCtrl.editCtrl.clear();
+        homeCtrl.descCtrl.clear();
         homeCtrl.dateCtrl.clear();
         homeCtrl.changeTask(null);
         return true;
@@ -49,12 +50,15 @@ class _AddDialogState extends State<AddDialog> {
                       onPressed: () {
                         Get.back();
                         homeCtrl.editCtrl.clear();
+                        homeCtrl.descCtrl.clear();
                         homeCtrl.dateCtrl.clear();
                         homeCtrl.changeTask(null);
                       },
                       icon: const Icon(Icons.close),
                       iconSize: theme.iconTheme.size,
                       color: theme.iconTheme.color,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -100,6 +104,37 @@ class _AddDialogState extends State<AddDialog> {
                     }
                     return null;
                   },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 15.w, right: 15.w, bottom: 15.w),
+                child: TextFormField(
+                  maxLines: 8,
+                  minLines: 1,
+                  style: theme.textTheme.headline6,
+                  controller: homeCtrl.descCtrl,
+                  decoration: InputDecoration(
+                    fillColor: theme.primaryColor,
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                      borderSide: BorderSide(
+                        color: theme.primaryColor,
+                      ),
+                    ),
+                    hintText: AppLocalizations.of(context)!.taskDesc,
+                    hintStyle: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15.sp,
+                    ),
+                  ),
+                  autofocus: false,
                 ),
               ),
               Padding(
@@ -149,7 +184,7 @@ class _AddDialogState extends State<AddDialog> {
                       fontSize: 15.sp,
                     ),
                   ),
-                  autofocus: true,
+                  autofocus: false,
                 ),
               ),
               Padding(
@@ -223,6 +258,7 @@ class _AddDialogState extends State<AddDialog> {
                     homeCtrl.task.value!,
                     id,
                     homeCtrl.editCtrl.text,
+                    homeCtrl.descCtrl.text,
                     homeCtrl.dateCtrl.text,
                   );
                   if (success) {
@@ -237,6 +273,7 @@ class _AddDialogState extends State<AddDialog> {
                         AppLocalizations.of(context)!.todoExist);
                   }
                   homeCtrl.editCtrl.clear();
+                  homeCtrl.descCtrl.clear();
                   homeCtrl.dateCtrl.clear();
                 }
               }

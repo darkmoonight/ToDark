@@ -24,6 +24,7 @@
     "editTask": "Edit Task",
     "createTask": "Create New Task",
     "taskName": "Task Name",
+    "taskDesc": "Description",
     "taskDate": "Task Date",
     "showEnter": "Please enter your todo item",
     "add": "Add to",
