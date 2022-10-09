@@ -27,6 +27,13 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage> {
   final homeCtrl = Get.find<HomeController>();
   DateTime dateTime = DateTime.now();
+  bool _visible = false;
+
+  void toggle() {
+    setState(() {
+      _visible = !_visible;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +90,20 @@ class _DetailPageState extends State<DetailPage> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
+                    IconButton(
+                      onPressed: () {
+                        toggle();
+                      },
+                      icon: Icon(
+                        _visible == true
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                      ),
+                      color: theme.iconTheme.color,
+                      iconSize: theme.iconTheme.size,
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                    ),
                   ],
                 ),
               ),
@@ -123,170 +144,187 @@ class _DetailPageState extends State<DetailPage> {
                   ),
                 );
               }),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.w),
-                child: TextFormField(
-                  style: theme.textTheme.headline6,
-                  controller: homeCtrl.editCtrl,
-                  decoration: InputDecoration(
-                    fillColor: theme.primaryColor,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(
-                        color: theme.primaryColor,
+              Visibility(
+                visible: _visible,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 15.w, vertical: 15.w),
+                      child: TextFormField(
+                        style: theme.textTheme.headline6,
+                        controller: homeCtrl.editCtrl,
+                        decoration: InputDecoration(
+                          fillColor: theme.primaryColor,
+                          filled: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                          hintText: AppLocalizations.of(context)!.taskName,
+                          hintStyle: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 15.sp,
+                          ),
+                        ),
+                        autofocus: false,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return AppLocalizations.of(context)!.showEnter;
+                          }
+                          return null;
+                        },
                       ),
                     ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(
-                        color: theme.primaryColor,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 15.w, left: 15.w, bottom: 15.w),
+                      child: TextFormField(
+                        maxLines: 8,
+                        minLines: 1,
+                        style: theme.textTheme.headline6,
+                        controller: homeCtrl.descCtrl,
+                        decoration: InputDecoration(
+                          fillColor: theme.primaryColor,
+                          filled: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                          hintText: AppLocalizations.of(context)!.taskDesc,
+                          hintStyle: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 15.sp,
+                          ),
+                        ),
+                        autofocus: false,
                       ),
                     ),
-                    hintText: AppLocalizations.of(context)!.taskName,
-                    hintStyle: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 15.sp,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 15.w, left: 15.w, bottom: 10.w),
+                      child: TextField(
+                        readOnly: true,
+                        style: theme.textTheme.headline6,
+                        controller: homeCtrl.dateCtrl,
+                        onTap: () {
+                          DatePicker.showDateTimePicker(
+                            context,
+                            showTitleActions: true,
+                            theme: DatePickerTheme(
+                              backgroundColor: theme.scaffoldBackgroundColor,
+                              cancelStyle: const TextStyle(color: Colors.red),
+                              itemStyle: TextStyle(
+                                  color: theme.textTheme.headline6?.color),
+                            ),
+                            minTime: DateTime(2022, 09, 01),
+                            maxTime: DateTime(2100, 09, 01),
+                            onConfirm: (date) {
+                              homeCtrl.dateCtrl.text =
+                                  '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
+                            },
+                            currentTime: DateTime.now(),
+                            locale: getLocale(),
+                          );
+                        },
+                        decoration: InputDecoration(
+                          fillColor: theme.primaryColor,
+                          filled: true,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                            borderSide: BorderSide(
+                              color: theme.primaryColor,
+                            ),
+                          ),
+                          hintText: AppLocalizations.of(context)!.taskDate,
+                          hintStyle: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 15.sp,
+                          ),
+                        ),
+                        autofocus: false,
+                      ),
                     ),
-                  ),
-                  autofocus: false,
-                  validator: (value) {
-                    if (value == null || value.trim().isEmpty) {
-                      return AppLocalizations.of(context)!.showEnter;
-                    }
-                    return null;
-                  },
+                  ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 15.w, left: 15.w, bottom: 15.w),
-                child: TextFormField(
-                  maxLines: 8,
-                  minLines: 1,
-                  style: theme.textTheme.headline6,
-                  controller: homeCtrl.descCtrl,
-                  decoration: InputDecoration(
-                    fillColor: theme.primaryColor,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                    hintText: AppLocalizations.of(context)!.taskDesc,
-                    hintStyle: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 15.sp,
-                    ),
-                  ),
-                  autofocus: false,
-                ),
+              Divider(
+                color: theme.dividerColor,
+                thickness: 2,
+                height: 25.w,
+                indent: 15.w,
+                endIndent: 15.w,
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 15.w, left: 15.w, bottom: 15.w),
-                child: TextField(
-                  readOnly: true,
-                  style: theme.textTheme.headline6,
-                  controller: homeCtrl.dateCtrl,
-                  onTap: () {
-                    DatePicker.showDateTimePicker(
-                      context,
-                      showTitleActions: true,
-                      theme: DatePickerTheme(
-                        backgroundColor: theme.scaffoldBackgroundColor,
-                        cancelStyle: const TextStyle(color: Colors.red),
-                        itemStyle:
-                            TextStyle(color: theme.textTheme.headline6?.color),
-                      ),
-                      minTime: DateTime(2022, 09, 01),
-                      maxTime: DateTime(2100, 09, 01),
-                      onConfirm: (date) {
-                        homeCtrl.dateCtrl.text =
-                            '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
-                      },
-                      currentTime: DateTime.now(),
-                      locale: getLocale(),
-                    );
-                  },
-                  decoration: InputDecoration(
-                    fillColor: theme.primaryColor,
-                    filled: true,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15.0),
-                      borderSide: BorderSide(
-                        color: theme.primaryColor,
-                      ),
-                    ),
-                    hintText: AppLocalizations.of(context)!.taskDate,
-                    hintStyle: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 15.sp,
-                    ),
-                  ),
-                  autofocus: false,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                child: Divider(
-                  color: theme.dividerColor,
-                ),
+              SizedBox(
+                height: 2.w,
               ),
               const DoingList(),
               const DoneList(),
             ],
           ),
         ),
-        floatingActionButton: Padding(
-          padding: EdgeInsets.all(8.w),
-          child: FloatingActionButton(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            elevation: 0,
-            onPressed: () {
-              final id = homeCtrl.random.nextInt(1000000);
-              if (homeCtrl.formKey.currentState!.validate()) {
-                var success = homeCtrl.addTodo(
-                  id,
-                  homeCtrl.editCtrl.text,
-                  homeCtrl.descCtrl.text,
-                  homeCtrl.dateCtrl.text,
-                );
-                if (success) {
-                  EasyLoading.showSuccess(
-                      AppLocalizations.of(context)!.todoAdd);
-                  showNotification(
+        floatingActionButton: Visibility(
+          visible: _visible,
+          child: Padding(
+            padding: EdgeInsets.all(8.w),
+            child: FloatingActionButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              elevation: 0,
+              onPressed: () {
+                final id = homeCtrl.random.nextInt(1000000);
+                if (homeCtrl.formKey.currentState!.validate()) {
+                  var success = homeCtrl.addTodo(
                     id,
                     homeCtrl.editCtrl.text,
+                    homeCtrl.descCtrl.text,
                     homeCtrl.dateCtrl.text,
                   );
-                  homeCtrl.updateTodos();
-                } else {
-                  EasyLoading.showError(
-                      AppLocalizations.of(context)!.todoExist);
+                  if (success) {
+                    EasyLoading.showSuccess(
+                        AppLocalizations.of(context)!.todoAdd);
+                    showNotification(
+                      id,
+                      homeCtrl.editCtrl.text,
+                      homeCtrl.dateCtrl.text,
+                    );
+                    homeCtrl.updateTodos();
+                  } else {
+                    EasyLoading.showError(
+                        AppLocalizations.of(context)!.todoExist);
+                  }
+                  homeCtrl.editCtrl.clear();
+                  homeCtrl.descCtrl.clear();
+                  homeCtrl.dateCtrl.clear();
                 }
-                homeCtrl.editCtrl.clear();
-                homeCtrl.descCtrl.clear();
-                homeCtrl.dateCtrl.clear();
-              }
-            },
-            backgroundColor: blue,
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
+              },
+              backgroundColor: blue,
+              child: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             ),
           ),
         ),

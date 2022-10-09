@@ -174,12 +174,12 @@ class _DoingListState extends State<DoingList> {
                         ),
                       );
                     }).toList(),
-                    if (homeCtrl.doingTodos.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: Divider(
-                          color: theme.dividerColor,
-                        ),
+                    if (homeCtrl.doneTodos.isNotEmpty)
+                      Divider(
+                        color: theme.dividerColor,
+                        thickness: 1,
+                        indent: 15.w,
+                        endIndent: 15.w,
                       ),
                   ],
                 ),
