@@ -207,6 +207,7 @@ class _DoingListState extends State<DoingList> {
                   children: [
                     IconButton(
                       onPressed: () {
+                        homeCtrl.updateTodos();
                         Get.back();
                       },
                       icon: const Icon(Icons.close),
@@ -366,6 +367,7 @@ class _DoingListState extends State<DoingList> {
                   editDesc.text,
                   editDate.text,
                 );
+                homeCtrl.updateTodos();
                 flutterLocalNotificationsPlugin.cancel(id);
                 showNotification(id, editText.text, editDate.text);
                 Get.back();

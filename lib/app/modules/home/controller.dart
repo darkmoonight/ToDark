@@ -10,8 +10,8 @@ class HomeController extends GetxController {
   TaskRepository taskRepository;
   HomeController({required this.taskRepository});
 
-  final formKey = GlobalKey<FormState>();
-  final formKeyDialog = GlobalKey<FormFieldState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormFieldState> formKeyDialog = GlobalKey<FormFieldState>();
   final editCtrl = TextEditingController();
   final descCtrl = TextEditingController();
   final dateCtrl = TextEditingController();

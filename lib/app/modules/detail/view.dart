@@ -2,6 +2,7 @@ import 'package:dark_todo/app/core/utils/extensions.dart';
 import 'package:dark_todo/app/modules/detail/widgets/doing_list.dart';
 import 'package:dark_todo/app/modules/detail/widgets/done_list.dart';
 import 'package:dark_todo/app/modules/home/controller.dart';
+import 'package:dark_todo/app/modules/home/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -62,7 +63,8 @@ class _DetailPageState extends State<DetailPage> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Get.back();
+                        Get.off(() => HomePage(),
+                            transition: Transition.upToDown);
                         homeCtrl.updateTodos();
                         homeCtrl.changeTask(null);
                         homeCtrl.descCtrl.clear();
