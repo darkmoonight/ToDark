@@ -41,7 +41,5 @@
     "cancel": "Cancel",
     "todo_list": "To-do list",
     "taskTime": "Task completion time",
-    "week": "Week",
-    "two_week": "2 weeks",
-    "month": "Month"
+     "timeTask": "Outstanding tasks"
     }
