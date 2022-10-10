@@ -26,19 +26,16 @@ int? isviewed;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
 
-  const LinuxInitializationSettings initializationSettingsLinux =
-      LinuxInitializationSettings(defaultActionName: '');
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      linux: initializationSettingsLinux);
+  const InitializationSettings initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-  // tz.initializeTimeZones();
-  // tz.setLocalLocation(tz.getLocation(timeZoneName));
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isviewed = prefs.getInt('OnboardingScreen');

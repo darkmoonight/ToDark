@@ -229,7 +229,9 @@ class HomePage extends GetView<HomeController> {
                 highlightColor: Colors.transparent,
               ),
               child: BottomNavigationBar(
-                onTap: (int index) => controller.changeTabIndex(index),
+                onTap: (int index) {
+                  controller.changeTabIndex(index);
+                },
                 currentIndex: controller.tabIndex.value,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
@@ -243,10 +245,10 @@ class HomePage extends GetView<HomeController> {
                     ),
                   ),
                   BottomNavigationBarItem(
-                    label: 'Shedule',
+                    label: 'All Todos',
                     icon: Padding(
                       padding: EdgeInsets.only(left: 20),
-                      child: Icon(Icons.calendar_month_outlined),
+                      child: Icon(Icons.folder_outlined),
                     ),
                   ),
                 ],

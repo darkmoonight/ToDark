@@ -50,7 +50,7 @@ class _ShedulePageState extends State<ShedulePage> {
                     shrinkWrap: true,
                     itemCount: task.todos?.length,
                     itemBuilder: (context, index) {
-                      final todo = task.todos?[index];
+                      var todo = task.todos?[index];
                       return Padding(
                         padding:
                             EdgeInsets.only(left: 10.w, right: 10.w, top: 10.w),
