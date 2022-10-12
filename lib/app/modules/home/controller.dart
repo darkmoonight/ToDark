@@ -15,7 +15,6 @@ class HomeController extends GetxController {
   final editCtrl = TextEditingController();
   final descCtrl = TextEditingController();
   final dateCtrl = TextEditingController();
-  final tabIndex = 0.obs;
   final chipIndex = 0.obs;
   final deleting = false.obs;
   final tasks = <Task>[].obs;
@@ -36,10 +35,6 @@ class HomeController extends GetxController {
   void onClose() {
     editCtrl.dispose();
     super.onClose();
-  }
-
-  void changeTabIndex(int value) {
-    tabIndex.value = value;
   }
 
   void changeChipIndex(int value) {
