@@ -13,7 +13,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 import '../../../utils/theme.dart';
 
 class HomePage extends GetView<HomeController> {

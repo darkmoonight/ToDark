@@ -40,6 +40,5 @@
     "complet": "Completed",
     "cancel": "Cancel",
     "todo_list": "To-do list",
-    "taskTime": "Task completion time",
-     "timeTask": "All tasks"
+    "taskTime": "Task completion time"
     }

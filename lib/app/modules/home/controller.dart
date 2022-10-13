@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:dark_todo/app/data/models/task.dart';
 import 'package:dark_todo/app/data/services/storage/repository.dart';
 import 'package:flutter/foundation.dart';
