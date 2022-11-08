@@ -1,5 +1,5 @@
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:dark_todo/utils/theme_controller.dart';
+import 'package:dark_todo/theme/theme_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:dark_todo/app/core/values/colors.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../utils/theme.dart';
+import '../../../theme/theme.dart';
 
 class HomePage extends GetView<HomeController> {
   HomePage({Key? key}) : super(key: key);

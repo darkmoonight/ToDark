@@ -2,8 +2,8 @@ import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:dark_todo/app/data/services/storage/services.dart';
 import 'package:dark_todo/app/modules/home/binding.dart';
 import 'package:dark_todo/app/modules/home/view.dart';
-import 'package:dark_todo/app/screens/onboarding_screen.dart';
-import 'package:dark_todo/utils/theme_controller.dart';
+import 'package:dark_todo/app/modules/onboard/onboarding_screen.dart';
+import 'package:dark_todo/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -30,6 +30,7 @@ void main() async {
 
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
+
   const InitializationSettings initializationSettings =
       InitializationSettings(android: initializationSettingsAndroid);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
