@@ -1,55 +1,46 @@
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:dark_todo/app/data/services/storage/services.dart';
-import 'package:dark_todo/app/modules/home/binding.dart';
 import 'package:dark_todo/app/modules/home/view.dart';
 import 'package:dark_todo/app/modules/onboard/onboarding_screen.dart';
-import 'package:dark_todo/theme/theme_controller.dart';
+import 'package:dark_todo/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-// ignore: depend_on_referenced_packages
-import 'package:timezone/data/latest_all.dart' as tz;
-// ignore: depend_on_referenced_packages
-import 'package:timezone/timezone.dart' as tz;
+import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'app/data/schema.dart';
+import 'l10n/translation.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-int? isviewed;
+late Isar isar;
+late Settings settings;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await isarInit();
+  runApp(const MyApp());
+}
 
-  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+Future<void> isarInit() async {
+  isar = await Isar.open([
+    SettingsSchema,
+  ],
+      compactOnLaunch: const CompactCondition(minRatio: 2),
+      directory: (await getApplicationSupportDirectory()).path);
 
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+  settings = await isar.settings.where().findFirst() ?? Settings();
 
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-  tz.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation(timeZoneName));
-
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  isviewed = prefs.getInt('OnboardingScreen');
-  await GetStorage.init();
-  await Get.putAsync(() => StorageService().init());
-
-  runApp(MyApp());
+  if (await isar.settings.count() == 0) {
+    await isar.writeTxn(() async => await isar.settings.put(settings));
+  }
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
-
-  final themeController = Get.put(ThemeController());
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,36 +49,33 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return ThemeProvider(
-          initTheme: themeController.themes,
-          builder: (_, theme) {
-            return GetMaterialApp(
-              themeMode: themeController.theme,
-              theme: theme,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en', ''),
-                Locale('ru', ''),
-              ],
-              localeResolutionCallback: (locale, supportedLocales) {
-                for (var supportedLocale in supportedLocales) {
-                  if (supportedLocale.languageCode == locale?.languageCode) {
-                    return supportedLocale;
-                  }
-                }
-                return supportedLocales.first;
-              },
-              debugShowCheckedModeBanner: false,
-              home: isviewed != 0 ? const OnboardingScreen() : HomePage(),
-              initialBinding: HomeBinding(),
-              builder: EasyLoading.init(),
-            );
+        return GetMaterialApp(
+          theme: TodoTheme.darkTheme,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          translations: Translation(),
+          locale: const Locale('ru', 'RU'),
+          fallbackLocale: const Locale('ru', 'RU'),
+          supportedLocales: const [
+            Locale('ru', 'RU'),
+            Locale('en', 'US'),
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale?.languageCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
           },
+          debugShowCheckedModeBanner: false,
+          home: settings.onboard == false
+              ? const OnBordingScreen()
+              : const HomePage(),
+          builder: EasyLoading.init(),
         );
       },
     );

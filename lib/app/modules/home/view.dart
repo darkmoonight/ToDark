@@ -1,213 +1,301 @@
-import 'package:animated_theme_switcher/animated_theme_switcher.dart';
-import 'package:dark_todo/theme/theme_controller.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intl/intl.dart';
-import 'package:dark_todo/app/core/values/colors.dart';
-import 'package:dark_todo/app/data/models/task.dart';
-import 'package:dark_todo/app/modules/home/controller.dart';
-import 'package:dark_todo/app/modules/home/widgets/add_card.dart';
-import 'package:dark_todo/app/modules/home/widgets/add_dialog.dart';
-import 'package:dark_todo/app/modules/home/widgets/task_card.dart';
+import 'package:dark_todo/app/modules/tasks/view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import '../../../theme/theme.dart';
 
-class HomePage extends GetView<HomeController> {
-  HomePage({Key? key}) : super(key: key);
-  final themeController = Get.put(ThemeController());
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
   Widget build(BuildContext context) {
-    var tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
-    var theme = Theme.of(context);
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: ThemeSwitchingArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          backgroundColor: theme.scaffoldBackgroundColor,
-          body: Obx(
-            () {
-              var createdTasks = controller.getTotalTask();
-              var completedTasks = controller.getTotalDoneTask();
-              var precent =
-                  (completedTasks / createdTasks * 100).toStringAsFixed(0);
-              return SafeArea(
-                child: ListView(
-                  controller: ScrollController(),
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/icons/icons.png',
+                scale: 12,
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+              Text(
+                'ToDark',
+                style: context.theme.textTheme.headline2,
+              ),
+            ],
+          ),
+        ),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Icon(Iconsax.moon5),
+          )
+        ],
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Flexible(
+                    child: Row(
+                      children: [
+                        CircularStepProgressIndicator(
+                          totalSteps: 2,
+                          currentStep: 1,
+                          stepSize: 4,
+                          selectedColor: Colors.green,
+                          unselectedColor: Colors.white,
+                          padding: 0,
+                          selectedStepSize: 6,
+                          roundedCap: (_, __) => true,
+                          child: Center(
+                            child: Text(
+                              '50%',
+                              style: context.theme.textTheme.headline2,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Задач\nВыполнено',
+                            style: context.theme.textTheme.headline5,
+                            overflow: TextOverflow.visible,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: context.theme.primaryColor,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      DateFormat.MMMMd('ru').format(
+                        DateTime.now(),
+                      ),
+                      style: context.theme.textTheme.headline6,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.only(top: 20),
+                width: Get.size.width,
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 245, 245, 245),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: 15.w, left: 17.w, bottom: 5.w, right: 14.w),
+                      padding: const EdgeInsets.only(
+                          left: 30, top: 20, bottom: 20, right: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                              DateFormat.yMMMMEEEEd(tag).format(
-                                DateTime.now(),
-                              ),
-                              style: theme.textTheme.headline3),
-                          ThemeSwitcher(
-                            builder: (context) => IconButton(
-                              onPressed: () {
-                                if (Get.isDarkMode) {
-                                  ThemeSwitcher.of(context)
-                                      .changeTheme(theme: TodoTheme.lightTheme);
-                                  themeController
-                                      .changeThemeMode(ThemeMode.light);
-                                  themeController.saveTheme(false);
-                                } else {
-                                  ThemeSwitcher.of(context)
-                                      .changeTheme(theme: TodoTheme.darkTheme);
-                                  themeController
-                                      .changeThemeMode(ThemeMode.dark);
-                                  themeController.saveTheme(true);
-                                }
-                              },
-                              icon: Icon(
-                                Icons.brightness_4_outlined,
-                                size: theme.iconTheme.size,
-                                color: theme.iconTheme.color,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    Container(
-                      height: 155.w,
-                      margin: EdgeInsets.symmetric(horizontal: 15.w),
-                      decoration: BoxDecoration(
-                        color: theme.primaryColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(20.0)),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(AppLocalizations.of(context)!.motiv,
-                                  style: theme.textTheme.headline2),
                               Text(
-                                '$completedTasks ${AppLocalizations.of(context)!.ofMotiv} $createdTasks ${AppLocalizations.of(context)!.completed}',
-                                style: theme.textTheme.subtitle1,
+                                'Задачи',
+                                style: context.theme.textTheme.headline1
+                                    ?.copyWith(
+                                        color: context.theme.backgroundColor),
+                              ),
+                              Text(
+                                '(1/2) Завершено',
+                                style: context.theme.textTheme.subtitle2,
                               ),
                             ],
                           ),
-                          UnconstrainedBox(
-                            child: SizedBox(
-                              width: 120.w,
-                              height: 120.w,
-                              child: CircularStepProgressIndicator(
-                                totalSteps:
-                                    createdTasks == 0 ? 1 : createdTasks,
-                                currentStep: completedTasks,
-                                stepSize: 4.w,
-                                selectedColor: green,
-                                unselectedColor: theme.unselectedWidgetColor,
-                                padding: 0,
-                                selectedStepSize: 6.w,
-                                roundedCap: (_, __) => true,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text('${createdTasks == 0 ? 0 : precent} %',
-                                        style: theme.textTheme.headline2),
-                                    SizedBox(
-                                      height: 6.h,
-                                    ),
-                                    Text(
-                                        AppLocalizations.of(context)!
-                                            .efficiency,
-                                        style: theme.textTheme.subtitle1)
-                                  ],
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 50,
+                                  height: 28,
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Icon(
+                                    Iconsax.clipboard_close,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
+                                Container(
+                                  width: 50,
+                                  height: 28,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: const Icon(Iconsax.clipboard_tick),
+                                ),
+                              ],
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: 10.w,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 10.w),
-                      child: Text(AppLocalizations.of(context)!.tasks,
-                          style: theme.textTheme.headline2),
-                    ),
-                    Obx(
-                      () => GridView.count(
-                        crossAxisCount: 2,
-                        shrinkWrap: true,
-                        physics: const ClampingScrollPhysics(),
-                        children: [
-                          ...controller.tasks
-                              .map((element) => LongPressDraggable(
-                                  data: element,
-                                  onDragStarted: () =>
-                                      controller.changeDeleting(true),
-                                  onDraggableCanceled: (_, __) =>
-                                      controller.changeDeleting(false),
-                                  onDragEnd: (_) =>
-                                      controller.changeDeleting(false),
-                                  feedback: Opacity(
-                                    opacity: 0.8,
-                                    child: TaskCard(task: element),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: ListView.builder(
+                          physics: const BouncingScrollPhysics(),
+                          itemCount: 7,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Dismissible(
+                              key: const ObjectKey(1),
+                              direction: DismissDirection.endToStart,
+                              onDismissed: (DismissDirection direction) {},
+                              background: Container(
+                                alignment: Alignment.centerRight,
+                                child: const Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 15,
                                   ),
-                                  child: TaskCard(task: element)))
-                              .toList(),
-                          AddCard(),
-                        ],
+                                  child: Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 20),
+                                child: CupertinoButton(
+                                  minSize: double.minPositive,
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () {
+                                    Get.to(() => const TaskPage(),
+                                        transition: Transition.downToUp);
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Flexible(
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              height: 60,
+                                              width: 60,
+                                              child:
+                                                  CircularStepProgressIndicator(
+                                                totalSteps: 4,
+                                                currentStep: 1,
+                                                stepSize: 4,
+                                                selectedColor:
+                                                    Colors.blueAccent,
+                                                unselectedColor:
+                                                    Colors.grey[300],
+                                                padding: 0,
+                                                selectedStepSize: 6,
+                                                roundedCap: (_, __) => true,
+                                                child: Center(
+                                                  child: Text(
+                                                    '25%',
+                                                    style: context.theme
+                                                        .textTheme.headline6
+                                                        ?.copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 15),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    'Comrun',
+                                                    style: context.theme
+                                                        .textTheme.headline4
+                                                        ?.copyWith(
+                                                            color:
+                                                                Colors.black),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                  const SizedBox(height: 5),
+                                                  Text(
+                                                    'Раннер про компьютер',
+                                                    style: context.theme
+                                                        .textTheme.subtitle2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Text(
+                                        DateFormat.yMd().format(DateTime.now()),
+                                        style:
+                                            context.theme.textTheme.subtitle2,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 ),
-              );
-            },
-          ),
-          floatingActionButton: DragTarget<Task>(
-            builder: (_, __, ___) {
-              return Obx(
-                () => Padding(
-                  padding: EdgeInsets.all(8.w),
-                  child: FloatingActionButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    elevation: 0,
-                    backgroundColor:
-                        controller.deleting.value ? Colors.red : blue,
-                    onPressed: () {
-                      if (controller.tasks.isNotEmpty) {
-                        Get.to(() => const AddDialog(),
-                            transition: Transition.downToUp);
-                      } else {
-                        EasyLoading.showInfo(
-                            AppLocalizations.of(context)!.showCreate);
-                      }
-                    },
-                    child: Icon(
-                      controller.deleting.value ? Icons.delete : Icons.add,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              );
-            },
-            onAccept: (Task task) {
-              controller.deleteTask(task);
-              EasyLoading.showSuccess(AppLocalizations.of(context)!.delete);
-            },
-          ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        elevation: 0,
+        backgroundColor: Colors.blue,
+        child: const Icon(
+          Iconsax.add,
+          color: Colors.white,
         ),
       ),
     );
