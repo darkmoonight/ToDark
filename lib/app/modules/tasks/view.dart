@@ -1,9 +1,10 @@
 import 'package:dark_todo/app/widgets/select_button.dart';
+import 'package:dark_todo/app/widgets/text_form.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:intl/intl.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({super.key});
@@ -14,8 +15,14 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   int toggleValue = 0;
-
   late bool isChecked = false;
+  late Color myColor;
+
+  @override
+  void initState() {
+    myColor = Colors.blue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +70,78 @@ class _TaskPageState extends State<TaskPage> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                              backgroundColor:
+                                  context.theme.scaffoldBackgroundColor,
+                              context: context,
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                              ),
+                              builder: (BuildContext context) {
+                                return SingleChildScrollView(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              bottom: 10, top: 15),
+                                          child: Text(
+                                            'Редактирование',
+                                            style: context
+                                                .theme.textTheme.headline2,
+                                          ),
+                                        ),
+                                        const MyTextForm(
+                                          hintText: 'Имя',
+                                          type: TextInputType.text,
+                                          icon: Icon(Iconsax.edit_2),
+                                          password: false,
+                                          autofocus: false,
+                                        ),
+                                        const MyTextForm(
+                                          hintText: 'Описание',
+                                          type: TextInputType.text,
+                                          icon: Icon(Iconsax.note_text),
+                                          password: false,
+                                          autofocus: false,
+                                        ),
+                                        ColorPicker(
+                                          color: myColor,
+                                          onColorChanged: (Color color) =>
+                                              setState(() => myColor = color),
+                                          borderRadius: 20,
+                                          enableShadesSelection: false,
+                                          enableTonalPalette: true,
+                                          pickersEnabled: const <
+                                              ColorPickerType, bool>{
+                                            ColorPickerType.accent: false,
+                                            ColorPickerType.primary: true,
+                                            ColorPickerType.wheel: true,
+                                            ColorPickerType.both: false,
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                           icon: const Icon(Iconsax.edit),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                         ),
                       ],
                     ),
@@ -76,7 +153,7 @@ class _TaskPageState extends State<TaskPage> {
               child: Container(
                 width: Get.size.width,
                 decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 245, 245, 245),
+                  color: Colors.white,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(40),
                     topRight: Radius.circular(40),
@@ -157,7 +234,68 @@ class _TaskPageState extends State<TaskPage> {
                               child: CupertinoButton(
                                 minSize: double.minPositive,
                                 padding: EdgeInsets.zero,
-                                onPressed: () {},
+                                onPressed: () {
+                                  showModalBottomSheet(
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
+                                    context: context,
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(20),
+                                      ),
+                                    ),
+                                    builder: (BuildContext context) {
+                                      return SingleChildScrollView(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 10, top: 15),
+                                                child: Text(
+                                                  'Редактирование',
+                                                  style: context.theme.textTheme
+                                                      .headline2,
+                                                ),
+                                              ),
+                                              const MyTextForm(
+                                                hintText: 'Имя',
+                                                type: TextInputType.text,
+                                                icon: Icon(Iconsax.edit_2),
+                                                password: false,
+                                                autofocus: true,
+                                              ),
+                                              const MyTextForm(
+                                                hintText: 'Описание',
+                                                type: TextInputType.text,
+                                                icon: Icon(Iconsax.note_text),
+                                                password: false,
+                                                autofocus: false,
+                                              ),
+                                              const MyTextForm(
+                                                hintText: 'Время выполнения',
+                                                type: TextInputType.datetime,
+                                                icon: Icon(Iconsax.clock),
+                                                password: false,
+                                                autofocus: false,
+                                              ),
+                                              const SizedBox(height: 15),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 child: Row(
                                   children: [
                                     Flexible(
@@ -204,8 +342,7 @@ class _TaskPageState extends State<TaskPage> {
                                       ),
                                     ),
                                     Text(
-                                      DateFormat.yMd('ru')
-                                          .format(DateTime.now()),
+                                      '13.12 15:46',
                                       style: context.theme.textTheme.subtitle2,
                                     ),
                                   ],
@@ -224,7 +361,62 @@ class _TaskPageState extends State<TaskPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            backgroundColor: context.theme.scaffoldBackgroundColor,
+            context: context,
+            isScrollControlled: true,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(20),
+              ),
+            ),
+            builder: (BuildContext context) {
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10, top: 15),
+                        child: Text(
+                          'Создание',
+                          style: context.theme.textTheme.headline2,
+                        ),
+                      ),
+                      const MyTextForm(
+                        hintText: 'Имя',
+                        type: TextInputType.text,
+                        icon: Icon(Iconsax.edit_2),
+                        password: false,
+                        autofocus: true,
+                      ),
+                      const MyTextForm(
+                        hintText: 'Описание',
+                        type: TextInputType.text,
+                        icon: Icon(Iconsax.note_text),
+                        password: false,
+                        autofocus: false,
+                      ),
+                      const MyTextForm(
+                        hintText: 'Время выполнения',
+                        type: TextInputType.datetime,
+                        icon: Icon(Iconsax.clock),
+                        password: false,
+                        autofocus: false,
+                      ),
+                      const SizedBox(height: 15),
+                    ],
+                  ),
+                ),
+              );
+            },
+          );
+        },
         elevation: 0,
         backgroundColor: context.theme.primaryColor,
         child: const Icon(
