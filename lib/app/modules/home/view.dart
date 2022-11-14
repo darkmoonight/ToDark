@@ -1,8 +1,6 @@
-import 'package:dark_todo/app/modules/tasks/view.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
-import 'package:dark_todo/app/widgets/text_form.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dark_todo/app/widgets/task_type.dart';
+import 'package:dark_todo/app/widgets/task_type_ce.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -18,24 +16,40 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int toggleValue = 0;
-  late Color myColor;
-
-  @override
-  void initState() {
-    myColor = Colors.blue;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        titleSpacing: 30,
+        title: Row(
+          children: [
+            Image.asset(
+              'assets/icons/icons.png',
+              scale: 13,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            Text(
+              'ToDark',
+              style: context.theme.textTheme.headline1,
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 30,
+              margin: const EdgeInsets.only(
+                right: 20,
+                left: 20,
+                bottom: 30,
+                top: 10,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -47,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                           totalSteps: 2,
                           currentStep: 1,
                           stepSize: 4,
-                          selectedColor: Colors.green,
+                          selectedColor: Colors.blueAccent,
                           unselectedColor: Colors.white,
                           padding: 0,
                           selectedStepSize: 6,
@@ -147,103 +161,7 @@ class _HomePageState extends State<HomePage> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: 7,
                         itemBuilder: (BuildContext context, int index) {
-                          return Dismissible(
-                            key: const ObjectKey(1),
-                            direction: DismissDirection.endToStart,
-                            onDismissed: (DismissDirection direction) {},
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              child: const Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15,
-                                ),
-                                child: Icon(
-                                  Iconsax.trush_square,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                bottom: 20,
-                                left: 25,
-                                right: 25,
-                              ),
-                              child: CupertinoButton(
-                                minSize: double.minPositive,
-                                padding: EdgeInsets.zero,
-                                onPressed: () {
-                                  Get.to(() => const TaskPage(),
-                                      transition: Transition.downToUp);
-                                },
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            height: 60,
-                                            width: 60,
-                                            child:
-                                                CircularStepProgressIndicator(
-                                              totalSteps: 4,
-                                              currentStep: 1,
-                                              stepSize: 4,
-                                              selectedColor: Colors.blueAccent,
-                                              unselectedColor: Colors.grey[300],
-                                              padding: 0,
-                                              selectedStepSize: 6,
-                                              roundedCap: (_, __) => true,
-                                              child: Center(
-                                                child: Text(
-                                                  '25%',
-                                                  style: context
-                                                      .theme.textTheme.headline6
-                                                      ?.copyWith(
-                                                          color: Colors.black),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 15),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'Comrun',
-                                                  style: context
-                                                      .theme.textTheme.headline4
-                                                      ?.copyWith(
-                                                          color: Colors.black),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                const SizedBox(height: 5),
-                                                Text(
-                                                  'Раннер про компьютер',
-                                                  style: context.theme.textTheme
-                                                      .subtitle2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      DateFormat.yMd('ru')
-                                          .format(DateTime.now()),
-                                      style: context.theme.textTheme.subtitle2,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
+                          return const TaskType();
                         },
                       ),
                     ),
@@ -266,54 +184,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             builder: (BuildContext context) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10, top: 15),
-                        child: Text(
-                          'Создание',
-                          style: context.theme.textTheme.headline2,
-                        ),
-                      ),
-                      const MyTextForm(
-                        hintText: 'Имя',
-                        type: TextInputType.text,
-                        icon: Icon(Iconsax.edit_2),
-                        password: false,
-                        autofocus: false,
-                      ),
-                      const MyTextForm(
-                        hintText: 'Описание',
-                        type: TextInputType.text,
-                        icon: Icon(Iconsax.note_text),
-                        password: false,
-                        autofocus: false,
-                      ),
-                      ColorPicker(
-                        color: myColor,
-                        onColorChanged: (Color color) =>
-                            setState(() => myColor = color),
-                        borderRadius: 20,
-                        enableShadesSelection: false,
-                        enableTonalPalette: true,
-                        pickersEnabled: const <ColorPickerType, bool>{
-                          ColorPickerType.accent: false,
-                          ColorPickerType.primary: true,
-                          ColorPickerType.wheel: true,
-                          ColorPickerType.both: false,
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              );
+              return const TaskTypeCE();
             },
           );
         },

@@ -1,7 +1,7 @@
 import 'package:dark_todo/app/widgets/select_button.dart';
-import 'package:dark_todo/app/widgets/text_form.dart';
-import 'package:flex_color_picker/flex_color_picker.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dark_todo/app/widgets/task.dart';
+import 'package:dark_todo/app/widgets/task_ce.dart';
+import 'package:dark_todo/app/widgets/task_type_ce.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -15,24 +15,9 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   int toggleValue = 0;
-  late bool isChecked = false;
-  late Color myColor;
-
-  @override
-  void initState() {
-    myColor = Colors.blue;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      <MaterialState>{
-        MaterialState.pressed,
-      };
-      return Colors.black;
-    }
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -82,60 +67,7 @@ class _TaskPageState extends State<TaskPage> {
                                 ),
                               ),
                               builder: (BuildContext context) {
-                                return SingleChildScrollView(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context)
-                                          .viewInsets
-                                          .bottom,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 10, top: 15),
-                                          child: Text(
-                                            'Редактирование',
-                                            style: context
-                                                .theme.textTheme.headline2,
-                                          ),
-                                        ),
-                                        const MyTextForm(
-                                          hintText: 'Имя',
-                                          type: TextInputType.text,
-                                          icon: Icon(Iconsax.edit_2),
-                                          password: false,
-                                          autofocus: false,
-                                        ),
-                                        const MyTextForm(
-                                          hintText: 'Описание',
-                                          type: TextInputType.text,
-                                          icon: Icon(Iconsax.note_text),
-                                          password: false,
-                                          autofocus: false,
-                                        ),
-                                        ColorPicker(
-                                          color: myColor,
-                                          onColorChanged: (Color color) =>
-                                              setState(() => myColor = color),
-                                          borderRadius: 20,
-                                          enableShadesSelection: false,
-                                          enableTonalPalette: true,
-                                          pickersEnabled: const <
-                                              ColorPickerType, bool>{
-                                            ColorPickerType.accent: false,
-                                            ColorPickerType.primary: true,
-                                            ColorPickerType.wheel: true,
-                                            ColorPickerType.both: false,
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                );
+                                return const TaskTypeCE();
                               },
                             );
                           },
@@ -208,148 +140,7 @@ class _TaskPageState extends State<TaskPage> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: 15,
                         itemBuilder: (BuildContext context, int index) {
-                          return Dismissible(
-                            key: const ObjectKey(1),
-                            direction: DismissDirection.endToStart,
-                            onDismissed: (DismissDirection direction) {},
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              child: const Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15,
-                                ),
-                                child: Icon(
-                                  Iconsax.trush_square,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                  right: 20, left: 20, bottom: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                // color: Colors.white,
-                              ),
-                              child: CupertinoButton(
-                                minSize: double.minPositive,
-                                padding: EdgeInsets.zero,
-                                onPressed: () {
-                                  showModalBottomSheet(
-                                    backgroundColor:
-                                        context.theme.scaffoldBackgroundColor,
-                                    context: context,
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(20),
-                                      ),
-                                    ),
-                                    builder: (BuildContext context) {
-                                      return SingleChildScrollView(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context)
-                                                .viewInsets
-                                                .bottom,
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    bottom: 10, top: 15),
-                                                child: Text(
-                                                  'Редактирование',
-                                                  style: context.theme.textTheme
-                                                      .headline2,
-                                                ),
-                                              ),
-                                              const MyTextForm(
-                                                hintText: 'Имя',
-                                                type: TextInputType.text,
-                                                icon: Icon(Iconsax.edit_2),
-                                                password: false,
-                                                autofocus: true,
-                                              ),
-                                              const MyTextForm(
-                                                hintText: 'Описание',
-                                                type: TextInputType.text,
-                                                icon: Icon(Iconsax.note_text),
-                                                password: false,
-                                                autofocus: false,
-                                              ),
-                                              const MyTextForm(
-                                                hintText: 'Время выполнения',
-                                                type: TextInputType.datetime,
-                                                icon: Icon(Iconsax.clock),
-                                                password: false,
-                                                autofocus: false,
-                                              ),
-                                              const SizedBox(height: 15),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: Row(
-                                        children: [
-                                          Checkbox(
-                                            checkColor: Colors.white,
-                                            fillColor: MaterialStateProperty
-                                                .resolveWith(getColor),
-                                            value: isChecked,
-                                            shape: const CircleBorder(),
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                isChecked = value!;
-                                              });
-                                            },
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'TileMap',
-                                                  style: context
-                                                      .theme.textTheme.headline4
-                                                      ?.copyWith(
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                Text(
-                                                  'Составить карту тайлов',
-                                                  style: context.theme.textTheme
-                                                      .subtitle2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Text(
-                                      '13.12 15:46',
-                                      style: context.theme.textTheme.subtitle2,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
+                          return const Task();
                         },
                       ),
                     ),
@@ -372,48 +163,7 @@ class _TaskPageState extends State<TaskPage> {
               ),
             ),
             builder: (BuildContext context) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10, top: 15),
-                        child: Text(
-                          'Создание',
-                          style: context.theme.textTheme.headline2,
-                        ),
-                      ),
-                      const MyTextForm(
-                        hintText: 'Имя',
-                        type: TextInputType.text,
-                        icon: Icon(Iconsax.edit_2),
-                        password: false,
-                        autofocus: true,
-                      ),
-                      const MyTextForm(
-                        hintText: 'Описание',
-                        type: TextInputType.text,
-                        icon: Icon(Iconsax.note_text),
-                        password: false,
-                        autofocus: false,
-                      ),
-                      const MyTextForm(
-                        hintText: 'Время выполнения',
-                        type: TextInputType.datetime,
-                        icon: Icon(Iconsax.clock),
-                        password: false,
-                        autofocus: false,
-                      ),
-                      const SizedBox(height: 15),
-                    ],
-                  ),
-                ),
-              );
+              return const TaskCE();
             },
           );
         },
