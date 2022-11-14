@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AnimatedToggle extends StatefulWidget {
-  final List<String> values;
+class SelectButton extends StatefulWidget {
+  final List<Icon> icons;
   final ValueChanged onToggleCallback;
   final Color backgroundColor;
   final Color buttonColor;
-  final Color textColor;
 
-  const AnimatedToggle({
+  const SelectButton({
     super.key,
-    required this.values,
+    required this.icons,
     required this.onToggleCallback,
     this.backgroundColor = Colors.black,
     this.buttonColor = Colors.white,
-    this.textColor = Colors.black,
   });
   @override
-  State<AnimatedToggle> createState() => _AnimatedToggleState();
+  State<SelectButton> createState() => _SelectButtonState();
 }
 
-class _AnimatedToggleState extends State<AnimatedToggle> {
+class _SelectButtonState extends State<SelectButton> {
   bool initialPosition = true;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: Get.width * 0.3,
+      width: Get.width * 0.2,
       height: Get.width * 0.1,
       child: Stack(
         children: <Widget>[
@@ -38,10 +36,9 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 index = 1;
               }
               widget.onToggleCallback(index);
-              setState(() {});
             },
             child: Container(
-              width: Get.width * 0.3,
+              width: Get.width * 0.2,
               height: Get.width * 0.1,
               decoration: ShapeDecoration(
                 color: widget.backgroundColor,
@@ -52,17 +49,10 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(
-                  widget.values.length,
+                  widget.icons.length,
                   (index) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0.5),
-                    child: Text(
-                      widget.values[index],
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
+                    padding: EdgeInsets.symmetric(horizontal: Get.width * 0.02),
+                    child: widget.icons[index],
                   ),
                 ),
               ),
@@ -84,14 +74,7 @@ class _AnimatedToggleState extends State<AnimatedToggle> {
                 ),
               ),
               alignment: Alignment.center,
-              child: Text(
-                initialPosition ? widget.values[0] : widget.values[1],
-                style: TextStyle(
-                  fontSize: 18,
-                  color: widget.textColor,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              child: initialPosition ? widget.icons[0] : widget.icons[1],
             ),
           ),
         ],

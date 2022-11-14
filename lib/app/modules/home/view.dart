@@ -1,4 +1,5 @@
 import 'package:dark_todo/app/modules/tasks/view.dart';
+import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,43 +15,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int toggleValue = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 5),
-          child: Row(
-            children: [
-              Image.asset(
-                'assets/icons/icons.png',
-                scale: 12,
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              Text(
-                'ToDark',
-                style: context.theme.textTheme.headline2,
-              ),
-            ],
-          ),
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Icon(Iconsax.moon5),
-          )
-        ],
-      ),
       body: SafeArea(
         child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+              margin: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 30,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -104,7 +80,6 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: Container(
-                margin: const EdgeInsets.only(top: 20),
                 width: Get.size.width,
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 245, 245, 245),
@@ -137,149 +112,129 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ],
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 28,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Icon(
-                                    Iconsax.clipboard_close,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 28,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Icon(Iconsax.clipboard_tick),
-                                ),
-                              ],
-                            ),
+                          SelectButton(
+                            icons: const [
+                              Icon(
+                                Iconsax.close_circle,
+                                color: Colors.black,
+                              ),
+                              Icon(
+                                Iconsax.tick_circle,
+                                color: Colors.black,
+                              ),
+                            ],
+                            onToggleCallback: (value) {
+                              setState(() {
+                                toggleValue = value;
+                              });
+                            },
                           ),
                         ],
                       ),
                     ),
                     Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 25),
-                        child: ListView.builder(
-                          physics: const BouncingScrollPhysics(),
-                          itemCount: 7,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Dismissible(
-                              key: const ObjectKey(1),
-                              direction: DismissDirection.endToStart,
-                              onDismissed: (DismissDirection direction) {},
-                              background: Container(
-                                alignment: Alignment.centerRight,
-                                child: const Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 15,
-                                  ),
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                  ),
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: 7,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Dismissible(
+                            key: const ObjectKey(1),
+                            direction: DismissDirection.endToStart,
+                            onDismissed: (DismissDirection direction) {},
+                            background: Container(
+                              alignment: Alignment.centerRight,
+                              child: const Padding(
+                                padding: EdgeInsets.only(
+                                  right: 15,
+                                ),
+                                child: Icon(
+                                  Iconsax.trush_square,
+                                  color: Colors.red,
                                 ),
                               ),
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 20),
-                                child: CupertinoButton(
-                                  minSize: double.minPositive,
-                                  padding: EdgeInsets.zero,
-                                  onPressed: () {
-                                    Get.to(() => const TaskPage(),
-                                        transition: Transition.downToUp);
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Flexible(
-                                        child: Row(
-                                          children: [
-                                            SizedBox(
-                                              height: 60,
-                                              width: 60,
-                                              child:
-                                                  CircularStepProgressIndicator(
-                                                totalSteps: 4,
-                                                currentStep: 1,
-                                                stepSize: 4,
-                                                selectedColor:
-                                                    Colors.blueAccent,
-                                                unselectedColor:
-                                                    Colors.grey[300],
-                                                padding: 0,
-                                                selectedStepSize: 6,
-                                                roundedCap: (_, __) => true,
-                                                child: Center(
-                                                  child: Text(
-                                                    '25%',
-                                                    style: context.theme
-                                                        .textTheme.headline6
-                                                        ?.copyWith(
-                                                            color:
-                                                                Colors.black),
-                                                  ),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                bottom: 20,
+                                left: 25,
+                                right: 25,
+                              ),
+                              child: CupertinoButton(
+                                minSize: double.minPositive,
+                                padding: EdgeInsets.zero,
+                                onPressed: () {
+                                  Get.to(() => const TaskPage(),
+                                      transition: Transition.downToUp);
+                                },
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(
+                                            height: 60,
+                                            width: 60,
+                                            child:
+                                                CircularStepProgressIndicator(
+                                              totalSteps: 4,
+                                              currentStep: 1,
+                                              stepSize: 4,
+                                              selectedColor: Colors.blueAccent,
+                                              unselectedColor: Colors.grey[300],
+                                              padding: 0,
+                                              selectedStepSize: 6,
+                                              roundedCap: (_, __) => true,
+                                              child: Center(
+                                                child: Text(
+                                                  '25%',
+                                                  style: context
+                                                      .theme.textTheme.headline6
+                                                      ?.copyWith(
+                                                          color: Colors.black),
                                                 ),
                                               ),
                                             ),
-                                            const SizedBox(width: 15),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'Comrun',
-                                                    style: context.theme
-                                                        .textTheme.headline4
-                                                        ?.copyWith(
-                                                            color:
-                                                                Colors.black),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                  const SizedBox(height: 5),
-                                                  Text(
-                                                    'Раннер про компьютер',
-                                                    style: context.theme
-                                                        .textTheme.subtitle2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ],
-                                              ),
+                                          ),
+                                          const SizedBox(width: 15),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Comrun',
+                                                  style: context
+                                                      .theme.textTheme.headline4
+                                                      ?.copyWith(
+                                                          color: Colors.black),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                const SizedBox(height: 5),
+                                                Text(
+                                                  'Раннер про компьютер',
+                                                  style: context.theme.textTheme
+                                                      .subtitle2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        DateFormat.yMd().format(DateTime.now()),
-                                        style:
-                                            context.theme.textTheme.subtitle2,
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                      DateFormat.yMd('ru')
+                                          .format(DateTime.now()),
+                                      style: context.theme.textTheme.subtitle2,
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          },
-                        ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -292,7 +247,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         elevation: 0,
-        backgroundColor: Colors.blue,
+        backgroundColor: context.theme.primaryColor,
         child: const Icon(
           Iconsax.add,
           color: Colors.white,

@@ -1,6 +1,9 @@
+import 'package:dark_todo/app/widgets/select_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:intl/intl.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({super.key});
@@ -10,8 +13,19 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
+  int toggleValue = 0;
+
+  late bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      <MaterialState>{
+        MaterialState.pressed,
+      };
+      return Colors.black;
+    }
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -92,39 +106,22 @@ class _TaskPageState extends State<TaskPage> {
                               ),
                             ],
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 28,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Icon(
-                                    Iconsax.clipboard_close,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 28,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: const Icon(Iconsax.clipboard_tick),
-                                ),
-                              ],
-                            ),
+                          SelectButton(
+                            icons: const [
+                              Icon(
+                                Iconsax.close_circle,
+                                color: Colors.black,
+                              ),
+                              Icon(
+                                Iconsax.tick_circle,
+                                color: Colors.black,
+                              ),
+                            ],
+                            onToggleCallback: (value) {
+                              setState(() {
+                                toggleValue = value;
+                              });
+                            },
                           ),
                         ],
                       ),
@@ -134,7 +131,88 @@ class _TaskPageState extends State<TaskPage> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: 15,
                         itemBuilder: (BuildContext context, int index) {
-                          return Container();
+                          return Dismissible(
+                            key: const ObjectKey(1),
+                            direction: DismissDirection.endToStart,
+                            onDismissed: (DismissDirection direction) {},
+                            background: Container(
+                              alignment: Alignment.centerRight,
+                              child: const Padding(
+                                padding: EdgeInsets.only(
+                                  right: 15,
+                                ),
+                                child: Icon(
+                                  Iconsax.trush_square,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                  right: 20, left: 20, bottom: 15),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                // color: Colors.white,
+                              ),
+                              child: CupertinoButton(
+                                minSize: double.minPositive,
+                                padding: EdgeInsets.zero,
+                                onPressed: () {},
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            checkColor: Colors.white,
+                                            fillColor: MaterialStateProperty
+                                                .resolveWith(getColor),
+                                            value: isChecked,
+                                            shape: const CircleBorder(),
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                isChecked = value!;
+                                              });
+                                            },
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'TileMap',
+                                                  style: context
+                                                      .theme.textTheme.headline4
+                                                      ?.copyWith(
+                                                    color: Colors.black,
+                                                  ),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                Text(
+                                                  'Составить карту тайлов',
+                                                  style: context.theme.textTheme
+                                                      .subtitle2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Text(
+                                      DateFormat.yMd('ru')
+                                          .format(DateTime.now()),
+                                      style: context.theme.textTheme.subtitle2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -143,6 +221,15 @@ class _TaskPageState extends State<TaskPage> {
               ),
             ),
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        elevation: 0,
+        backgroundColor: context.theme.primaryColor,
+        child: const Icon(
+          Iconsax.add,
+          color: Colors.white,
         ),
       ),
     );
