@@ -5,7 +5,17 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class TaskTypeCE extends StatefulWidget {
-  const TaskTypeCE({super.key});
+  const TaskTypeCE({
+    super.key,
+    required this.text,
+    required this.onSave,
+    this.initValueName = '',
+    this.initValueDesk = '',
+  });
+  final String text;
+  final Function() onSave;
+  final String initValueName;
+  final String initValueDesk;
 
   @override
   State<TaskTypeCE> createState() => _TaskTypeCEState();
@@ -32,23 +42,51 @@ class _TaskTypeCEState extends State<TaskTypeCE> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 10, top: 15),
-              child: Text(
-                'Создание',
-                style: context.theme.textTheme.headline2,
+              padding: const EdgeInsets.only(top: 10, left: 5, right: 10),
+              child: Row(
+                children: [
+                  Flexible(
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Get.back();
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                          ),
+                        ),
+                        Text(
+                          widget.text,
+                          style: context.theme.textTheme.headline2,
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      widget.onSave();
+                    },
+                    icon: const Icon(
+                      Icons.save,
+                    ),
+                  ),
+                ],
               ),
             ),
-            const MyTextForm(
+            MyTextForm(
               hintText: 'Имя',
+              initValue: widget.initValueName,
               type: TextInputType.text,
-              icon: Icon(Iconsax.edit_2),
+              icon: const Icon(Iconsax.edit_2),
               password: false,
               autofocus: false,
             ),
-            const MyTextForm(
+            MyTextForm(
               hintText: 'Описание',
+              initValue: widget.initValueDesk,
               type: TextInputType.text,
-              icon: Icon(Iconsax.note_text),
+              icon: const Icon(Iconsax.note_text),
               password: false,
               autofocus: false,
             ),

@@ -1,3 +1,4 @@
+import 'package:dark_todo/app/modules/tasks/view.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type.dart';
 import 'package:dark_todo/app/widgets/task_type_ce.dart';
@@ -161,7 +162,24 @@ class _HomePageState extends State<HomePage> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: 7,
                         itemBuilder: (BuildContext context, int index) {
-                          return const TaskType();
+                          return TaskType(
+                            element: 1,
+                            onDismissed: (DismissDirection direction) {},
+                            onPressedTask: () {
+                              Get.to(
+                                () => const TaskPage(),
+                                transition: Transition.downToUp,
+                              );
+                            },
+                            totalSteps: 4,
+                            currentStep: 1,
+                            textIndicator: '25%',
+                            taskName: 'Comrun',
+                            taskDesc: 'Раннер про компьютер',
+                            taskDateCreate:
+                                DateFormat.yMd('ru').format(DateTime.now()),
+                            colorIndicator: Colors.blue,
+                          );
                         },
                       ),
                     ),
@@ -175,6 +193,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
+            enableDrag: false,
             backgroundColor: context.theme.scaffoldBackgroundColor,
             context: context,
             isScrollControlled: true,
@@ -184,7 +203,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             builder: (BuildContext context) {
-              return const TaskTypeCE();
+              return TaskTypeCE(
+                text: 'Создание',
+                onSave: () {},
+              );
             },
           );
         },

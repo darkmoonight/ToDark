@@ -57,6 +57,7 @@ class _TaskPageState extends State<TaskPage> {
                         IconButton(
                           onPressed: () {
                             showModalBottomSheet(
+                              enableDrag: false,
                               backgroundColor:
                                   context.theme.scaffoldBackgroundColor,
                               context: context,
@@ -67,7 +68,12 @@ class _TaskPageState extends State<TaskPage> {
                                 ),
                               ),
                               builder: (BuildContext context) {
-                                return const TaskTypeCE();
+                                return TaskTypeCE(
+                                  text: 'Редактирование',
+                                  onSave: () {},
+                                  initValueName: 'Comrun',
+                                  initValueDesk: 'Раннер про компьютер',
+                                );
                               },
                             );
                           },
@@ -140,7 +146,15 @@ class _TaskPageState extends State<TaskPage> {
                         physics: const BouncingScrollPhysics(),
                         itemCount: 15,
                         itemBuilder: (BuildContext context, int index) {
-                          return const Task();
+                          return Task(
+                            element: 1,
+                            onDismissed: (DismissDirection direction) {},
+                            onSave: () {},
+                            onChanged: () {},
+                            taskName: 'TileMap',
+                            taskDesk: 'Сделать сетку тайлов',
+                            taskDoing: '13.12 15:43',
+                          );
                         },
                       ),
                     ),
@@ -154,6 +168,7 @@ class _TaskPageState extends State<TaskPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(
+            enableDrag: false,
             backgroundColor: context.theme.scaffoldBackgroundColor,
             context: context,
             isScrollControlled: true,
@@ -163,7 +178,10 @@ class _TaskPageState extends State<TaskPage> {
               ),
             ),
             builder: (BuildContext context) {
-              return const TaskCE();
+              return TaskCE(
+                text: 'Создание',
+                onSave: () {},
+              );
             },
           );
         },

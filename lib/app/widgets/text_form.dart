@@ -5,12 +5,14 @@ class MyTextForm extends StatelessWidget {
   const MyTextForm({
     super.key,
     required this.hintText,
+    required this.initValue,
     required this.type,
     required this.icon,
     required this.autofocus,
     required this.password,
   });
   final String hintText;
+  final String initValue;
   final TextInputType type;
   final Icon icon;
   final bool autofocus;
@@ -21,7 +23,8 @@ class MyTextForm extends StatelessWidget {
     var theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-      child: TextField(
+      child: TextFormField(
+        initialValue: initValue,
         obscureText: password,
         keyboardType: type,
         style: theme.textTheme.headline6,

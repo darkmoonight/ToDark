@@ -2,22 +2,39 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:intl/intl.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-
-import '../modules/tasks/view.dart';
 
 class TaskType extends StatelessWidget {
   const TaskType({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+    required this.onDismissed,
+    required this.onPressedTask,
+    required this.totalSteps,
+    required this.currentStep,
+    required this.textIndicator,
+    required this.taskName,
+    required this.taskDesc,
+    required this.taskDateCreate,
+    required this.colorIndicator,
+    required this.element,
+  });
+  final Function(DismissDirection) onDismissed;
+  final Function() onPressedTask;
+  final int totalSteps;
+  final int currentStep;
+  final Object element;
+  final String textIndicator;
+  final String taskName;
+  final String taskDesc;
+  final String taskDateCreate;
+  final Color colorIndicator;
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: const ObjectKey(1),
+      key: ObjectKey(element),
       direction: DismissDirection.endToStart,
-      onDismissed: (DismissDirection direction) {},
+      onDismissed: onDismissed,
       background: Container(
         alignment: Alignment.centerRight,
         child: const Padding(
@@ -39,9 +56,7 @@ class TaskType extends StatelessWidget {
         child: CupertinoButton(
           minSize: double.minPositive,
           padding: EdgeInsets.zero,
-          onPressed: () {
-            Get.to(() => const TaskPage(), transition: Transition.downToUp);
-          },
+          onPressed: onPressedTask,
           child: Row(
             children: [
               Flexible(
@@ -51,17 +66,17 @@ class TaskType extends StatelessWidget {
                       height: 60,
                       width: 60,
                       child: CircularStepProgressIndicator(
-                        totalSteps: 4,
-                        currentStep: 1,
+                        totalSteps: totalSteps,
+                        currentStep: currentStep,
                         stepSize: 4,
-                        selectedColor: Colors.blueAccent,
+                        selectedColor: colorIndicator,
                         unselectedColor: Colors.grey[300],
                         padding: 0,
                         selectedStepSize: 6,
                         roundedCap: (_, __) => true,
                         child: Center(
                           child: Text(
-                            '25%',
+                            textIndicator,
                             style: context.theme.textTheme.headline6
                                 ?.copyWith(color: Colors.black),
                           ),
@@ -74,14 +89,14 @@ class TaskType extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Comrun',
+                            taskName,
                             style: context.theme.textTheme.headline4
                                 ?.copyWith(color: Colors.black),
                             overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: 5),
                           Text(
-                            'Раннер про компьютер',
+                            taskDesc,
                             style: context.theme.textTheme.subtitle2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -92,7 +107,7 @@ class TaskType extends StatelessWidget {
                 ),
               ),
               Text(
-                DateFormat.yMd('ru').format(DateTime.now()),
+                taskDateCreate,
                 style: context.theme.textTheme.subtitle2,
               ),
             ],

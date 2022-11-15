@@ -5,7 +5,23 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class Task extends StatefulWidget {
-  const Task({super.key});
+  const Task({
+    super.key,
+    required this.element,
+    required this.onDismissed,
+    required this.onSave,
+    required this.onChanged,
+    required this.taskName,
+    required this.taskDesk,
+    required this.taskDoing,
+  });
+  final Object element;
+  final Function(DismissDirection) onDismissed;
+  final Function() onSave;
+  final Function() onChanged;
+  final String taskName;
+  final String taskDesk;
+  final String taskDoing;
 
   @override
   State<Task> createState() => _TaskState();
@@ -31,9 +47,9 @@ class _TaskState extends State<Task> {
     }
 
     return Dismissible(
-      key: const ObjectKey(1),
+      key: ObjectKey(widget.element),
       direction: DismissDirection.endToStart,
-      onDismissed: (DismissDirection direction) {},
+      onDismissed: widget.onDismissed,
       background: Container(
         alignment: Alignment.centerRight,
         child: const Padding(
@@ -57,6 +73,7 @@ class _TaskState extends State<Task> {
           padding: EdgeInsets.zero,
           onPressed: () {
             showModalBottomSheet(
+              enableDrag: false,
               backgroundColor: context.theme.scaffoldBackgroundColor,
               context: context,
               isScrollControlled: true,
@@ -66,7 +83,13 @@ class _TaskState extends State<Task> {
                 ),
               ),
               builder: (BuildContext context) {
-                return const TaskCE();
+                return TaskCE(
+                  text: 'Редактирование',
+                  onSave: widget.onSave,
+                  initValueName: widget.taskName,
+                  initValueDesk: widget.taskDesk,
+                  initValueTime: widget.taskDoing,
+                );
               },
             );
           },
@@ -84,6 +107,7 @@ class _TaskState extends State<Task> {
                         setState(() {
                           isChecked = value!;
                         });
+                        widget.onChanged;
                       },
                     ),
                     Expanded(
@@ -91,14 +115,14 @@ class _TaskState extends State<Task> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'TileMap',
+                            widget.taskName,
                             style: context.theme.textTheme.headline4?.copyWith(
                               color: Colors.black,
                             ),
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            'Составить карту тайлов',
+                            widget.taskDesk,
                             style: context.theme.textTheme.subtitle2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -109,7 +133,7 @@ class _TaskState extends State<Task> {
                 ),
               ),
               Text(
-                '13.12 15:46',
+                widget.taskDoing,
                 style: context.theme.textTheme.subtitle2,
               ),
             ],
