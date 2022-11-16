@@ -8,14 +8,9 @@ class TaskCE extends StatefulWidget {
     super.key,
     required this.text,
     required this.onSave,
-    this.initValueName = '',
-    this.initValueDesk = '',
-    this.initValueTime = '',
   });
   final String text;
-  final String initValueName;
-  final String initValueDesk;
-  final String initValueTime;
+
   final Function() onSave;
 
   @override
@@ -23,6 +18,10 @@ class TaskCE extends StatefulWidget {
 }
 
 class _TaskCEState extends State<TaskCE> {
+  TextEditingController titleEdit = TextEditingController();
+  TextEditingController descEdit = TextEditingController();
+  TextEditingController timeEdit = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -68,24 +67,24 @@ class _TaskCEState extends State<TaskCE> {
               ),
             ),
             MyTextForm(
+              textEditingController: titleEdit,
               hintText: 'Имя',
-              initValue: widget.initValueName,
               type: TextInputType.text,
               icon: const Icon(Iconsax.edit_2),
               password: false,
               autofocus: false,
             ),
             MyTextForm(
+              textEditingController: descEdit,
               hintText: 'Описание',
-              initValue: widget.initValueDesk,
               type: TextInputType.text,
               icon: const Icon(Iconsax.note_text),
               password: false,
               autofocus: false,
             ),
             MyTextForm(
+              textEditingController: titleEdit,
               hintText: 'Время выполнения',
-              initValue: widget.initValueTime,
               type: TextInputType.datetime,
               icon: const Icon(Iconsax.clock),
               password: false,

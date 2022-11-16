@@ -5,18 +5,18 @@ class MyTextForm extends StatelessWidget {
   const MyTextForm({
     super.key,
     required this.hintText,
-    required this.initValue,
     required this.type,
     required this.icon,
     required this.autofocus,
     required this.password,
+    required this.textEditingController,
   });
   final String hintText;
-  final String initValue;
   final TextInputType type;
   final Icon icon;
   final bool autofocus;
   final bool password;
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class MyTextForm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: TextFormField(
-        initialValue: initValue,
+        controller: textEditingController,
         obscureText: password,
         keyboardType: type,
         style: theme.textTheme.headline6,

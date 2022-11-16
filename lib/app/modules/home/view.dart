@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Задачи',
+                                'Категории',
                                 style: context.theme.textTheme.headline1
                                     ?.copyWith(
                                         color: context.theme.backgroundColor),
@@ -178,7 +178,7 @@ class _HomePageState extends State<HomePage> {
                             taskDesc: 'Раннер про компьютер',
                             taskDateCreate:
                                 DateFormat.yMd('ru').format(DateTime.now()),
-                            colorIndicator: Colors.blue,
+                            colorIndicator: const Color(0xFF007BCC),
                           );
                         },
                       ),
@@ -203,9 +203,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             builder: (BuildContext context) {
-              return TaskTypeCE(
+              return const TaskTypeCE(
                 text: 'Создание',
-                onSave: () {},
               );
             },
           );

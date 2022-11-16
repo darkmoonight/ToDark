@@ -1,4 +1,6 @@
+import 'package:dark_todo/app/data/schema.dart';
 import 'package:dark_todo/app/widgets/text_form.dart';
+import 'package:dark_todo/main.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,14 +10,8 @@ class TaskTypeCE extends StatefulWidget {
   const TaskTypeCE({
     super.key,
     required this.text,
-    required this.onSave,
-    this.initValueName = '',
-    this.initValueDesk = '',
   });
   final String text;
-  final Function() onSave;
-  final String initValueName;
-  final String initValueDesk;
 
   @override
   State<TaskTypeCE> createState() => _TaskTypeCEState();
@@ -32,6 +28,8 @@ class _TaskTypeCEState extends State<TaskTypeCE> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController titleEdit = TextEditingController();
+    TextEditingController descEdit = TextEditingController();
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(
@@ -64,8 +62,17 @@ class _TaskTypeCEState extends State<TaskTypeCE> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      widget.onSave();
+                    onPressed: () async {
+                      final pancakes = Tasks(
+                        title: titleEdit.text,
+                        taskCreate: DateTime.now(),
+                        taskColor: myColor.hashCode,
+                        description: descEdit.text,
+                      );
+
+                      await isar.writeTxn(() async {
+                        await isar.tasks.put(pancakes);
+                      });
                     },
                     icon: const Icon(
                       Icons.save,
@@ -75,16 +82,16 @@ class _TaskTypeCEState extends State<TaskTypeCE> {
               ),
             ),
             MyTextForm(
+              textEditingController: titleEdit,
               hintText: 'Имя',
-              initValue: widget.initValueName,
               type: TextInputType.text,
               icon: const Icon(Iconsax.edit_2),
               password: false,
               autofocus: false,
             ),
             MyTextForm(
+              textEditingController: descEdit,
               hintText: 'Описание',
-              initValue: widget.initValueDesk,
               type: TextInputType.text,
               icon: const Icon(Iconsax.note_text),
               password: false,

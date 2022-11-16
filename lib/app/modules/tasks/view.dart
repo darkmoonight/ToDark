@@ -68,11 +68,8 @@ class _TaskPageState extends State<TaskPage> {
                                 ),
                               ),
                               builder: (BuildContext context) {
-                                return TaskTypeCE(
+                                return const TaskTypeCE(
                                   text: 'Редактирование',
-                                  onSave: () {},
-                                  initValueName: 'Comrun',
-                                  initValueDesk: 'Раннер про компьютер',
                                 );
                               },
                             );

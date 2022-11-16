@@ -9,7 +9,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'app/data/schema.dart';
 import 'l10n/translation.dart';
 
@@ -18,6 +17,8 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 late Isar isar;
 late Settings settings;
+late Tasks task;
+late Todos todos;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,8 @@ void main() async {
 
 Future<void> isarInit() async {
   isar = await Isar.open([
+    TasksSchema,
+    TodosSchema,
     SettingsSchema,
   ],
       compactOnLaunch: const CompactCondition(minRatio: 2),

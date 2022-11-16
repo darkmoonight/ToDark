@@ -86,9 +86,6 @@ class _TaskState extends State<Task> {
                 return TaskCE(
                   text: 'Редактирование',
                   onSave: widget.onSave,
-                  initValueName: widget.taskName,
-                  initValueDesk: widget.taskDesk,
-                  initValueTime: widget.taskDoing,
                 );
               },
             );
