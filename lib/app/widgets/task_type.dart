@@ -26,7 +26,7 @@ class TaskType extends StatelessWidget {
   final String textIndicator;
   final String taskName;
   final String taskDesc;
-  final String taskDateCreate;
+  final DateTime taskDateCreate;
   final Color colorIndicator;
 
   @override
@@ -107,7 +107,7 @@ class TaskType extends StatelessWidget {
                 ),
               ),
               Text(
-                taskDateCreate,
+                '${taskDateCreate.day}.${taskDateCreate.month}.${taskDateCreate.year}',
                 style: context.theme.textTheme.subtitle2,
               ),
             ],

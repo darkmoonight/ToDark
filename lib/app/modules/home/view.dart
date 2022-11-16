@@ -1,11 +1,13 @@
-import 'package:dark_todo/app/modules/tasks/view.dart';
+import 'package:dark_todo/app/data/schema.dart';
+import 'package:dark_todo/app/services/isar_services.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
-import 'package:dark_todo/app/widgets/task_type.dart';
 import 'package:dark_todo/app/widgets/task_type_ce.dart';
+import 'package:dark_todo/app/widgets/task_type_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,6 +19,24 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int toggleValue = 0;
+  bool isLoaded = false;
+  List<Tasks> tasks = List.empty();
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
+  getData() async {
+    final taskNew = await IsarServices().getTask();
+    if (tasks.isEmpty) {
+      setState(() {
+        tasks = taskNew;
+        isLoaded = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -157,31 +177,9 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: 7,
-                        itemBuilder: (BuildContext context, int index) {
-                          return TaskType(
-                            element: 1,
-                            onDismissed: (DismissDirection direction) {},
-                            onPressedTask: () {
-                              Get.to(
-                                () => const TaskPage(),
-                                transition: Transition.downToUp,
-                              );
-                            },
-                            totalSteps: 4,
-                            currentStep: 1,
-                            textIndicator: '25%',
-                            taskName: 'Comrun',
-                            taskDesc: 'Раннер про компьютер',
-                            taskDateCreate:
-                                DateFormat.yMd('ru').format(DateTime.now()),
-                            colorIndicator: const Color(0xFF007BCC),
-                          );
-                        },
-                      ),
+                    TaskTypeList(
+                      data: tasks,
+                      isLoaded: isLoaded,
                     ),
                   ],
                 ),

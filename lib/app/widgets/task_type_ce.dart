@@ -1,6 +1,5 @@
-import 'package:dark_todo/app/data/schema.dart';
+import 'package:dark_todo/app/services/isar_services.dart';
 import 'package:dark_todo/app/widgets/text_form.dart';
-import 'package:dark_todo/main.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,17 +18,17 @@ class TaskTypeCE extends StatefulWidget {
 
 class _TaskTypeCEState extends State<TaskTypeCE> {
   late Color myColor;
+  TextEditingController titleEdit = TextEditingController();
+  TextEditingController descEdit = TextEditingController();
 
   @override
   void initState() {
-    myColor = Colors.blue;
+    myColor = const Color(0xFF2196F3);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController titleEdit = TextEditingController();
-    TextEditingController descEdit = TextEditingController();
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(
@@ -63,16 +62,9 @@ class _TaskTypeCEState extends State<TaskTypeCE> {
                   ),
                   IconButton(
                     onPressed: () async {
-                      final pancakes = Tasks(
-                        title: titleEdit.text,
-                        taskCreate: DateTime.now(),
-                        taskColor: myColor.hashCode,
-                        description: descEdit.text,
-                      );
-
-                      await isar.writeTxn(() async {
-                        await isar.tasks.put(pancakes);
-                      });
+                      IsarServices().createTask(
+                          titleEdit.text, descEdit.text, myColor.hashCode);
+                      Get.back();
                     },
                     icon: const Icon(
                       Icons.save,
