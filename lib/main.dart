@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'app/data/schema.dart';
+import 'package:path_provider/path_provider.dart';
 import 'l10n/translation.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -18,7 +18,7 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 late Isar isar;
 late Settings settings;
 late Tasks task;
-late Todos todos;
+late Todos todo;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,15 +31,9 @@ Future<void> isarInit() async {
     TasksSchema,
     TodosSchema,
     SettingsSchema,
-  ],
-      compactOnLaunch: const CompactCondition(minRatio: 2),
-      directory: (await getApplicationSupportDirectory()).path);
+  ], directory: (await getApplicationSupportDirectory()).path);
 
   settings = await isar.settings.where().findFirst() ?? Settings();
-
-  if (await isar.settings.count() == 0) {
-    await isar.writeTxn(() async => await isar.settings.put(settings));
-  }
 }
 
 class MyApp extends StatelessWidget {
