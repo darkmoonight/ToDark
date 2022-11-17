@@ -1,9 +1,13 @@
+import 'package:dark_todo/app/data/schema.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
+import 'package:dark_todo/app/widgets/task_type_cu.dart';
 import 'package:dark_todo/app/widgets/text_form.dart';
+import 'package:dark_todo/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:isar/isar.dart';
 
 class TaskPage extends StatefulWidget {
   const TaskPage({
@@ -11,10 +15,12 @@ class TaskPage extends StatefulWidget {
     required this.id,
     required this.title,
     required this.desc,
+    required this.task,
   });
   final int id;
   final String title;
   final String desc;
+  final Tasks task;
 
   @override
   State<TaskPage> createState() => _TaskPageState();
@@ -28,10 +34,62 @@ class _TaskPageState extends State<TaskPage> {
   TextEditingController descEdit = TextEditingController();
   TextEditingController timeEdit = TextEditingController();
 
+  late TextEditingController titleTaskEdit;
+  late TextEditingController descTaskEdit;
+
+  var todos = <Todos>[];
+  bool isLoaded = false;
+
   @override
   void initState() {
-    myColor = Colors.blue;
+    myColor = const Color(0xFF2196F3);
+    getTodo();
     super.initState();
+  }
+
+  updateTask() async {
+    await isar.writeTxn(() async {
+      widget.task.title = titleTaskEdit.text;
+      widget.task.description = descTaskEdit.text;
+      widget.task.taskColor = myColor.hashCode;
+      await isar.tasks.put(widget.task);
+    });
+  }
+
+  getTodo() async {
+    final todosCollection = isar.todos;
+    final getTodos = await todosCollection
+        .filter()
+        .task((q) => q.idEqualTo(widget.id))
+        .findAll();
+    setState(() {
+      todos = getTodos;
+      isLoaded = true;
+    });
+  }
+
+  deleteTodo(todos) async {
+    await isar.writeTxn(() async {
+      await isar.todos.delete(todos.id);
+    });
+    getTodo();
+  }
+
+  addTodo() async {
+    final todosCreate = Todos(
+      name: titleEdit.text,
+      description: descEdit.text,
+      todoTimeCompleted: timeEdit.text,
+    )..task.value = widget.task;
+
+    await isar.writeTxn(() async {
+      await isar.todos.put(todosCreate);
+      await todosCreate.task.save();
+    });
+    getTodo();
+    titleEdit.clear();
+    descEdit.clear();
+    timeEdit.clear();
   }
 
   @override
@@ -80,7 +138,37 @@ class _TaskPageState extends State<TaskPage> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                              enableDrag: false,
+                              backgroundColor:
+                                  context.theme.scaffoldBackgroundColor,
+                              context: context,
+                              isScrollControlled: true,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(20),
+                                ),
+                              ),
+                              builder: (BuildContext context) {
+                                titleTaskEdit =
+                                    TextEditingController(text: widget.title);
+                                descTaskEdit =
+                                    TextEditingController(text: widget.desc);
+                                return TaskTypeCu(
+                                  text: 'Редактирование',
+                                  save: () {
+                                    updateTask();
+                                  },
+                                  titleEdit: titleTaskEdit,
+                                  descEdit: descTaskEdit,
+                                  color: myColor,
+                                  pickerColor: (Color color) =>
+                                      setState(() => myColor = color),
+                                );
+                              },
+                            );
+                          },
                           icon: const Icon(Iconsax.edit),
                           splashColor: Colors.transparent,
                           highlightColor: Colors.transparent,
@@ -146,92 +234,124 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                     ),
                     Expanded(
-                      child: ListView.builder(
-                        physics: const BouncingScrollPhysics(),
-                        itemCount: 15,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Dismissible(
-                            key: const ObjectKey(1),
-                            direction: DismissDirection.endToStart,
-                            onDismissed: (DismissDirection direction) {},
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              child: const Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15,
-                                ),
-                                child: Icon(
-                                  Iconsax.trush_square,
-                                  color: Colors.red,
-                                ),
+                      child: Visibility(
+                        visible: isLoaded,
+                        replacement: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        child: Visibility(
+                          visible: todos.isNotEmpty,
+                          replacement: Center(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/AddTasks.png',
+                                    scale: 5,
+                                  ),
+                                  Text(
+                                    'Добавьте задачу',
+                                    style: context.theme.textTheme.headline4
+                                        ?.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            child: Container(
-                              margin: const EdgeInsets.only(
-                                  right: 20, left: 20, bottom: 15),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                // color: Colors.white,
-                              ),
-                              child: CupertinoButton(
-                                minSize: double.minPositive,
-                                padding: EdgeInsets.zero,
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: Row(
-                                        children: [
-                                          Checkbox(
-                                            checkColor: Colors.white,
-                                            fillColor: MaterialStateProperty
-                                                .resolveWith(getColor),
-                                            value: isChecked,
-                                            shape: const CircleBorder(),
-                                            onChanged: (bool? value) {
-                                              setState(() {
-                                                isChecked = value!;
-                                              });
-                                            },
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  'df',
-                                                  style: context
-                                                      .theme.textTheme.headline4
-                                                      ?.copyWith(
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                Text(
-                                                  'sdfg',
-                                                  style: context.theme.textTheme
-                                                      .subtitle2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                          ),
+                          child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: todos.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              final todo = todos[index];
+                              return Dismissible(
+                                key: ObjectKey(todos),
+                                direction: DismissDirection.endToStart,
+                                onDismissed: (DismissDirection direction) {
+                                  deleteTodo(todo);
+                                },
+                                background: Container(
+                                  alignment: Alignment.centerRight,
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(
+                                      right: 15,
                                     ),
-                                    Text(
-                                      'dsf',
-                                      style: context.theme.textTheme.subtitle2,
+                                    child: Icon(
+                                      Iconsax.trush_square,
+                                      color: Colors.red,
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ),
-                          );
-                        },
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      right: 20, left: 20, bottom: 15),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    // color: Colors.white,
+                                  ),
+                                  child: CupertinoButton(
+                                    minSize: double.minPositive,
+                                    padding: EdgeInsets.zero,
+                                    onPressed: () {},
+                                    child: Row(
+                                      children: [
+                                        Flexible(
+                                          child: Row(
+                                            children: [
+                                              Checkbox(
+                                                checkColor: Colors.white,
+                                                fillColor: MaterialStateProperty
+                                                    .resolveWith(getColor),
+                                                value: isChecked,
+                                                shape: const CircleBorder(),
+                                                onChanged: (bool? value) {
+                                                  setState(() {
+                                                    isChecked = value!;
+                                                  });
+                                                },
+                                              ),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      todo.name,
+                                                      style: context.theme
+                                                          .textTheme.headline4
+                                                          ?.copyWith(
+                                                        color: Colors.black,
+                                                      ),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                    Text(
+                                                      todo.description,
+                                                      style: context.theme
+                                                          .textTheme.subtitle2,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Text(
+                                          todo.todoTimeCompleted,
+                                          style:
+                                              context.theme.textTheme.subtitle2,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -273,6 +393,9 @@ class _TaskPageState extends State<TaskPage> {
                                 children: [
                                   IconButton(
                                     onPressed: () {
+                                      titleEdit.clear();
+                                      descEdit.clear();
+                                      timeEdit.clear();
                                       Get.back();
                                     },
                                     icon: const Icon(
@@ -288,6 +411,7 @@ class _TaskPageState extends State<TaskPage> {
                             ),
                             IconButton(
                               onPressed: () {
+                                addTodo();
                                 Get.back();
                               },
                               icon: const Icon(
@@ -314,7 +438,7 @@ class _TaskPageState extends State<TaskPage> {
                         autofocus: false,
                       ),
                       MyTextForm(
-                        textEditingController: titleEdit,
+                        textEditingController: timeEdit,
                         hintText: 'Время выполнения',
                         type: TextInputType.datetime,
                         icon: const Icon(Iconsax.clock),

@@ -27,7 +27,7 @@ class Todos {
   Id id;
   String name;
   String description;
-  DateTime todoTimeCompleted;
+  String todoTimeCompleted;
   bool done;
 
   final task = IsarLink<Tasks>();
@@ -36,7 +36,7 @@ class Todos {
     this.id = Isar.autoIncrement,
     required this.name,
     this.description = '',
-    required this.todoTimeCompleted,
+    this.todoTimeCompleted = '',
     this.done = false,
   });
 }
