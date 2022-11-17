@@ -3,31 +3,42 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
-import '../modules/tasks/view.dart';
-
-class TaskTypeList extends StatelessWidget {
-  const TaskTypeList({
+class TodosList extends StatefulWidget {
+  const TodosList({
     super.key,
     required this.isLoaded,
-    required this.tasks,
-    required this.onDelete,
+    required this.todos,
+    required this.deleteTodo,
+    required this.editTodo,
   });
   final bool isLoaded;
-  final List<Tasks> tasks;
-  final Function(Object) onDelete;
+  final List<Todos> todos;
+  final Function(Object) deleteTodo;
+  final Function() editTodo;
 
   @override
+  State<TodosList> createState() => _TodosListState();
+}
+
+class _TodosListState extends State<TodosList> {
+  @override
   Widget build(BuildContext context) {
+    Color getColor(Set<MaterialState> states) {
+      <MaterialState>{
+        MaterialState.pressed,
+      };
+      return Colors.black;
+    }
+
     return Expanded(
       child: Visibility(
-        visible: isLoaded,
+        visible: widget.isLoaded,
         replacement: const Center(
           child: CircularProgressIndicator(),
         ),
         child: Visibility(
-          visible: tasks.isNotEmpty,
+          visible: widget.todos.isNotEmpty,
           replacement: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -37,7 +48,7 @@ class TaskTypeList extends StatelessWidget {
                     scale: 5,
                   ),
                   Text(
-                    'Добавьте категорию',
+                    'Добавьте задачу',
                     style: context.theme.textTheme.headline4?.copyWith(
                       color: Colors.black,
                     ),
@@ -48,14 +59,14 @@ class TaskTypeList extends StatelessWidget {
           ),
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
-            itemCount: tasks.length,
+            itemCount: widget.todos.length,
             itemBuilder: (BuildContext context, int index) {
-              final task = tasks[index];
+              final todo = widget.todos[index];
               return Dismissible(
-                key: ObjectKey(task),
+                key: ObjectKey(todo),
                 direction: DismissDirection.endToStart,
                 onDismissed: (DismissDirection direction) {
-                  onDelete(task);
+                  widget.deleteTodo(todo);
                 },
                 background: Container(
                   alignment: Alignment.centerRight,
@@ -70,65 +81,49 @@ class TaskTypeList extends StatelessWidget {
                   ),
                 ),
                 child: Container(
-                  margin: const EdgeInsets.only(
-                    bottom: 20,
-                    left: 25,
-                    right: 25,
+                  margin:
+                      const EdgeInsets.only(right: 20, left: 20, bottom: 15),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    // color: Colors.white,
                   ),
                   child: CupertinoButton(
                     minSize: double.minPositive,
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      Get.to(
-                        () => TaskPage(
-                          id: task.id,
-                          title: task.title,
-                          desc: task.description,
-                          task: task,
-                        ),
-                        transition: Transition.downToUp,
-                      );
+                      widget.editTodo();
                     },
                     child: Row(
                       children: [
                         Flexible(
                           child: Row(
                             children: [
-                              SizedBox(
-                                height: 60,
-                                width: 60,
-                                child: CircularStepProgressIndicator(
-                                  totalSteps: 4,
-                                  currentStep: 1,
-                                  stepSize: 4,
-                                  selectedColor: Color(task.taskColor),
-                                  unselectedColor: Colors.grey[300],
-                                  padding: 0,
-                                  selectedStepSize: 6,
-                                  roundedCap: (_, __) => true,
-                                  child: Center(
-                                    child: Text(
-                                      '25%',
-                                      style: context.theme.textTheme.headline6
-                                          ?.copyWith(color: Colors.black),
-                                    ),
-                                  ),
-                                ),
+                              Checkbox(
+                                checkColor: Colors.white,
+                                fillColor:
+                                    MaterialStateProperty.resolveWith(getColor),
+                                value: todo.done,
+                                shape: const CircleBorder(),
+                                onChanged: (val) {
+                                  setState(() {
+                                    todo.done = val!;
+                                  });
+                                },
                               ),
-                              const SizedBox(width: 15),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      task.title,
+                                      todo.name,
                                       style: context.theme.textTheme.headline4
-                                          ?.copyWith(color: Colors.black),
+                                          ?.copyWith(
+                                        color: Colors.black,
+                                      ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 5),
                                     Text(
-                                      task.description,
+                                      todo.description,
                                       style: context.theme.textTheme.subtitle2,
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -139,7 +134,7 @@ class TaskTypeList extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${task.taskCreate.day}.${task.taskCreate.month}.${task.taskCreate.year}',
+                          todo.todoTimeCompleted,
                           style: context.theme.textTheme.subtitle2,
                         ),
                       ],

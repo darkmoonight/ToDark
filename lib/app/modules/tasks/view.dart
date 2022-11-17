@@ -1,9 +1,9 @@
 import 'package:dark_todo/app/data/schema.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type_cu.dart';
-import 'package:dark_todo/app/widgets/text_form.dart';
+import 'package:dark_todo/app/widgets/todos_ce.dart';
+import 'package:dark_todo/app/widgets/todos_list.dart';
 import 'package:dark_todo/main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -29,7 +29,6 @@ class TaskPage extends StatefulWidget {
 class _TaskPageState extends State<TaskPage> {
   int toggleValue = 0;
   late Color myColor;
-  late bool isChecked = false;
   TextEditingController titleEdit = TextEditingController();
   TextEditingController descEdit = TextEditingController();
   TextEditingController timeEdit = TextEditingController();
@@ -45,15 +44,6 @@ class _TaskPageState extends State<TaskPage> {
     myColor = const Color(0xFF2196F3);
     getTodo();
     super.initState();
-  }
-
-  updateTask() async {
-    await isar.writeTxn(() async {
-      widget.task.title = titleTaskEdit.text;
-      widget.task.description = descTaskEdit.text;
-      widget.task.taskColor = myColor.hashCode;
-      await isar.tasks.put(widget.task);
-    });
   }
 
   getTodo() async {
@@ -94,13 +84,6 @@ class _TaskPageState extends State<TaskPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      <MaterialState>{
-        MaterialState.pressed,
-      };
-      return Colors.black;
-    }
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -157,9 +140,7 @@ class _TaskPageState extends State<TaskPage> {
                                     TextEditingController(text: widget.desc);
                                 return TaskTypeCu(
                                   text: 'Редактирование',
-                                  save: () {
-                                    updateTask();
-                                  },
+                                  save: () {},
                                   titleEdit: titleTaskEdit,
                                   descEdit: descTaskEdit,
                                   color: myColor,
@@ -233,126 +214,33 @@ class _TaskPageState extends State<TaskPage> {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Visibility(
-                        visible: isLoaded,
-                        replacement: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                        child: Visibility(
-                          visible: todos.isNotEmpty,
-                          replacement: Center(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Image.asset(
-                                    'assets/images/AddTasks.png',
-                                    scale: 5,
-                                  ),
-                                  Text(
-                                    'Добавьте задачу',
-                                    style: context.theme.textTheme.headline4
-                                        ?.copyWith(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                    TodosList(
+                      isLoaded: isLoaded,
+                      todos: todos,
+                      deleteTodo: deleteTodo,
+                      editTodo: () {
+                        showModalBottomSheet(
+                          enableDrag: false,
+                          backgroundColor:
+                              context.theme.scaffoldBackgroundColor,
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
                             ),
                           ),
-                          child: ListView.builder(
-                            physics: const BouncingScrollPhysics(),
-                            itemCount: todos.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final todo = todos[index];
-                              return Dismissible(
-                                key: ObjectKey(todos),
-                                direction: DismissDirection.endToStart,
-                                onDismissed: (DismissDirection direction) {
-                                  deleteTodo(todo);
-                                },
-                                background: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: const Padding(
-                                    padding: EdgeInsets.only(
-                                      right: 15,
-                                    ),
-                                    child: Icon(
-                                      Iconsax.trush_square,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ),
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      right: 20, left: 20, bottom: 15),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    // color: Colors.white,
-                                  ),
-                                  child: CupertinoButton(
-                                    minSize: double.minPositive,
-                                    padding: EdgeInsets.zero,
-                                    onPressed: () {},
-                                    child: Row(
-                                      children: [
-                                        Flexible(
-                                          child: Row(
-                                            children: [
-                                              Checkbox(
-                                                checkColor: Colors.white,
-                                                fillColor: MaterialStateProperty
-                                                    .resolveWith(getColor),
-                                                value: isChecked,
-                                                shape: const CircleBorder(),
-                                                onChanged: (bool? value) {
-                                                  setState(() {
-                                                    isChecked = value!;
-                                                  });
-                                                },
-                                              ),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      todo.name,
-                                                      style: context.theme
-                                                          .textTheme.headline4
-                                                          ?.copyWith(
-                                                        color: Colors.black,
-                                                      ),
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                    Text(
-                                                      todo.description,
-                                                      style: context.theme
-                                                          .textTheme.subtitle2,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Text(
-                                          todo.todoTimeCompleted,
-                                          style:
-                                              context.theme.textTheme.subtitle2,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
+                          builder: (BuildContext context) {
+                            return TodosCe(
+                              text: 'Создание',
+                              save: () {},
+                              titleEdit: titleEdit,
+                              descEdit: descEdit,
+                              timeEdit: timeEdit,
+                            );
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -374,81 +262,14 @@ class _TaskPageState extends State<TaskPage> {
               ),
             ),
             builder: (BuildContext context) {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding:
-                            const EdgeInsets.only(top: 10, left: 5, right: 10),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              child: Row(
-                                children: [
-                                  IconButton(
-                                    onPressed: () {
-                                      titleEdit.clear();
-                                      descEdit.clear();
-                                      timeEdit.clear();
-                                      Get.back();
-                                    },
-                                    icon: const Icon(
-                                      Icons.close,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Создание',
-                                    style: context.theme.textTheme.headline2,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                addTodo();
-                                Get.back();
-                              },
-                              icon: const Icon(
-                                Icons.save,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      MyTextForm(
-                        textEditingController: titleEdit,
-                        hintText: 'Имя',
-                        type: TextInputType.text,
-                        icon: const Icon(Iconsax.edit_2),
-                        password: false,
-                        autofocus: false,
-                      ),
-                      MyTextForm(
-                        textEditingController: descEdit,
-                        hintText: 'Описание',
-                        type: TextInputType.text,
-                        icon: const Icon(Iconsax.note_text),
-                        password: false,
-                        autofocus: false,
-                      ),
-                      MyTextForm(
-                        textEditingController: timeEdit,
-                        hintText: 'Время выполнения',
-                        type: TextInputType.datetime,
-                        icon: const Icon(Iconsax.clock),
-                        password: false,
-                        autofocus: false,
-                      ),
-                      const SizedBox(height: 30),
-                    ],
-                  ),
-                ),
+              return TodosCe(
+                text: 'Создание',
+                save: () {
+                  addTodo();
+                },
+                titleEdit: titleEdit,
+                descEdit: descEdit,
+                timeEdit: timeEdit,
               );
             },
           );
