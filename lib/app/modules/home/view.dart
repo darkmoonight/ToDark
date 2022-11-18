@@ -33,6 +33,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+  getTotalTask() async {}
+
   getTask() async {
     List<Tasks> getTask;
     final taskCollection = isar.tasks;
@@ -189,14 +191,14 @@ class _HomePageState extends State<HomePage> {
                             ],
                           ),
                           SelectButton(
-                            icons: const [
+                            icons: [
                               Icon(
                                 Iconsax.close_circle,
-                                color: Colors.black,
+                                color: context.theme.scaffoldBackgroundColor,
                               ),
                               Icon(
                                 Iconsax.tick_circle,
-                                color: Colors.black,
+                                color: context.theme.scaffoldBackgroundColor,
                               ),
                             ],
                             onToggleCallback: (value) {
@@ -205,11 +207,14 @@ class _HomePageState extends State<HomePage> {
                               });
                               getTask();
                             },
+                            backgroundColor:
+                                context.theme.scaffoldBackgroundColor,
                           ),
                         ],
                       ),
                     ),
                     TaskTypeList(
+                      back: getTask,
                       isLoaded: isLoaded,
                       tasks: tasks,
                       onDelete: deleteTask,

@@ -12,15 +12,12 @@ import 'package:isar/isar.dart';
 class TaskPage extends StatefulWidget {
   const TaskPage({
     super.key,
-    required this.id,
-    required this.title,
-    required this.desc,
     required this.task,
+    required this.back,
   });
-  final int id;
-  final String title;
-  final String desc;
+
   final Tasks task;
+  final Function() back;
 
   @override
   State<TaskPage> createState() => _TaskPageState();
@@ -39,6 +36,9 @@ class _TaskPageState extends State<TaskPage> {
   var todos = <Todos>[];
   bool isLoaded = false;
 
+  int countTotalTodos = 0;
+  int countDoneTodos = 0;
+
   @override
   void initState() {
     myColor = const Color(0xFF2196F3);
@@ -48,14 +48,51 @@ class _TaskPageState extends State<TaskPage> {
 
   getTodo() async {
     final todosCollection = isar.todos;
-    final getTodos = await todosCollection
-        .filter()
-        .task((q) => q.idEqualTo(widget.id))
-        .findAll();
+    List<Todos> getTodos;
+    toggleValue == 0
+        ? getTodos = await todosCollection
+            .filter()
+            .task((q) => q.idEqualTo(widget.task.id))
+            .doneEqualTo(false)
+            .findAll()
+        : getTodos = await todosCollection
+            .filter()
+            .task((q) => q.idEqualTo(widget.task.id))
+            .doneEqualTo(true)
+            .findAll();
+    countTotalTodos = await getCountTotalTodos();
+    countDoneTodos = await getCountDoneTodos();
     setState(() {
       todos = getTodos;
       isLoaded = true;
     });
+  }
+
+  getCountTotalTodos() async {
+    int res;
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .task((q) => q.idEqualTo(widget.task.id))
+        .findAll();
+
+    res = getTodos.length;
+    return res;
+  }
+
+  getCountDoneTodos() async {
+    int res;
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .task((q) => q.idEqualTo(widget.task.id))
+        .doneEqualTo(true)
+        .findAll();
+
+    res = getTodos.length;
+    return res;
   }
 
   deleteTodo(todos) async {
@@ -97,6 +134,7 @@ class _TaskPageState extends State<TaskPage> {
                       children: [
                         IconButton(
                           onPressed: () {
+                            widget.back();
                             Get.back();
                           },
                           icon: const Icon(Iconsax.arrow_left_1),
@@ -108,12 +146,12 @@ class _TaskPageState extends State<TaskPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.title,
+                                widget.task.title,
                                 style: context.theme.textTheme.headline1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                widget.desc,
+                                widget.task.description,
                                 style: context.theme.textTheme.subtitle2,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -134,10 +172,10 @@ class _TaskPageState extends State<TaskPage> {
                                 ),
                               ),
                               builder: (BuildContext context) {
-                                titleTaskEdit =
-                                    TextEditingController(text: widget.title);
-                                descTaskEdit =
-                                    TextEditingController(text: widget.desc);
+                                titleTaskEdit = TextEditingController(
+                                    text: widget.task.title);
+                                descTaskEdit = TextEditingController(
+                                    text: widget.task.description);
                                 return TaskTypeCu(
                                   text: 'Редактирование',
                                   save: () {},
@@ -189,32 +227,38 @@ class _TaskPageState extends State<TaskPage> {
                                         color: context.theme.backgroundColor),
                               ),
                               Text(
-                                '(1/2) Завершено',
+                                '($countDoneTodos/$countTotalTodos) Завершено',
                                 style: context.theme.textTheme.subtitle2,
                               ),
                             ],
                           ),
                           SelectButton(
-                            icons: const [
+                            icons: [
                               Icon(
                                 Iconsax.close_circle,
-                                color: Colors.black,
+                                color: context.theme.scaffoldBackgroundColor,
                               ),
                               Icon(
                                 Iconsax.tick_circle,
-                                color: Colors.black,
+                                color: context.theme.scaffoldBackgroundColor,
                               ),
                             ],
                             onToggleCallback: (value) {
                               setState(() {
                                 toggleValue = value;
                               });
+                              getTodo();
                             },
+                            backgroundColor:
+                                context.theme.scaffoldBackgroundColor,
                           ),
                         ],
                       ),
                     ),
                     TodosList(
+                      getTodo: () {
+                        getTodo();
+                      },
                       isLoaded: isLoaded,
                       todos: todos,
                       deleteTodo: deleteTodo,
@@ -264,9 +308,7 @@ class _TaskPageState extends State<TaskPage> {
             builder: (BuildContext context) {
               return TodosCe(
                 text: 'Создание',
-                save: () {
-                  addTodo();
-                },
+                save: addTodo,
                 titleEdit: titleEdit,
                 descEdit: descEdit,
                 timeEdit: timeEdit,

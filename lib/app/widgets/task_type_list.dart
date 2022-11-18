@@ -7,27 +7,37 @@ import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../modules/tasks/view.dart';
 
-class TaskTypeList extends StatelessWidget {
+class TaskTypeList extends StatefulWidget {
   const TaskTypeList({
     super.key,
     required this.isLoaded,
     required this.tasks,
     required this.onDelete,
+    required this.back,
   });
   final bool isLoaded;
   final List<Tasks> tasks;
   final Function(Object) onDelete;
+  final Function() back;
+
+  @override
+  State<TaskTypeList> createState() => _TaskTypeListState();
+}
+
+class _TaskTypeListState extends State<TaskTypeList> {
+  int countTotalTodos = 0;
+  int countDoneTodos = 0;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Visibility(
-        visible: isLoaded,
+        visible: widget.isLoaded,
         replacement: const Center(
           child: CircularProgressIndicator(),
         ),
         child: Visibility(
-          visible: tasks.isNotEmpty,
+          visible: widget.tasks.isNotEmpty,
           replacement: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -48,14 +58,14 @@ class TaskTypeList extends StatelessWidget {
           ),
           child: ListView.builder(
             physics: const BouncingScrollPhysics(),
-            itemCount: tasks.length,
+            itemCount: widget.tasks.length,
             itemBuilder: (BuildContext context, int index) {
-              final task = tasks[index];
+              final task = widget.tasks[index];
               return Dismissible(
                 key: ObjectKey(task),
                 direction: DismissDirection.endToStart,
                 onDismissed: (DismissDirection direction) {
-                  onDelete(task);
+                  widget.onDelete(task);
                 },
                 background: Container(
                   alignment: Alignment.centerRight,
@@ -81,9 +91,9 @@ class TaskTypeList extends StatelessWidget {
                     onPressed: () {
                       Get.to(
                         () => TaskPage(
-                          id: task.id,
-                          title: task.title,
-                          desc: task.description,
+                          back: () {
+                            widget.back();
+                          },
                           task: task,
                         ),
                         transition: Transition.downToUp,
@@ -98,8 +108,11 @@ class TaskTypeList extends StatelessWidget {
                                 height: 60,
                                 width: 60,
                                 child: CircularStepProgressIndicator(
-                                  totalSteps: 4,
-                                  currentStep: 1,
+                                  totalSteps: task.todos.length,
+                                  currentStep: task.todos
+                                      .where((e) => e.done == true)
+                                      .toList()
+                                      .length,
                                   stepSize: 4,
                                   selectedColor: Color(task.taskColor),
                                   unselectedColor: Colors.grey[300],

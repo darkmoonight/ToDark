@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../../main.dart';
+
 class TodosList extends StatefulWidget {
   const TodosList({
     super.key,
@@ -11,17 +13,24 @@ class TodosList extends StatefulWidget {
     required this.todos,
     required this.deleteTodo,
     required this.editTodo,
+    required this.getTodo,
   });
   final bool isLoaded;
   final List<Todos> todos;
   final Function(Object) deleteTodo;
   final Function() editTodo;
+  final Function() getTodo;
 
   @override
   State<TodosList> createState() => _TodosListState();
 }
 
 class _TodosListState extends State<TodosList> {
+  updateTodo(todo) async {
+    await isar.writeTxn(() async => isar.todos.put(todo));
+    widget.getTodo();
+  }
+
   @override
   Widget build(BuildContext context) {
     Color getColor(Set<MaterialState> states) {
@@ -107,6 +116,11 @@ class _TodosListState extends State<TodosList> {
                                 onChanged: (val) {
                                   setState(() {
                                     todo.done = val!;
+                                  });
+                                  todo.done = val!;
+                                  Future.delayed(
+                                      const Duration(milliseconds: 300), () {
+                                    updateTodo(todo);
                                   });
                                 },
                               ),
