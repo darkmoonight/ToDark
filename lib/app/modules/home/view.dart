@@ -25,6 +25,8 @@ class _HomePageState extends State<HomePage> {
   late Color myColor;
   var tasks = <Tasks>[];
   bool isLoaded = false;
+  int countTotalTasks = 0;
+  int countTotalDoneTasks = 0;
 
   @override
   void initState() {
@@ -33,7 +35,35 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  getTotalTask() async {}
+  Future<int> getTotalTask() async {
+    int res = 0;
+    List<Tasks> getTask;
+    final taskCollection = isar.tasks;
+    getTask = await taskCollection.where().findAll();
+    for (var i = 0; i < getTask.length; i++) {
+      if (getTask[i].todos.isNotEmpty) {
+        res += getTask[i].todos.length;
+      }
+    }
+    return res;
+  }
+
+  Future<int> getTotalDoneTask() async {
+    int res = 0;
+    List<Tasks> getTask;
+    final taskCollection = isar.tasks;
+    getTask = await taskCollection.where().findAll();
+    for (var i = 0; i < getTask.length; i++) {
+      if (getTask[i].todos.isNotEmpty) {
+        res += getTask[i]
+            .todos
+            .where((element) => element.done == true)
+            .toList()
+            .length;
+      }
+    }
+    return res;
+  }
 
   getTask() async {
     List<Tasks> getTask;
@@ -41,7 +71,8 @@ class _HomePageState extends State<HomePage> {
     toggleValue == 0
         ? getTask = await taskCollection.where().findAll()
         : getTask = await taskCollection.where().findAll();
-
+    countTotalTasks = await getTotalTask();
+    countTotalDoneTasks = await getTotalDoneTask();
     setState(() {
       tasks = getTask;
       isLoaded = true;
@@ -59,7 +90,6 @@ class _HomePageState extends State<HomePage> {
     final taskCreate = Tasks(
       title: titleEdit.text,
       description: descEdit.text,
-      taskCreate: DateTime.now(),
       taskColor: myColor.hashCode,
     );
 
@@ -112,8 +142,9 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       children: [
                         CircularStepProgressIndicator(
-                          totalSteps: 2,
-                          currentStep: 1,
+                          totalSteps:
+                              countTotalTasks != 0 ? countTotalTasks : 1,
+                          currentStep: countTotalDoneTasks,
                           stepSize: 4,
                           selectedColor: Colors.blueAccent,
                           unselectedColor: Colors.white,
@@ -122,7 +153,9 @@ class _HomePageState extends State<HomePage> {
                           roundedCap: (_, __) => true,
                           child: Center(
                             child: Text(
-                              '50%',
+                              countTotalTasks != 0
+                                  ? '${((countTotalDoneTasks / countTotalTasks) * 100).round()}%'
+                                  : '0%',
                               style: context.theme.textTheme.headline2,
                             ),
                           ),
@@ -185,7 +218,7 @@ class _HomePageState extends State<HomePage> {
                                         color: context.theme.backgroundColor),
                               ),
                               Text(
-                                '(1/2) Завершено',
+                                '($countTotalDoneTasks/$countTotalTasks) Завершено',
                                 style: context.theme.textTheme.subtitle2,
                               ),
                             ],

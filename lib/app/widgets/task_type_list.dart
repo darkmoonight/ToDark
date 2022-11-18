@@ -108,7 +108,9 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                 height: 60,
                                 width: 60,
                                 child: CircularStepProgressIndicator(
-                                  totalSteps: task.todos.length,
+                                  totalSteps: task.todos.isNotEmpty
+                                      ? task.todos.length
+                                      : 1,
                                   currentStep: task.todos
                                       .where((e) => e.done == true)
                                       .toList()
@@ -117,11 +119,13 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                   selectedColor: Color(task.taskColor),
                                   unselectedColor: Colors.grey[300],
                                   padding: 0,
-                                  selectedStepSize: 6,
+                                  selectedStepSize: 5,
                                   roundedCap: (_, __) => true,
                                   child: Center(
                                     child: Text(
-                                      '25%',
+                                      task.todos.isNotEmpty
+                                          ? '${((task.todos.where((e) => e.done == true).toList().length / task.todos.length) * 100).round()}%'
+                                          : '0%',
                                       style: context.theme.textTheme.headline6
                                           ?.copyWith(color: Colors.black),
                                     ),
@@ -152,7 +156,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           ),
                         ),
                         Text(
-                          '${task.taskCreate.day}.${task.taskCreate.month}.${task.taskCreate.year}',
+                          '${task.todos.where((e) => e.done == true).toList().length}/${task.todos.length}',
                           style: context.theme.textTheme.subtitle2,
                         ),
                       ],

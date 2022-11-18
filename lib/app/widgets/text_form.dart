@@ -10,6 +10,8 @@ class MyTextForm extends StatelessWidget {
     required this.autofocus,
     required this.password,
     required this.textEditingController,
+    this.onTap,
+    this.readOnly = false,
   });
   final String hintText;
   final TextInputType type;
@@ -17,6 +19,8 @@ class MyTextForm extends StatelessWidget {
   final bool autofocus;
   final bool password;
   final TextEditingController textEditingController;
+  final Function()? onTap;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +28,10 @@ class MyTextForm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: TextFormField(
+        readOnly: readOnly,
+        onTap: () {
+          onTap!();
+        },
         controller: textEditingController,
         obscureText: password,
         keyboardType: type,

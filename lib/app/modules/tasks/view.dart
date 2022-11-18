@@ -106,7 +106,7 @@ class _TaskPageState extends State<TaskPage> {
     final todosCreate = Todos(
       name: titleEdit.text,
       description: descEdit.text,
-      todoTimeCompleted: timeEdit.text,
+      todoCompletedTime: DateTime.tryParse(timeEdit.text),
     )..task.value = widget.task;
 
     await isar.writeTxn(() async {

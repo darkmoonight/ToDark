@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SelectButton extends StatefulWidget {
-  final List<Icon> icons;
-  final ValueChanged onToggleCallback;
-  final Color backgroundColor;
-  final Color buttonColor;
-
   const SelectButton({
     super.key,
     required this.icons,
@@ -14,6 +9,11 @@ class SelectButton extends StatefulWidget {
     this.backgroundColor = Colors.black,
     this.buttonColor = Colors.white,
   });
+  final List<Icon> icons;
+  final ValueChanged onToggleCallback;
+  final Color backgroundColor;
+  final Color buttonColor;
+
   @override
   State<SelectButton> createState() => _SelectButtonState();
 }

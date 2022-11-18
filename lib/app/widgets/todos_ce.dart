@@ -2,6 +2,7 @@ import 'package:dark_todo/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class TodosCe extends StatelessWidget {
   const TodosCe({
@@ -83,12 +84,32 @@ class TodosCe extends StatelessWidget {
               autofocus: false,
             ),
             MyTextForm(
+              readOnly: true,
               textEditingController: timeEdit,
               hintText: 'Время выполнения',
               type: TextInputType.datetime,
               icon: const Icon(Iconsax.clock),
               password: false,
               autofocus: false,
+              onTap: () {
+                DatePicker.showDateTimePicker(
+                  context,
+                  showTitleActions: true,
+                  theme: DatePickerTheme(
+                    backgroundColor: context.theme.scaffoldBackgroundColor,
+                    cancelStyle: const TextStyle(color: Colors.red),
+                    itemStyle: TextStyle(
+                        color: context.theme.textTheme.headline6?.color),
+                  ),
+                  minTime: DateTime.now(),
+                  maxTime: DateTime.now().add(const Duration(days: 1000)),
+                  onConfirm: (date) {
+                    timeEdit.text = date.toString();
+                  },
+                  currentTime: DateTime.now(),
+                  locale: LocaleType.ru,
+                );
+              },
             ),
             const SizedBox(height: 30),
           ],

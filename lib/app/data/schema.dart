@@ -7,7 +7,6 @@ class Tasks {
   Id id;
   String title;
   String description;
-  DateTime taskCreate;
   int taskColor;
 
   @Backlink(to: 'task')
@@ -17,7 +16,6 @@ class Tasks {
     this.id = Isar.autoIncrement,
     required this.title,
     this.description = '',
-    required this.taskCreate,
     required this.taskColor,
   });
 }
@@ -27,7 +25,7 @@ class Todos {
   Id id;
   String name;
   String description;
-  String todoTimeCompleted;
+  DateTime? todoCompletedTime;
   bool done;
 
   final task = IsarLink<Tasks>();
@@ -36,7 +34,7 @@ class Todos {
     this.id = Isar.autoIncrement,
     required this.name,
     this.description = '',
-    this.todoTimeCompleted = '',
+    this.todoCompletedTime,
     this.done = false,
   });
 }

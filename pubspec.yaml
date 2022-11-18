@@ -22,6 +22,7 @@ dependencies:
   flex_color_picker: ^2.6.1
   flutter_easyloading: ^3.0.5
   flutter_screenutil: ^5.5.3+2
+  flutter_datetime_picker: ^1.5.1
   flutter_native_timezone: ^2.0.0
   step_progress_indicator: ^1.0.2
   flutter_local_notifications: ^9.8.0+1

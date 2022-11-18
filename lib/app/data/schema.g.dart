@@ -27,13 +27,8 @@ const TasksSchema = CollectionSchema(
       name: r'taskColor',
       type: IsarType.long,
     ),
-    r'taskCreate': PropertySchema(
-      id: 2,
-      name: r'taskCreate',
-      type: IsarType.dateTime,
-    ),
     r'title': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'title',
       type: IsarType.string,
     )
@@ -79,8 +74,7 @@ void _tasksSerialize(
 ) {
   writer.writeString(offsets[0], object.description);
   writer.writeLong(offsets[1], object.taskColor);
-  writer.writeDateTime(offsets[2], object.taskCreate);
-  writer.writeString(offsets[3], object.title);
+  writer.writeString(offsets[2], object.title);
 }
 
 Tasks _tasksDeserialize(
@@ -93,8 +87,7 @@ Tasks _tasksDeserialize(
     description: reader.readStringOrNull(offsets[0]) ?? '',
     id: id,
     taskColor: reader.readLong(offsets[1]),
-    taskCreate: reader.readDateTime(offsets[2]),
-    title: reader.readString(offsets[3]),
+    title: reader.readString(offsets[2]),
   );
   return object;
 }
@@ -111,8 +104,6 @@ P _tasksDeserializeProp<P>(
     case 1:
       return (reader.readLong(offset)) as P;
     case 2:
-      return (reader.readDateTime(offset)) as P;
-    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -443,59 +434,6 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskCreateEqualTo(
-      DateTime value) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'taskCreate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskCreateGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'taskCreate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskCreateLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'taskCreate',
-        value: value,
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskCreateBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'taskCreate',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
-    });
-  }
-
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> titleEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -710,18 +648,6 @@ extension TasksQuerySortBy on QueryBuilder<Tasks, Tasks, QSortBy> {
     });
   }
 
-  QueryBuilder<Tasks, Tasks, QAfterSortBy> sortByTaskCreate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'taskCreate', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterSortBy> sortByTaskCreateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'taskCreate', Sort.desc);
-    });
-  }
-
   QueryBuilder<Tasks, Tasks, QAfterSortBy> sortByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -772,18 +698,6 @@ extension TasksQuerySortThenBy on QueryBuilder<Tasks, Tasks, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Tasks, Tasks, QAfterSortBy> thenByTaskCreate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'taskCreate', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterSortBy> thenByTaskCreateDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'taskCreate', Sort.desc);
-    });
-  }
-
   QueryBuilder<Tasks, Tasks, QAfterSortBy> thenByTitle() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'title', Sort.asc);
@@ -811,12 +725,6 @@ extension TasksQueryWhereDistinct on QueryBuilder<Tasks, Tasks, QDistinct> {
     });
   }
 
-  QueryBuilder<Tasks, Tasks, QDistinct> distinctByTaskCreate() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'taskCreate');
-    });
-  }
-
   QueryBuilder<Tasks, Tasks, QDistinct> distinctByTitle(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -841,12 +749,6 @@ extension TasksQueryProperty on QueryBuilder<Tasks, Tasks, QQueryProperty> {
   QueryBuilder<Tasks, int, QQueryOperations> taskColorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'taskColor');
-    });
-  }
-
-  QueryBuilder<Tasks, DateTime, QQueryOperations> taskCreateProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'taskCreate');
     });
   }
 
@@ -883,10 +785,10 @@ const TodosSchema = CollectionSchema(
       name: r'name',
       type: IsarType.string,
     ),
-    r'todoTimeCompleted': PropertySchema(
+    r'todoCompletedTime': PropertySchema(
       id: 3,
-      name: r'todoTimeCompleted',
-      type: IsarType.string,
+      name: r'todoCompletedTime',
+      type: IsarType.dateTime,
     )
   },
   estimateSize: _todosEstimateSize,
@@ -918,7 +820,6 @@ int _todosEstimateSize(
   var bytesCount = offsets.last;
   bytesCount += 3 + object.description.length * 3;
   bytesCount += 3 + object.name.length * 3;
-  bytesCount += 3 + object.todoTimeCompleted.length * 3;
   return bytesCount;
 }
 
@@ -931,7 +832,7 @@ void _todosSerialize(
   writer.writeString(offsets[0], object.description);
   writer.writeBool(offsets[1], object.done);
   writer.writeString(offsets[2], object.name);
-  writer.writeString(offsets[3], object.todoTimeCompleted);
+  writer.writeDateTime(offsets[3], object.todoCompletedTime);
 }
 
 Todos _todosDeserialize(
@@ -945,7 +846,7 @@ Todos _todosDeserialize(
     done: reader.readBoolOrNull(offsets[1]) ?? false,
     id: id,
     name: reader.readString(offsets[2]),
-    todoTimeCompleted: reader.readStringOrNull(offsets[3]) ?? '',
+    todoCompletedTime: reader.readDateTimeOrNull(offsets[3]),
   );
   return object;
 }
@@ -964,7 +865,7 @@ P _todosDeserializeProp<P>(
     case 2:
       return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset) ?? '') as P;
+      return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -1378,134 +1279,73 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedEqualTo(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletedTimeIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'todoTimeCompleted',
-        value: value,
-        caseSensitive: caseSensitive,
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'todoCompletedTime',
       ));
     });
   }
 
   QueryBuilder<Todos, Todos, QAfterFilterCondition>
-      todoTimeCompletedGreaterThan(
-    String value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
+      todoCompletedTimeIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'todoTimeCompleted',
-        value: value,
-        caseSensitive: caseSensitive,
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'todoCompletedTime',
       ));
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedLessThan(
-    String value, {
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletedTimeEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'todoCompletedTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition>
+      todoCompletedTimeGreaterThan(
+    DateTime? value, {
     bool include = false,
-    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'todoCompletedTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletedTimeLessThan(
+    DateTime? value, {
+    bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'todoTimeCompleted',
+        property: r'todoCompletedTime',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedBetween(
-    String lower,
-    String upper, {
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletedTimeBetween(
+    DateTime? lower,
+    DateTime? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'todoTimeCompleted',
+        property: r'todoCompletedTime',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'todoTimeCompleted',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'todoTimeCompleted',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'todoTimeCompleted',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'todoTimeCompleted',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoTimeCompletedIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'todoTimeCompleted',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition>
-      todoTimeCompletedIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'todoTimeCompleted',
-        value: '',
       ));
     });
   }
@@ -1564,15 +1404,15 @@ extension TodosQuerySortBy on QueryBuilder<Todos, Todos, QSortBy> {
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterSortBy> sortByTodoTimeCompleted() {
+  QueryBuilder<Todos, Todos, QAfterSortBy> sortByTodoCompletedTime() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'todoTimeCompleted', Sort.asc);
+      return query.addSortBy(r'todoCompletedTime', Sort.asc);
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterSortBy> sortByTodoTimeCompletedDesc() {
+  QueryBuilder<Todos, Todos, QAfterSortBy> sortByTodoCompletedTimeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'todoTimeCompleted', Sort.desc);
+      return query.addSortBy(r'todoCompletedTime', Sort.desc);
     });
   }
 }
@@ -1626,15 +1466,15 @@ extension TodosQuerySortThenBy on QueryBuilder<Todos, Todos, QSortThenBy> {
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterSortBy> thenByTodoTimeCompleted() {
+  QueryBuilder<Todos, Todos, QAfterSortBy> thenByTodoCompletedTime() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'todoTimeCompleted', Sort.asc);
+      return query.addSortBy(r'todoCompletedTime', Sort.asc);
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterSortBy> thenByTodoTimeCompletedDesc() {
+  QueryBuilder<Todos, Todos, QAfterSortBy> thenByTodoCompletedTimeDesc() {
     return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'todoTimeCompleted', Sort.desc);
+      return query.addSortBy(r'todoCompletedTime', Sort.desc);
     });
   }
 }
@@ -1660,11 +1500,9 @@ extension TodosQueryWhereDistinct on QueryBuilder<Todos, Todos, QDistinct> {
     });
   }
 
-  QueryBuilder<Todos, Todos, QDistinct> distinctByTodoTimeCompleted(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Todos, Todos, QDistinct> distinctByTodoCompletedTime() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'todoTimeCompleted',
-          caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'todoCompletedTime');
     });
   }
 }
@@ -1694,9 +1532,9 @@ extension TodosQueryProperty on QueryBuilder<Todos, Todos, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Todos, String, QQueryOperations> todoTimeCompletedProperty() {
+  QueryBuilder<Todos, DateTime?, QQueryOperations> todoCompletedTimeProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'todoTimeCompleted');
+      return query.addPropertyName(r'todoCompletedTime');
     });
   }
 }
