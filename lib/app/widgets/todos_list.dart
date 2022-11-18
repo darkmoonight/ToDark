@@ -148,7 +148,9 @@ class _TodosListState extends State<TodosList> {
                           ),
                         ),
                         Text(
-                          '${todo.todoCompletedTime!.day.toString().padLeft(2, '0')}/${todo.todoCompletedTime!.month.toString().padLeft(2, '0')}/${todo.todoCompletedTime!.year.toString().substring(2)} ${todo.todoCompletedTime!.hour.toString().padLeft(2, '0')}:${todo.todoCompletedTime!.minute.toString().padLeft(2, '0')}',
+                          todo.todoCompletedTime != null
+                              ? '${todo.todoCompletedTime?.day.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.month.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.year.toString().substring(2)} ${todo.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todo.todoCompletedTime?.minute.toString().padLeft(2, '0')}'
+                              : '',
                           style: context.theme.textTheme.subtitle2,
                         ),
                       ],
