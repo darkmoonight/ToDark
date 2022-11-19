@@ -7,8 +7,6 @@ class MyTextForm extends StatelessWidget {
     required this.hintText,
     required this.type,
     required this.icon,
-    required this.autofocus,
-    required this.password,
     required this.textEditingController,
     this.onTap,
     this.readOnly = false,
@@ -16,8 +14,6 @@ class MyTextForm extends StatelessWidget {
   final String hintText;
   final TextInputType type;
   final Icon icon;
-  final bool autofocus;
-  final bool password;
   final TextEditingController textEditingController;
   final Function()? onTap;
   final bool readOnly;
@@ -33,7 +29,6 @@ class MyTextForm extends StatelessWidget {
           onTap!();
         },
         controller: textEditingController,
-        obscureText: password,
         keyboardType: type,
         style: theme.textTheme.headline6,
         decoration: InputDecoration(
@@ -57,7 +52,6 @@ class MyTextForm extends StatelessWidget {
             fontSize: 15.sp,
           ),
         ),
-        autofocus: autofocus,
       ),
     );
   }

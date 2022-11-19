@@ -14,10 +14,12 @@ class TaskTypeList extends StatefulWidget {
     required this.tasks,
     required this.onDelete,
     required this.back,
+    required this.onDeleteTodos,
   });
   final bool isLoaded;
   final List<Tasks> tasks;
   final Function(Object) onDelete;
+  final Function(Object) onDeleteTodos;
   final Function() back;
 
   @override
@@ -25,9 +27,6 @@ class TaskTypeList extends StatefulWidget {
 }
 
 class _TaskTypeListState extends State<TaskTypeList> {
-  int countTotalTodos = 0;
-  int countDoneTodos = 0;
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -43,13 +42,17 @@ class _TaskTypeListState extends State<TaskTypeList> {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/AddTasks.png',
+                    'assets/images/Starting.png',
                     scale: 5,
                   ),
-                  Text(
-                    'Добавьте категорию',
-                    style: context.theme.textTheme.headline4?.copyWith(
-                      color: Colors.black,
+                  SizedBox(
+                    width: Get.size.width * 0.8,
+                    child: Text(
+                      'Добавьте категорию',
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.headline4?.copyWith(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
                 ],
@@ -64,7 +67,41 @@ class _TaskTypeListState extends State<TaskTypeList> {
               return Dismissible(
                 key: ObjectKey(task),
                 direction: DismissDirection.endToStart,
+                confirmDismiss: (DismissDirection direction) async {
+                  return await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: context.theme.primaryColor,
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
+                        title: Text(
+                          "Удаление категории",
+                          style: context.theme.textTheme.headline4,
+                        ),
+                        content: Text(
+                            "Вы уверены что хотите удалить категорию?",
+                            style: context.theme.textTheme.headline6),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Get.back(result: true),
+                              child: Text("Удалить",
+                                  style: context.theme.textTheme.headline6
+                                      ?.copyWith(color: Colors.red))),
+                          TextButton(
+                            onPressed: () => Get.back(result: false),
+                            child: Text("Отмена",
+                                style: context.theme.textTheme.headline6
+                                    ?.copyWith(color: Colors.blueAccent)),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
                 onDismissed: (DismissDirection direction) {
+                  widget.onDeleteTodos(task);
                   widget.onDelete(task);
                 },
                 background: Container(
@@ -134,23 +171,32 @@ class _TaskTypeListState extends State<TaskTypeList> {
                               ),
                               const SizedBox(width: 15),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      task.title,
-                                      style: context.theme.textTheme.headline4
-                                          ?.copyWith(color: Colors.black),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      task.description,
-                                      style: context.theme.textTheme.subtitle2,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
+                                child: task.description.isNotEmpty
+                                    ? Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            task.title,
+                                            style: context
+                                                .theme.textTheme.headline4
+                                                ?.copyWith(color: Colors.black),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          Text(
+                                            task.description,
+                                            style: context
+                                                .theme.textTheme.subtitle2,
+                                            overflow: TextOverflow.ellipsis,
+                                          )
+                                        ],
+                                      )
+                                    : Text(
+                                        task.title,
+                                        style: context.theme.textTheme.headline4
+                                            ?.copyWith(color: Colors.black),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                               ),
                             ],
                           ),

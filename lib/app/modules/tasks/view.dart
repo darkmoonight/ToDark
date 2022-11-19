@@ -41,7 +41,7 @@ class _TaskPageState extends State<TaskPage> {
 
   @override
   void initState() {
-    myColor = const Color(0xFF2196F3);
+    myColor = Color(widget.task.taskColor);
     getTodo();
     super.initState();
   }
@@ -62,10 +62,22 @@ class _TaskPageState extends State<TaskPage> {
             .findAll();
     countTotalTodos = await getCountTotalTodos();
     countDoneTodos = await getCountDoneTodos();
+    toggleValue;
     setState(() {
       todos = getTodos;
       isLoaded = true;
     });
+  }
+
+  updateTask() async {
+    await isar.writeTxn(() async {
+      widget.task.title = titleTaskEdit.text;
+      widget.task.description = descTaskEdit.text;
+      widget.task.taskColor = myColor.hashCode;
+      await isar.tasks.put(widget.task);
+    });
+    widget.back();
+    getTodo();
   }
 
   getCountTotalTodos() async {
@@ -179,17 +191,22 @@ class _TaskPageState extends State<TaskPage> {
                                 ),
                                 builder: (BuildContext context) {
                                   titleTaskEdit = TextEditingController(
-                                      text: widget.task.title);
+                                    text: widget.task.title,
+                                  );
                                   descTaskEdit = TextEditingController(
-                                      text: widget.task.description);
+                                    text: widget.task.description,
+                                  );
                                   return TaskTypeCu(
                                     text: 'Редактирование',
-                                    save: () {},
+                                    save: () {
+                                      updateTask();
+                                    },
                                     titleEdit: titleTaskEdit,
                                     descEdit: descTaskEdit,
                                     color: myColor,
-                                    pickerColor: (Color color) =>
-                                        setState(() => myColor = color),
+                                    pickerColor: (Color color) => setState(
+                                      () => myColor = color,
+                                    ),
                                   );
                                 },
                               );
@@ -265,32 +282,10 @@ class _TaskPageState extends State<TaskPage> {
                         getTodo: () {
                           getTodo();
                         },
+                        toggleValue: toggleValue,
                         isLoaded: isLoaded,
                         todos: todos,
                         deleteTodo: deleteTodo,
-                        editTodo: () {
-                          showModalBottomSheet(
-                            enableDrag: false,
-                            backgroundColor:
-                                context.theme.scaffoldBackgroundColor,
-                            context: context,
-                            isScrollControlled: true,
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20),
-                              ),
-                            ),
-                            builder: (BuildContext context) {
-                              return TodosCe(
-                                text: 'Создание',
-                                save: () {},
-                                titleEdit: titleEdit,
-                                descEdit: descEdit,
-                                timeEdit: timeEdit,
-                              );
-                            },
-                          );
-                        },
                       ),
                     ],
                   ),

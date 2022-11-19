@@ -72,16 +72,12 @@ class TodosCe extends StatelessWidget {
               hintText: 'Имя',
               type: TextInputType.text,
               icon: const Icon(Iconsax.edit_2),
-              password: false,
-              autofocus: false,
             ),
             MyTextForm(
               textEditingController: descEdit,
               hintText: 'Описание',
               type: TextInputType.text,
               icon: const Icon(Iconsax.note_text),
-              password: false,
-              autofocus: false,
             ),
             MyTextForm(
               readOnly: true,
@@ -89,8 +85,6 @@ class TodosCe extends StatelessWidget {
               hintText: 'Время выполнения',
               type: TextInputType.datetime,
               icon: const Icon(Iconsax.clock),
-              password: false,
-              autofocus: false,
               onTap: () {
                 DatePicker.showDateTimePicker(
                   context,

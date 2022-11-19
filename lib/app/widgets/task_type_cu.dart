@@ -73,16 +73,12 @@ class TaskTypeCu extends StatelessWidget {
               hintText: 'Имя',
               type: TextInputType.text,
               icon: const Icon(Iconsax.edit_2),
-              password: false,
-              autofocus: false,
             ),
             MyTextForm(
               textEditingController: descEdit,
               hintText: 'Описание',
               type: TextInputType.text,
               icon: const Icon(Iconsax.note_text),
-              password: false,
-              autofocus: false,
             ),
             ColorPicker(
               color: color,

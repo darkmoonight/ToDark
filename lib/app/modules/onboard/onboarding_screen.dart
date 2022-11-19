@@ -123,7 +123,7 @@ class Onboard {
 
 final List<Onboard> data = [
   Onboard(
-      image: 'assets/images/Task-bro.png',
+      image: 'assets/images/Task.png',
       title: 'titile1'.tr,
       description: 'subtitle1'.tr),
   Onboard(
@@ -131,7 +131,7 @@ final List<Onboard> data = [
       title: 'titile2'.tr,
       description: 'subtitle2'.tr),
   Onboard(
-      image: 'assets/images/Done-bro.png',
+      image: 'assets/images/Done.png',
       title: 'titile3'.tr,
       description: 'subtitle3'.tr),
 ];

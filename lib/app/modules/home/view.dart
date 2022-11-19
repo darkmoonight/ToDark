@@ -1,5 +1,4 @@
 import 'package:dark_todo/app/data/schema.dart';
-import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type_cu.dart';
 import 'package:dark_todo/app/widgets/task_type_list.dart';
 import 'package:dark_todo/main.dart';
@@ -21,7 +20,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController titleEdit = TextEditingController();
   TextEditingController descEdit = TextEditingController();
-  int toggleValue = 0;
   late Color myColor;
   var tasks = <Tasks>[];
   bool isLoaded = false;
@@ -68,9 +66,9 @@ class _HomePageState extends State<HomePage> {
   getTask() async {
     List<Tasks> getTask;
     final taskCollection = isar.tasks;
-    toggleValue == 0
-        ? getTask = await taskCollection.where().findAll()
-        : getTask = await taskCollection.where().findAll();
+
+    getTask = await taskCollection.where().findAll();
+
     countTotalTasks = await getTotalTask();
     countTotalDoneTasks = await getTotalDoneTask();
     setState(() {
@@ -82,6 +80,13 @@ class _HomePageState extends State<HomePage> {
   deleteTask(task) async {
     await isar.writeTxn(() async {
       await isar.tasks.delete(task.id);
+    });
+    getTask();
+  }
+
+  deleteTaskTodos(task) async {
+    await isar.writeTxn(() async {
+      await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
     });
     getTask();
   }
@@ -205,43 +210,17 @@ class _HomePageState extends State<HomePage> {
                     Padding(
                       padding: const EdgeInsets.only(
                           left: 30, top: 20, bottom: 20, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Категории',
-                                style: context.theme.textTheme.headline1
-                                    ?.copyWith(
-                                        color: context.theme.backgroundColor),
-                              ),
-                              Text(
-                                '($countTotalDoneTasks/$countTotalTasks) Завершено',
-                                style: context.theme.textTheme.subtitle2,
-                              ),
-                            ],
+                          Text(
+                            'Категории',
+                            style: context.theme.textTheme.headline1?.copyWith(
+                                color: context.theme.backgroundColor),
                           ),
-                          SelectButton(
-                            icons: [
-                              Icon(
-                                Iconsax.close_circle,
-                                color: context.theme.scaffoldBackgroundColor,
-                              ),
-                              Icon(
-                                Iconsax.tick_circle,
-                                color: context.theme.scaffoldBackgroundColor,
-                              ),
-                            ],
-                            onToggleCallback: (value) {
-                              setState(() {
-                                toggleValue = value;
-                              });
-                              getTask();
-                            },
-                            backgroundColor:
-                                context.theme.scaffoldBackgroundColor,
+                          Text(
+                            '($countTotalDoneTasks/$countTotalTasks) Завершено',
+                            style: context.theme.textTheme.subtitle2,
                           ),
                         ],
                       ),
@@ -251,6 +230,7 @@ class _HomePageState extends State<HomePage> {
                       isLoaded: isLoaded,
                       tasks: tasks,
                       onDelete: deleteTask,
+                      onDeleteTodos: deleteTaskTodos,
                     ),
                   ],
                 ),
