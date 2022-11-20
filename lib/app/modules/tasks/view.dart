@@ -348,7 +348,7 @@ class _TaskPageState extends State<TaskPage> {
           backgroundColor: context.theme.primaryColor,
           child: const Icon(
             Iconsax.add,
-            color: Colors.green,
+            color: Colors.greenAccent,
           ),
         ),
       ),

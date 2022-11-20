@@ -312,7 +312,7 @@ class _HomePageState extends State<HomePage> {
             highlightColor: Colors.transparent,
           ),
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 5, left: 25, right: 25),
+            padding: const EdgeInsets.only(bottom: 5),
             child: CustomNavigationBar(
               backgroundColor: context.theme.scaffoldBackgroundColor,
               borderRadius: const Radius.circular(20),
