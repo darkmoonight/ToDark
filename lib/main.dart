@@ -2,6 +2,7 @@ import 'package:dark_todo/app/modules/home/view.dart';
 import 'package:dark_todo/app/modules/onboard/onboarding_screen.dart';
 import 'package:dark_todo/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -22,6 +23,8 @@ late Todos todo;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
   await isarInit();
   runApp(const MyApp());
 }

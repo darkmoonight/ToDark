@@ -2,6 +2,7 @@ import 'package:dark_todo/app/data/schema.dart';
 import 'package:dark_todo/app/widgets/todos_ce.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -43,6 +44,8 @@ class _TodosListState extends State<TodosList> {
       todo.todoCompletedTime = DateTime.tryParse(timeTodoEdit.text);
       await isar.todos.put(todo);
     });
+    EasyLoading.showSuccess('Задача изменена',
+        duration: const Duration(milliseconds: 500));
     widget.getTodo();
   }
 

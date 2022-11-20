@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class TaskTypeCu extends StatelessWidget {
+class TaskTypeCu extends StatefulWidget {
   const TaskTypeCu({
     super.key,
     required this.save,
@@ -22,78 +22,105 @@ class TaskTypeCu extends StatelessWidget {
   final Function(Color) pickerColor;
 
   @override
+  State<TaskTypeCu> createState() => _TaskTypeCuState();
+}
+
+class _TaskTypeCuState extends State<TaskTypeCu> {
+  final formKey = GlobalKey<FormState>();
+
+  textTrim(value) {
+    value.text = value.text.trim();
+    while (value.text.contains("  ")) {
+      value.text = value.text.replaceAll("  ", " ");
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 10, left: 5, right: 10),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            titleEdit.clear();
-                            descEdit.clear();
-                            Get.back();
-                          },
-                          icon: const Icon(
-                            Icons.close,
+    return Form(
+      key: formKey,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10, left: 5, right: 10),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              widget.titleEdit.clear();
+                              widget.descEdit.clear();
+                              Get.back();
+                            },
+                            icon: const Icon(
+                              Icons.close,
+                            ),
                           ),
-                        ),
-                        Text(
-                          text,
-                          style: context.theme.textTheme.headline2,
-                        ),
-                      ],
+                          Text(
+                            widget.text,
+                            style: context.theme.textTheme.headline2,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      save();
-                      Get.back();
-                    },
-                    icon: const Icon(
-                      Icons.save,
+                    IconButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          textTrim(widget.titleEdit);
+                          textTrim(widget.descEdit);
+                          widget.save();
+                          Get.back();
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.save,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            MyTextForm(
-              textEditingController: titleEdit,
-              hintText: 'Имя',
-              type: TextInputType.text,
-              icon: const Icon(Iconsax.edit_2),
-            ),
-            MyTextForm(
-              textEditingController: descEdit,
-              hintText: 'Описание',
-              type: TextInputType.text,
-              icon: const Icon(Iconsax.note_text),
-            ),
-            ColorPicker(
-              color: color,
-              onColorChanged: pickerColor,
-              borderRadius: 20,
-              enableShadesSelection: false,
-              enableTonalPalette: true,
-              pickersEnabled: const <ColorPickerType, bool>{
-                ColorPickerType.accent: false,
-                ColorPickerType.primary: true,
-                ColorPickerType.wheel: true,
-                ColorPickerType.both: false,
-              },
-            ),
-          ],
+              MyTextForm(
+                textEditingController: widget.titleEdit,
+                hintText: 'Имя',
+                type: TextInputType.text,
+                icon: const Icon(Iconsax.edit_2),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Пожалуйста введите имя';
+                  }
+                  return null;
+                },
+              ),
+              MyTextForm(
+                textEditingController: widget.descEdit,
+                hintText: 'Описание',
+                type: TextInputType.text,
+                icon: const Icon(Iconsax.note_text),
+              ),
+              ColorPicker(
+                color: widget.color,
+                onColorChanged: widget.pickerColor,
+                borderRadius: 20,
+                enableShadesSelection: false,
+                enableTonalPalette: true,
+                pickersEnabled: const <ColorPickerType, bool>{
+                  ColorPickerType.accent: false,
+                  ColorPickerType.primary: true,
+                  ColorPickerType.wheel: true,
+                  ColorPickerType.both: false,
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -37,26 +37,25 @@ class _TaskTypeListState extends State<TaskTypeList> {
         ),
         child: Visibility(
           visible: widget.tasks.isNotEmpty,
-          replacement: Center(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Image.asset(
-                    'assets/images/Starting.png',
-                    scale: 5,
-                  ),
-                  SizedBox(
-                    width: Get.size.width * 0.8,
-                    child: Text(
-                      'Добавьте категорию',
-                      textAlign: TextAlign.center,
-                      style: context.theme.textTheme.headline4?.copyWith(
-                        color: Colors.black,
-                      ),
+          replacement: SingleChildScrollView(
+            child: Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                Image.asset(
+                  'assets/images/Starting.png',
+                  scale: 5,
+                ),
+                SizedBox(
+                  width: Get.size.width * 0.8,
+                  child: Text(
+                    'Добавьте категорию',
+                    textAlign: TextAlign.center,
+                    style: context.theme.textTheme.headline4?.copyWith(
+                      color: Colors.black,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           child: ListView.builder(

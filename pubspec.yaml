@@ -18,10 +18,12 @@ dependencies:
   intl: ^0.17.0
   iconsax: ^0.0.8
   path_provider: ^2.0.11
+  table_calendar: ^3.0.8
   isar_flutter_libs: ^3.0.2
   flex_color_picker: ^2.6.1
   flutter_easyloading: ^3.0.5
   flutter_screenutil: ^5.5.3+2
+  custom_navigation_bar: ^0.8.2
   flutter_datetime_picker: ^1.5.1
   flutter_native_timezone: ^2.0.0
   step_progress_indicator: ^1.0.2

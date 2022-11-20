@@ -10,12 +10,16 @@ class MyTextForm extends StatelessWidget {
     required this.textEditingController,
     this.onTap,
     this.readOnly = false,
+    this.validator,
+    this.iconButton,
   });
   final String hintText;
   final TextInputType type;
   final Icon icon;
+  final IconButton? iconButton;
   final TextEditingController textEditingController;
   final Function()? onTap;
+  final String? Function(String?)? validator;
   final bool readOnly;
 
   @override
@@ -33,6 +37,7 @@ class MyTextForm extends StatelessWidget {
         style: theme.textTheme.headline6,
         decoration: InputDecoration(
           prefixIcon: icon,
+          suffixIcon: iconButton,
           fillColor: theme.primaryColor,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
@@ -52,6 +57,7 @@ class MyTextForm extends StatelessWidget {
             fontSize: 15.sp,
           ),
         ),
+        validator: validator,
       ),
     );
   }

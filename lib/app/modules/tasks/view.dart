@@ -5,6 +5,7 @@ import 'package:dark_todo/app/widgets/todos_ce.dart';
 import 'package:dark_todo/app/widgets/todos_list.dart';
 import 'package:dark_todo/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:isar/isar.dart';
@@ -76,6 +77,8 @@ class _TaskPageState extends State<TaskPage> {
       widget.task.taskColor = myColor.hashCode;
       await isar.tasks.put(widget.task);
     });
+    EasyLoading.showSuccess('Категория изменена',
+        duration: const Duration(milliseconds: 500));
     widget.back();
     getTodo();
   }
@@ -111,6 +114,8 @@ class _TaskPageState extends State<TaskPage> {
     await isar.writeTxn(() async {
       await isar.todos.delete(todos.id);
     });
+    EasyLoading.showSuccess('Задача удалена',
+        duration: const Duration(milliseconds: 500));
     getTodo();
   }
 
@@ -121,10 +126,23 @@ class _TaskPageState extends State<TaskPage> {
       todoCompletedTime: DateTime.tryParse(timeEdit.text),
     )..task.value = widget.task;
 
-    await isar.writeTxn(() async {
-      await isar.todos.put(todosCreate);
-      await todosCreate.task.save();
-    });
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+
+    getTodos =
+        await todosCollection.filter().nameEqualTo(titleEdit.text).findAll();
+
+    if (getTodos.isEmpty) {
+      await isar.writeTxn(() async {
+        await isar.todos.put(todosCreate);
+        await todosCreate.task.save();
+      });
+      EasyLoading.showSuccess('Задача создана',
+          duration: const Duration(milliseconds: 500));
+    } else {
+      EasyLoading.showError('Задача уже существует',
+          duration: const Duration(milliseconds: 500));
+    }
     getTodo();
     titleEdit.clear();
     descEdit.clear();
@@ -160,21 +178,30 @@ class _TaskPageState extends State<TaskPage> {
                             highlightColor: Colors.transparent,
                           ),
                           Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.task.title,
-                                  style: context.theme.textTheme.headline1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                Text(
-                                  widget.task.description,
-                                  style: context.theme.textTheme.subtitle2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ),
+                            child: widget.task.description.isNotEmpty
+                                ? Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        widget.task.title,
+                                        style:
+                                            context.theme.textTheme.headline1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        widget.task.description,
+                                        style:
+                                            context.theme.textTheme.subtitle2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  )
+                                : Text(
+                                    widget.task.title,
+                                    style: context.theme.textTheme.headline1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                           ),
                           IconButton(
                             onPressed: () {
@@ -321,7 +348,7 @@ class _TaskPageState extends State<TaskPage> {
           backgroundColor: context.theme.primaryColor,
           child: const Icon(
             Iconsax.add,
-            color: Colors.white,
+            color: Colors.green,
           ),
         ),
       ),
