@@ -15,6 +15,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
+    final tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
     return Column(
       children: [
         TableCalendar(
@@ -22,8 +23,13 @@ class _CalendarPageState extends State<CalendarPage> {
           firstDay: DateTime(2022, 09, 01),
           lastDay: selectedDay.add(const Duration(days: 1000)),
           focusedDay: selectedDay,
-          locale: 'ru',
+          locale: '$tag',
           weekendDays: const [DateTime.sunday],
+          availableCalendarFormats: {
+            CalendarFormat.month: 'month'.tr,
+            CalendarFormat.twoWeeks: 'two_week'.tr,
+            CalendarFormat.week: 'week'.tr
+          },
           selectedDayPredicate: (day) {
             return isSameDay(selectedDay, day);
           },
@@ -64,7 +70,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   padding: const EdgeInsets.only(
                       left: 30, top: 20, bottom: 20, right: 20),
                   child: Text(
-                    'Задачи',
+                    'tasks'.tr,
                     style: context.theme.textTheme.headline1
                         ?.copyWith(color: context.theme.backgroundColor),
                   ),

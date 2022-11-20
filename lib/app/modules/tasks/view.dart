@@ -77,7 +77,7 @@ class _TaskPageState extends State<TaskPage> {
       widget.task.taskColor = myColor.hashCode;
       await isar.tasks.put(widget.task);
     });
-    EasyLoading.showSuccess('Категория изменена',
+    EasyLoading.showSuccess('editCategory'.tr,
         duration: const Duration(milliseconds: 500));
     widget.back();
     getTodo();
@@ -114,7 +114,7 @@ class _TaskPageState extends State<TaskPage> {
     await isar.writeTxn(() async {
       await isar.todos.delete(todos.id);
     });
-    EasyLoading.showSuccess('Задача удалена',
+    EasyLoading.showSuccess('taskDelete'.tr,
         duration: const Duration(milliseconds: 500));
     getTodo();
   }
@@ -137,10 +137,10 @@ class _TaskPageState extends State<TaskPage> {
         await isar.todos.put(todosCreate);
         await todosCreate.task.save();
       });
-      EasyLoading.showSuccess('Задача создана',
+      EasyLoading.showSuccess('taskCreate'.tr,
           duration: const Duration(milliseconds: 500));
     } else {
-      EasyLoading.showError('Задача уже существует',
+      EasyLoading.showError('duplicateTask'.tr,
           duration: const Duration(milliseconds: 500));
     }
     getTodo();
@@ -224,7 +224,7 @@ class _TaskPageState extends State<TaskPage> {
                                     text: widget.task.description,
                                   );
                                   return TaskTypeCu(
-                                    text: 'Редактирование',
+                                    text: 'editing'.tr,
                                     save: () {
                                       updateTask();
                                     },
@@ -271,13 +271,13 @@ class _TaskPageState extends State<TaskPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Задачи',
+                                  'tasks'.tr,
                                   style: context.theme.textTheme.headline1
                                       ?.copyWith(
                                           color: context.theme.backgroundColor),
                                 ),
                                 Text(
-                                  '($countDoneTodos/$countTotalTodos) Завершено',
+                                  '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
                                   style: context.theme.textTheme.subtitle2,
                                 ),
                               ],
@@ -335,7 +335,7 @@ class _TaskPageState extends State<TaskPage> {
               ),
               builder: (BuildContext context) {
                 return TodosCe(
-                  text: 'Создание',
+                  text: 'create'.tr,
                   save: addTodo,
                   titleEdit: titleEdit,
                   descEdit: descEdit,

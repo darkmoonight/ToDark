@@ -70,7 +70,8 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: MyTextButton(
-                  buttonName: pageIndex == data.length - 1 ? 'Начать' : 'Далее',
+                  buttonName:
+                      pageIndex == data.length - 1 ? 'getStart'.tr : 'next'.tr,
                   onTap: () {
                     pageIndex == data.length - 1
                         ? onBoardHome()

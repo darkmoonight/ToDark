@@ -35,6 +35,7 @@ class _TodosCeState extends State<TodosCe> {
 
   @override
   Widget build(BuildContext context) {
+    final tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
     return Form(
       key: formKey,
       child: SingleChildScrollView(
@@ -89,26 +90,26 @@ class _TodosCeState extends State<TodosCe> {
               ),
               MyTextForm(
                 textEditingController: widget.titleEdit,
-                hintText: 'Имя',
+                hintText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Пожалуйста введите имя';
+                    return 'validateName'.tr;
                   }
                   return null;
                 },
               ),
               MyTextForm(
                 textEditingController: widget.descEdit,
-                hintText: 'Описание',
+                hintText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
               MyTextForm(
                 readOnly: true,
                 textEditingController: widget.timeEdit,
-                hintText: 'Время выполнения',
+                hintText: 'timeComlete'.tr,
                 type: TextInputType.datetime,
                 icon: const Icon(Iconsax.clock),
                 iconButton: widget.timeEdit.text.isNotEmpty
@@ -138,7 +139,9 @@ class _TodosCeState extends State<TodosCe> {
                       widget.timeEdit.text = date.toString();
                     },
                     currentTime: DateTime.now(),
-                    locale: LocaleType.ru,
+                    locale: tag.toString() == 'ru-RU'
+                        ? LocaleType.ru
+                        : LocaleType.en,
                   );
                 },
               ),

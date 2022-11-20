@@ -10,7 +10,6 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class HomePage extends StatefulWidget {
@@ -89,7 +88,7 @@ class _HomePageState extends State<HomePage> {
     await isar.writeTxn(() async {
       await isar.tasks.delete(task.id);
     });
-    EasyLoading.showSuccess('Категория удалена',
+    EasyLoading.showSuccess('categoryDelete'.tr,
         duration: const Duration(milliseconds: 500));
     getTask();
   }
@@ -118,10 +117,10 @@ class _HomePageState extends State<HomePage> {
       await isar.writeTxn(() async {
         await isar.tasks.put(taskCreate);
       });
-      EasyLoading.showSuccess('Категория создана',
+      EasyLoading.showSuccess('createCategory'.tr,
           duration: const Duration(milliseconds: 500));
     } else {
-      EasyLoading.showError('Категория уже существует',
+      EasyLoading.showError('duplicateCategory'.tr,
           duration: const Duration(milliseconds: 500));
     }
     getTask();
@@ -131,6 +130,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -198,7 +198,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'Задач\nВыполнено',
+                                    'taskCompleted'.tr,
                                     style: context.theme.textTheme.headline5,
                                     overflow: TextOverflow.visible,
                                   ),
@@ -213,7 +213,7 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
-                              DateFormat.MMMMd('ru').format(
+                              DateFormat.MMMMd('$tag').format(
                                 DateTime.now(),
                               ),
                               style: context.theme.textTheme.headline6,
@@ -242,14 +242,14 @@ class _HomePageState extends State<HomePage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Категории',
+                                    'categories'.tr,
                                     style: context.theme.textTheme.headline1
                                         ?.copyWith(
                                             color:
                                                 context.theme.backgroundColor),
                                   ),
                                   Text(
-                                    '($countTotalDoneTasks/$countTotalTasks) Завершено',
+                                    '($countTotalDoneTasks/$countTotalTasks) ${'completed'.tr}',
                                     style: context.theme.textTheme.subtitle2,
                                   ),
                                 ],
@@ -286,7 +286,7 @@ class _HomePageState extends State<HomePage> {
             ),
             builder: (BuildContext context) {
               return TaskTypeCu(
-                text: 'Создание',
+                text: 'create'.tr,
                 save: () {
                   addTask();
                 },
@@ -312,7 +312,7 @@ class _HomePageState extends State<HomePage> {
             highlightColor: Colors.transparent,
           ),
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 5),
+            padding: const EdgeInsets.only(bottom: 5, right: 15, left: 15),
             child: CustomNavigationBar(
               backgroundColor: context.theme.scaffoldBackgroundColor,
               borderRadius: const Radius.circular(20),

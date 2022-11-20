@@ -44,7 +44,7 @@ class _TodosListState extends State<TodosList> {
       todo.todoCompletedTime = DateTime.tryParse(timeTodoEdit.text);
       await isar.todos.put(todo);
     });
-    EasyLoading.showSuccess('Задача изменена',
+    EasyLoading.showSuccess('update'.tr,
         duration: const Duration(milliseconds: 500));
     widget.getTodo();
   }
@@ -75,9 +75,7 @@ class _TodosListState extends State<TodosList> {
                     scale: 5,
                   ),
                   Text(
-                    widget.toggleValue == 0
-                        ? 'Добавьте задачу'
-                        : 'Выполните задачу',
+                    widget.toggleValue == 0 ? 'addTask'.tr : 'copletedTask'.tr,
                     style: context.theme.textTheme.headline4?.copyWith(
                       color: Colors.black,
                     ),
@@ -104,20 +102,20 @@ class _TodosListState extends State<TodosList> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15))),
                         title: Text(
-                          "Удаление задачи",
+                          "deletedTask".tr,
                           style: context.theme.textTheme.headline4,
                         ),
-                        content: Text("Вы уверены что хотите удалить задачу?",
+                        content: Text("deletedTaskQuery".tr,
                             style: context.theme.textTheme.headline6),
                         actions: [
                           TextButton(
                               onPressed: () => Get.back(result: true),
-                              child: Text("Удалить",
+                              child: Text("delete".tr,
                                   style: context.theme.textTheme.headline6
                                       ?.copyWith(color: Colors.red))),
                           TextButton(
                             onPressed: () => Get.back(result: false),
-                            child: Text("Отмена",
+                            child: Text("cancel".tr,
                                 style: context.theme.textTheme.headline6
                                     ?.copyWith(color: Colors.blueAccent)),
                           ),
@@ -172,7 +170,7 @@ class _TodosListState extends State<TodosList> {
                                   ? todo.todoCompletedTime.toString()
                                   : '');
                           return TodosCe(
-                            text: 'Редактирование',
+                            text: 'editing'.tr,
                             save: () {
                               updateTodo(todo);
                             },

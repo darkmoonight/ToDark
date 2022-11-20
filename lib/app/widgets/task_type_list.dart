@@ -48,7 +48,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                 SizedBox(
                   width: Get.size.width * 0.8,
                   child: Text(
-                    'Добавьте категорию',
+                    'addCategory'.tr,
                     textAlign: TextAlign.center,
                     style: context.theme.textTheme.headline4?.copyWith(
                       color: Colors.black,
@@ -76,21 +76,20 @@ class _TaskTypeListState extends State<TaskTypeList> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15))),
                         title: Text(
-                          "Удаление категории",
+                          "deleteCategory".tr,
                           style: context.theme.textTheme.headline4,
                         ),
-                        content: Text(
-                            "Вы уверены что хотите удалить категорию?",
+                        content: Text("deleteCategoryQuery".tr,
                             style: context.theme.textTheme.headline6),
                         actions: [
                           TextButton(
                               onPressed: () => Get.back(result: true),
-                              child: Text("Удалить",
+                              child: Text("delete".tr,
                                   style: context.theme.textTheme.headline6
                                       ?.copyWith(color: Colors.red))),
                           TextButton(
                             onPressed: () => Get.back(result: false),
-                            child: Text("Отмена",
+                            child: Text("cancel".tr,
                                 style: context.theme.textTheme.headline6
                                     ?.copyWith(color: Colors.blueAccent)),
                           ),
