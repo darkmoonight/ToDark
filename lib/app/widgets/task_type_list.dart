@@ -37,25 +37,26 @@ class _TaskTypeListState extends State<TaskTypeList> {
         ),
         child: Visibility(
           visible: widget.tasks.isNotEmpty,
-          replacement: SingleChildScrollView(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Image.asset(
-                  'assets/images/Starting.png',
-                  scale: 5,
-                ),
-                SizedBox(
-                  width: Get.size.width * 0.8,
-                  child: Text(
-                    'addCategory'.tr,
-                    textAlign: TextAlign.center,
-                    style: context.theme.textTheme.headline4?.copyWith(
-                      color: Colors.black,
+          replacement: Center(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/Starting.png',
+                    scale: 5,
+                  ),
+                  SizedBox(
+                    width: Get.size.width * 0.8,
+                    child: Text(
+                      'addCategory'.tr,
+                      textAlign: TextAlign.center,
+                      style: context.theme.textTheme.headline4?.copyWith(
+                        color: Colors.black,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           child: ListView.builder(
@@ -83,16 +84,15 @@ class _TaskTypeListState extends State<TaskTypeList> {
                             style: context.theme.textTheme.headline6),
                         actions: [
                           TextButton(
+                              onPressed: () => Get.back(result: false),
+                              child: Text("cancel".tr,
+                                  style: context.theme.textTheme.headline6
+                                      ?.copyWith(color: Colors.blueAccent))),
+                          TextButton(
                               onPressed: () => Get.back(result: true),
                               child: Text("delete".tr,
                                   style: context.theme.textTheme.headline6
                                       ?.copyWith(color: Colors.red))),
-                          TextButton(
-                            onPressed: () => Get.back(result: false),
-                            child: Text("cancel".tr,
-                                style: context.theme.textTheme.headline6
-                                    ?.copyWith(color: Colors.blueAccent)),
-                          ),
                         ],
                       );
                     },

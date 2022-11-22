@@ -1,6 +1,11 @@
+import 'package:dark_todo/app/widgets/todos_list.dart';
+import 'package:dark_todo/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:isar/isar.dart';
 import 'package:table_calendar/table_calendar.dart';
+import '../../data/schema.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -12,6 +17,44 @@ class CalendarPage extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPage> {
   DateTime selectedDay = normalizeDate(DateTime.now());
   CalendarFormat calendarFormat = CalendarFormat.week;
+
+  var todos = <Todos>[];
+  bool isLoaded = false;
+
+  @override
+  initState() {
+    getTodo();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  getTodo() async {
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .doneEqualTo(false)
+        .todoCompletedTimeIsNotNull()
+        .todoCompletedTimeEqualTo(selectedDay)
+        .findAll();
+    setState(() {
+      todos = getTodos;
+      isLoaded = true;
+    });
+  }
+
+  deleteTodo(todos) async {
+    await isar.writeTxn(() async {
+      await isar.todos.delete(todos.id);
+    });
+    EasyLoading.showSuccess('taskDelete'.tr,
+        duration: const Duration(milliseconds: 500));
+    getTodo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +80,13 @@ class _CalendarPageState extends State<CalendarPage> {
             setState(() {
               selectedDay = selected;
             });
+            getTodo();
           },
           onPageChanged: (focused) {
             setState(() {
               selectedDay = focused;
             });
+            getTodo();
           },
           calendarFormat: calendarFormat,
           onFormatChanged: (format) {
@@ -75,6 +120,12 @@ class _CalendarPageState extends State<CalendarPage> {
                         ?.copyWith(color: context.theme.backgroundColor),
                   ),
                 ),
+                TodosList(
+                  isLoaded: isLoaded,
+                  todos: todos,
+                  deleteTodo: deleteTodo,
+                  getTodo: getTodo,
+                )
               ],
             ),
           ),

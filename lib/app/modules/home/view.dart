@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class HomePage extends StatefulWidget {
@@ -38,6 +39,7 @@ class _HomePageState extends State<HomePage> {
 
   void changeTabIndex(int index) {
     tabIndex.value = index;
+    getTask();
   }
 
   Future<int> getTotalTask() async {
@@ -132,7 +134,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
     return Scaffold(
-      extendBody: true,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -155,7 +156,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Obx(
-        (() => IndexedStack(
+        (() => LazyLoadIndexedStack(
               index: tabIndex.value,
               children: [
                 Column(
@@ -268,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                const CalendarPage(),
+                CalendarPage(key: UniqueKey()),
               ],
             )),
       ),
@@ -311,22 +312,17 @@ class _HomePageState extends State<HomePage> {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 5, right: 15, left: 15),
-            child: CustomNavigationBar(
-              backgroundColor: context.theme.scaffoldBackgroundColor,
-              borderRadius: const Radius.circular(20),
-              strokeColor: const Color(0x300c18fb),
-              isFloating: true,
-              onTap: (int index) => changeTabIndex(index),
-              currentIndex: tabIndex.value,
-              iconSize: 24,
-              elevation: 0,
-              items: [
-                CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
-                CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
-              ],
-            ),
+          child: CustomNavigationBar(
+            backgroundColor: Colors.white,
+            strokeColor: const Color(0x300c18fb),
+            onTap: (int index) => changeTabIndex(index),
+            currentIndex: tabIndex.value,
+            iconSize: 24,
+            elevation: 0,
+            items: [
+              CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
+              CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
+            ],
           ),
         ),
       ),

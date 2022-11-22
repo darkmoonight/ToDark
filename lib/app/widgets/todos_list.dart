@@ -15,10 +15,10 @@ class TodosList extends StatefulWidget {
     required this.todos,
     required this.deleteTodo,
     required this.getTodo,
-    required this.toggleValue,
+    this.toggleValue,
   });
   final bool isLoaded;
-  final int toggleValue;
+  final int? toggleValue;
   final List<Todos> todos;
   final Function(Object) deleteTodo;
   final Function() getTodo;
@@ -75,7 +75,7 @@ class _TodosListState extends State<TodosList> {
                     scale: 5,
                   ),
                   Text(
-                    widget.toggleValue == 0 ? 'addTask'.tr : 'copletedTask'.tr,
+                    widget.toggleValue == 1 ? 'copletedTask'.tr : 'addTask'.tr,
                     style: context.theme.textTheme.headline4?.copyWith(
                       color: Colors.black,
                     ),
@@ -109,16 +109,15 @@ class _TodosListState extends State<TodosList> {
                             style: context.theme.textTheme.headline6),
                         actions: [
                           TextButton(
+                              onPressed: () => Get.back(result: false),
+                              child: Text("cancel".tr,
+                                  style: context.theme.textTheme.headline6
+                                      ?.copyWith(color: Colors.blueAccent))),
+                          TextButton(
                               onPressed: () => Get.back(result: true),
                               child: Text("delete".tr,
                                   style: context.theme.textTheme.headline6
                                       ?.copyWith(color: Colors.red))),
-                          TextButton(
-                            onPressed: () => Get.back(result: false),
-                            child: Text("cancel".tr,
-                                style: context.theme.textTheme.headline6
-                                    ?.copyWith(color: Colors.blueAccent)),
-                          ),
                         ],
                       );
                     },

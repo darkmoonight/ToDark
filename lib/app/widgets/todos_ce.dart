@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 class TodosCe extends StatefulWidget {
   const TodosCe({
@@ -136,7 +137,7 @@ class _TodosCeState extends State<TodosCe> {
                     minTime: DateTime.now(),
                     maxTime: DateTime.now().add(const Duration(days: 1000)),
                     onConfirm: (date) {
-                      widget.timeEdit.text = date.toString();
+                      widget.timeEdit.text = normalizeDate(date).toString();
                     },
                     currentTime: DateTime.now(),
                     locale: tag.toString() == 'ru-RU'

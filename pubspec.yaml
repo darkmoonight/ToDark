@@ -27,6 +27,7 @@ dependencies:
   flutter_datetime_picker: ^1.5.1
   flutter_native_timezone: ^2.0.0
   step_progress_indicator: ^1.0.2
+  lazy_load_indexed_stack: ^0.1.4
   flutter_local_notifications: ^9.8.0+1
 
 dev_dependencies:
