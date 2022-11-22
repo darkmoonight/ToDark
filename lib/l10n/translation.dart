@@ -45,6 +45,14 @@ class Translation extends Translations {
           "taskDelete": "Задача удалена",
           "taskCreate": "Задача создана",
           "duplicateTask": "Задача уже существует",
+          "archiveTask": "Архивирование категории",
+          "archiveTaskQuery": "Вы уверены что хотите архивировать категорию?",
+          "archive": "В архив",
+          "taskArchive": "Категория в архиве",
+          "noArchiveTask": "Вернуть категорию",
+          "noArchiveTaskQuery": "Вы уверены что хотите вернуть категорию?",
+          "noArchive": "Вернуть",
+          "noTaskArchive": "Категория возвращена",
         },
         'en_US': {
           "titile1": "Organize your tasks",
@@ -88,6 +96,14 @@ class Translation extends Translations {
           "taskDelete": "Task deleted",
           "taskCreate": "Task created",
           "duplicateTask": "The task already exists",
+          "archiveTask": "Archiving a category",
+          "archiveTaskQuery": "Are you sure you want to archive categories?",
+          "archive": "To the archive",
+          "taskArchive": "Category in the archive",
+          "noArchiveTask": "Return category",
+          "noArchiveTaskQuery": "Are you sure you want to return the category?",
+          "noArchive": "Return",
+          "noTaskArchive": "Category returned",
         }
       };
 }

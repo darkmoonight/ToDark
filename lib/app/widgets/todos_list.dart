@@ -127,6 +127,7 @@ class _TodosListState extends State<TodosList> {
                   widget.deleteTodo(todo);
                 },
                 background: Container(
+                  color: context.theme.unselectedWidgetColor,
                   alignment: Alignment.centerRight,
                   child: const Padding(
                     padding: EdgeInsets.only(

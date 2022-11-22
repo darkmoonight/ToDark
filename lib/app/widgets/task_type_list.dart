@@ -15,10 +15,16 @@ class TaskTypeList extends StatefulWidget {
     required this.onDelete,
     required this.back,
     required this.onDeleteTodos,
+    required this.onArchive,
+    required this.toggleValue,
+    required this.onNoArchive,
   });
   final bool isLoaded;
+  final int toggleValue;
   final List<Tasks> tasks;
   final Function(Object) onDelete;
+  final Function(Object) onArchive;
+  final Function(Object) onNoArchive;
   final Function(Object) onDeleteTodos;
   final Function() back;
 
@@ -66,7 +72,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
               final task = widget.tasks[index];
               return Dismissible(
                 key: ObjectKey(task),
-                direction: DismissDirection.endToStart,
+                direction: DismissDirection.horizontal,
                 confirmDismiss: (DismissDirection direction) async {
                   return await showDialog(
                     context: context,
@@ -77,10 +83,19 @@ class _TaskTypeListState extends State<TaskTypeList> {
                             borderRadius:
                                 BorderRadius.all(Radius.circular(15))),
                         title: Text(
-                          "deleteCategory".tr,
+                          direction == DismissDirection.endToStart
+                              ? "deleteCategory".tr
+                              : widget.toggleValue == 0
+                                  ? "archiveTask".tr
+                                  : "noArchiveTask".tr,
                           style: context.theme.textTheme.headline4,
                         ),
-                        content: Text("deleteCategoryQuery".tr,
+                        content: Text(
+                            direction == DismissDirection.endToStart
+                                ? "deleteCategoryQuery".tr
+                                : widget.toggleValue == 0
+                                    ? "archiveTaskQuery".tr
+                                    : "noArchiveTaskQuery".tr,
                             style: context.theme.textTheme.headline6),
                         actions: [
                           TextButton(
@@ -90,7 +105,12 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                       ?.copyWith(color: Colors.blueAccent))),
                           TextButton(
                               onPressed: () => Get.back(result: true),
-                              child: Text("delete".tr,
+                              child: Text(
+                                  direction == DismissDirection.endToStart
+                                      ? "delete".tr
+                                      : widget.toggleValue == 0
+                                          ? "archive".tr
+                                          : "noArchive".tr,
                                   style: context.theme.textTheme.headline6
                                       ?.copyWith(color: Colors.red))),
                         ],
@@ -99,10 +119,33 @@ class _TaskTypeListState extends State<TaskTypeList> {
                   );
                 },
                 onDismissed: (DismissDirection direction) {
-                  widget.onDeleteTodos(task);
-                  widget.onDelete(task);
+                  if (direction == DismissDirection.endToStart) {
+                    widget.onDeleteTodos(task);
+                    widget.onDelete(task);
+                  } else if (direction == DismissDirection.startToEnd) {
+                    widget.toggleValue == 0
+                        ? widget.onArchive(task)
+                        : widget.onNoArchive(task);
+                  }
                 },
                 background: Container(
+                  color: context.theme.unselectedWidgetColor,
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: 15,
+                    ),
+                    child: Icon(
+                      widget.toggleValue == 0
+                          ? Iconsax.archive_2
+                          : Iconsax.refresh_left_square,
+                      color:
+                          widget.toggleValue == 0 ? Colors.red : Colors.green,
+                    ),
+                  ),
+                ),
+                secondaryBackground: Container(
+                  color: context.theme.unselectedWidgetColor,
                   alignment: Alignment.centerRight,
                   child: const Padding(
                     padding: EdgeInsets.only(
@@ -116,7 +159,8 @@ class _TaskTypeListState extends State<TaskTypeList> {
                 ),
                 child: Container(
                   margin: const EdgeInsets.only(
-                    bottom: 20,
+                    bottom: 8,
+                    top: 8,
                     left: 25,
                     right: 25,
                   ),

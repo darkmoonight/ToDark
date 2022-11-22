@@ -1,6 +1,7 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dark_todo/app/data/schema.dart';
 import 'package:dark_todo/app/modules/calendar/view.dart';
+import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type_cu.dart';
 import 'package:dark_todo/app/widgets/task_type_list.dart';
 import 'package:dark_todo/main.dart';
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController titleEdit = TextEditingController();
   TextEditingController descEdit = TextEditingController();
   late Color myColor;
+  int toggleValue = 0;
   var tasks = <Tasks>[];
   bool isLoaded = false;
   int countTotalTasks = 0;
@@ -75,15 +77,38 @@ class _HomePageState extends State<HomePage> {
   getTask() async {
     List<Tasks> getTask;
     final taskCollection = isar.tasks;
-
-    getTask = await taskCollection.where().findAll();
-
+    toggleValue == 0
+        ? getTask =
+            await taskCollection.filter().archiveEqualTo(false).findAll()
+        : getTask =
+            await taskCollection.filter().archiveEqualTo(true).findAll();
     countTotalTasks = await getTotalTask();
     countTotalDoneTasks = await getTotalDoneTask();
+    toggleValue;
     setState(() {
       tasks = getTask;
       isLoaded = true;
     });
+  }
+
+  archiveTask(task) async {
+    await isar.writeTxn(() async {
+      task.archive = true;
+      await isar.tasks.put(task);
+    });
+    EasyLoading.showSuccess('taskArchive'.tr,
+        duration: const Duration(milliseconds: 500));
+    getTask();
+  }
+
+  noArchiveTask(task) async {
+    await isar.writeTxn(() async {
+      task.archive = false;
+      await isar.tasks.put(task);
+    });
+    EasyLoading.showSuccess('noTaskArchive'.tr,
+        duration: const Duration(milliseconds: 500));
+    getTask();
   }
 
   deleteTask(task) async {
@@ -238,20 +263,50 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(
-                                  left: 30, top: 20, bottom: 20, right: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                  left: 30, top: 20, bottom: 5, right: 20),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    'categories'.tr,
-                                    style: context.theme.textTheme.headline1
-                                        ?.copyWith(
-                                            color:
-                                                context.theme.backgroundColor),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'categories'.tr,
+                                        style: context.theme.textTheme.headline1
+                                            ?.copyWith(
+                                                color: context
+                                                    .theme.backgroundColor),
+                                      ),
+                                      Text(
+                                        '($countTotalDoneTasks/$countTotalTasks) ${'completed'.tr}',
+                                        style:
+                                            context.theme.textTheme.subtitle2,
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    '($countTotalDoneTasks/$countTotalTasks) ${'completed'.tr}',
-                                    style: context.theme.textTheme.subtitle2,
+                                  SelectButton(
+                                    icons: [
+                                      Icon(
+                                        Iconsax.archive_minus,
+                                        color: context
+                                            .theme.scaffoldBackgroundColor,
+                                      ),
+                                      Icon(
+                                        Iconsax.archive_tick,
+                                        color: context
+                                            .theme.scaffoldBackgroundColor,
+                                      ),
+                                    ],
+                                    onToggleCallback: (value) {
+                                      setState(() {
+                                        toggleValue = value;
+                                      });
+                                      getTask();
+                                    },
+                                    backgroundColor:
+                                        context.theme.scaffoldBackgroundColor,
                                   ),
                                 ],
                               ),
@@ -261,6 +316,9 @@ class _HomePageState extends State<HomePage> {
                               isLoaded: isLoaded,
                               tasks: tasks,
                               onDelete: deleteTask,
+                              onArchive: archiveTask,
+                              onNoArchive: noArchiveTask,
+                              toggleValue: toggleValue,
                               onDeleteTodos: deleteTaskTodos,
                             ),
                           ],

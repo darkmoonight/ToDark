@@ -17,18 +17,23 @@ const TasksSchema = CollectionSchema(
   name: r'Tasks',
   id: 5694065972011835967,
   properties: {
-    r'description': PropertySchema(
+    r'archive': PropertySchema(
       id: 0,
+      name: r'archive',
+      type: IsarType.bool,
+    ),
+    r'description': PropertySchema(
+      id: 1,
       name: r'description',
       type: IsarType.string,
     ),
     r'taskColor': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'taskColor',
       type: IsarType.long,
     ),
     r'title': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'title',
       type: IsarType.string,
     )
@@ -72,9 +77,10 @@ void _tasksSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.description);
-  writer.writeLong(offsets[1], object.taskColor);
-  writer.writeString(offsets[2], object.title);
+  writer.writeBool(offsets[0], object.archive);
+  writer.writeString(offsets[1], object.description);
+  writer.writeLong(offsets[2], object.taskColor);
+  writer.writeString(offsets[3], object.title);
 }
 
 Tasks _tasksDeserialize(
@@ -84,10 +90,11 @@ Tasks _tasksDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Tasks(
-    description: reader.readStringOrNull(offsets[0]) ?? '',
+    archive: reader.readBoolOrNull(offsets[0]) ?? false,
+    description: reader.readStringOrNull(offsets[1]) ?? '',
     id: id,
-    taskColor: reader.readLong(offsets[1]),
-    title: reader.readString(offsets[2]),
+    taskColor: reader.readLong(offsets[2]),
+    title: reader.readString(offsets[3]),
   );
   return object;
 }
@@ -100,10 +107,12 @@ P _tasksDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset) ?? '') as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 1:
-      return (reader.readLong(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 2:
+      return (reader.readLong(offset)) as P;
+    case 3:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -199,6 +208,15 @@ extension TasksQueryWhere on QueryBuilder<Tasks, Tasks, QWhereClause> {
 }
 
 extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
+  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> archiveEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'archive',
+        value: value,
+      ));
+    });
+  }
+
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> descriptionEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -624,6 +642,18 @@ extension TasksQueryLinks on QueryBuilder<Tasks, Tasks, QFilterCondition> {
 }
 
 extension TasksQuerySortBy on QueryBuilder<Tasks, Tasks, QSortBy> {
+  QueryBuilder<Tasks, Tasks, QAfterSortBy> sortByArchive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'archive', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Tasks, Tasks, QAfterSortBy> sortByArchiveDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'archive', Sort.desc);
+    });
+  }
+
   QueryBuilder<Tasks, Tasks, QAfterSortBy> sortByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
@@ -662,6 +692,18 @@ extension TasksQuerySortBy on QueryBuilder<Tasks, Tasks, QSortBy> {
 }
 
 extension TasksQuerySortThenBy on QueryBuilder<Tasks, Tasks, QSortThenBy> {
+  QueryBuilder<Tasks, Tasks, QAfterSortBy> thenByArchive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'archive', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Tasks, Tasks, QAfterSortBy> thenByArchiveDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'archive', Sort.desc);
+    });
+  }
+
   QueryBuilder<Tasks, Tasks, QAfterSortBy> thenByDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'description', Sort.asc);
@@ -712,6 +754,12 @@ extension TasksQuerySortThenBy on QueryBuilder<Tasks, Tasks, QSortThenBy> {
 }
 
 extension TasksQueryWhereDistinct on QueryBuilder<Tasks, Tasks, QDistinct> {
+  QueryBuilder<Tasks, Tasks, QDistinct> distinctByArchive() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'archive');
+    });
+  }
+
   QueryBuilder<Tasks, Tasks, QDistinct> distinctByDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -737,6 +785,12 @@ extension TasksQueryProperty on QueryBuilder<Tasks, Tasks, QQueryProperty> {
   QueryBuilder<Tasks, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<Tasks, bool, QQueryOperations> archiveProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'archive');
     });
   }
 

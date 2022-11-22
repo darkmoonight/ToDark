@@ -8,6 +8,7 @@ class Tasks {
   String title;
   String description;
   int taskColor;
+  bool archive;
 
   @Backlink(to: 'task')
   final todos = IsarLinks<Todos>();
@@ -16,6 +17,7 @@ class Tasks {
     this.id = Isar.autoIncrement,
     required this.title,
     this.description = '',
+    this.archive = false,
     required this.taskColor,
   });
 }
