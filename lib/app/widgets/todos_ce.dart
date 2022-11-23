@@ -1,5 +1,7 @@
+import 'package:dark_todo/app/data/schema.dart';
 import 'package:dark_todo/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -12,8 +14,12 @@ class TodosCe extends StatefulWidget {
     required this.titleEdit,
     required this.descEdit,
     required this.timeEdit,
+    this.tasks,
+    required this.isCategory,
   });
   final String text;
+  final bool isCategory;
+  final List<Tasks>? tasks;
   final Function() save;
   final TextEditingController titleEdit;
   final TextEditingController descEdit;
@@ -145,6 +151,39 @@ class _TodosCeState extends State<TodosCe> {
                   );
                 },
               ),
+              widget.isCategory == true
+                  ? Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      margin: const EdgeInsets.only(top: 10),
+                      width: Get.size.width - 23,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                            color: context.theme.disabledColor, width: 1),
+                      ),
+                      child: DropdownButton(
+                        focusColor: Colors.transparent,
+                        hint: Text(
+                          'Выберете категорию',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 15.sp,
+                          ),
+                        ),
+                        underline: Container(),
+                        dropdownColor: context.theme.scaffoldBackgroundColor,
+                        icon: const Icon(
+                          Iconsax.arrow_down_1,
+                        ),
+                        isExpanded: true,
+                        items: widget.tasks?.map((e) {
+                          return DropdownMenuItem(
+                              value: e, child: Text(e.title));
+                        }).toList(),
+                        onChanged: (_) {},
+                      ),
+                    )
+                  : Container(),
               const SizedBox(height: 30),
             ],
           ),

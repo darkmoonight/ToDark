@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   late Color myColor;
   int toggleValue = 0;
   var tasks = <Tasks>[];
+  var tasksAdd = <Tasks>[];
   bool isLoaded = false;
   int countTotalTasks = 0;
   int countTotalDoneTasks = 0;
@@ -39,12 +40,24 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     myColor = const Color(0xFF2196F3);
     getTask();
+    getTaskAdd();
     super.initState();
+  }
+
+  getTaskAdd() async {
+    List<Tasks> getTask;
+    final taskCollection = isar.tasks;
+    getTask = await taskCollection.filter().archiveEqualTo(false).findAll();
+
+    setState(() {
+      tasksAdd = getTask;
+    });
   }
 
   void changeTabIndex(int index) {
     tabIndex.value = index;
     getTask();
+    getTaskAdd();
   }
 
   Future<int> getTotalTask() async {
@@ -106,6 +119,7 @@ class _HomePageState extends State<HomePage> {
     EasyLoading.showSuccess('taskArchive'.tr,
         duration: const Duration(milliseconds: 500));
     getTask();
+    getTaskAdd();
   }
 
   noArchiveTask(task) async {
@@ -125,6 +139,7 @@ class _HomePageState extends State<HomePage> {
     EasyLoading.showSuccess('categoryDelete'.tr,
         duration: const Duration(milliseconds: 500));
     getTask();
+    getTaskAdd();
   }
 
   deleteTaskTodos(task) async {
@@ -132,6 +147,7 @@ class _HomePageState extends State<HomePage> {
       await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
     });
     getTask();
+    getTaskAdd();
   }
 
   addTask() async {
@@ -158,6 +174,7 @@ class _HomePageState extends State<HomePage> {
           duration: const Duration(milliseconds: 500));
     }
     getTask();
+    getTaskAdd();
     titleEdit.clear();
     descEdit.clear();
     myColor = const Color(0xFF2196F3);
@@ -379,6 +396,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   builder: (BuildContext context) {
                     return TodosCe(
+                      isCategory: true,
+                      tasks: tasksAdd,
                       text: "create".tr,
                       save: () {},
                       titleEdit: titleEdit,

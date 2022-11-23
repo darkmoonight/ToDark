@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:isar/isar.dart';
 
 import '../../main.dart';
 
@@ -35,6 +36,23 @@ class _TodosListState extends State<TodosList> {
   late TextEditingController titleTodoEdit;
   late TextEditingController descTodoEdit;
   late TextEditingController timeTodoEdit;
+  var tasks = <Tasks>[];
+
+  @override
+  initState() {
+    getTask();
+    super.initState();
+  }
+
+  getTask() async {
+    List<Tasks> getTask;
+    final taskCollection = isar.tasks;
+    getTask = await taskCollection.filter().archiveEqualTo(false).findAll();
+
+    setState(() {
+      tasks = getTask;
+    });
+  }
 
   updateTodoCheck(todo) async {
     await isar.writeTxn(() async => isar.todos.put(todo));
@@ -173,6 +191,8 @@ class _TodosListState extends State<TodosList> {
                                   ? todo.todoCompletedTime.toString()
                                   : '');
                           return TodosCe(
+                            tasks: tasks,
+                            isCategory: true,
                             text: 'editing'.tr,
                             save: () {
                               updateTodo(todo);

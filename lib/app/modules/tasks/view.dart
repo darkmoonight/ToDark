@@ -337,6 +337,7 @@ class _TaskPageState extends State<TaskPage> {
               ),
               builder: (BuildContext context) {
                 return TodosCe(
+                  isCategory: false,
                   text: 'create'.tr,
                   save: addTodo,
                   titleEdit: titleEdit,
