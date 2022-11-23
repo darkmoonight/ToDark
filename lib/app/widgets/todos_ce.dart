@@ -137,7 +137,7 @@ class _TodosCeState extends State<TodosCe> {
                     minTime: DateTime.now(),
                     maxTime: DateTime.now().add(const Duration(days: 1000)),
                     onConfirm: (date) {
-                      widget.timeEdit.text = normalizeDate(date).toString();
+                      widget.timeEdit.text = date.toString();
                     },
                     currentTime: DateTime.now(),
                     locale: tag.toString() == 'ru-RU'

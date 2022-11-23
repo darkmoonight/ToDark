@@ -54,7 +54,9 @@ class _TaskTypeListState extends State<TaskTypeList> {
                   SizedBox(
                     width: Get.size.width * 0.8,
                     child: Text(
-                      'addCategory'.tr,
+                      widget.toggleValue == 0
+                          ? 'addCategory'.tr
+                          : 'addArchive'.tr,
                       textAlign: TextAlign.center,
                       style: context.theme.textTheme.headline4?.copyWith(
                         color: Colors.black,
@@ -129,7 +131,6 @@ class _TaskTypeListState extends State<TaskTypeList> {
                   }
                 },
                 background: Container(
-                  color: context.theme.unselectedWidgetColor,
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.only(
@@ -145,7 +146,6 @@ class _TaskTypeListState extends State<TaskTypeList> {
                   ),
                 ),
                 secondaryBackground: Container(
-                  color: context.theme.unselectedWidgetColor,
                   alignment: Alignment.centerRight,
                   child: const Padding(
                     padding: EdgeInsets.only(
@@ -159,8 +159,8 @@ class _TaskTypeListState extends State<TaskTypeList> {
                 ),
                 child: Container(
                   margin: const EdgeInsets.only(
-                    bottom: 8,
-                    top: 8,
+                    bottom: 10,
+                    top: 10,
                     left: 25,
                     right: 25,
                   ),

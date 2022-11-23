@@ -53,6 +53,7 @@ class Translation extends Translations {
           "noArchiveTaskQuery": "Вы уверены что хотите вернуть категорию?",
           "noArchive": "Вернуть",
           "noTaskArchive": "Категория возвращена",
+          "addArchive": "Архивируйте категорию",
         },
         'en_US': {
           "titile1": "Organize your tasks",
@@ -104,6 +105,7 @@ class Translation extends Translations {
           "noArchiveTaskQuery": "Are you sure you want to return the category?",
           "noArchive": "Return",
           "noTaskArchive": "Category returned",
+          "addArchive": "Archive the category",
         }
       };
 }

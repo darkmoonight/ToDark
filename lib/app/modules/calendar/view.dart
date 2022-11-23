@@ -15,7 +15,7 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  DateTime selectedDay = normalizeDate(DateTime.now());
+  DateTime selectedDay = DateTime.now();
   CalendarFormat calendarFormat = CalendarFormat.week;
 
   var todos = <Todos>[];
@@ -39,7 +39,11 @@ class _CalendarPageState extends State<CalendarPage> {
         .filter()
         .doneEqualTo(false)
         .todoCompletedTimeIsNotNull()
-        .todoCompletedTimeEqualTo(selectedDay)
+        .todoCompletedTimeBetween(
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
         .findAll();
     setState(() {
       todos = getTodos;

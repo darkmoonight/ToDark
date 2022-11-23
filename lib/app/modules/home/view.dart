@@ -1,5 +1,6 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dark_todo/app/data/schema.dart';
+import 'package:dark_todo/app/modules/allTasks/view.dart';
 import 'package:dark_todo/app/modules/calendar/view.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type_cu.dart';
@@ -50,8 +51,10 @@ class _HomePageState extends State<HomePage> {
     final taskCollection = isar.tasks;
     getTask = await taskCollection.where().findAll();
     for (var i = 0; i < getTask.length; i++) {
-      if (getTask[i].todos.isNotEmpty) {
-        res += getTask[i].todos.length;
+      if (getTask[i].archive == false) {
+        if (getTask[i].todos.isNotEmpty) {
+          res += getTask[i].todos.length;
+        }
       }
     }
     return res;
@@ -63,12 +66,14 @@ class _HomePageState extends State<HomePage> {
     final taskCollection = isar.tasks;
     getTask = await taskCollection.where().findAll();
     for (var i = 0; i < getTask.length; i++) {
-      if (getTask[i].todos.isNotEmpty) {
-        res += getTask[i]
-            .todos
-            .where((element) => element.done == true)
-            .toList()
-            .length;
+      if (getTask[i].archive == false) {
+        if (getTask[i].todos.isNotEmpty) {
+          res += getTask[i]
+              .todos
+              .where((element) => element.done == true)
+              .toList()
+              .length;
+        }
       }
     }
     return res;
@@ -327,6 +332,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
+                AllTask(key: UniqueKey()),
                 CalendarPage(key: UniqueKey()),
               ],
             )),
@@ -363,7 +369,6 @@ class _HomePageState extends State<HomePage> {
           color: Colors.greenAccent,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: Obx(
         () => Theme(
           data: context.theme.copyWith(
@@ -379,6 +384,7 @@ class _HomePageState extends State<HomePage> {
             elevation: 0,
             items: [
               CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
+              CustomNavigationBarItem(icon: const Icon(Iconsax.note_text)),
               CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
             ],
           ),
