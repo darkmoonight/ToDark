@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:table_calendar/table_calendar.dart';
 
 class TodosCe extends StatefulWidget {
   const TodosCe({

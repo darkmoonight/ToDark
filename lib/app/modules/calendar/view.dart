@@ -125,6 +125,8 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                 ),
                 TodosList(
+                  isAllTask: false,
+                  isCalendare: true,
                   isLoaded: isLoaded,
                   todos: todos,
                   deleteTodo: deleteTodo,

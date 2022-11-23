@@ -309,6 +309,8 @@ class _TaskPageState extends State<TaskPage> {
                         getTodo: () {
                           getTodo();
                         },
+                        isAllTask: false,
+                        isCalendare: false,
                         toggleValue: toggleValue,
                         isLoaded: isLoaded,
                         todos: todos,

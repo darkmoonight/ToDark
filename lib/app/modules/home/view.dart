@@ -383,8 +383,8 @@ class _HomePageState extends State<HomePage> {
             iconSize: 24,
             elevation: 0,
             items: [
+              CustomNavigationBarItem(icon: const Icon(Iconsax.folder_2)),
               CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
-              CustomNavigationBarItem(icon: const Icon(Iconsax.note_text)),
               CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
             ],
           ),

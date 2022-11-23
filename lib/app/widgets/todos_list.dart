@@ -16,8 +16,12 @@ class TodosList extends StatefulWidget {
     required this.deleteTodo,
     required this.getTodo,
     this.toggleValue,
+    required this.isCalendare,
+    required this.isAllTask,
   });
   final bool isLoaded;
+  final bool isCalendare;
+  final bool isAllTask;
   final int? toggleValue;
   final List<Todos> todos;
   final Function(Object) deleteTodo;
@@ -241,12 +245,24 @@ class _TodosListState extends State<TodosList> {
                             ],
                           ),
                         ),
-                        Text(
-                          todo.todoCompletedTime != null
-                              ? '${todo.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todo.todoCompletedTime?.minute.toString().padLeft(2, '0')}\n${todo.todoCompletedTime?.day.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.month.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.year.toString().substring(2)} '
-                              : '',
-                          style: context.theme.textTheme.subtitle2,
-                        ),
+                        widget.isAllTask
+                            ? Text(
+                                todo.todoCompletedTime != null
+                                    ? '${todo.task.value!.title}\n${todo.todoCompletedTime?.day.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.month.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.year.toString().substring(2)}\n${todo.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todo.todoCompletedTime?.minute.toString().padLeft(2, '0')}'
+                                    : todo.task.value!.title,
+                                style: context.theme.textTheme.subtitle2,
+                              )
+                            : widget.isCalendare == true
+                                ? Text(
+                                    '${todo.task.value!.title}\n${todo.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todo.todoCompletedTime?.minute.toString().padLeft(2, '0')}',
+                                    style: context.theme.textTheme.subtitle2,
+                                  )
+                                : Text(
+                                    todo.todoCompletedTime != null
+                                        ? '${todo.todoCompletedTime?.day.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.month.toString().padLeft(2, '0')}/${todo.todoCompletedTime?.year.toString().substring(2)}\n${todo.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todo.todoCompletedTime?.minute.toString().padLeft(2, '0')}'
+                                        : '',
+                                    style: context.theme.textTheme.subtitle2,
+                                  ),
                       ],
                     ),
                   ),
