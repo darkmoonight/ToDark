@@ -5,6 +5,7 @@ import 'package:dark_todo/app/modules/calendar/view.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type_cu.dart';
 import 'package:dark_todo/app/widgets/task_type_list.dart';
+import 'package:dark_todo/app/widgets/todos_ce.dart';
 import 'package:dark_todo/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -25,6 +26,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController titleEdit = TextEditingController();
   TextEditingController descEdit = TextEditingController();
+  TextEditingController timeEdit = TextEditingController();
   late Color myColor;
   int toggleValue = 0;
   var tasks = <Tasks>[];
@@ -158,6 +160,7 @@ class _HomePageState extends State<HomePage> {
     getTask();
     titleEdit.clear();
     descEdit.clear();
+    myColor = const Color(0xFF2196F3);
   }
 
   @override
@@ -339,29 +342,51 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(
-            enableDrag: false,
-            backgroundColor: context.theme.scaffoldBackgroundColor,
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
-            ),
-            builder: (BuildContext context) {
-              return TaskTypeCu(
-                text: 'create'.tr,
-                save: () {
-                  addTask();
-                },
-                titleEdit: titleEdit,
-                descEdit: descEdit,
-                color: myColor,
-                pickerColor: (Color color) => setState(() => myColor = color),
-              );
-            },
-          );
+          tabIndex.value == 0
+              ? showModalBottomSheet(
+                  enableDrag: false,
+                  backgroundColor: context.theme.scaffoldBackgroundColor,
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  builder: (BuildContext context) {
+                    return TaskTypeCu(
+                      text: 'create'.tr,
+                      save: () {
+                        addTask();
+                      },
+                      titleEdit: titleEdit,
+                      descEdit: descEdit,
+                      color: myColor,
+                      pickerColor: (Color color) =>
+                          setState(() => myColor = color),
+                    );
+                  },
+                )
+              : showModalBottomSheet(
+                  enableDrag: false,
+                  backgroundColor: context.theme.scaffoldBackgroundColor,
+                  context: context,
+                  isScrollControlled: true,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  builder: (BuildContext context) {
+                    return TodosCe(
+                      text: "create".tr,
+                      save: () {},
+                      titleEdit: titleEdit,
+                      descEdit: descEdit,
+                      timeEdit: timeEdit,
+                    );
+                  },
+                );
         },
         backgroundColor: context.theme.primaryColor,
         child: const Icon(

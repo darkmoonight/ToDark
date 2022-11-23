@@ -38,8 +38,16 @@ class _AllTaskState extends State<AllTask> {
     final todosCollection = isar.todos;
     List<Todos> getTodos;
     toggleValue == 0
-        ? getTodos = await todosCollection.filter().doneEqualTo(false).findAll()
-        : getTodos = await todosCollection.filter().doneEqualTo(true).findAll();
+        ? getTodos = await todosCollection
+            .filter()
+            .doneEqualTo(false)
+            .task((q) => q.archiveEqualTo(false))
+            .findAll()
+        : getTodos = await todosCollection
+            .filter()
+            .doneEqualTo(true)
+            .task((q) => q.archiveEqualTo(false))
+            .findAll();
     countTotalTodos = await getCountTotalTodos();
     countDoneTodos = await getCountDoneTodos();
     toggleValue;
@@ -53,7 +61,10 @@ class _AllTaskState extends State<AllTask> {
     int res;
     final todosCollection = isar.todos;
     List<Todos> getTodos;
-    getTodos = await todosCollection.where().findAll();
+    getTodos = await todosCollection
+        .filter()
+        .task((q) => q.archiveEqualTo(false))
+        .findAll();
 
     res = getTodos.length;
     return res;
@@ -63,7 +74,11 @@ class _AllTaskState extends State<AllTask> {
     int res;
     final todosCollection = isar.todos;
     List<Todos> getTodos;
-    getTodos = await todosCollection.filter().doneEqualTo(true).findAll();
+    getTodos = await todosCollection
+        .filter()
+        .doneEqualTo(true)
+        .task((q) => q.archiveEqualTo(false))
+        .findAll();
 
     res = getTodos.length;
     return res;

@@ -3,9 +3,11 @@ import 'package:dark_todo/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:isar/isar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import '../../data/schema.dart';
+import '../../widgets/select_button.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});
@@ -20,6 +22,9 @@ class _CalendarPageState extends State<CalendarPage> {
 
   var todos = <Todos>[];
   bool isLoaded = false;
+  int toggleValue = 0;
+  int countTotalTodos = 0;
+  int countDoneTodos = 0;
 
   @override
   initState() {
@@ -32,19 +37,75 @@ class _CalendarPageState extends State<CalendarPage> {
     super.dispose();
   }
 
-  getTodo() async {
+  getCountTotalTodos() async {
+    int res;
     final todosCollection = isar.todos;
     List<Todos> getTodos;
     getTodos = await todosCollection
         .filter()
-        .doneEqualTo(false)
         .todoCompletedTimeIsNotNull()
         .todoCompletedTimeBetween(
             DateTime(
                 selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
             DateTime(
                 selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
+        .task((q) => q.archiveEqualTo(false))
         .findAll();
+
+    res = getTodos.length;
+    return res;
+  }
+
+  getCountDoneTodos() async {
+    int res;
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .doneEqualTo(true)
+        .todoCompletedTimeIsNotNull()
+        .todoCompletedTimeBetween(
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
+        .task((q) => q.archiveEqualTo(false))
+        .findAll();
+
+    res = getTodos.length;
+    return res;
+  }
+
+  getTodo() async {
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    toggleValue == 0
+        ? getTodos = await todosCollection
+            .filter()
+            .doneEqualTo(false)
+            .todoCompletedTimeIsNotNull()
+            .todoCompletedTimeBetween(
+                DateTime(
+                    selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
+                DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
+                    23, 59))
+            .task((q) => q.archiveEqualTo(false))
+            .findAll()
+        : getTodos = await todosCollection
+            .filter()
+            .doneEqualTo(true)
+            .todoCompletedTimeIsNotNull()
+            .todoCompletedTimeBetween(
+                DateTime(
+                    selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
+                DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
+                    23, 59))
+            .task((q) => q.archiveEqualTo(false))
+            .findAll();
+
+    countTotalTodos = await getCountTotalTodos();
+    countDoneTodos = await getCountDoneTodos();
+    toggleValue;
     setState(() {
       todos = getTodos;
       isLoaded = true;
@@ -118,13 +179,47 @@ class _CalendarPageState extends State<CalendarPage> {
                 Padding(
                   padding: const EdgeInsets.only(
                       left: 30, top: 20, bottom: 20, right: 20),
-                  child: Text(
-                    'tasks'.tr,
-                    style: context.theme.textTheme.headline1
-                        ?.copyWith(color: context.theme.backgroundColor),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'tasks'.tr,
+                            style: context.theme.textTheme.headline1?.copyWith(
+                                color: context.theme.backgroundColor),
+                          ),
+                          Text(
+                            '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
+                            style: context.theme.textTheme.subtitle2,
+                          ),
+                        ],
+                      ),
+                      SelectButton(
+                        icons: [
+                          Icon(
+                            Iconsax.close_circle,
+                            color: context.theme.scaffoldBackgroundColor,
+                          ),
+                          Icon(
+                            Iconsax.tick_circle,
+                            color: context.theme.scaffoldBackgroundColor,
+                          ),
+                        ],
+                        onToggleCallback: (value) {
+                          setState(() {
+                            toggleValue = value;
+                          });
+                          getTodo();
+                        },
+                        backgroundColor: context.theme.scaffoldBackgroundColor,
+                      ),
+                    ],
                   ),
                 ),
                 TodosList(
+                  toggleValue: toggleValue,
                   isAllTask: false,
                   isCalendare: true,
                   isLoaded: isLoaded,
