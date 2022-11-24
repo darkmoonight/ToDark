@@ -48,7 +48,6 @@ class _TodosListState extends State<TodosList> {
     List<Tasks> getTask;
     final taskCollection = isar.tasks;
     getTask = await taskCollection.filter().archiveEqualTo(false).findAll();
-
     setState(() {
       tasks = getTask;
     });
