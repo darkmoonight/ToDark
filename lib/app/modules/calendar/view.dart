@@ -226,7 +226,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   todos: todos,
                   deleteTodo: deleteTodo,
                   getTodo: getTodo,
-                )
+                ),
               ],
             ),
           ),

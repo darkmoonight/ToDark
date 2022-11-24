@@ -129,8 +129,11 @@ class _TaskPageState extends State<TaskPage> {
     final todosCollection = isar.todos;
     List<Todos> getTodos;
 
-    getTodos =
-        await todosCollection.filter().nameEqualTo(titleEdit.text).findAll();
+    getTodos = await todosCollection
+        .filter()
+        .nameEqualTo(titleEdit.text)
+        .task((q) => q.idEqualTo(widget.task.id))
+        .findAll();
 
     if (getTodos.isEmpty) {
       await isar.writeTxn(() async {

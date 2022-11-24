@@ -192,7 +192,7 @@ class _TodosListState extends State<TodosList> {
                                   : '');
                           return TodosCe(
                             tasks: tasks,
-                            isCategory: true,
+                            isCategory: false,
                             text: 'editing'.tr,
                             save: () {
                               updateTodo(todo);

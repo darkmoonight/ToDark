@@ -10,7 +10,8 @@ class TodosCe extends StatefulWidget {
   const TodosCe({
     super.key,
     required this.text,
-    required this.save,
+    this.save,
+    this.saveTask,
     required this.titleEdit,
     required this.descEdit,
     required this.timeEdit,
@@ -20,7 +21,8 @@ class TodosCe extends StatefulWidget {
   final String text;
   final bool isCategory;
   final List<Tasks>? tasks;
-  final Function() save;
+  final Function()? save;
+  final Function(Tasks?)? saveTask;
   final TextEditingController titleEdit;
   final TextEditingController descEdit;
   final TextEditingController timeEdit;
@@ -31,6 +33,14 @@ class TodosCe extends StatefulWidget {
 
 class _TodosCeState extends State<TodosCe> {
   final formKey = GlobalKey<FormState>();
+  Tasks? taskValue;
+  List<Tasks>? taskList;
+
+  @override
+  void initState() {
+    taskList = widget.tasks;
+    super.initState();
+  }
 
   textTrim(value) {
     value.text = value.text.trim();
@@ -83,7 +93,9 @@ class _TodosCeState extends State<TodosCe> {
                         if (formKey.currentState!.validate()) {
                           textTrim(widget.titleEdit);
                           textTrim(widget.descEdit);
-                          widget.save();
+                          widget.isCategory == false
+                              ? widget.save!()
+                              : widget.saveTask!(taskValue);
                           Get.back();
                         }
                       },
@@ -152,39 +164,60 @@ class _TodosCeState extends State<TodosCe> {
                 },
               ),
               widget.isCategory == true
-                  ? Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      margin: const EdgeInsets.only(top: 10),
-                      width: Get.size.width - 23,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(
-                            color: context.theme.disabledColor, width: 1),
-                      ),
-                      child: DropdownButton(
+                  ? Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 10),
+                      child: DropdownButtonFormField(
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Iconsax.folder_2),
+                          fillColor: context.theme.primaryColor,
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              color: context.theme.disabledColor,
+                            ),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                            borderSide: BorderSide(
+                              color: context.theme.disabledColor,
+                            ),
+                          ),
+                        ),
+                        value: taskValue,
                         focusColor: Colors.transparent,
                         hint: Text(
-                          'Выберете категорию',
+                          "selectCategory".tr,
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 15.sp,
                           ),
                         ),
-                        underline: Container(),
+                        // underline: Container(),
                         dropdownColor: context.theme.scaffoldBackgroundColor,
                         icon: const Icon(
                           Iconsax.arrow_down_1,
                         ),
                         isExpanded: true,
-                        items: widget.tasks?.map((e) {
+                        items: taskList?.map((e) {
                           return DropdownMenuItem(
                               value: e, child: Text(e.title));
                         }).toList(),
-                        onChanged: (_) {},
+                        onChanged: (Tasks? newValue) {
+                          setState(() {
+                            taskValue = newValue!;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return "selectCategory".tr;
+                          }
+                          return null;
+                        },
                       ),
                     )
                   : Container(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
             ],
           ),
         ),

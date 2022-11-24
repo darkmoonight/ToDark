@@ -180,6 +180,39 @@ class _HomePageState extends State<HomePage> {
     myColor = const Color(0xFF2196F3);
   }
 
+  addTodo(taskValue) async {
+    final todosCreate = Todos(
+      name: titleEdit.text,
+      description: descEdit.text,
+      todoCompletedTime: DateTime.tryParse(timeEdit.text),
+    )..task.value = taskValue;
+
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+
+    getTodos = await todosCollection
+        .filter()
+        .nameEqualTo(titleEdit.text)
+        .task((q) => q.idEqualTo(taskValue.id))
+        .findAll();
+
+    if (getTodos.isEmpty) {
+      await isar.writeTxn(() async {
+        await isar.todos.put(todosCreate);
+        await todosCreate.task.save();
+      });
+      EasyLoading.showSuccess('taskCreate'.tr,
+          duration: const Duration(milliseconds: 500));
+    } else {
+      EasyLoading.showError('duplicateTask'.tr,
+          duration: const Duration(milliseconds: 500));
+    }
+    setState(() {});
+    titleEdit.clear();
+    descEdit.clear();
+    timeEdit.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     final tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
@@ -399,7 +432,7 @@ class _HomePageState extends State<HomePage> {
                       isCategory: true,
                       tasks: tasksAdd,
                       text: "create".tr,
-                      save: () {},
+                      saveTask: addTodo,
                       titleEdit: titleEdit,
                       descEdit: descEdit,
                       timeEdit: timeEdit,
