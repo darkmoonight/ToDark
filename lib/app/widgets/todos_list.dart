@@ -59,12 +59,14 @@ class _TodosListState extends State<TodosList> {
     widget.getTodo();
   }
 
-  updateTodo(todo) async {
+  updateTodo(Todos? todo, Tasks? value) async {
     await isar.writeTxn(() async {
-      todo.name = titleTodoEdit.text;
-      todo.description = descTodoEdit.text;
-      todo.todoCompletedTime = DateTime.tryParse(timeTodoEdit.text);
-      await isar.todos.put(todo);
+      todo?.name = titleTodoEdit.text;
+      todo?.description = descTodoEdit.text;
+      todo?.todoCompletedTime = DateTime.tryParse(timeTodoEdit.text);
+      todo?.task.value = value;
+      await isar.todos.put(todo!);
+      await todo.task.save();
     });
     EasyLoading.showSuccess('update'.tr,
         duration: const Duration(milliseconds: 500));
@@ -192,14 +194,13 @@ class _TodosListState extends State<TodosList> {
                                   : '');
                           return TodosCe(
                             tasks: tasks,
-                            isCategory: false,
+                            isCategory: true,
                             text: 'editing'.tr,
-                            save: () {
-                              updateTodo(todo);
-                            },
+                            saveTodos: updateTodo,
                             titleEdit: titleTodoEdit,
                             descEdit: descTodoEdit,
                             timeEdit: timeTodoEdit,
+                            taskSelect: todo,
                           );
                         },
                       );

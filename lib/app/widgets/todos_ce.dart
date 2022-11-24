@@ -12,6 +12,8 @@ class TodosCe extends StatefulWidget {
     required this.text,
     this.save,
     this.saveTask,
+    this.taskSelect,
+    this.saveTodos,
     required this.titleEdit,
     required this.descEdit,
     required this.timeEdit,
@@ -21,8 +23,10 @@ class TodosCe extends StatefulWidget {
   final String text;
   final bool isCategory;
   final List<Tasks>? tasks;
+  final Todos? taskSelect;
   final Function()? save;
   final Function(Tasks?)? saveTask;
+  final Function(Todos?, Tasks?)? saveTodos;
   final TextEditingController titleEdit;
   final TextEditingController descEdit;
   final TextEditingController timeEdit;
@@ -39,6 +43,10 @@ class _TodosCeState extends State<TodosCe> {
   @override
   void initState() {
     taskList = widget.tasks;
+    if (widget.taskSelect != null) {
+      taskValue = widget.tasks
+          ?.firstWhere((e) => e.id == widget.taskSelect!.task.value?.id);
+    }
     super.initState();
   }
 
@@ -95,7 +103,10 @@ class _TodosCeState extends State<TodosCe> {
                           textTrim(widget.descEdit);
                           widget.isCategory == false
                               ? widget.save!()
-                              : widget.saveTask!(taskValue);
+                              : widget.taskSelect != null
+                                  ? widget.saveTodos!(
+                                      widget.taskSelect, taskValue)
+                                  : widget.saveTask!(taskValue);
                           Get.back();
                         }
                       },
