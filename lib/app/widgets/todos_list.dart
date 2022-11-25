@@ -1,4 +1,5 @@
 import 'package:dark_todo/app/data/schema.dart';
+import 'package:dark_todo/app/services/notification.dart';
 import 'package:dark_todo/app/widgets/todos_ce.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class TodosList extends StatefulWidget {
   final bool isAllTask;
   final int? toggleValue;
   final List<Todos> todos;
-  final Function(Object) deleteTodo;
+  final Function(Todos) deleteTodo;
   final Function() getTodo;
 
   @override
@@ -44,6 +45,12 @@ class _TodosListState extends State<TodosList> {
     super.initState();
   }
 
+  @override
+  void setState(VoidCallback fn) {
+    if (!mounted) return;
+    super.setState(fn);
+  }
+
   getTask() async {
     List<Tasks> getTask;
     final taskCollection = isar.tasks;
@@ -53,7 +60,7 @@ class _TodosListState extends State<TodosList> {
     });
   }
 
-  updateTodoCheck(todo) async {
+  updateTodoCheck(Todos todo) async {
     await isar.writeTxn(() async => isar.todos.put(todo));
     widget.getTodo();
   }
@@ -66,6 +73,15 @@ class _TodosListState extends State<TodosList> {
       todo?.task.value = value;
       await isar.todos.put(todo!);
       await todo.task.save();
+      if (todo.todoCompletedTime != null) {
+        await flutterLocalNotificationsPlugin.cancel(todo.id);
+        NotificationShow().showNotification(
+          todo.id,
+          todo.name,
+          todo.description,
+          todo.todoCompletedTime,
+        );
+      }
     });
     EasyLoading.showSuccess('update'.tr,
         duration: const Duration(milliseconds: 500));
@@ -220,6 +236,18 @@ class _TodosListState extends State<TodosList> {
                                     todo.done = val!;
                                   });
                                   todo.done = val!;
+                                  todo.done == true
+                                      ? flutterLocalNotificationsPlugin
+                                          .cancel(todo.id)
+                                      : todo.todoCompletedTime != null
+                                          ? NotificationShow().showNotification(
+                                              todo.id,
+                                              todo.name,
+                                              todo.description,
+                                              todo.todoCompletedTime,
+                                            )
+                                          : null;
+
                                   Future.delayed(
                                       const Duration(milliseconds: 300), () {
                                     updateTodoCheck(todo);
@@ -237,11 +265,21 @@ class _TodosListState extends State<TodosList> {
                                           children: [
                                             Text(
                                               todo.name,
-                                              style: context
-                                                  .theme.textTheme.headline4
-                                                  ?.copyWith(
-                                                color: Colors.black,
-                                              ),
+                                              style: todo.todoCompletedTime !=
+                                                          null &&
+                                                      DateTime.now().isAfter(todo
+                                                          .todoCompletedTime!) &&
+                                                      todo.done == false
+                                                  ? context
+                                                      .theme.textTheme.headline4
+                                                      ?.copyWith(
+                                                      color: Colors.redAccent,
+                                                    )
+                                                  : context
+                                                      .theme.textTheme.headline4
+                                                      ?.copyWith(
+                                                      color: Colors.black,
+                                                    ),
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             Text(
@@ -255,10 +293,18 @@ class _TodosListState extends State<TodosList> {
                                       )
                                     : Text(
                                         todo.name,
-                                        style: context.theme.textTheme.headline4
-                                            ?.copyWith(
-                                          color: Colors.black,
-                                        ),
+                                        style: todo.todoCompletedTime != null &&
+                                                DateTime.now().isAfter(
+                                                    todo.todoCompletedTime!) &&
+                                                todo.done == false
+                                            ? context.theme.textTheme.headline4
+                                                ?.copyWith(
+                                                color: Colors.redAccent,
+                                              )
+                                            : context.theme.textTheme.headline4
+                                                ?.copyWith(
+                                                color: Colors.black,
+                                              ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                               ),

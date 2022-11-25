@@ -141,17 +141,15 @@ class _TodosCeState extends State<TodosCe> {
                 hintText: 'timeComlete'.tr,
                 type: TextInputType.datetime,
                 icon: const Icon(Iconsax.clock),
-                iconButton: widget.timeEdit.text.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(
-                          Icons.close,
-                          size: 18,
-                        ),
-                        onPressed: () {
-                          widget.timeEdit.clear();
-                        },
-                      )
-                    : null,
+                iconButton: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    size: 18,
+                  ),
+                  onPressed: () {
+                    widget.timeEdit.clear();
+                  },
+                ),
                 onTap: () {
                   DatePicker.showDateTimePicker(
                     context,

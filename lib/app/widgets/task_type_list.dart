@@ -22,10 +22,10 @@ class TaskTypeList extends StatefulWidget {
   final bool isLoaded;
   final int toggleValue;
   final List<Tasks> tasks;
-  final Function(Object) onDelete;
-  final Function(Object) onArchive;
-  final Function(Object) onNoArchive;
-  final Function(Object) onDeleteTodos;
+  final Function(Tasks) onDelete;
+  final Function(Tasks) onArchive;
+  final Function(Tasks) onNoArchive;
+  final Function(Tasks) onDeleteTodos;
   final Function() back;
 
   @override
@@ -73,7 +73,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
             itemBuilder: (BuildContext context, int index) {
               final task = widget.tasks[index];
               return Dismissible(
-                key: ObjectKey(task),
+                key: UniqueKey(),
                 direction: DismissDirection.horizontal,
                 confirmDismiss: (DismissDirection direction) async {
                   return await showDialog(

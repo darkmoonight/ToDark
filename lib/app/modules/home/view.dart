@@ -2,6 +2,7 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:dark_todo/app/data/schema.dart';
 import 'package:dark_todo/app/modules/allTasks/view.dart';
 import 'package:dark_todo/app/modules/calendar/view.dart';
+import 'package:dark_todo/app/services/notification.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type_cu.dart';
 import 'package:dark_todo/app/widgets/task_type_list.dart';
@@ -42,6 +43,12 @@ class _HomePageState extends State<HomePage> {
     getTask();
     getTaskAdd();
     super.initState();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (!mounted) return;
+    super.setState(fn);
   }
 
   getTaskAdd() async {
@@ -111,7 +118,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  archiveTask(task) async {
+  archiveTask(Tasks task) async {
     await isar.writeTxn(() async {
       task.archive = true;
       await isar.tasks.put(task);
@@ -122,7 +129,7 @@ class _HomePageState extends State<HomePage> {
     getTaskAdd();
   }
 
-  noArchiveTask(task) async {
+  noArchiveTask(Tasks task) async {
     await isar.writeTxn(() async {
       task.archive = false;
       await isar.tasks.put(task);
@@ -132,7 +139,7 @@ class _HomePageState extends State<HomePage> {
     getTask();
   }
 
-  deleteTask(task) async {
+  deleteTask(Tasks task) async {
     await isar.writeTxn(() async {
       await isar.tasks.delete(task.id);
     });
@@ -142,10 +149,26 @@ class _HomePageState extends State<HomePage> {
     getTaskAdd();
   }
 
-  deleteTaskTodos(task) async {
+  deleteTaskTodos(Tasks task) async {
+    deleteTaskTodosNotlifi(task);
     await isar.writeTxn(() async {
       await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
     });
+    getTask();
+    getTaskAdd();
+  }
+
+  deleteTaskTodosNotlifi(Tasks task) async {
+    List<Todos> getTodo;
+    final taskCollection = isar.todos;
+    getTodo = await taskCollection
+        .filter()
+        .task((q) => q.idEqualTo(task.id))
+        .findAll();
+
+    for (var element in getTodo) {
+      await flutterLocalNotificationsPlugin.cancel(element.id);
+    }
     getTask();
     getTaskAdd();
   }
@@ -200,6 +223,14 @@ class _HomePageState extends State<HomePage> {
       await isar.writeTxn(() async {
         await isar.todos.put(todosCreate);
         await todosCreate.task.save();
+        if (todosCreate.todoCompletedTime != null) {
+          NotificationShow().showNotification(
+            todosCreate.id,
+            todosCreate.name,
+            todosCreate.description,
+            todosCreate.todoCompletedTime,
+          );
+        }
       });
       EasyLoading.showSuccess('taskCreate'.tr,
           duration: const Duration(milliseconds: 500));
@@ -406,9 +437,7 @@ class _HomePageState extends State<HomePage> {
                   builder: (BuildContext context) {
                     return TaskTypeCu(
                       text: 'create'.tr,
-                      save: () {
-                        addTask();
-                      },
+                      save: addTask,
                       titleEdit: titleEdit,
                       descEdit: descEdit,
                       color: myColor,

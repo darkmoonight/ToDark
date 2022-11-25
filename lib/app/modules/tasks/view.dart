@@ -1,4 +1,5 @@
 import 'package:dark_todo/app/data/schema.dart';
+import 'package:dark_todo/app/services/notification.dart';
 import 'package:dark_todo/app/widgets/select_button.dart';
 import 'package:dark_todo/app/widgets/task_type_cu.dart';
 import 'package:dark_todo/app/widgets/todos_ce.dart';
@@ -6,12 +7,10 @@ import 'package:dark_todo/app/widgets/todos_list.dart';
 import 'package:dark_todo/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:isar/isar.dart';
 // ignore_for_file: depend_on_referenced_packages
-import 'package:timezone/timezone.dart' as tz;
 
 class TaskPage extends StatefulWidget {
   const TaskPage({
@@ -113,9 +112,10 @@ class _TaskPageState extends State<TaskPage> {
     return res;
   }
 
-  deleteTodo(todos) async {
+  deleteTodo(Todos todos) async {
     await isar.writeTxn(() async {
       await isar.todos.delete(todos.id);
+      await flutterLocalNotificationsPlugin.cancel(todos.id);
     });
     EasyLoading.showSuccess('taskDelete'.tr,
         duration: const Duration(milliseconds: 500));
@@ -142,8 +142,14 @@ class _TaskPageState extends State<TaskPage> {
       await isar.writeTxn(() async {
         await isar.todos.put(todosCreate);
         await todosCreate.task.save();
-        showNotification(todosCreate.id, todosCreate.name,
-            todosCreate.description, todosCreate.todoCompletedTime);
+        if (todosCreate.todoCompletedTime != null) {
+          NotificationShow().showNotification(
+            todosCreate.id,
+            todosCreate.name,
+            todosCreate.description,
+            todosCreate.todoCompletedTime,
+          );
+        }
       });
       EasyLoading.showSuccess('taskCreate'.tr,
           duration: const Duration(milliseconds: 500));
@@ -155,31 +161,6 @@ class _TaskPageState extends State<TaskPage> {
     titleEdit.clear();
     descEdit.clear();
     timeEdit.clear();
-  }
-
-  void showNotification(int id, String title, String body, DateTime? date) {
-    AndroidNotificationDetails androidNotificationDetails =
-        const AndroidNotificationDetails(
-      'ToDark',
-      'DARK NIGHT',
-      priority: Priority.max,
-      importance: Importance.max,
-    );
-    NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-
-    var scheduledTime = tz.TZDateTime.from(date!, tz.local);
-    flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      scheduledTime,
-      notificationDetails,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
-      androidAllowWhileIdle: true,
-      payload: 'notlification-payload',
-    );
   }
 
   @override
@@ -258,9 +239,7 @@ class _TaskPageState extends State<TaskPage> {
                                   );
                                   return TaskTypeCu(
                                     text: 'editing'.tr,
-                                    save: () {
-                                      updateTask();
-                                    },
+                                    save: updateTask,
                                     titleEdit: titleTaskEdit,
                                     descEdit: descTaskEdit,
                                     color: myColor,
@@ -339,9 +318,7 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                       ),
                       TodosList(
-                        getTodo: () {
-                          getTodo();
-                        },
+                        getTodo: getTodo,
                         isAllTask: false,
                         isCalendare: false,
                         toggleValue: toggleValue,

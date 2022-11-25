@@ -30,8 +30,9 @@ class _AllTaskState extends State<AllTask> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
+  void setState(VoidCallback fn) {
+    if (!mounted) return;
+    super.setState(fn);
   }
 
   getTodo() async {
@@ -65,7 +66,6 @@ class _AllTaskState extends State<AllTask> {
         .filter()
         .task((q) => q.archiveEqualTo(false))
         .findAll();
-
     res = getTodos.length;
     return res;
   }
@@ -79,14 +79,14 @@ class _AllTaskState extends State<AllTask> {
         .doneEqualTo(true)
         .task((q) => q.archiveEqualTo(false))
         .findAll();
-
     res = getTodos.length;
     return res;
   }
 
-  deleteTodo(todos) async {
+  deleteTodo(Todos todos) async {
     await isar.writeTxn(() async {
       await isar.todos.delete(todos.id);
+      await flutterLocalNotificationsPlugin.cancel(todos.id);
     });
     EasyLoading.showSuccess('taskDelete'.tr,
         duration: const Duration(milliseconds: 500));
