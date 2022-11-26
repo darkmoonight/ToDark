@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     myColor = const Color(0xFF2196F3);
     getTask();
-    getTaskAdd();
+
     super.initState();
   }
 
@@ -64,7 +64,6 @@ class _HomePageState extends State<HomePage> {
   void changeTabIndex(int index) {
     tabIndex.value = index;
     getTask();
-    getTaskAdd();
   }
 
   Future<int> getTotalTask() async {
@@ -116,6 +115,7 @@ class _HomePageState extends State<HomePage> {
       tasks = getTask;
       isLoaded = true;
     });
+    getTaskAdd();
   }
 
   archiveTask(Tasks task) async {
@@ -125,8 +125,41 @@ class _HomePageState extends State<HomePage> {
     });
     EasyLoading.showSuccess('taskArchive'.tr,
         duration: const Duration(milliseconds: 500));
+    deleteTaskTodosNotlifiArchive(task);
     getTask();
-    getTaskAdd();
+  }
+
+  deleteTaskTodosNotlifiArchive(Tasks task) async {
+    List<Todos> getTodo;
+    final taskCollection = isar.todos;
+    getTodo = await taskCollection
+        .filter()
+        .task((q) => q.idEqualTo(task.id))
+        .findAll();
+
+    for (var element in getTodo) {
+      await flutterLocalNotificationsPlugin.cancel(element.id);
+    }
+  }
+
+  createTaskTodosNotlifiNoArchive(Tasks task) async {
+    List<Todos> getTodo;
+    final taskCollection = isar.todos;
+    getTodo = await taskCollection
+        .filter()
+        .task((q) => q.idEqualTo(task.id))
+        .findAll();
+
+    for (var element in getTodo) {
+      if (element.todoCompletedTime != null) {
+        NotificationShow().showNotification(
+          element.id,
+          element.name,
+          element.description,
+          element.todoCompletedTime,
+        );
+      }
+    }
   }
 
   noArchiveTask(Tasks task) async {
@@ -136,6 +169,7 @@ class _HomePageState extends State<HomePage> {
     });
     EasyLoading.showSuccess('noTaskArchive'.tr,
         duration: const Duration(milliseconds: 500));
+    createTaskTodosNotlifiNoArchive(task);
     getTask();
   }
 
@@ -146,7 +180,6 @@ class _HomePageState extends State<HomePage> {
     EasyLoading.showSuccess('categoryDelete'.tr,
         duration: const Duration(milliseconds: 500));
     getTask();
-    getTaskAdd();
   }
 
   deleteTaskTodos(Tasks task) async {
@@ -155,7 +188,6 @@ class _HomePageState extends State<HomePage> {
       await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
     });
     getTask();
-    getTaskAdd();
   }
 
   deleteTaskTodosNotlifi(Tasks task) async {
@@ -169,8 +201,6 @@ class _HomePageState extends State<HomePage> {
     for (var element in getTodo) {
       await flutterLocalNotificationsPlugin.cancel(element.id);
     }
-    getTask();
-    getTaskAdd();
   }
 
   addTask() async {

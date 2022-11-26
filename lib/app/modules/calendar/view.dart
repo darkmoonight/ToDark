@@ -21,6 +21,7 @@ class _CalendarPageState extends State<CalendarPage> {
   CalendarFormat calendarFormat = CalendarFormat.week;
 
   var todos = <Todos>[];
+  var todosAll = <Todos>[];
   bool isLoaded = false;
   int toggleValue = 0;
   int countTotalTodos = 0;
@@ -56,6 +57,16 @@ class _CalendarPageState extends State<CalendarPage> {
     return res;
   }
 
+  int getCountTotalTodosCalendar(DateTime date) => todosAll
+      .where((e) =>
+          e.todoCompletedTime != null &&
+          e.task.value!.archive == false &&
+          DateTime(date.year, date.month, date.day, 0, -1)
+              .isBefore(e.todoCompletedTime!) &&
+          DateTime(date.year, date.month, date.day, 23, 60)
+              .isAfter(e.todoCompletedTime!))
+      .length;
+
   getCountDoneTodos() async {
     int res;
     final todosCollection = isar.todos;
@@ -73,6 +84,20 @@ class _CalendarPageState extends State<CalendarPage> {
         .findAll();
     res = getTodos.length;
     return res;
+  }
+
+  getTodosAll() async {
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .doneEqualTo(false)
+        .todoCompletedTimeIsNotNull()
+        .task((q) => q.archiveEqualTo(false))
+        .findAll();
+    setState(() {
+      todosAll = getTodos;
+    });
   }
 
   getTodo() async {
@@ -108,6 +133,7 @@ class _CalendarPageState extends State<CalendarPage> {
       todos = getTodos;
       isLoaded = true;
     });
+    getTodosAll();
   }
 
   deleteTodo(Todos todos) async {
@@ -126,6 +152,29 @@ class _CalendarPageState extends State<CalendarPage> {
     return Column(
       children: [
         TableCalendar(
+          calendarBuilders: CalendarBuilders(
+            markerBuilder: (context, day, events) {
+              return getCountTotalTodosCalendar(day) != 0
+                  ? Container(
+                      width: 16,
+                      height: 16,
+                      decoration: const BoxDecoration(
+                        color: Colors.blueGrey,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: Text(
+                          getCountTotalTodosCalendar(day).toString(),
+                          style: context.theme.primaryTextTheme.headline6
+                              ?.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    )
+                  : null;
+            },
+          ),
           startingDayOfWeek: StartingDayOfWeek.monday,
           firstDay: DateTime(2022, 09, 01),
           lastDay: selectedDay.add(const Duration(days: 1000)),
