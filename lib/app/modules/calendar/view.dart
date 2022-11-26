@@ -39,67 +39,6 @@ class _CalendarPageState extends State<CalendarPage> {
     super.setState(fn);
   }
 
-  getCountTotalTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .todoCompletedTimeIsNotNull()
-        .todoCompletedTimeBetween(
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
-        .task((q) => q.archiveEqualTo(false))
-        .findAll();
-    res = getTodos.length;
-    return res;
-  }
-
-  int getCountTotalTodosCalendar(DateTime date) => todosAll
-      .where((e) =>
-          e.todoCompletedTime != null &&
-          e.task.value!.archive == false &&
-          DateTime(date.year, date.month, date.day, 0, -1)
-              .isBefore(e.todoCompletedTime!) &&
-          DateTime(date.year, date.month, date.day, 23, 60)
-              .isAfter(e.todoCompletedTime!))
-      .length;
-
-  getCountDoneTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .doneEqualTo(true)
-        .todoCompletedTimeIsNotNull()
-        .todoCompletedTimeBetween(
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
-        .task((q) => q.archiveEqualTo(false))
-        .findAll();
-    res = getTodos.length;
-    return res;
-  }
-
-  getTodosAll() async {
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .doneEqualTo(false)
-        .todoCompletedTimeIsNotNull()
-        .task((q) => q.archiveEqualTo(false))
-        .findAll();
-    setState(() {
-      todosAll = getTodos;
-    });
-  }
-
   getTodo() async {
     final todosCollection = isar.todos;
     List<Todos> getTodos;
@@ -136,10 +75,73 @@ class _CalendarPageState extends State<CalendarPage> {
     getTodosAll();
   }
 
+  int getCountTotalTodosCalendar(DateTime date) => todosAll
+      .where((e) =>
+          e.todoCompletedTime != null &&
+          e.task.value!.archive == false &&
+          DateTime(date.year, date.month, date.day, 0, -1)
+              .isBefore(e.todoCompletedTime!) &&
+          DateTime(date.year, date.month, date.day, 23, 60)
+              .isAfter(e.todoCompletedTime!))
+      .length;
+
+  getCountTotalTodos() async {
+    int res;
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .todoCompletedTimeIsNotNull()
+        .todoCompletedTimeBetween(
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
+        .task((q) => q.archiveEqualTo(false))
+        .findAll();
+    res = getTodos.length;
+    return res;
+  }
+
+  getCountDoneTodos() async {
+    int res;
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .doneEqualTo(true)
+        .todoCompletedTimeIsNotNull()
+        .todoCompletedTimeBetween(
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
+            DateTime(
+                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
+        .task((q) => q.archiveEqualTo(false))
+        .findAll();
+    res = getTodos.length;
+    return res;
+  }
+
+  getTodosAll() async {
+    final todosCollection = isar.todos;
+    List<Todos> getTodos;
+    getTodos = await todosCollection
+        .filter()
+        .doneEqualTo(false)
+        .todoCompletedTimeIsNotNull()
+        .task((q) => q.archiveEqualTo(false))
+        .findAll();
+    setState(() {
+      todosAll = getTodos;
+    });
+  }
+
   deleteTodo(Todos todos) async {
     await isar.writeTxn(() async {
       await isar.todos.delete(todos.id);
-      await flutterLocalNotificationsPlugin.cancel(todos.id);
+      if (todos.todoCompletedTime != null) {
+        await flutterLocalNotificationsPlugin.cancel(todos.id);
+      }
     });
     EasyLoading.showSuccess('taskDelete'.tr,
         duration: const Duration(milliseconds: 500));
@@ -159,7 +161,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       width: 16,
                       height: 16,
                       decoration: const BoxDecoration(
-                        color: Colors.blueGrey,
+                        color: Colors.amber,
                         shape: BoxShape.circle,
                       ),
                       child: Center(

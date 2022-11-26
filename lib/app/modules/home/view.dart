@@ -41,7 +41,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     myColor = const Color(0xFF2196F3);
     getTask();
-
     super.initState();
   }
 
@@ -55,7 +54,6 @@ class _HomePageState extends State<HomePage> {
     List<Tasks> getTask;
     final taskCollection = isar.tasks;
     getTask = await taskCollection.filter().archiveEqualTo(false).findAll();
-
     setState(() {
       tasksAdd = getTask;
     });
@@ -125,21 +123,8 @@ class _HomePageState extends State<HomePage> {
     });
     EasyLoading.showSuccess('taskArchive'.tr,
         duration: const Duration(milliseconds: 500));
-    deleteTaskTodosNotlifiArchive(task);
+    deleteNotlifi(task);
     getTask();
-  }
-
-  deleteTaskTodosNotlifiArchive(Tasks task) async {
-    List<Todos> getTodo;
-    final taskCollection = isar.todos;
-    getTodo = await taskCollection
-        .filter()
-        .task((q) => q.idEqualTo(task.id))
-        .findAll();
-
-    for (var element in getTodo) {
-      await flutterLocalNotificationsPlugin.cancel(element.id);
-    }
   }
 
   createTaskTodosNotlifiNoArchive(Tasks task) async {
@@ -183,14 +168,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   deleteTaskTodos(Tasks task) async {
-    deleteTaskTodosNotlifi(task);
+    deleteNotlifi(task);
     await isar.writeTxn(() async {
       await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
     });
     getTask();
   }
 
-  deleteTaskTodosNotlifi(Tasks task) async {
+  deleteNotlifi(Tasks task) async {
     List<Todos> getTodo;
     final taskCollection = isar.todos;
     getTodo = await taskCollection
@@ -199,7 +184,9 @@ class _HomePageState extends State<HomePage> {
         .findAll();
 
     for (var element in getTodo) {
-      await flutterLocalNotificationsPlugin.cancel(element.id);
+      if (element.todoCompletedTime != null) {
+        await flutterLocalNotificationsPlugin.cancel(element.id);
+      }
     }
   }
 
