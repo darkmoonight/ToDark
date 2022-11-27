@@ -61,6 +61,9 @@ class _HomePageState extends State<HomePage> {
 
   void changeTabIndex(int index) {
     tabIndex.value = index;
+    titleEdit.clear();
+    descEdit.clear();
+    timeEdit.clear();
     getTask();
   }
 
