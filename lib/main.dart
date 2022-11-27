@@ -1,6 +1,6 @@
-import 'package:dark_todo/app/modules/home/view.dart';
-import 'package:dark_todo/app/modules/onboard/onboarding_screen.dart';
-import 'package:dark_todo/theme/theme.dart';
+import 'package:todark/app/modules/home/view.dart';
+import 'package:todark/app/modules/onboard/onboarding_screen.dart';
+import 'package:todark/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';

@@ -1,10 +1,10 @@
-import 'package:dark_todo/app/data/schema.dart';
-import 'package:dark_todo/app/services/notification.dart';
-import 'package:dark_todo/app/widgets/select_button.dart';
-import 'package:dark_todo/app/widgets/task_type_cu.dart';
-import 'package:dark_todo/app/widgets/todos_ce.dart';
-import 'package:dark_todo/app/widgets/todos_list.dart';
-import 'package:dark_todo/main.dart';
+import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/services/notification.dart';
+import 'package:todark/app/widgets/select_button.dart';
+import 'package:todark/app/widgets/task_type_cu.dart';
+import 'package:todark/app/widgets/todos_ce.dart';
+import 'package:todark/app/widgets/todos_list.dart';
+import 'package:todark/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';

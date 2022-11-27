@@ -1,5 +1,5 @@
-import 'package:dark_todo/app/widgets/todos_list.dart';
-import 'package:dark_todo/main.dart';
+import 'package:todark/app/widgets/todos_list.dart';
+import 'package:todark/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';

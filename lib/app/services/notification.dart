@@ -1,4 +1,4 @@
-import 'package:dark_todo/main.dart';
+import 'package:todark/main.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 // ignore_for_file: depend_on_referenced_packages
 import 'package:timezone/timezone.dart' as tz;

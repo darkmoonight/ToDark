@@ -1,6 +1,6 @@
-import 'package:dark_todo/app/data/schema.dart';
-import 'package:dark_todo/app/widgets/select_button.dart';
-import 'package:dark_todo/main.dart';
+import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/widgets/select_button.dart';
+import 'package:todark/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';

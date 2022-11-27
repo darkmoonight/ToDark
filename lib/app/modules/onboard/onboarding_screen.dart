@@ -1,7 +1,7 @@
-import 'package:dark_todo/app/data/schema.dart';
-import 'package:dark_todo/app/modules/home/view.dart';
-import 'package:dark_todo/app/widgets/button.dart';
-import 'package:dark_todo/main.dart';
+import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/modules/home/view.dart';
+import 'package:todark/app/widgets/button.dart';
+import 'package:todark/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
