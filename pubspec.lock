@@ -441,6 +441,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.6.0"
+  lazy_load_indexed_stack:
+    dependency: "direct main"
+    description:
+      name: lazy_load_indexed_stack
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   lint:
     dependency: transitive
     description:

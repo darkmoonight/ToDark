@@ -27,6 +27,7 @@ dependencies:
   sleek_circular_slider: ^2.0.1
   flutter_datetime_picker: ^1.5.1
   flutter_native_timezone: ^2.0.0
+  lazy_load_indexed_stack: ^0.1.4
   flutter_local_notifications: ^9.8.0+1
 
 dev_dependencies:

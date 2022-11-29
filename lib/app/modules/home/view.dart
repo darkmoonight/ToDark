@@ -1,4 +1,5 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/allTasks/view.dart';
@@ -59,11 +60,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   void changeTabIndex(int index) {
-    tabIndex.value = index;
     titleEdit.clear();
     descEdit.clear();
     timeEdit.clear();
-    getTask();
+    tabIndex.value = index;
   }
 
   Future<int> getTotalTask() async {
@@ -258,6 +258,7 @@ class _HomePageState extends State<HomePage> {
           duration: const Duration(milliseconds: 500));
     }
     setState(() {});
+    getTask();
     titleEdit.clear();
     descEdit.clear();
     timeEdit.clear();
@@ -289,7 +290,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Obx(
-        (() => IndexedStack(
+        (() => LazyLoadIndexedStack(
               index: tabIndex.value,
               children: [
                 Column(
