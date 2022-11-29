@@ -1,4 +1,5 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/allTasks/view.dart';
 import 'package:todark/app/modules/calendar/view.dart';
@@ -14,8 +15,6 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-import 'package:lazy_load_indexed_stack/lazy_load_indexed_stack.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -290,7 +289,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Obx(
-        (() => LazyLoadIndexedStack(
+        (() => IndexedStack(
               index: tabIndex.value,
               children: [
                 Column(
@@ -308,25 +307,40 @@ class _HomePageState extends State<HomePage> {
                           Flexible(
                             child: Row(
                               children: [
-                                CircularStepProgressIndicator(
-                                  totalSteps: countTotalTasks != 0
-                                      ? countTotalTasks
-                                      : 1,
-                                  currentStep: countTotalDoneTasks,
-                                  stepSize: 4,
-                                  selectedColor: Colors.blueAccent,
-                                  unselectedColor: Colors.white,
-                                  padding: 0,
-                                  selectedStepSize: 6,
-                                  roundedCap: (_, __) => true,
-                                  child: Center(
-                                    child: Text(
-                                      countTotalTasks != 0
-                                          ? '${((countTotalDoneTasks / countTotalTasks) * 100).round()}%'
-                                          : '0%',
-                                      style: context.theme.textTheme.headline2,
+                                SleekCircularSlider(
+                                  appearance: CircularSliderAppearance(
+                                    angleRange: 360,
+                                    startAngle: 270,
+                                    size: 110,
+                                    infoProperties: InfoProperties(
+                                      modifier: (percentage) {
+                                        return countTotalTasks != 0
+                                            ? '${((countTotalDoneTasks / countTotalTasks) * 100).round()}%'
+                                            : '0%';
+                                      },
+                                      mainLabelStyle: context
+                                          .theme.textTheme.headline2
+                                          ?.copyWith(color: Colors.white),
+                                    ),
+                                    customColors: CustomSliderColors(
+                                      progressBarColors: <Color>[
+                                        Colors.blueAccent,
+                                        Colors.greenAccent,
+                                      ],
+                                      trackColor: Colors.white,
+                                    ),
+                                    customWidths: CustomSliderWidths(
+                                      progressBarWidth: 8,
+                                      trackWidth: 3,
+                                      handlerSize: 0,
+                                      shadowWidth: 0,
                                     ),
                                   ),
+                                  min: 0,
+                                  max: countTotalTasks != 0
+                                      ? countTotalTasks.toDouble()
+                                      : 1,
+                                  initialValue: countTotalDoneTasks.toDouble(),
                                 ),
                                 const SizedBox(
                                   width: 15,
@@ -389,7 +403,7 @@ class _HomePageState extends State<HomePage> {
                                                     .theme.backgroundColor),
                                       ),
                                       Text(
-                                        '($countTotalDoneTasks/$countTotalTasks) ${'completed'.tr}',
+                                        '(${countTotalDoneTasks.toInt()}/${countTotalTasks.toInt()}) ${'completed'.tr}',
                                         style:
                                             context.theme.textTheme.subtitle2,
                                       ),

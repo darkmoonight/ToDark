@@ -1,9 +1,9 @@
+import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 import '../modules/tasks/view.dart';
 
@@ -73,7 +73,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
             itemBuilder: (BuildContext context, int index) {
               final task = widget.tasks[index];
               return Dismissible(
-                key: UniqueKey(),
+                key: ObjectKey(task),
                 direction: DismissDirection.horizontal,
                 confirmDismiss: (DismissDirection direction) async {
                   return await showDialog(
@@ -186,29 +186,44 @@ class _TaskTypeListState extends State<TaskTypeList> {
                               SizedBox(
                                 height: 60,
                                 width: 60,
-                                child: CircularStepProgressIndicator(
-                                  totalSteps: task.todos.isNotEmpty
-                                      ? task.todos.length
-                                      : 1,
-                                  currentStep: task.todos
-                                      .where((e) => e.done == true)
-                                      .toList()
-                                      .length,
-                                  stepSize: 4,
-                                  selectedColor: Color(task.taskColor),
-                                  unselectedColor: Colors.grey[300],
-                                  padding: 0,
-                                  selectedStepSize: 5,
-                                  roundedCap: (_, __) => true,
-                                  child: Center(
-                                    child: Text(
-                                      task.todos.isNotEmpty
-                                          ? '${((task.todos.where((e) => e.done == true).toList().length / task.todos.length) * 100).round()}%'
-                                          : '0%',
-                                      style: context.theme.textTheme.headline6
+                                child: SleekCircularSlider(
+                                  appearance: CircularSliderAppearance(
+                                    angleRange: 360,
+                                    startAngle: 270,
+                                    size: 110,
+                                    infoProperties: InfoProperties(
+                                      modifier: (percentage) {
+                                        return task.todos.isNotEmpty
+                                            ? '${((task.todos.where((e) => e.done == true).toList().length / task.todos.length) * 100).round()}%'
+                                            : '0%';
+                                      },
+                                      mainLabelStyle: context
+                                          .theme.textTheme.headline6
                                           ?.copyWith(color: Colors.black),
                                     ),
+                                    customColors: CustomSliderColors(
+                                      progressBarColors: <Color>[
+                                        Color(task.taskColor),
+                                        Color(task.taskColor).withBlue(200),
+                                      ],
+                                      trackColor: Colors.grey[300],
+                                    ),
+                                    customWidths: CustomSliderWidths(
+                                      progressBarWidth: 7,
+                                      trackWidth: 3,
+                                      handlerSize: 0,
+                                      shadowWidth: 0,
+                                    ),
                                   ),
+                                  min: 0,
+                                  max: task.todos.isNotEmpty
+                                      ? task.todos.length.toDouble()
+                                      : 1,
+                                  initialValue: task.todos
+                                      .where((e) => e.done == true)
+                                      .toList()
+                                      .length
+                                      .toDouble(),
                                 ),
                               ),
                               const SizedBox(width: 15),
