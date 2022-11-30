@@ -204,12 +204,13 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                     customColors: CustomSliderColors(
                                       progressBarColors: <Color>[
                                         Color(task.taskColor),
-                                        Color(task.taskColor).withBlue(200),
+                                        Color(task.taskColor).withOpacity(0.8),
+                                        Color(task.taskColor).withOpacity(0.6),
                                       ],
                                       trackColor: Colors.grey[300],
                                     ),
                                     customWidths: CustomSliderWidths(
-                                      progressBarWidth: 7,
+                                      progressBarWidth: 5,
                                       trackWidth: 3,
                                       handlerSize: 0,
                                       shadowWidth: 0,

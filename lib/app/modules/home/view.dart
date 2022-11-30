@@ -331,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                                       trackColor: Colors.white,
                                     ),
                                     customWidths: CustomSliderWidths(
-                                      progressBarWidth: 8,
+                                      progressBarWidth: 7,
                                       trackWidth: 3,
                                       handlerSize: 0,
                                       shadowWidth: 0,
