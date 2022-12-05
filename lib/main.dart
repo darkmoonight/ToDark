@@ -22,8 +22,6 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 late Isar isar;
 late Settings settings;
-late Tasks task;
-late Todos todo;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

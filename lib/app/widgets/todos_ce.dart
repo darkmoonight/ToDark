@@ -1,35 +1,30 @@
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:todark/main.dart';
 
 class TodosCe extends StatefulWidget {
   const TodosCe({
     super.key,
     required this.text,
-    this.save,
-    this.saveTask,
-    this.taskSelect,
-    this.saveTodos,
-    required this.titleEdit,
-    required this.descEdit,
-    required this.timeEdit,
-    this.tasks,
-    required this.isCategory,
+    required this.edit,
+    required this.category,
+    required this.set,
+    this.task,
+    this.todo,
   });
   final String text;
-  final bool isCategory;
-  final List<Tasks>? tasks;
-  final Todos? taskSelect;
-  final Function()? save;
-  final Function(Tasks?)? saveTask;
-  final Function(Todos?, Tasks?)? saveTodos;
-  final TextEditingController titleEdit;
-  final TextEditingController descEdit;
-  final TextEditingController timeEdit;
+  final Tasks? task;
+  final Todos? todo;
+  final bool edit;
+  final bool category;
+  final Function() set;
 
   @override
   State<TodosCe> createState() => _TodosCeState();
@@ -37,17 +32,34 @@ class TodosCe extends StatefulWidget {
 
 class _TodosCeState extends State<TodosCe> {
   final formKey = GlobalKey<FormState>();
-  Tasks? taskValue;
+  final service = IsarServices();
+  final locale = Get.locale;
+  Tasks? selectedTask;
   List<Tasks>? taskList;
 
   @override
-  void initState() {
-    taskList = widget.tasks;
-    if (widget.taskSelect != null) {
-      taskValue = widget.tasks
-          ?.firstWhere((e) => e.id == widget.taskSelect!.task.value?.id);
+  initState() {
+    getTodosAll();
+    if (widget.edit == true) {
+      service.titleEdit.value = service.titleEdit.value =
+          TextEditingController(text: widget.todo!.name);
+      service.descEdit.value = service.descEdit.value =
+          TextEditingController(text: widget.todo!.description);
+      service.timeEdit.value = service.timeEdit.value = TextEditingController(
+          text: widget.todo!.todoCompletedTime != null
+              ? widget.todo!.todoCompletedTime.toString()
+              : '');
     }
     super.initState();
+  }
+
+  getTodosAll() async {
+    final todosCollection = isar.tasks;
+    List<Tasks> getTasks;
+    getTasks = await todosCollection.filter().archiveEqualTo(false).findAll();
+    setState(() {
+      taskList = getTasks;
+    });
   }
 
   textTrim(value) {
@@ -59,7 +71,6 @@ class _TodosCeState extends State<TodosCe> {
 
   @override
   Widget build(BuildContext context) {
-    final tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
     return Form(
       key: formKey,
       child: SingleChildScrollView(
@@ -80,9 +91,9 @@ class _TodosCeState extends State<TodosCe> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              widget.titleEdit.clear();
-                              widget.descEdit.clear();
-                              widget.timeEdit.clear();
+                              service.titleEdit.value.clear();
+                              service.descEdit.value.clear();
+                              service.timeEdit.value.clear();
                               Get.back();
                             },
                             icon: const Icon(
@@ -99,14 +110,40 @@ class _TodosCeState extends State<TodosCe> {
                     IconButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          textTrim(widget.titleEdit);
-                          textTrim(widget.descEdit);
-                          widget.isCategory == false
-                              ? widget.save!()
-                              : widget.taskSelect != null
-                                  ? widget.saveTodos!(
-                                      widget.taskSelect, taskValue)
-                                  : widget.saveTask!(taskValue);
+                          textTrim(service.titleEdit.value);
+                          textTrim(service.descEdit.value);
+                          widget.category == false
+                              ? service.addTodo(
+                                  widget.task,
+                                  service.titleEdit.value,
+                                  service.descEdit.value,
+                                  service.timeEdit.value,
+                                  widget.set,
+                                )
+                              : widget.edit == false
+                                  ? service.addTodo(
+                                      selectedTask,
+                                      service.titleEdit.value,
+                                      service.descEdit.value,
+                                      service.timeEdit.value,
+                                      widget.set,
+                                    )
+                                  : widget.task != null
+                                      ? service.updateTodo(
+                                          widget.todo,
+                                          widget.task,
+                                          service.titleEdit.value,
+                                          service.descEdit.value,
+                                          service.timeEdit.value,
+                                        )
+                                      : service.updateTodo(
+                                          widget.todo,
+                                          selectedTask,
+                                          service.titleEdit.value,
+                                          service.descEdit.value,
+                                          service.timeEdit.value,
+                                        );
+
                           Get.back();
                         }
                       },
@@ -118,7 +155,7 @@ class _TodosCeState extends State<TodosCe> {
                 ),
               ),
               MyTextForm(
-                textEditingController: widget.titleEdit,
+                textEditingController: service.titleEdit.value,
                 hintText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
@@ -130,14 +167,14 @@ class _TodosCeState extends State<TodosCe> {
                 },
               ),
               MyTextForm(
-                textEditingController: widget.descEdit,
+                textEditingController: service.descEdit.value,
                 hintText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
               MyTextForm(
                 readOnly: true,
-                textEditingController: widget.timeEdit,
+                textEditingController: service.timeEdit.value,
                 hintText: 'timeComlete'.tr,
                 type: TextInputType.datetime,
                 icon: const Icon(Iconsax.clock),
@@ -147,7 +184,7 @@ class _TodosCeState extends State<TodosCe> {
                     size: 18,
                   ),
                   onPressed: () {
-                    widget.timeEdit.clear();
+                    service.timeEdit.value.clear();
                   },
                 ),
                 onTap: () {
@@ -163,16 +200,16 @@ class _TodosCeState extends State<TodosCe> {
                     minTime: DateTime.now(),
                     maxTime: DateTime.now().add(const Duration(days: 1000)),
                     onConfirm: (date) {
-                      widget.timeEdit.text = date.toString();
+                      service.timeEdit.value.text = date.toString();
                     },
                     currentTime: DateTime.now(),
-                    locale: tag.toString() == 'ru-RU'
+                    locale: locale.toString() == 'ru_RU'
                         ? LocaleType.ru
                         : LocaleType.en,
                   );
                 },
               ),
-              widget.isCategory == true
+              widget.category == true
                   ? Padding(
                       padding:
                           const EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -193,7 +230,6 @@ class _TodosCeState extends State<TodosCe> {
                             ),
                           ),
                         ),
-                        value: taskValue,
                         focusColor: Colors.transparent,
                         hint: Text(
                           "selectCategory".tr,
@@ -202,19 +238,23 @@ class _TodosCeState extends State<TodosCe> {
                             fontSize: 15.sp,
                           ),
                         ),
-                        // underline: Container(),
                         dropdownColor: context.theme.scaffoldBackgroundColor,
                         icon: const Icon(
                           Iconsax.arrow_down_1,
                         ),
                         isExpanded: true,
+                        value: widget.todo != null
+                            ? selectedTask = taskList?.firstWhere(
+                                (e) => e.id == widget.todo!.task.value?.id)
+                            : null,
                         items: taskList?.map((e) {
                           return DropdownMenuItem(
                               value: e, child: Text(e.title));
                         }).toList(),
                         onChanged: (Tasks? newValue) {
+                          FocusScope.of(context).requestFocus(FocusNode());
                           setState(() {
-                            taskValue = newValue!;
+                            selectedTask = newValue!;
                           });
                         },
                         validator: (value) {

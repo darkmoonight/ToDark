@@ -27,11 +27,11 @@ class _SelectButtonState extends State<SelectButton> {
       width: Get.width * 0.2,
       height: Get.width * 0.1,
       child: Stack(
-        children: <Widget>[
+        children: [
           GestureDetector(
             onTap: () {
               initialPosition = !initialPosition;
-              var index = 0;
+              int index = 0;
               if (!initialPosition) {
                 index = 1;
               }

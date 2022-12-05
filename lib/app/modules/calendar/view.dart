@@ -1,12 +1,12 @@
-import 'package:todark/app/widgets/todos_list.dart';
-import 'package:todark/main.dart';
+import 'package:isar/isar.dart';
+import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/services/isar_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:isar/isar.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../data/schema.dart';
+import 'package:todark/app/widgets/todos_list.dart';
+import 'package:todark/main.dart';
 import '../../widgets/select_button.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -17,109 +17,31 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  final service = IsarServices();
+  final locale = Get.locale;
   DateTime selectedDay = DateTime.now();
   CalendarFormat calendarFormat = CalendarFormat.week;
 
   var todos = <Todos>[];
-  var todosAll = <Todos>[];
-  bool isLoaded = false;
-  int toggleValue = 0;
   int countTotalTodos = 0;
   int countDoneTodos = 0;
 
   @override
-  initState() {
-    getTodo();
+  void initState() {
+    getCountTodos();
+    getTodosAll();
     super.initState();
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    if (!mounted) return;
-    super.setState(fn);
-  }
-
-  getTodo() async {
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    toggleValue == 0
-        ? getTodos = await todosCollection
-            .filter()
-            .doneEqualTo(false)
-            .todoCompletedTimeIsNotNull()
-            .todoCompletedTimeBetween(
-                DateTime(
-                    selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-                DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
-                    23, 59))
-            .task((q) => q.archiveEqualTo(false))
-            .findAll()
-        : getTodos = await todosCollection
-            .filter()
-            .doneEqualTo(true)
-            .todoCompletedTimeIsNotNull()
-            .todoCompletedTimeBetween(
-                DateTime(
-                    selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-                DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
-                    23, 59))
-            .task((q) => q.archiveEqualTo(false))
-            .findAll();
-    countTotalTodos = await getCountTotalTodos();
-    countDoneTodos = await getCountDoneTodos();
-    toggleValue;
+  getCountTodos() async {
+    service.countTotalTodos.value =
+        await service.getCountTotalTodosCalendar(selectedDay);
+    service.countDoneTodos.value =
+        await service.getCountDoneTodosCalendar(selectedDay);
     setState(() {
-      todos = getTodos;
-      isLoaded = true;
+      countTotalTodos = service.countTotalTodos.value;
+      countDoneTodos = service.countDoneTodos.value;
     });
-    getTodosAll();
-  }
-
-  int getCountTotalTodosCalendar(DateTime date) => todosAll
-      .where((e) =>
-          e.todoCompletedTime != null &&
-          e.task.value!.archive == false &&
-          DateTime(date.year, date.month, date.day, 0, -1)
-              .isBefore(e.todoCompletedTime!) &&
-          DateTime(date.year, date.month, date.day, 23, 60)
-              .isAfter(e.todoCompletedTime!))
-      .length;
-
-  getCountTotalTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .todoCompletedTimeIsNotNull()
-        .todoCompletedTimeBetween(
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
-        .task((q) => q.archiveEqualTo(false))
-        .findAll();
-    res = getTodos.length;
-    return res;
-  }
-
-  getCountDoneTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .doneEqualTo(true)
-        .todoCompletedTimeIsNotNull()
-        .todoCompletedTimeBetween(
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
-        .task((q) => q.archiveEqualTo(false))
-        .findAll();
-    res = getTodos.length;
-    return res;
   }
 
   getTodosAll() async {
@@ -132,25 +54,22 @@ class _CalendarPageState extends State<CalendarPage> {
         .task((q) => q.archiveEqualTo(false))
         .findAll();
     setState(() {
-      todosAll = getTodos;
+      todos = getTodos;
     });
   }
 
-  deleteTodo(Todos todos) async {
-    await isar.writeTxn(() async {
-      await isar.todos.delete(todos.id);
-      if (todos.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(todos.id);
-      }
-    });
-    EasyLoading.showSuccess('taskDelete'.tr,
-        duration: const Duration(milliseconds: 500));
-    getTodo();
-  }
+  int getCountTotalTodosCalendar(DateTime date) => todos
+      .where((e) =>
+          e.todoCompletedTime != null &&
+          e.task.value!.archive == false &&
+          DateTime(date.year, date.month, date.day, 0, -1)
+              .isBefore(e.todoCompletedTime!) &&
+          DateTime(date.year, date.month, date.day, 23, 60)
+              .isAfter(e.todoCompletedTime!))
+      .length;
 
   @override
   Widget build(BuildContext context) {
-    final tag = Localizations.maybeLocaleOf(context)?.toLanguageTag();
     return Column(
       children: [
         TableCalendar(
@@ -181,7 +100,7 @@ class _CalendarPageState extends State<CalendarPage> {
           firstDay: DateTime(2022, 09, 01),
           lastDay: selectedDay.add(const Duration(days: 1000)),
           focusedDay: selectedDay,
-          locale: '$tag',
+          locale: locale.toString() == 'ru_RU' ? 'ru_RU' : 'en_US',
           weekendDays: const [DateTime.sunday],
           availableCalendarFormats: {
             CalendarFormat.month: 'month'.tr,
@@ -195,13 +114,13 @@ class _CalendarPageState extends State<CalendarPage> {
             setState(() {
               selectedDay = selected;
             });
-            getTodo();
+            getCountTodos();
           },
           onPageChanged: (focused) {
             setState(() {
               selectedDay = focused;
             });
-            getTodo();
+            getCountTodos();
           },
           calendarFormat: calendarFormat,
           onFormatChanged: (format) {
@@ -241,7 +160,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                 color: context.theme.backgroundColor),
                           ),
                           Text(
-                            '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
+                            '(${service.countDoneTodos.value}/${service.countTotalTodos.value}) ${'completed'.tr}',
                             style: context.theme.textTheme.subtitle2,
                           ),
                         ],
@@ -259,9 +178,8 @@ class _CalendarPageState extends State<CalendarPage> {
                         ],
                         onToggleCallback: (value) {
                           setState(() {
-                            toggleValue = value;
+                            service.toggleValue.value = value;
                           });
-                          getTodo();
                         },
                         backgroundColor: context.theme.scaffoldBackgroundColor,
                       ),
@@ -269,13 +187,14 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                 ),
                 TodosList(
-                  toggleValue: toggleValue,
-                  isAllTask: false,
-                  isCalendare: true,
-                  isLoaded: isLoaded,
-                  todos: todos,
-                  deleteTodo: deleteTodo,
-                  getTodo: getTodo,
+                  calendare: true,
+                  allTask: false,
+                  toggle: service.toggleValue.value,
+                  selectedDay: selectedDay,
+                  set: () {
+                    getCountTodos();
+                    getTodosAll();
+                  },
                 ),
               ],
             ),

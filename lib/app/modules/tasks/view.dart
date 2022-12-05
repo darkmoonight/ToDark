@@ -1,175 +1,53 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/notification.dart';
+import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/widgets/select_button.dart';
 import 'package:todark/app/widgets/task_type_cu.dart';
 import 'package:todark/app/widgets/todos_ce.dart';
 import 'package:todark/app/widgets/todos_list.dart';
-import 'package:todark/main.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:isar/isar.dart';
-// ignore_for_file: depend_on_referenced_packages
 
 class TaskPage extends StatefulWidget {
   const TaskPage({
     super.key,
     required this.task,
-    required this.back,
+    required this.set,
   });
-
   final Tasks task;
-  final Function() back;
+  final Function() set;
 
   @override
   State<TaskPage> createState() => _TaskPageState();
 }
 
 class _TaskPageState extends State<TaskPage> {
-  int toggleValue = 0;
-  late Color myColor;
-  TextEditingController titleEdit = TextEditingController();
-  TextEditingController descEdit = TextEditingController();
-  TextEditingController timeEdit = TextEditingController();
-
-  late TextEditingController titleTaskEdit;
-  late TextEditingController descTaskEdit;
-
-  var todos = <Todos>[];
-  bool isLoaded = false;
-
+  final service = IsarServices();
   int countTotalTodos = 0;
   int countDoneTodos = 0;
 
   @override
   void initState() {
-    myColor = Color(widget.task.taskColor);
-    getTodo();
+    getCountTodos();
     super.initState();
   }
 
-  getTodo() async {
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    toggleValue == 0
-        ? getTodos = await todosCollection
-            .filter()
-            .task((q) => q.idEqualTo(widget.task.id))
-            .doneEqualTo(false)
-            .findAll()
-        : getTodos = await todosCollection
-            .filter()
-            .task((q) => q.idEqualTo(widget.task.id))
-            .doneEqualTo(true)
-            .findAll();
-    countTotalTodos = await getCountTotalTodos();
-    countDoneTodos = await getCountDoneTodos();
-    toggleValue;
+  getCountTodos() async {
+    service.countTotalTodos.value =
+        await service.getCountTotalTodosTask(widget.task);
+    service.countDoneTodos.value =
+        await service.getCountDoneTodosTask(widget.task);
     setState(() {
-      todos = getTodos;
-      isLoaded = true;
+      countTotalTodos = service.countTotalTodos.value;
+      countDoneTodos = service.countDoneTodos.value;
     });
-  }
-
-  updateTask() async {
-    await isar.writeTxn(() async {
-      widget.task.title = titleTaskEdit.text;
-      widget.task.description = descTaskEdit.text;
-      widget.task.taskColor = myColor.hashCode;
-      await isar.tasks.put(widget.task);
-    });
-    EasyLoading.showSuccess('editCategory'.tr,
-        duration: const Duration(milliseconds: 500));
-    widget.back();
-    getTodo();
-  }
-
-  getCountTotalTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .task((q) => q.idEqualTo(widget.task.id))
-        .findAll();
-
-    res = getTodos.length;
-    return res;
-  }
-
-  getCountDoneTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .task((q) => q.idEqualTo(widget.task.id))
-        .doneEqualTo(true)
-        .findAll();
-
-    res = getTodos.length;
-    return res;
-  }
-
-  deleteTodo(Todos todos) async {
-    await isar.writeTxn(() async {
-      await isar.todos.delete(todos.id);
-      if (todos.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(todos.id);
-      }
-    });
-    EasyLoading.showSuccess('taskDelete'.tr,
-        duration: const Duration(milliseconds: 500));
-    getTodo();
-  }
-
-  addTodo() async {
-    final todosCreate = Todos(
-      name: titleEdit.text,
-      description: descEdit.text,
-      todoCompletedTime: DateTime.tryParse(timeEdit.text),
-    )..task.value = widget.task;
-
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-
-    getTodos = await todosCollection
-        .filter()
-        .nameEqualTo(titleEdit.text)
-        .task((q) => q.idEqualTo(widget.task.id))
-        .findAll();
-
-    if (getTodos.isEmpty) {
-      await isar.writeTxn(() async {
-        await isar.todos.put(todosCreate);
-        await todosCreate.task.save();
-        if (todosCreate.todoCompletedTime != null) {
-          NotificationShow().showNotification(
-            todosCreate.id,
-            todosCreate.name,
-            todosCreate.description,
-            todosCreate.todoCompletedTime,
-          );
-        }
-      });
-      EasyLoading.showSuccess('taskCreate'.tr,
-          duration: const Duration(milliseconds: 500));
-    } else {
-      EasyLoading.showError('duplicateTask'.tr,
-          duration: const Duration(milliseconds: 500));
-    }
-    getTodo();
-    titleEdit.clear();
-    descEdit.clear();
-    timeEdit.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        widget.back();
+        widget.set();
         return true;
       },
       child: Scaffold(
@@ -186,7 +64,7 @@ class _TaskPageState extends State<TaskPage> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              widget.back();
+                              widget.set();
                               Get.back();
                             },
                             icon: const Icon(Iconsax.arrow_left_1),
@@ -233,21 +111,13 @@ class _TaskPageState extends State<TaskPage> {
                                   ),
                                 ),
                                 builder: (BuildContext context) {
-                                  titleTaskEdit = TextEditingController(
-                                    text: widget.task.title,
-                                  );
-                                  descTaskEdit = TextEditingController(
-                                    text: widget.task.description,
-                                  );
                                   return TaskTypeCu(
                                     text: 'editing'.tr,
-                                    save: updateTask,
-                                    titleEdit: titleTaskEdit,
-                                    descEdit: descTaskEdit,
-                                    color: myColor,
-                                    pickerColor: (Color color) => setState(
-                                      () => myColor = color,
-                                    ),
+                                    edit: true,
+                                    task: widget.task,
+                                    set: () {
+                                      setState(() {});
+                                    },
                                   );
                                 },
                               );
@@ -291,7 +161,7 @@ class _TaskPageState extends State<TaskPage> {
                                           color: context.theme.backgroundColor),
                                 ),
                                 Text(
-                                  '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
+                                  '(${service.countDoneTodos.value}/${service.countTotalTodos.value}) ${'completed'.tr}',
                                   style: context.theme.textTheme.subtitle2,
                                 ),
                               ],
@@ -309,9 +179,8 @@ class _TaskPageState extends State<TaskPage> {
                               ],
                               onToggleCallback: (value) {
                                 setState(() {
-                                  toggleValue = value;
+                                  service.toggleValue.value = value;
                                 });
-                                getTodo();
                               },
                               backgroundColor:
                                   context.theme.scaffoldBackgroundColor,
@@ -320,13 +189,13 @@ class _TaskPageState extends State<TaskPage> {
                         ),
                       ),
                       TodosList(
-                        getTodo: getTodo,
-                        isAllTask: false,
-                        isCalendare: false,
-                        toggleValue: toggleValue,
-                        isLoaded: isLoaded,
-                        todos: todos,
-                        deleteTodo: deleteTodo,
+                        allTask: false,
+                        calendare: false,
+                        toggle: service.toggleValue.value,
+                        task: widget.task,
+                        set: () {
+                          getCountTodos();
+                        },
                       ),
                     ],
                   ),
@@ -349,12 +218,13 @@ class _TaskPageState extends State<TaskPage> {
               ),
               builder: (BuildContext context) {
                 return TodosCe(
-                  isCategory: false,
                   text: 'create'.tr,
-                  save: addTodo,
-                  titleEdit: titleEdit,
-                  descEdit: descEdit,
-                  timeEdit: timeEdit,
+                  edit: false,
+                  task: widget.task,
+                  category: false,
+                  set: () {
+                    getCountTodos();
+                  },
                 );
               },
             );

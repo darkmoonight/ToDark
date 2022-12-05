@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 1.2.0+10
+version: 1.2.1+11
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -27,7 +27,6 @@ dependencies:
   sleek_circular_slider: ^2.0.1
   flutter_datetime_picker: ^1.5.1
   flutter_native_timezone: ^2.0.0
-  lazy_load_indexed_stack: ^0.1.4
   flutter_local_notifications: ^9.8.0+1
 
 dev_dependencies:

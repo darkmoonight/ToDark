@@ -1,98 +1,36 @@
-import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/widgets/select_button.dart';
-import 'package:todark/main.dart';
+import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:isar/isar.dart';
 
-import '../../widgets/todos_list.dart';
-
-class AllTask extends StatefulWidget {
-  const AllTask({super.key});
+class AllTaskPage extends StatefulWidget {
+  const AllTaskPage({super.key});
 
   @override
-  State<AllTask> createState() => _AllTaskState();
+  State<AllTaskPage> createState() => _AllTaskPageState();
 }
 
-class _AllTaskState extends State<AllTask> {
-  var todos = <Todos>[];
-  bool isLoaded = false;
-  int toggleValue = 0;
+class _AllTaskPageState extends State<AllTaskPage> {
+  final service = IsarServices();
+
   int countTotalTodos = 0;
   int countDoneTodos = 0;
 
   @override
-  initState() {
-    getTodo();
+  void initState() {
+    getCountTodos();
     super.initState();
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    if (!mounted) return;
-    super.setState(fn);
-  }
-
-  getTodo() async {
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    toggleValue == 0
-        ? getTodos = await todosCollection
-            .filter()
-            .doneEqualTo(false)
-            .task((q) => q.archiveEqualTo(false))
-            .findAll()
-        : getTodos = await todosCollection
-            .filter()
-            .doneEqualTo(true)
-            .task((q) => q.archiveEqualTo(false))
-            .findAll();
-    countTotalTodos = await getCountTotalTodos();
-    countDoneTodos = await getCountDoneTodos();
-    toggleValue;
+  getCountTodos() async {
+    service.countTotalTodos.value = await service.getCountTotalTodos();
+    service.countDoneTodos.value = await service.getCountDoneTodos();
     setState(() {
-      todos = getTodos;
-      isLoaded = true;
+      countTotalTodos = service.countTotalTodos.value;
+      countDoneTodos = service.countDoneTodos.value;
     });
-  }
-
-  getCountTotalTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .task((q) => q.archiveEqualTo(false))
-        .findAll();
-    res = getTodos.length;
-    return res;
-  }
-
-  getCountDoneTodos() async {
-    int res;
-    final todosCollection = isar.todos;
-    List<Todos> getTodos;
-    getTodos = await todosCollection
-        .filter()
-        .doneEqualTo(true)
-        .task((q) => q.archiveEqualTo(false))
-        .findAll();
-    res = getTodos.length;
-    return res;
-  }
-
-  deleteTodo(Todos todos) async {
-    await isar.writeTxn(() async {
-      await isar.todos.delete(todos.id);
-      if (todos.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(todos.id);
-      }
-    });
-    EasyLoading.showSuccess('taskDelete'.tr,
-        duration: const Duration(milliseconds: 500));
-    getTodo();
   }
 
   @override
@@ -143,9 +81,8 @@ class _AllTaskState extends State<AllTask> {
                   ],
                   onToggleCallback: (value) {
                     setState(() {
-                      toggleValue = value;
+                      service.toggleValue.value = value;
                     });
-                    getTodo();
                   },
                   backgroundColor: context.theme.scaffoldBackgroundColor,
                 ),
@@ -153,14 +90,13 @@ class _AllTaskState extends State<AllTask> {
             ),
           ),
           TodosList(
-            toggleValue: toggleValue,
-            isAllTask: true,
-            isCalendare: false,
-            isLoaded: isLoaded,
-            todos: todos,
-            deleteTodo: deleteTodo,
-            getTodo: getTodo,
-          )
+            calendare: false,
+            allTask: true,
+            toggle: service.toggleValue.value,
+            set: () {
+              getCountTodos();
+            },
+          ),
         ],
       ),
     );

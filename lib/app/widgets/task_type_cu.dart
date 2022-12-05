@@ -1,3 +1,5 @@
+import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +9,15 @@ import 'package:iconsax/iconsax.dart';
 class TaskTypeCu extends StatefulWidget {
   const TaskTypeCu({
     super.key,
-    required this.save,
-    required this.titleEdit,
-    required this.descEdit,
-    required this.color,
-    required this.pickerColor,
     required this.text,
+    required this.edit,
+    this.task,
+    this.set,
   });
   final String text;
-  final Function() save;
-  final TextEditingController titleEdit;
-  final TextEditingController descEdit;
-  final Color color;
-  final Function(Color) pickerColor;
+  final bool edit;
+  final Tasks? task;
+  final Function()? set;
 
   @override
   State<TaskTypeCu> createState() => _TaskTypeCuState();
@@ -27,6 +25,19 @@ class TaskTypeCu extends StatefulWidget {
 
 class _TaskTypeCuState extends State<TaskTypeCu> {
   final formKey = GlobalKey<FormState>();
+  final service = IsarServices();
+
+  @override
+  initState() {
+    if (widget.edit == true) {
+      service.titleEdit.value = TextEditingController(text: widget.task!.title);
+      service.descEdit.value =
+          TextEditingController(text: widget.task!.description);
+      service.myColor.value =
+          service.myColor.value = Color(widget.task!.taskColor);
+    }
+    super.initState();
+  }
 
   textTrim(value) {
     value.text = value.text.trim();
@@ -57,8 +68,9 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              widget.titleEdit.clear();
-                              widget.descEdit.clear();
+                              service.titleEdit.value.clear();
+                              service.descEdit.value.clear();
+
                               Get.back();
                             },
                             icon: const Icon(
@@ -75,9 +87,20 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                     IconButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          textTrim(widget.titleEdit);
-                          textTrim(widget.descEdit);
-                          widget.save();
+                          textTrim(service.titleEdit.value);
+                          textTrim(service.descEdit.value);
+                          if (widget.edit == false) {
+                            service.addTask(service.titleEdit.value,
+                                service.descEdit.value, service.myColor.value);
+                          } else {
+                            service.updateTask(
+                              widget.task,
+                              service.titleEdit.value,
+                              service.descEdit.value,
+                              service.myColor.value,
+                            );
+                            widget.set!();
+                          }
                           Get.back();
                         }
                       },
@@ -89,7 +112,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 ),
               ),
               MyTextForm(
-                textEditingController: widget.titleEdit,
+                textEditingController: service.titleEdit.value,
                 hintText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
@@ -101,14 +124,16 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 },
               ),
               MyTextForm(
-                textEditingController: widget.descEdit,
+                textEditingController: service.descEdit.value,
                 hintText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
               ColorPicker(
-                color: widget.color,
-                onColorChanged: widget.pickerColor,
+                color: service.myColor.value,
+                onColorChanged: (Color color) => setState(
+                  () => service.myColor.value = color,
+                ),
                 borderRadius: 20,
                 enableShadesSelection: false,
                 enableTonalPalette: true,
