@@ -56,6 +56,7 @@ class Translation extends Translations {
           "noTaskArchive": "Категория возвращена",
           "addArchive": "Архивируйте категорию",
           "selectCategory": "Выбирете категорию",
+          "notFound": "Ничего не найдено",
         },
         'en_US': {
           "titile1": "Organize your tasks",
@@ -110,6 +111,7 @@ class Translation extends Translations {
           "noTaskArchive": "Category returned",
           "addArchive": "Archive the category",
           "selectCategory": "Choose a category",
+          "notFound": "Nothing found",
         }
       };
 }

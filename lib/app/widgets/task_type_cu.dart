@@ -94,7 +94,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                                 service.descEdit.value, service.myColor.value);
                           } else {
                             service.updateTask(
-                              widget.task,
+                              widget.task!,
                               service.titleEdit.value,
                               service.descEdit.value,
                               service.myColor.value,

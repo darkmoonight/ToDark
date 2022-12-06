@@ -49,7 +49,7 @@ class _TodosListState extends State<TodosList> {
         stream: widget.allTask == true
             ? service.getAllTodo(widget.toggle)
             : widget.calendare == true
-                ? service.getCalendarTodo(widget.toggle, widget.selectedDay)
+                ? service.getCalendarTodo(widget.toggle, widget.selectedDay!)
                 : service.getTodo(widget.toggle, widget.task!),
         builder: (BuildContext context, AsyncSnapshot<List<Todos>> listData) {
           switch (listData.connectionState) {

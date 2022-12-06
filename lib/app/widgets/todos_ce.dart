@@ -1,4 +1,5 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/isar_service.dart';
@@ -35,17 +36,18 @@ class _TodosCeState extends State<TodosCe> {
   final service = IsarServices();
   final locale = Get.locale;
   Tasks? selectedTask;
-  List<Tasks>? taskList;
+  List<Tasks>? task;
+  final textConroller = TextEditingController();
 
   @override
   initState() {
-    getTodosAll();
     if (widget.edit == true) {
-      service.titleEdit.value = service.titleEdit.value =
-          TextEditingController(text: widget.todo!.name);
-      service.descEdit.value = service.descEdit.value =
+      selectedTask = widget.todo!.task.value;
+      textConroller.text = widget.todo!.task.value!.title;
+      service.titleEdit.value = TextEditingController(text: widget.todo!.name);
+      service.descEdit.value =
           TextEditingController(text: widget.todo!.description);
-      service.timeEdit.value = service.timeEdit.value = TextEditingController(
+      service.timeEdit.value = TextEditingController(
           text: widget.todo!.todoCompletedTime != null
               ? widget.todo!.todoCompletedTime.toString()
               : '');
@@ -53,13 +55,15 @@ class _TodosCeState extends State<TodosCe> {
     super.initState();
   }
 
-  getTodosAll() async {
+  Future<List<Tasks>> getTodosAll(String pattern) async {
     final todosCollection = isar.tasks;
-    List<Tasks> getTasks;
-    getTasks = await todosCollection.filter().archiveEqualTo(false).findAll();
-    setState(() {
-      taskList = getTasks;
-    });
+    List<Tasks> getTask;
+    getTask = await todosCollection.filter().archiveEqualTo(false).findAll();
+    return getTask.where((element) {
+      final title = element.title.toLowerCase();
+      final query = pattern.toLowerCase();
+      return title.contains(query);
+    }).toList();
   }
 
   textTrim(value) {
@@ -94,6 +98,7 @@ class _TodosCeState extends State<TodosCe> {
                               service.titleEdit.value.clear();
                               service.descEdit.value.clear();
                               service.timeEdit.value.clear();
+                              textConroller.clear();
                               Get.back();
                             },
                             icon: const Icon(
@@ -114,7 +119,7 @@ class _TodosCeState extends State<TodosCe> {
                           textTrim(service.descEdit.value);
                           widget.category == false
                               ? service.addTodo(
-                                  widget.task,
+                                  widget.task!,
                                   service.titleEdit.value,
                                   service.descEdit.value,
                                   service.timeEdit.value,
@@ -122,28 +127,20 @@ class _TodosCeState extends State<TodosCe> {
                                 )
                               : widget.edit == false
                                   ? service.addTodo(
-                                      selectedTask,
+                                      selectedTask!,
                                       service.titleEdit.value,
                                       service.descEdit.value,
                                       service.timeEdit.value,
                                       widget.set,
                                     )
-                                  : widget.task != null
-                                      ? service.updateTodo(
-                                          widget.todo,
-                                          widget.task,
-                                          service.titleEdit.value,
-                                          service.descEdit.value,
-                                          service.timeEdit.value,
-                                        )
-                                      : service.updateTodo(
-                                          widget.todo,
-                                          selectedTask,
-                                          service.titleEdit.value,
-                                          service.descEdit.value,
-                                          service.timeEdit.value,
-                                        );
-
+                                  : service.updateTodo(
+                                      widget.todo!,
+                                      selectedTask!,
+                                      service.titleEdit.value,
+                                      service.descEdit.value,
+                                      service.timeEdit.value,
+                                    );
+                          textConroller.clear();
                           Get.back();
                         }
                       },
@@ -154,6 +151,97 @@ class _TodosCeState extends State<TodosCe> {
                   ],
                 ),
               ),
+              widget.category == true
+                  ? Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 10),
+                      child: TypeAheadFormField<Tasks>(
+                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                          color: context.theme.scaffoldBackgroundColor,
+                        ),
+                        textFieldConfiguration: TextFieldConfiguration(
+                          scrollPadding:
+                              const EdgeInsets.symmetric(vertical: 10),
+                          controller: textConroller,
+                          decoration: InputDecoration(
+                            hintText: "selectCategory".tr,
+                            hintStyle: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 15.sp,
+                            ),
+                            prefixIcon: const Icon(Iconsax.folder_2),
+                            fillColor: context.theme.primaryColor,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: context.theme.disabledColor,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(
+                                color: context.theme.disabledColor,
+                              ),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: const Icon(
+                                Icons.close,
+                                size: 18,
+                              ),
+                              onPressed: () {
+                                textConroller.clear();
+                              },
+                            ),
+                          ),
+                        ),
+                        noItemsFoundBuilder: (context) {
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            height: 45.w,
+                            child: Center(
+                              child: Text(
+                                'notFound'.tr,
+                                style: context.theme.textTheme.headline6,
+                              ),
+                            ),
+                          );
+                        },
+                        suggestionsCallback: (pattern) async {
+                          return getTodosAll(pattern);
+                        },
+                        itemBuilder: (context, Tasks suggestion) {
+                          final tasks = suggestion;
+                          return Container(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            height: 45.w,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15)),
+                              color: context.theme.primaryColor,
+                            ),
+                            child: Center(
+                              child: Text(
+                                tasks.title,
+                                style: context.theme.textTheme.headline6,
+                              ),
+                            ),
+                          );
+                        },
+                        onSuggestionSelected: (Tasks suggestion) {
+                          textConroller.text = suggestion.title;
+                          selectedTask = suggestion;
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "selectCategory".tr;
+                          }
+                          return null;
+                        },
+                      ),
+                    )
+                  : Container(),
               MyTextForm(
                 textEditingController: service.titleEdit.value,
                 hintText: 'name'.tr,
@@ -209,63 +297,6 @@ class _TodosCeState extends State<TodosCe> {
                   );
                 },
               ),
-              widget.category == true
-                  ? Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 10),
-                      child: DropdownButtonFormField(
-                        decoration: InputDecoration(
-                          prefixIcon: const Icon(Iconsax.folder_2),
-                          fillColor: context.theme.primaryColor,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                              color: context.theme.disabledColor,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide(
-                              color: context.theme.disabledColor,
-                            ),
-                          ),
-                        ),
-                        focusColor: Colors.transparent,
-                        hint: Text(
-                          "selectCategory".tr,
-                          style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 15.sp,
-                          ),
-                        ),
-                        dropdownColor: context.theme.scaffoldBackgroundColor,
-                        icon: const Icon(
-                          Iconsax.arrow_down_1,
-                        ),
-                        isExpanded: true,
-                        value: widget.todo != null
-                            ? selectedTask = taskList?.firstWhere(
-                                (e) => e.id == widget.todo!.task.value?.id)
-                            : null,
-                        items: taskList?.map((e) {
-                          return DropdownMenuItem(
-                              value: e, child: Text(e.title));
-                        }).toList(),
-                        onChanged: (Tasks? newValue) {
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          setState(() {
-                            selectedTask = newValue!;
-                          });
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return "selectCategory".tr;
-                          }
-                          return null;
-                        },
-                      ),
-                    )
-                  : Container(),
               const SizedBox(height: 20),
             ],
           ),

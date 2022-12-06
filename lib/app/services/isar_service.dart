@@ -22,7 +22,7 @@ class IsarServices {
     tabIndex.value = index;
   }
 
-  Future<int> getCountTotalTodosCalendar(selectedDay) async {
+  Future<int> getCountTotalTodosCalendar(DateTime selectedDay) async {
     return isar.todos
         .filter()
         .todoCompletedTimeIsNotNull()
@@ -35,7 +35,7 @@ class IsarServices {
         .count();
   }
 
-  Future<int> getCountDoneTodosCalendar(selectedDay) async {
+  Future<int> getCountDoneTodosCalendar(DateTime selectedDay) async {
     return isar.todos
         .filter()
         .doneEqualTo(true)
@@ -61,23 +61,16 @@ class IsarServices {
         .count();
   }
 
-  Future<int> getCountTotalTodosTask(task) async {
+  Future<int> getCountTotalTodosTask(Tasks task) async {
     return isar.todos.filter().task((q) => q.idEqualTo(task.id)).count();
   }
 
-  Future<int> getCountDoneTodosTask(task) async {
+  Future<int> getCountDoneTodosTask(Tasks task) async {
     return isar.todos
         .filter()
         .doneEqualTo(true)
         .task((q) => q.idEqualTo(task.id))
         .count();
-  }
-
-  Stream<List<Tasks>> getTaskAll() async* {
-    yield* isar.tasks
-        .filter()
-        .archiveEqualTo(false)
-        .watch(fireImmediately: true);
   }
 
   Stream<List<Tasks>> getTask(int toggle) async* {
@@ -114,7 +107,7 @@ class IsarServices {
             .watch(fireImmediately: true);
   }
 
-  Stream<List<Todos>> getCalendarTodo(int toggle, selectedDay) async* {
+  Stream<List<Todos>> getCalendarTodo(int toggle, DateTime selectedDay) async* {
     yield* toggle == 0
         ? isar.todos
             .filter()
@@ -140,7 +133,8 @@ class IsarServices {
             .watch(fireImmediately: true);
   }
 
-  Future<void> addTask(titleEdit, descEdit, myColor) async {
+  Future<void> addTask(TextEditingController titleEdit,
+      TextEditingController descEdit, Color myColor) async {
     final taskCreate = Tasks(
       title: titleEdit.text,
       description: descEdit.text,
@@ -170,7 +164,11 @@ class IsarServices {
   }
 
   Future<void> addTodo(
-      task, titleEdit, descEdit, timeEdit, Function() set) async {
+      Tasks task,
+      TextEditingController titleEdit,
+      TextEditingController descEdit,
+      TextEditingController timeEdit,
+      Function() set) async {
     final todosCreate = Todos(
       name: titleEdit.text,
       description: descEdit.text,
@@ -211,7 +209,8 @@ class IsarServices {
     set();
   }
 
-  Future<void> updateTask(task, timeEdit, descEdit, myColor) async {
+  Future<void> updateTask(Tasks task, TextEditingController timeEdit,
+      TextEditingController descEdit, Color myColor) async {
     await isar.writeTxn(() async {
       task.title = timeEdit.text;
       task.description = descEdit.text;
@@ -227,7 +226,12 @@ class IsarServices {
     set();
   }
 
-  Future<void> updateTodo(todo, task, titleEdit, descEdit, timeEdit) async {
+  Future<void> updateTodo(
+      Todos todo,
+      Tasks task,
+      TextEditingController titleEdit,
+      TextEditingController descEdit,
+      TextEditingController timeEdit) async {
     await isar.writeTxn(() async {
       todo.name = titleEdit.text;
       todo.description = descEdit.text;
@@ -235,8 +239,8 @@ class IsarServices {
       todo.task.value = task;
       await isar.todos.put(todo);
       await todo.task.save();
+      await flutterLocalNotificationsPlugin.cancel(todo.id);
       if (todo.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(todo.id);
         NotificationShow().showNotification(
           todo.id,
           todo.name,

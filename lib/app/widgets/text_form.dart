@@ -29,7 +29,6 @@ class MyTextForm extends StatelessWidget {
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: TextFormField(
         readOnly: readOnly,
-        textInputAction: TextInputAction.none,
         onTap: readOnly == true ? onTap : null,
         controller: textEditingController,
         keyboardType: type,
