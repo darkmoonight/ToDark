@@ -15,9 +15,6 @@ class IsarServices {
   final tabIndex = 0.obs;
   final myColor = const Color(0xFF2196F3).obs;
 
-  final countTotalTodos = 0.obs;
-  final countDoneTodos = 0.obs;
-
   void changeTabIndex(int index) {
     tabIndex.value = index;
   }
@@ -231,7 +228,8 @@ class IsarServices {
       Tasks task,
       TextEditingController titleEdit,
       TextEditingController descEdit,
-      TextEditingController timeEdit) async {
+      TextEditingController timeEdit,
+      Function() set) async {
     await isar.writeTxn(() async {
       todo.name = titleEdit.text;
       todo.description = descEdit.text;
@@ -251,6 +249,7 @@ class IsarServices {
     });
     EasyLoading.showSuccess('update'.tr,
         duration: const Duration(milliseconds: 500));
+    set();
   }
 
   Future<void> deleteTodo(Todos todos, Function() set) async {

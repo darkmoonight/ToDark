@@ -139,6 +139,7 @@ class _TodosCeState extends State<TodosCe> {
                                       service.titleEdit.value,
                                       service.descEdit.value,
                                       service.timeEdit.value,
+                                      widget.set,
                                     );
                           textConroller.clear();
                           Get.back();
@@ -160,8 +161,6 @@ class _TodosCeState extends State<TodosCe> {
                           color: context.theme.scaffoldBackgroundColor,
                         ),
                         textFieldConfiguration: TextFieldConfiguration(
-                          scrollPadding:
-                              const EdgeInsets.symmetric(vertical: 10),
                           controller: textConroller,
                           decoration: InputDecoration(
                             hintText: "selectCategory".tr,
@@ -213,19 +212,19 @@ class _TodosCeState extends State<TodosCe> {
                         itemBuilder: (context, Tasks suggestion) {
                           final tasks = suggestion;
                           return Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            height: 45.w,
-                            decoration: BoxDecoration(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(15)),
-                              color: context.theme.primaryColor,
-                            ),
-                            child: Center(
-                              child: Text(
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            child: ListTile(
+                              title: Text(
                                 tasks.title,
                                 style: context.theme.textTheme.headline6,
                               ),
+                              trailing: Container(
+                                  width: 10,
+                                  height: 10,
+                                  decoration: BoxDecoration(
+                                    color: Color(tasks.taskColor),
+                                    shape: BoxShape.circle,
+                                  )),
                             ),
                           );
                         },

@@ -33,13 +33,11 @@ class _TaskPageState extends State<TaskPage> {
   }
 
   getCountTodos() async {
-    service.countTotalTodos.value =
-        await service.getCountTotalTodosTask(widget.task);
-    service.countDoneTodos.value =
-        await service.getCountDoneTodosTask(widget.task);
+    final countTotal = await service.getCountTotalTodosTask(widget.task);
+    final countDone = await service.getCountDoneTodosTask(widget.task);
     setState(() {
-      countTotalTodos = service.countTotalTodos.value;
-      countDoneTodos = service.countDoneTodos.value;
+      countTotalTodos = countTotal;
+      countDoneTodos = countDone;
     });
   }
 
@@ -161,7 +159,7 @@ class _TaskPageState extends State<TaskPage> {
                                           color: context.theme.backgroundColor),
                                 ),
                                 Text(
-                                  '(${service.countDoneTodos.value}/${service.countTotalTodos.value}) ${'completed'.tr}',
+                                  '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
                                   style: context.theme.textTheme.subtitle2,
                                 ),
                               ],

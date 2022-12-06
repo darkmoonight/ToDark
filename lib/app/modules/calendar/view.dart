@@ -34,13 +34,11 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   getCountTodos() async {
-    service.countTotalTodos.value =
-        await service.getCountTotalTodosCalendar(selectedDay);
-    service.countDoneTodos.value =
-        await service.getCountDoneTodosCalendar(selectedDay);
+    final countTotal = await service.getCountTotalTodosCalendar(selectedDay);
+    final countDone = await service.getCountDoneTodosCalendar(selectedDay);
     setState(() {
-      countTotalTodos = service.countTotalTodos.value;
-      countDoneTodos = service.countDoneTodos.value;
+      countTotalTodos = countTotal;
+      countDoneTodos = countDone;
     });
   }
 
@@ -160,7 +158,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                 color: context.theme.backgroundColor),
                           ),
                           Text(
-                            '(${service.countDoneTodos.value}/${service.countTotalTodos.value}) ${'completed'.tr}',
+                            '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
                             style: context.theme.textTheme.subtitle2,
                           ),
                         ],

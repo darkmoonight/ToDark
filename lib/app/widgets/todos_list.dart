@@ -87,7 +87,7 @@ class _TodosListState extends State<TodosList> {
                       itemBuilder: (BuildContext context, int index) {
                         final todosList = todos[index];
                         return Dismissible(
-                          key: UniqueKey(),
+                          key: ObjectKey(todosList),
                           direction: DismissDirection.endToStart,
                           confirmDismiss: (DismissDirection direction) async {
                             return await showDialog(

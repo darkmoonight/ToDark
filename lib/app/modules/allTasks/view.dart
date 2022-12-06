@@ -25,11 +25,11 @@ class _AllTaskPageState extends State<AllTaskPage> {
   }
 
   getCountTodos() async {
-    service.countTotalTodos.value = await service.getCountTotalTodos();
-    service.countDoneTodos.value = await service.getCountDoneTodos();
+    final countTotal = await service.getCountTotalTodos();
+    final countDone = await service.getCountDoneTodos();
     setState(() {
-      countTotalTodos = service.countTotalTodos.value;
-      countDoneTodos = service.countDoneTodos.value;
+      countTotalTodos = countTotal;
+      countDoneTodos = countDone;
     });
   }
 
