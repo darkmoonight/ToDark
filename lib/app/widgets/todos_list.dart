@@ -1,14 +1,11 @@
 import 'dart:async';
-
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/services/notification.dart';
 import 'package:todark/app/widgets/todos_ce.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-
 import '../../main.dart';
 
 class TodosList extends StatefulWidget {
@@ -146,10 +143,8 @@ class _TodosListState extends State<TodosList> {
                               borderRadius: BorderRadius.circular(20),
                               // color: Colors.white,
                             ),
-                            child: CupertinoButton(
-                              minSize: double.minPositive,
-                              padding: EdgeInsets.zero,
-                              onPressed: () {
+                            child: GestureDetector(
+                              onTap: () {
                                 showModalBottomSheet(
                                   enableDrag: false,
                                   backgroundColor:

@@ -1,6 +1,5 @@
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -159,10 +158,8 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           left: 25,
                           right: 25,
                         ),
-                        child: CupertinoButton(
-                          minSize: double.minPositive,
-                          padding: EdgeInsets.zero,
-                          onPressed: () {
+                        child: GestureDetector(
+                          onTap: () {
                             Get.to(
                               () => TaskPage(
                                 task: taskList,

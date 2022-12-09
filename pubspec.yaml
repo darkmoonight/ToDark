@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: 'none'
 
-version: 1.2.2+12
+version: 1.2.3+13
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -14,30 +14,30 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get: ^4.6.5
-  isar: ^3.0.2
+  isar: ^3.0.5
   intl: ^0.17.0
   iconsax: ^0.0.8
   path_provider: ^2.0.11
   table_calendar: ^3.0.8
   flutter_typeahead: ^4.1.1
-  isar_flutter_libs: ^3.0.2
-  flex_color_picker: ^2.6.1
+  isar_flutter_libs: ^3.0.5
+  flex_color_picker: ^3.0.0
   flutter_easyloading: ^3.0.5
-  flutter_screenutil: ^5.5.3+2
+  flutter_screenutil: ^5.6.0
   custom_navigation_bar: ^0.8.2
   sleek_circular_slider: ^2.0.1
   flutter_datetime_picker: ^1.5.1
   flutter_native_timezone: ^2.0.0
-  flutter_local_notifications: ^9.8.0+1
+  flutter_local_notifications: ^12.0.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-  flutter_launcher_icons: ^0.10.0
-  flutter_native_splash: ^2.2.7
-  isar_generator: ^3.0.2
-  build_runner: ^2.0.0
+  build_runner: ^2.3.2
+  flutter_lints: ^2.0.1
+  isar_generator: ^3.0.5
+  flutter_native_splash: ^2.2.16
+  flutter_launcher_icons: ^0.11.0
 
 flutter_icons:
   android: true
@@ -50,7 +50,7 @@ flutter_native_splash:
   image: "assets/icons/icons.png"
 
 flutter:
-  generate: true
+  generate: false
   uses-material-design: true
 
   assets:
