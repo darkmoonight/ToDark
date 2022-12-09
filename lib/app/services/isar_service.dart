@@ -185,12 +185,12 @@ class IsarServices {
       await isar.writeTxn(() async {
         await isar.todos.put(todosCreate);
         await todosCreate.task.save();
-        if (todosCreate.todoCompletedTime != null) {
+        if (timeEdit.text.isNotEmpty) {
           NotificationShow().showNotification(
             todosCreate.id,
             todosCreate.name,
             todosCreate.description,
-            todosCreate.todoCompletedTime,
+            DateTime.tryParse(timeEdit.text),
           );
         }
       });
@@ -237,13 +237,13 @@ class IsarServices {
       todo.task.value = task;
       await isar.todos.put(todo);
       await todo.task.save();
-      await flutterLocalNotificationsPlugin.cancel(todo.id);
-      if (todo.todoCompletedTime != null) {
+      if (timeEdit.text.isNotEmpty) {
+        await flutterLocalNotificationsPlugin.cancel(todo.id);
         NotificationShow().showNotification(
           todo.id,
           todo.name,
           todo.description,
-          todo.todoCompletedTime,
+          DateTime.tryParse(timeEdit.text),
         );
       }
     });
@@ -316,13 +316,6 @@ class IsarServices {
   }
 
   Future<void> noArchiveTask(Tasks task, Function() set) async {
-    // No archive Task
-    await isar.writeTxn(() async {
-      task.archive = false;
-      await isar.tasks.put(task);
-    });
-    EasyLoading.showSuccess('noTaskArchive'.tr,
-        duration: const Duration(milliseconds: 500));
     // Create Notification
     List<Todos> getTodo;
     final taskCollection = isar.todos;
@@ -341,6 +334,13 @@ class IsarServices {
         );
       }
     }
+    // No archive Task
+    await isar.writeTxn(() async {
+      task.archive = false;
+      await isar.tasks.put(task);
+    });
+    EasyLoading.showSuccess('noTaskArchive'.tr,
+        duration: const Duration(milliseconds: 500));
     set();
   }
 }
