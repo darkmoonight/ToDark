@@ -158,7 +158,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           left: 25,
                           right: 25,
                         ),
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
                             Get.to(
                               () => TaskPage(

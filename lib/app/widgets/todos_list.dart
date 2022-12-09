@@ -143,7 +143,7 @@ class _TodosListState extends State<TodosList> {
                               borderRadius: BorderRadius.circular(20),
                               // color: Colors.white,
                             ),
-                            child: GestureDetector(
+                            child: InkWell(
                               onTap: () {
                                 showModalBottomSheet(
                                   enableDrag: false,

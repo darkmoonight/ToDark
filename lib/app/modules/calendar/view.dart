@@ -33,6 +33,12 @@ class _CalendarPageState extends State<CalendarPage> {
     super.initState();
   }
 
+  @override
+  void setState(VoidCallback fn) {
+    if (!mounted) return;
+    super.setState(fn);
+  }
+
   getCountTodos() async {
     final countTotal = await service.getCountTotalTodosCalendar(selectedDay);
     final countDone = await service.getCountDoneTodosCalendar(selectedDay);
@@ -98,7 +104,7 @@ class _CalendarPageState extends State<CalendarPage> {
           firstDay: DateTime(2022, 09, 01),
           lastDay: selectedDay.add(const Duration(days: 1000)),
           focusedDay: selectedDay,
-          locale: locale.toString() == 'ru_RU' ? 'ru_RU' : 'en_US',
+          locale: '${locale?.languageCode}' == 'ru' ? 'ru_RU' : 'en_US',
           weekendDays: const [DateTime.sunday],
           availableCalendarFormats: {
             CalendarFormat.month: 'month'.tr,

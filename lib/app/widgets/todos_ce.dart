@@ -290,7 +290,7 @@ class _TodosCeState extends State<TodosCe> {
                       service.timeEdit.value.text = date.toString();
                     },
                     currentTime: DateTime.now(),
-                    locale: locale.toString() == 'ru_RU'
+                    locale: '${locale?.languageCode}' == 'ru'
                         ? LocaleType.ru
                         : LocaleType.en,
                   );

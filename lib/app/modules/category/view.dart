@@ -26,6 +26,12 @@ class _CategoryPageState extends State<CategoryPage> {
     super.initState();
   }
 
+  @override
+  void setState(VoidCallback fn) {
+    if (!mounted) return;
+    super.setState(fn);
+  }
+
   getCountTodos() async {
     final countTotal = await service.getCountTotalTodos();
     final countDone = await service.getCountDoneTodos();
@@ -107,7 +113,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
                 child: Text(
                   DateFormat.MMMMd(
-                          locale.toString() == 'ru_RU' ? 'ru_RU' : 'en_US')
+                          '${locale?.languageCode}' == 'ru' ? 'ru_RU' : 'en_US')
                       .format(
                     DateTime.now(),
                   ),

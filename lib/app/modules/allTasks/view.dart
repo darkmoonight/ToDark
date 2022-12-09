@@ -24,6 +24,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
     super.initState();
   }
 
+  @override
+  void setState(VoidCallback fn) {
+    if (!mounted) return;
+    super.setState(fn);
+  }
+
   getCountTodos() async {
     final countTotal = await service.getCountTotalTodos();
     final countDone = await service.getCountDoneTodos();
