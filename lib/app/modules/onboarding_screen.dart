@@ -1,5 +1,5 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/modules/home/view.dart';
+import 'package:todark/app/modules/home.dart';
 import 'package:todark/app/widgets/button.dart';
 import 'package:todark/main.dart';
 import 'package:flutter/material.dart';

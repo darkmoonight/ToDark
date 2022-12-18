@@ -7,7 +7,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todark/app/widgets/todos_list.dart';
 import 'package:todark/main.dart';
-import '../../widgets/select_button.dart';
+import '../widgets/select_button.dart';
 
 class CalendarPage extends StatefulWidget {
   const CalendarPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
-import 'package:todark/app/modules/allTasks/view.dart';
-import 'package:todark/app/modules/calendar/view.dart';
-import 'package:todark/app/modules/category/view.dart';
+import 'package:todark/app/modules/all_tasks.dart';
+import 'package:todark/app/modules/calendar.dart';
+import 'package:todark/app/modules/category.dart';
 import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/widgets/task_type_cu.dart';
 import 'package:todark/app/widgets/todos_ce.dart';

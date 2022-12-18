@@ -1,5 +1,5 @@
-import 'package:todark/app/modules/home/view.dart';
-import 'package:todark/app/modules/onboard/onboarding_screen.dart';
+import 'package:todark/app/modules/home.dart';
+import 'package:todark/app/modules/onboarding_screen.dart';
 import 'package:todark/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

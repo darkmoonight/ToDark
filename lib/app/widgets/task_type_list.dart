@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/services/isar_service.dart';
 
-import '../modules/tasks/view.dart';
+import '../modules/tasks.dart';
 
 class TaskTypeList extends StatefulWidget {
   const TaskTypeList({
