@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/services/notification.dart';
@@ -31,6 +32,7 @@ class TodosList extends StatefulWidget {
 
 class _TodosListState extends State<TodosList> {
   final service = IsarServices();
+  final locale = Get.locale;
 
   @override
   Widget build(BuildContext context) {
@@ -245,7 +247,7 @@ class _TodosListState extends State<TodosList> {
                                                                     .black,
                                                               ),
                                                         overflow: TextOverflow
-                                                            .ellipsis,
+                                                            .visible,
                                                       ),
                                                       Text(
                                                         todosList.description,
@@ -254,7 +256,7 @@ class _TodosListState extends State<TodosList> {
                                                             .textTheme
                                                             .subtitle2,
                                                         overflow: TextOverflow
-                                                            .ellipsis,
+                                                            .visible,
                                                       ),
                                                     ],
                                                   ),
@@ -280,7 +282,7 @@ class _TodosListState extends State<TodosList> {
                                                           color: Colors.black,
                                                         ),
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                      TextOverflow.visible,
                                                 ),
                                         ),
                                       ],
@@ -289,21 +291,42 @@ class _TodosListState extends State<TodosList> {
                                   widget.allTask
                                       ? Text(
                                           todosList.todoCompletedTime != null
-                                              ? '${todosList.task.value!.title}\n${todosList.todoCompletedTime?.day.toString().padLeft(2, '0')}/${todosList.todoCompletedTime?.month.toString().padLeft(2, '0')}/${todosList.todoCompletedTime?.year.toString().substring(2)}\n${todosList.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todosList.todoCompletedTime?.minute.toString().padLeft(2, '0')}'
-                                              : todosList.task.value!.title,
+                                              ? '${todosList.task.value!.title.substring(0, 10)}\n${DateFormat(
+                                                  'dd MMM yy\nkk:mm',
+                                                  '${locale?.languageCode}' ==
+                                                          'ru'
+                                                      ? 'ru_RU'
+                                                      : 'en_US',
+                                                ).format(todosList.todoCompletedTime!)}'
+                                              : todosList.task.value!.title
+                                                  .substring(0, 10),
                                           style:
                                               context.theme.textTheme.subtitle2,
+                                          overflow: TextOverflow.visible,
                                         )
                                       : widget.calendare == true
                                           ? Text(
-                                              '${todosList.task.value!.title}\n${todosList.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todosList.todoCompletedTime?.minute.toString().padLeft(2, '0')}',
+                                              '${todosList.task.value!.title.substring(0, 10)}\n${DateFormat(
+                                                'kk:mm',
+                                                '${locale?.languageCode}' ==
+                                                        'ru'
+                                                    ? 'ru_RU'
+                                                    : 'en_US',
+                                              ).format(todosList.todoCompletedTime!)}',
                                               style: context
                                                   .theme.textTheme.subtitle2,
                                             )
                                           : Text(
                                               todosList.todoCompletedTime !=
                                                       null
-                                                  ? '${todosList.todoCompletedTime?.day.toString().padLeft(2, '0')}/${todosList.todoCompletedTime?.month.toString().padLeft(2, '0')}/${todosList.todoCompletedTime?.year.toString().substring(2)}\n${todosList.todoCompletedTime?.hour.toString().padLeft(2, '0')}:${todosList.todoCompletedTime?.minute.toString().padLeft(2, '0')}'
+                                                  ? DateFormat(
+                                                      'dd MMM yy\nkk:mm',
+                                                      '${locale?.languageCode}' ==
+                                                              'ru'
+                                                          ? 'ru_RU'
+                                                          : 'en_US',
+                                                    ).format(todosList
+                                                      .todoCompletedTime!)
                                                   : '',
                                               style: context
                                                   .theme.textTheme.subtitle2,

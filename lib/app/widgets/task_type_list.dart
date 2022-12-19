@@ -234,14 +234,14 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                       ?.copyWith(
                                                           color: Colors.black),
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                      TextOverflow.visible,
                                                 ),
                                                 Text(
                                                   taskList.description,
                                                   style: context.theme.textTheme
                                                       .subtitle2,
                                                   overflow:
-                                                      TextOverflow.ellipsis,
+                                                      TextOverflow.visible,
                                                 )
                                               ],
                                             )
@@ -251,7 +251,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                   .theme.textTheme.headline4
                                                   ?.copyWith(
                                                       color: Colors.black),
-                                              overflow: TextOverflow.ellipsis,
+                                              overflow: TextOverflow.visible,
                                             ),
                                     ),
                                   ],
