@@ -291,7 +291,7 @@ class _TodosListState extends State<TodosList> {
                                   widget.allTask
                                       ? Text(
                                           todosList.todoCompletedTime != null
-                                              ? '${todosList.task.value!.title.substring(0, 10)}\n${DateFormat(
+                                              ? '${todosList.task.value!.title.length > 10 ? todosList.task.value!.title.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
                                                   'dd MMM yy\nkk:mm',
                                                   '${locale?.languageCode}' ==
                                                           'ru'
@@ -299,14 +299,18 @@ class _TodosListState extends State<TodosList> {
                                                       : 'en_US',
                                                 ).format(todosList.todoCompletedTime!)}'
                                               : todosList.task.value!.title
-                                                  .substring(0, 10),
+                                                          .length >
+                                                      10
+                                                  ? todosList.task.value!.title
+                                                      .substring(0, 10)
+                                                  : todosList.task.value!.title,
                                           style:
                                               context.theme.textTheme.subtitle2,
                                           overflow: TextOverflow.visible,
                                         )
                                       : widget.calendare == true
                                           ? Text(
-                                              '${todosList.task.value!.title.substring(0, 10)}\n${DateFormat(
+                                              '${todosList.task.value!.title.length > 10 ? todosList.task.value!.title.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
                                                 'kk:mm',
                                                 '${locale?.languageCode}' ==
                                                         'ru'
