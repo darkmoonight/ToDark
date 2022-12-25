@@ -112,9 +112,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  DateFormat.MMMMd(
-                          '${locale?.languageCode}' == 'ru' ? 'ru_RU' : 'en_US')
-                      .format(
+                  DateFormat.MMMMd('${locale?.languageCode}').format(
                     DateTime.now(),
                   ),
                   style: context.theme.textTheme.headline6,

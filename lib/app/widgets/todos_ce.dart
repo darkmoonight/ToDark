@@ -292,7 +292,9 @@ class _TodosCeState extends State<TodosCe> {
                     currentTime: DateTime.now(),
                     locale: '${locale?.languageCode}' == 'ru'
                         ? LocaleType.ru
-                        : LocaleType.en,
+                        : '${locale?.languageCode}' == 'zh'
+                            ? LocaleType.zh
+                            : LocaleType.en,
                   );
                 },
               ),

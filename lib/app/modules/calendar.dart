@@ -104,7 +104,7 @@ class _CalendarPageState extends State<CalendarPage> {
           firstDay: DateTime(2022, 09, 01),
           lastDay: selectedDay.add(const Duration(days: 1000)),
           focusedDay: selectedDay,
-          locale: '${locale?.languageCode}' == 'ru' ? 'ru_RU' : 'en_US',
+          locale: '${locale?.languageCode}',
           weekendDays: const [DateTime.sunday],
           availableCalendarFormats: {
             CalendarFormat.month: 'month'.tr,

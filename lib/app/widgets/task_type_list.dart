@@ -222,37 +222,28 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                     ),
                                     const SizedBox(width: 15),
                                     Expanded(
-                                      child: taskList.description.isNotEmpty
-                                          ? Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  taskList.title,
-                                                  style: context
-                                                      .theme.textTheme.headline4
-                                                      ?.copyWith(
-                                                          color: Colors.black),
-                                                  overflow:
-                                                      TextOverflow.visible,
-                                                ),
-                                                Text(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            taskList.title,
+                                            style: context
+                                                .theme.textTheme.headline4
+                                                ?.copyWith(color: Colors.black),
+                                            overflow: TextOverflow.visible,
+                                          ),
+                                          taskList.description.isNotEmpty
+                                              ? Text(
                                                   taskList.description,
                                                   style: context.theme.textTheme
                                                       .subtitle2,
                                                   overflow:
                                                       TextOverflow.visible,
                                                 )
-                                              ],
-                                            )
-                                          : Text(
-                                              taskList.title,
-                                              style: context
-                                                  .theme.textTheme.headline4
-                                                  ?.copyWith(
-                                                      color: Colors.black),
-                                              overflow: TextOverflow.visible,
-                                            ),
+                                              : Container(),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

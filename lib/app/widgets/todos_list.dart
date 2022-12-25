@@ -200,68 +200,23 @@ class _TodosListState extends State<TodosList> {
                                                       )
                                                     : null;
                                             Future.delayed(
-                                                const Duration(
-                                                    milliseconds: 300), () {
-                                              service.updateTodoCheck(
-                                                  todosList, widget.set);
-                                            });
+                                              const Duration(milliseconds: 300),
+                                              () {
+                                                service.updateTodoCheck(
+                                                    todosList, widget.set);
+                                              },
+                                            );
                                           },
                                         ),
                                         Expanded(
-                                          child: todosList
-                                                  .description.isNotEmpty
-                                              ? Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 10),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Text(
-                                                        todosList.name,
-                                                        style: todosList.todoCompletedTime !=
-                                                                    null &&
-                                                                DateTime.now()
-                                                                    .isAfter(
-                                                                        todosList
-                                                                            .todoCompletedTime!) &&
-                                                                todosList
-                                                                        .done ==
-                                                                    false
-                                                            ? context
-                                                                .theme
-                                                                .textTheme
-                                                                .headline4
-                                                                ?.copyWith(
-                                                                color: Colors
-                                                                    .redAccent,
-                                                              )
-                                                            : context
-                                                                .theme
-                                                                .textTheme
-                                                                .headline4
-                                                                ?.copyWith(
-                                                                color: Colors
-                                                                    .black,
-                                                              ),
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                      Text(
-                                                        todosList.description,
-                                                        style: context
-                                                            .theme
-                                                            .textTheme
-                                                            .subtitle2,
-                                                        overflow: TextOverflow
-                                                            .visible,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              : Text(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
                                                   todosList.name,
                                                   style: todosList.todoCompletedTime !=
                                                               null &&
@@ -284,57 +239,64 @@ class _TodosListState extends State<TodosList> {
                                                   overflow:
                                                       TextOverflow.visible,
                                                 ),
+                                                todosList.description.isNotEmpty
+                                                    ? Text(
+                                                        todosList.description,
+                                                        style: context
+                                                            .theme
+                                                            .textTheme
+                                                            .subtitle2,
+                                                        overflow: TextOverflow
+                                                            .visible,
+                                                      )
+                                                    : Container(),
+                                                todosList.todoCompletedTime !=
+                                                            null &&
+                                                        widget.calendare ==
+                                                            false
+                                                    ? Text(
+                                                        todosList.todoCompletedTime !=
+                                                                null
+                                                            ? DateFormat(
+                                                                'dd MMM yyyy kk:mm',
+                                                                '${locale?.languageCode}',
+                                                              ).format(todosList
+                                                                .todoCompletedTime!)
+                                                            : '',
+                                                        style: context.theme
+                                                            .textTheme.subtitle2
+                                                            ?.copyWith(
+                                                                color: Colors
+                                                                    .deepPurple),
+                                                      )
+                                                    : Container(),
+                                              ],
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  widget.allTask
+                                  widget.allTask == true
                                       ? Text(
-                                          todosList.todoCompletedTime != null
-                                              ? '${todosList.task.value!.title.length > 10 ? todosList.task.value!.title.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
-                                                  'dd MMM yy\nkk:mm',
-                                                  '${locale?.languageCode}' ==
-                                                          'ru'
-                                                      ? 'ru_RU'
-                                                      : 'en_US',
-                                                ).format(todosList.todoCompletedTime!)}'
-                                              : todosList.task.value!.title
-                                                          .length >
-                                                      10
-                                                  ? todosList.task.value!.title
-                                                      .substring(0, 10)
-                                                  : todosList.task.value!.title,
+                                          todosList.task.value!.title.length >
+                                                  10
+                                              ? todosList.task.value!.title
+                                                  .substring(0, 10)
+                                              : todosList.task.value!.title,
                                           style:
                                               context.theme.textTheme.subtitle2,
-                                          overflow: TextOverflow.visible,
                                         )
                                       : widget.calendare == true
                                           ? Text(
                                               '${todosList.task.value!.title.length > 10 ? todosList.task.value!.title.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
                                                 'kk:mm',
-                                                '${locale?.languageCode}' ==
-                                                        'ru'
-                                                    ? 'ru_RU'
-                                                    : 'en_US',
+                                                '${locale?.languageCode}',
                                               ).format(todosList.todoCompletedTime!)}',
                                               style: context
                                                   .theme.textTheme.subtitle2,
                                             )
-                                          : Text(
-                                              todosList.todoCompletedTime !=
-                                                      null
-                                                  ? DateFormat(
-                                                      'dd MMM yy\nkk:mm',
-                                                      '${locale?.languageCode}' ==
-                                                              'ru'
-                                                          ? 'ru_RU'
-                                                          : 'en_US',
-                                                    ).format(todosList
-                                                      .todoCompletedTime!)
-                                                  : '',
-                                              style: context
-                                                  .theme.textTheme.subtitle2,
-                                            ),
+                                          : Container(),
                                 ],
                               ),
                             ),

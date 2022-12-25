@@ -116,6 +116,7 @@ class IsarServices {
                 DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
                     23, 59))
             .task((q) => q.archiveEqualTo(false))
+            .sortByTodoCompletedTime()
             .watch(fireImmediately: true)
         : isar.todos
             .filter()
@@ -127,6 +128,7 @@ class IsarServices {
                 DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
                     23, 59))
             .task((q) => q.archiveEqualTo(false))
+            .sortByTodoCompletedTime()
             .watch(fireImmediately: true);
   }
 
