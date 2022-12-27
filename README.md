@@ -32,7 +32,7 @@ The following features are provided:
 - View tasks by day
 - Editing
 - Notifications
-- Localization (ru/en)
+- Localization (ru/en/zh)
 
 We also tried to make the design as convenient and beautiful as possible.
 
