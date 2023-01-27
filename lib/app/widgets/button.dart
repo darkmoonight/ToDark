@@ -25,7 +25,9 @@ class MyTextButton extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           buttonName,
-          style: theme.textTheme.headline6,
+          style: theme.textTheme.titleMedium?.copyWith(
+            color: Colors.white,
+          ),
         ),
       ),
     );

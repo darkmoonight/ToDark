@@ -23,7 +23,7 @@ class TodosList extends StatefulWidget {
   final bool calendare;
   final bool allTask;
   final Tasks? task;
-  final int toggle;
+  final bool toggle;
   final Function() set;
 
   @override
@@ -66,10 +66,10 @@ class _TodosListState extends State<TodosList> {
                             scale: 5,
                           ),
                           Text(
-                            widget.toggle == 1
+                            widget.toggle == true
                                 ? 'copletedTask'.tr
                                 : 'addTask'.tr,
-                            style: context.theme.textTheme.headline4?.copyWith(
+                            style: context.theme.textTheme.titleLarge?.copyWith(
                               color: Colors.black,
                             ),
                           ),
@@ -93,30 +93,29 @@ class _TodosListState extends State<TodosList> {
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  backgroundColor: context.theme.primaryColor,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(15))),
+                                  backgroundColor: context
+                                      .theme.colorScheme.primaryContainer,
                                   title: Text(
                                     "deletedTask".tr,
-                                    style: context.theme.textTheme.headline4,
+                                    style: context.theme.textTheme.titleLarge,
                                   ),
                                   content: Text("deletedTaskQuery".tr,
-                                      style: context.theme.textTheme.headline6),
+                                      style:
+                                          context.theme.textTheme.titleMedium),
                                   actions: [
                                     TextButton(
                                         onPressed: () =>
                                             Get.back(result: false),
                                         child: Text("cancel".tr,
                                             style: context
-                                                .theme.textTheme.headline6
+                                                .theme.textTheme.titleMedium
                                                 ?.copyWith(
                                                     color: Colors.blueAccent))),
                                     TextButton(
                                         onPressed: () => Get.back(result: true),
                                         child: Text("delete".tr,
                                             style: context
-                                                .theme.textTheme.headline6
+                                                .theme.textTheme.titleMedium
                                                 ?.copyWith(color: Colors.red))),
                                   ],
                                 );
@@ -153,11 +152,6 @@ class _TodosListState extends State<TodosList> {
                                       context.theme.scaffoldBackgroundColor,
                                   context: context,
                                   isScrollControlled: true,
-                                  shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20),
-                                    ),
-                                  ),
                                   builder: (BuildContext context) {
                                     return TodosCe(
                                       text: 'editing'.tr,
@@ -218,34 +212,31 @@ class _TodosListState extends State<TodosList> {
                                               children: [
                                                 Text(
                                                   todosList.name,
-                                                  style: todosList.todoCompletedTime !=
-                                                              null &&
-                                                          DateTime.now()
-                                                              .isAfter(todosList
-                                                                  .todoCompletedTime!) &&
-                                                          todosList.done ==
-                                                              false
-                                                      ? context.theme.textTheme
-                                                          .headline4
-                                                          ?.copyWith(
-                                                          color:
-                                                              Colors.redAccent,
-                                                        )
-                                                      : context.theme.textTheme
-                                                          .headline4
-                                                          ?.copyWith(
-                                                          color: Colors.black,
-                                                        ),
+                                                  style: context.theme.textTheme
+                                                      .titleLarge
+                                                      ?.copyWith(
+                                                    color: todosList.todoCompletedTime !=
+                                                                null &&
+                                                            DateTime.now()
+                                                                .isAfter(todosList
+                                                                    .todoCompletedTime!) &&
+                                                            todosList.done ==
+                                                                false
+                                                        ? Colors.redAccent
+                                                        : Colors.black,
+                                                  ),
                                                   overflow:
                                                       TextOverflow.visible,
                                                 ),
                                                 todosList.description.isNotEmpty
                                                     ? Text(
                                                         todosList.description,
-                                                        style: context
-                                                            .theme
-                                                            .textTheme
-                                                            .subtitle2,
+                                                        style: context.theme
+                                                            .textTheme.bodyLarge
+                                                            ?.copyWith(
+                                                          color:
+                                                              Colors.grey[700],
+                                                        ),
                                                         overflow: TextOverflow
                                                             .visible,
                                                       )
@@ -258,13 +249,13 @@ class _TodosListState extends State<TodosList> {
                                                         todosList.todoCompletedTime !=
                                                                 null
                                                             ? DateFormat(
-                                                                'dd MMM yyyy kk:mm',
+                                                                'dd MMM yyyy HH:mm',
                                                                 '${locale?.languageCode}',
                                                               ).format(todosList
                                                                 .todoCompletedTime!)
                                                             : '',
                                                         style: context.theme
-                                                            .textTheme.subtitle2
+                                                            .textTheme.bodyLarge
                                                             ?.copyWith(
                                                                 color: Colors
                                                                     .deepPurple),
@@ -284,17 +275,23 @@ class _TodosListState extends State<TodosList> {
                                               ? todosList.task.value!.title
                                                   .substring(0, 10)
                                               : todosList.task.value!.title,
-                                          style:
-                                              context.theme.textTheme.subtitle2,
+                                          style: context
+                                              .theme.textTheme.bodyLarge
+                                              ?.copyWith(
+                                            color: Colors.grey[700],
+                                          ),
                                         )
                                       : widget.calendare == true
                                           ? Text(
                                               '${todosList.task.value!.title.length > 10 ? todosList.task.value!.title.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
-                                                'kk:mm',
+                                                'HH:mm',
                                                 '${locale?.languageCode}',
                                               ).format(todosList.todoCompletedTime!)}',
                                               style: context
-                                                  .theme.textTheme.subtitle2,
+                                                  .theme.textTheme.bodyLarge
+                                                  ?.copyWith(
+                                                color: Colors.grey[700],
+                                              ),
                                             )
                                           : Container(),
                                 ],

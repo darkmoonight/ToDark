@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/notification.dart';
@@ -11,9 +12,30 @@ class IsarServices {
   final titleEdit = TextEditingController().obs;
   final descEdit = TextEditingController().obs;
   final timeEdit = TextEditingController().obs;
-  final toggleValue = 0.obs;
+  final toggleValue = false.obs;
   final tabIndex = 0.obs;
   final myColor = const Color(0xFF2196F3).obs;
+
+  final MaterialStateProperty<Icon?> thumbIcon =
+      MaterialStateProperty.resolveWith<Icon?>(
+    (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return const Icon(Iconsax.tick_circle);
+      }
+      return const Icon(Iconsax.close_circle);
+    },
+  );
+
+  final MaterialStateProperty<Color?> trackColor =
+      MaterialStateProperty.resolveWith<Color?>(
+    (Set<MaterialState> states) {
+      if (states.contains(MaterialState.selected)) {
+        return Colors.black;
+      }
+
+      return null;
+    },
+  );
 
   void changeTabIndex(int index) {
     tabIndex.value = index;
@@ -70,14 +92,14 @@ class IsarServices {
         .count();
   }
 
-  Stream<List<Tasks>> getTask(int toggle) async* {
-    yield* toggle == 0
+  Stream<List<Tasks>> getTask(bool toggle) async* {
+    yield* toggle == false
         ? isar.tasks.filter().archiveEqualTo(false).watch(fireImmediately: true)
         : isar.tasks.filter().archiveEqualTo(true).watch(fireImmediately: true);
   }
 
-  Stream<List<Todos>> getTodo(int toggle, Tasks task) async* {
-    yield* toggle == 0
+  Stream<List<Todos>> getTodo(bool toggle, Tasks task) async* {
+    yield* toggle == false
         ? isar.todos
             .filter()
             .task((q) => q.idEqualTo(task.id))
@@ -90,8 +112,8 @@ class IsarServices {
             .watch(fireImmediately: true);
   }
 
-  Stream<List<Todos>> getAllTodo(int toggle) async* {
-    yield* toggle == 0
+  Stream<List<Todos>> getAllTodo(bool toggle) async* {
+    yield* toggle == false
         ? isar.todos
             .filter()
             .doneEqualTo(false)
@@ -104,8 +126,9 @@ class IsarServices {
             .watch(fireImmediately: true);
   }
 
-  Stream<List<Todos>> getCalendarTodo(int toggle, DateTime selectedDay) async* {
-    yield* toggle == 0
+  Stream<List<Todos>> getCalendarTodo(
+      bool toggle, DateTime selectedDay) async* {
+    yield* toggle == false
         ? isar.todos
             .filter()
             .doneEqualTo(false)

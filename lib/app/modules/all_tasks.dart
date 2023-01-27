@@ -1,9 +1,7 @@
 import 'package:todark/app/services/isar_service.dart';
-import 'package:todark/app/widgets/select_button.dart';
 import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class AllTaskPage extends StatefulWidget {
   const AllTaskPage({super.key});
@@ -56,7 +54,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
         children: [
           Padding(
             padding:
-                const EdgeInsets.only(left: 30, top: 20, bottom: 20, right: 20),
+                const EdgeInsets.only(left: 30, top: 10, bottom: 5, right: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -65,32 +63,28 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   children: [
                     Text(
                       'allTasks'.tr,
-                      style: context.theme.textTheme.headline1
-                          ?.copyWith(color: context.theme.backgroundColor),
+                      style: context.theme.textTheme.titleLarge?.copyWith(
+                        color: Colors.black,
+                      ),
                     ),
                     Text(
                       '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                      style: context.theme.textTheme.subtitle2,
+                      style: context.theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.grey[600],
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ],
                 ),
-                SelectButton(
-                  icons: [
-                    Icon(
-                      Iconsax.close_circle,
-                      color: context.theme.scaffoldBackgroundColor,
-                    ),
-                    Icon(
-                      Iconsax.tick_circle,
-                      color: context.theme.scaffoldBackgroundColor,
-                    ),
-                  ],
-                  onToggleCallback: (value) {
+                Switch(
+                  trackColor: service.trackColor,
+                  thumbIcon: service.thumbIcon,
+                  value: service.toggleValue.value,
+                  onChanged: (value) {
                     setState(() {
                       service.toggleValue.value = value;
                     });
                   },
-                  backgroundColor: context.theme.scaffoldBackgroundColor,
                 ),
               ],
             ),

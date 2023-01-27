@@ -13,7 +13,7 @@ class TaskTypeList extends StatefulWidget {
     required this.toggle,
     required this.set,
   });
-  final int toggle;
+  final bool toggle;
   final Function() set;
 
   @override
@@ -46,12 +46,12 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           SizedBox(
                             width: Get.size.width * 0.8,
                             child: Text(
-                              widget.toggle == 0
+                              widget.toggle == false
                                   ? 'addCategory'.tr
                                   : 'addArchive'.tr,
                               textAlign: TextAlign.center,
                               style:
-                                  context.theme.textTheme.headline4?.copyWith(
+                                  context.theme.textTheme.titleLarge?.copyWith(
                                 color: Colors.black,
                               ),
                             ),
@@ -74,30 +74,29 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              backgroundColor: context.theme.primaryColor,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(15))),
+                              backgroundColor:
+                                  context.theme.colorScheme.primaryContainer,
                               title: Text(
                                 direction == DismissDirection.endToStart
                                     ? "deleteCategory".tr
-                                    : widget.toggle == 0
+                                    : widget.toggle == false
                                         ? "archiveTask".tr
                                         : "noArchiveTask".tr,
-                                style: context.theme.textTheme.headline4,
+                                style: context.theme.textTheme.titleLarge,
                               ),
                               content: Text(
                                   direction == DismissDirection.endToStart
                                       ? "deleteCategoryQuery".tr
-                                      : widget.toggle == 0
+                                      : widget.toggle == false
                                           ? "archiveTaskQuery".tr
                                           : "noArchiveTaskQuery".tr,
-                                  style: context.theme.textTheme.headline6),
+                                  style: context.theme.textTheme.titleMedium),
                               actions: [
                                 TextButton(
                                     onPressed: () => Get.back(result: false),
                                     child: Text("cancel".tr,
-                                        style: context.theme.textTheme.headline6
+                                        style: context
+                                            .theme.textTheme.titleMedium
                                             ?.copyWith(
                                                 color: Colors.blueAccent))),
                                 TextButton(
@@ -105,10 +104,11 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                     child: Text(
                                         direction == DismissDirection.endToStart
                                             ? "delete".tr
-                                            : widget.toggle == 0
+                                            : widget.toggle == false
                                                 ? "archive".tr
                                                 : "noArchive".tr,
-                                        style: context.theme.textTheme.headline6
+                                        style: context
+                                            .theme.textTheme.titleMedium
                                             ?.copyWith(color: Colors.red))),
                               ],
                             );
@@ -119,7 +119,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                         if (direction == DismissDirection.endToStart) {
                           service.deleteTask(taskList, widget.set);
                         } else if (direction == DismissDirection.startToEnd) {
-                          widget.toggle == 0
+                          widget.toggle == false
                               ? service.archiveTask(taskList, widget.set)
                               : service.noArchiveTask(taskList, widget.set);
                         }
@@ -131,11 +131,12 @@ class _TaskTypeListState extends State<TaskTypeList> {
                             left: 15,
                           ),
                           child: Icon(
-                            widget.toggle == 0
+                            widget.toggle == false
                                 ? Iconsax.archive_2
                                 : Iconsax.refresh_left_square,
-                            color:
-                                widget.toggle == 0 ? Colors.red : Colors.green,
+                            color: widget.toggle == false
+                                ? Colors.red
+                                : Colors.green,
                           ),
                         ),
                       ),
@@ -189,8 +190,11 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                   : '0%';
                                             },
                                             mainLabelStyle: context
-                                                .theme.textTheme.headline6
-                                                ?.copyWith(color: Colors.black),
+                                                .theme.textTheme.titleMedium
+                                                ?.copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black,
+                                            ),
                                           ),
                                           customColors: CustomSliderColors(
                                             progressBarColors: <Color>[
@@ -229,15 +233,20 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                           Text(
                                             taskList.title,
                                             style: context
-                                                .theme.textTheme.headline4
-                                                ?.copyWith(color: Colors.black),
+                                                .theme.textTheme.titleLarge
+                                                ?.copyWith(
+                                              color: Colors.black,
+                                            ),
                                             overflow: TextOverflow.visible,
                                           ),
                                           taskList.description.isNotEmpty
                                               ? Text(
                                                   taskList.description,
-                                                  style: context.theme.textTheme
-                                                      .subtitle2,
+                                                  style: context
+                                                      .theme.textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                    color: Colors.grey[700],
+                                                  ),
                                                   overflow:
                                                       TextOverflow.visible,
                                                 )
@@ -250,7 +259,10 @@ class _TaskTypeListState extends State<TaskTypeList> {
                               ),
                               Text(
                                 '${taskList.todos.where((e) => e.done == true).toList().length}/${taskList.todos.length}',
-                                style: context.theme.textTheme.subtitle2,
+                                style:
+                                    context.theme.textTheme.bodyLarge?.copyWith(
+                                  color: Colors.grey[700],
+                                ),
                               ),
                             ],
                           ),

@@ -8,7 +8,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:isar/isar.dart';
 import 'app/data/schema.dart';
 import 'package:path_provider/path_provider.dart';
@@ -54,41 +53,34 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 640),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return GetMaterialApp(
-          theme: TodoTheme.darkTheme,
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          translations: Translation(),
-          locale: Get.deviceLocale,
-          fallbackLocale: const Locale('en', 'US'),
-          supportedLocales: const [
-            Locale('en', 'US'),
-            Locale('ru', 'RU'),
-            Locale('zh', 'TW'),
-          ],
-          localeResolutionCallback: (locale, supportedLocales) {
-            for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale?.languageCode) {
-                return supportedLocale;
-              }
-            }
-            return supportedLocales.first;
-          },
-          debugShowCheckedModeBanner: false,
-          home: settings.onboard == false
-              ? const OnBordingScreen()
-              : const HomePage(),
-          builder: EasyLoading.init(),
-        );
+    return GetMaterialApp(
+      theme: TodoTheme.baseTheme,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      translations: Translation(),
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('en', 'US'),
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ru', 'RU'),
+        Locale('zh', 'TW'),
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
       },
+      debugShowCheckedModeBanner: false,
+      home: settings.onboard == false
+          ? const OnBordingScreen()
+          : const HomePage(),
+      builder: EasyLoading.init(),
     );
   }
 }

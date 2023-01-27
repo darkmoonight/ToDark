@@ -4,7 +4,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/services/isar_service.dart';
-import 'package:todark/app/widgets/select_button.dart';
 import 'package:todark/app/widgets/task_type_list.dart';
 
 class CategoryPage extends StatefulWidget {
@@ -43,15 +42,21 @@ class _CategoryPageState extends State<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final MaterialStateProperty<Icon?> thumbIcon =
+        MaterialStateProperty.resolveWith<Icon?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
+          return const Icon(Iconsax.archive_tick);
+        }
+        return const Icon(Iconsax.archive_minus);
+      },
+    );
+
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(
-            right: 20,
-            left: 20,
-            bottom: 30,
-            top: 10,
-          ),
+          margin:
+              const EdgeInsets.only(right: 20, left: 20, bottom: 30, top: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -70,7 +75,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                 ? '${((countDoneTodos / countTotalTodos) * 100).round()}%'
                                 : '0%';
                           },
-                          mainLabelStyle: context.theme.textTheme.headline2
+                          mainLabelStyle: context.theme.textTheme.titleLarge
                               ?.copyWith(color: Colors.white),
                         ),
                         customColors: CustomSliderColors(
@@ -98,7 +103,8 @@ class _CategoryPageState extends State<CategoryPage> {
                     Expanded(
                       child: Text(
                         'taskCompleted'.tr,
-                        style: context.theme.textTheme.headline5,
+                        style: context.theme.textTheme.titleLarge
+                            ?.copyWith(color: Colors.white),
                         overflow: TextOverflow.visible,
                       ),
                     ),
@@ -108,14 +114,15 @@ class _CategoryPageState extends State<CategoryPage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: context.theme.primaryColor,
+                  color: context.theme.colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   DateFormat.MMMMd('${locale?.languageCode}').format(
                     DateTime.now(),
                   ),
-                  style: context.theme.textTheme.headline6,
+                  style: context.theme.textTheme.titleSmall
+                      ?.copyWith(color: Colors.white),
                 ),
               ),
             ],
@@ -136,7 +143,7 @@ class _CategoryPageState extends State<CategoryPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(
-                      left: 30, top: 20, bottom: 5, right: 20),
+                      left: 30, top: 10, bottom: 5, right: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -145,32 +152,28 @@ class _CategoryPageState extends State<CategoryPage> {
                         children: [
                           Text(
                             'categories'.tr,
-                            style: context.theme.textTheme.headline1?.copyWith(
-                                color: context.theme.backgroundColor),
+                            style: context.theme.textTheme.titleLarge?.copyWith(
+                              color: Colors.black,
+                            ),
                           ),
                           Text(
                             '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                            style: context.theme.textTheme.subtitle2,
+                            style: context.theme.textTheme.bodySmall?.copyWith(
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ],
                       ),
-                      SelectButton(
-                        icons: [
-                          Icon(
-                            Iconsax.archive_minus,
-                            color: context.theme.scaffoldBackgroundColor,
-                          ),
-                          Icon(
-                            Iconsax.archive_tick,
-                            color: context.theme.scaffoldBackgroundColor,
-                          ),
-                        ],
-                        onToggleCallback: (value) {
+                      Switch(
+                        trackColor: service.trackColor,
+                        thumbIcon: thumbIcon,
+                        value: service.toggleValue.value,
+                        onChanged: (value) {
                           setState(() {
                             service.toggleValue.value = value;
                           });
                         },
-                        backgroundColor: context.theme.scaffoldBackgroundColor,
                       ),
                     ],
                   ),

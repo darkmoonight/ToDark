@@ -33,8 +33,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
       service.titleEdit.value = TextEditingController(text: widget.task!.title);
       service.descEdit.value =
           TextEditingController(text: widget.task!.description);
-      service.myColor.value =
-          service.myColor.value = Color(widget.task!.taskColor);
+      service.myColor.value = Color(widget.task!.taskColor);
     }
     super.initState();
   }
@@ -75,11 +74,12 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                             },
                             icon: const Icon(
                               Icons.close,
+                              color: Colors.white,
                             ),
                           ),
                           Text(
                             widget.text,
-                            style: context.theme.textTheme.headline2,
+                            style: context.theme.textTheme.titleLarge,
                           ),
                         ],
                       ),
@@ -106,6 +106,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                       },
                       icon: const Icon(
                         Icons.save,
+                        color: Colors.blue,
                       ),
                     ),
                   ],
@@ -132,7 +133,9 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
               ColorPicker(
                 color: service.myColor.value,
                 onColorChanged: (Color color) => setState(
-                  () => service.myColor.value = color,
+                  () {
+                    service.myColor.value = color;
+                  },
                 ),
                 borderRadius: 20,
                 enableShadesSelection: false,

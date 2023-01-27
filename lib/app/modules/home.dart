@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
@@ -38,7 +39,9 @@ class _HomePageState extends State<HomePage> {
             ),
             Text(
               'ToDark',
-              style: context.theme.textTheme.headline1,
+              style: context.theme.textTheme.titleLarge?.copyWith(
+                color: Colors.white,
+              ),
             ),
           ],
         ),
@@ -61,11 +64,6 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: context.theme.scaffoldBackgroundColor,
                   context: context,
                   isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
-                  ),
                   builder: (BuildContext context) {
                     return TaskTypeCu(
                       text: 'create'.tr,
@@ -78,11 +76,6 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: context.theme.scaffoldBackgroundColor,
                   context: context,
                   isScrollControlled: true,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(20),
-                    ),
-                  ),
                   builder: (BuildContext context) {
                     return TodosCe(
                       text: "create".tr,
@@ -95,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 );
         },
-        backgroundColor: context.theme.primaryColor,
+        backgroundColor: context.theme.colorScheme.primaryContainer,
         child: const Icon(
           Iconsax.add,
           color: Colors.greenAccent,

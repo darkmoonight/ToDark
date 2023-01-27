@@ -37,6 +37,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -70,17 +71,18 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: MyTextButton(
-                  buttonName:
-                      pageIndex == data.length - 1 ? 'getStart'.tr : 'next'.tr,
-                  onTap: () {
-                    pageIndex == data.length - 1
-                        ? onBoardHome()
-                        : pageController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.ease,
-                          );
-                  },
-                  bgColor: context.theme.primaryColor),
+                buttonName:
+                    pageIndex == data.length - 1 ? 'getStart'.tr : 'next'.tr,
+                onTap: () {
+                  pageIndex == data.length - 1
+                      ? onBoardHome()
+                      : pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                },
+                bgColor: context.theme.colorScheme.primaryContainer,
+              ),
             )
           ],
         ),
@@ -104,8 +106,9 @@ class DotIndicator extends StatelessWidget {
       height: 8,
       width: 8,
       decoration: BoxDecoration(
-        color:
-            isActive ? context.theme.dividerColor : context.theme.primaryColor,
+        color: isActive
+            ? context.theme.dividerColor
+            : context.theme.colorScheme.primaryContainer,
         shape: BoxShape.circle,
       ),
     );
@@ -160,14 +163,18 @@ class OnboardContent extends StatelessWidget {
               ),
               Text(
                 title,
-                style: context.theme.textTheme.headline2,
+                style: context.theme.textTheme.titleLarge?.copyWith(
+                  color: Colors.white,
+                ),
               ),
               const SizedBox(height: 10),
               SizedBox(
                 width: Get.width * 0.8,
                 child: Text(
                   description,
-                  style: context.theme.primaryTextTheme.headline4,
+                  style: context.theme.textTheme.labelLarge?.copyWith(
+                    color: Colors.white,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),

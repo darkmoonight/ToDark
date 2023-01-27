@@ -1,4 +1,3 @@
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
@@ -103,11 +102,12 @@ class _TodosCeState extends State<TodosCe> {
                             },
                             icon: const Icon(
                               Icons.close,
+                              color: Colors.white,
                             ),
                           ),
                           Text(
                             widget.text,
-                            style: context.theme.textTheme.headline2,
+                            style: context.theme.textTheme.titleLarge,
                           ),
                         ],
                       ),
@@ -147,6 +147,7 @@ class _TodosCeState extends State<TodosCe> {
                       },
                       icon: const Icon(
                         Icons.save,
+                        color: Colors.blue,
                       ),
                     ),
                   ],
@@ -163,13 +164,14 @@ class _TodosCeState extends State<TodosCe> {
                         textFieldConfiguration: TextFieldConfiguration(
                           controller: textConroller,
                           decoration: InputDecoration(
-                            hintText: "selectCategory".tr,
-                            hintStyle: TextStyle(
-                              color: Colors.grey[600],
-                              fontSize: 15.sp,
+                            labelText: "selectCategory".tr,
+                            labelStyle:
+                                context.theme.textTheme.labelLarge?.copyWith(
+                              color: Colors.grey,
                             ),
                             prefixIcon: const Icon(Iconsax.folder_2),
-                            fillColor: context.theme.primaryColor,
+                            fillColor:
+                                context.theme.colorScheme.primaryContainer,
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(15),
                               borderSide: BorderSide(
@@ -197,11 +199,11 @@ class _TodosCeState extends State<TodosCe> {
                           return Container(
                             margin: const EdgeInsets.symmetric(
                                 horizontal: 10, vertical: 5),
-                            height: 45.w,
+                            height: 45,
                             child: Center(
                               child: Text(
                                 'notFound'.tr,
-                                style: context.theme.textTheme.headline6,
+                                style: context.theme.textTheme.bodyLarge,
                               ),
                             ),
                           );
@@ -216,7 +218,7 @@ class _TodosCeState extends State<TodosCe> {
                             child: ListTile(
                               title: Text(
                                 tasks.title,
-                                style: context.theme.textTheme.headline6,
+                                style: context.theme.textTheme.bodyLarge,
                               ),
                               trailing: Container(
                                   width: 10,
@@ -281,8 +283,9 @@ class _TodosCeState extends State<TodosCe> {
                     theme: DatePickerTheme(
                       backgroundColor: context.theme.scaffoldBackgroundColor,
                       cancelStyle: const TextStyle(color: Colors.red),
-                      itemStyle: TextStyle(
-                          color: context.theme.textTheme.headline6?.color),
+                      itemStyle: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                     minTime: DateTime.now(),
                     maxTime: DateTime.now().add(const Duration(days: 1000)),

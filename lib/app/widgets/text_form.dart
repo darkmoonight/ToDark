@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class MyTextForm extends StatelessWidget {
@@ -32,11 +31,11 @@ class MyTextForm extends StatelessWidget {
         onTap: readOnly == true ? onTap : null,
         controller: textEditingController,
         keyboardType: type,
-        style: context.theme.textTheme.headline6,
+        style: context.theme.textTheme.titleMedium,
         decoration: InputDecoration(
           prefixIcon: icon,
           suffixIcon: iconButton,
-          fillColor: context.theme.primaryColor,
+          fillColor: context.theme.colorScheme.primaryContainer,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
             borderSide: BorderSide(
@@ -49,10 +48,9 @@ class MyTextForm extends StatelessWidget {
               color: context.theme.disabledColor,
             ),
           ),
-          hintText: hintText,
-          hintStyle: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 15.sp,
+          labelText: hintText,
+          labelStyle: context.theme.textTheme.labelLarge?.copyWith(
+            color: Colors.grey,
           ),
         ),
         validator: validator,
