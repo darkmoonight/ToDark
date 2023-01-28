@@ -103,8 +103,10 @@ class _CategoryPageState extends State<CategoryPage> {
                     Expanded(
                       child: Text(
                         'taskCompleted'.tr,
-                        style: context.theme.textTheme.titleLarge
-                            ?.copyWith(color: Colors.white),
+                        style: context.theme.textTheme.titleMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                        ),
                         overflow: TextOverflow.visible,
                       ),
                     ),

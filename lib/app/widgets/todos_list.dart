@@ -215,6 +215,8 @@ class _TodosListState extends State<TodosList> {
                                                   style: context.theme.textTheme
                                                       .titleLarge
                                                       ?.copyWith(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
                                                     color: todosList.todoCompletedTime !=
                                                                 null &&
                                                             DateTime.now()
@@ -234,6 +236,7 @@ class _TodosListState extends State<TodosList> {
                                                         style: context.theme
                                                             .textTheme.bodyLarge
                                                             ?.copyWith(
+                                                          fontSize: 12,
                                                           color:
                                                               Colors.grey[700],
                                                         ),
@@ -279,6 +282,7 @@ class _TodosListState extends State<TodosList> {
                                               .theme.textTheme.bodyLarge
                                               ?.copyWith(
                                             color: Colors.grey[700],
+                                            fontSize: 12,
                                           ),
                                         )
                                       : widget.calendare == true
@@ -291,6 +295,7 @@ class _TodosListState extends State<TodosList> {
                                                   .theme.textTheme.bodyLarge
                                                   ?.copyWith(
                                                 color: Colors.grey[700],
+                                                fontSize: 12,
                                               ),
                                             )
                                           : Container(),

@@ -80,7 +80,10 @@ class _TaskPageState extends State<TaskPage> {
                                       Text(
                                         widget.task.title,
                                         style: context
-                                            .theme.textTheme.headlineSmall,
+                                            .theme.textTheme.headlineSmall
+                                            ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(

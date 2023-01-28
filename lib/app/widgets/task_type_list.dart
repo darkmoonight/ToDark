@@ -200,9 +200,9 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                             progressBarColors: <Color>[
                                               Color(taskList.taskColor),
                                               Color(taskList.taskColor)
-                                                  .withOpacity(0.8),
+                                                  .withOpacity(0.9),
                                               Color(taskList.taskColor)
-                                                  .withOpacity(0.6),
+                                                  .withOpacity(0.8),
                                             ],
                                             trackColor: Colors.grey[300],
                                           ),
@@ -236,6 +236,8 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                 .theme.textTheme.titleLarge
                                                 ?.copyWith(
                                               color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                             overflow: TextOverflow.visible,
                                           ),

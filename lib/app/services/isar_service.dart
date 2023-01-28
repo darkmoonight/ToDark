@@ -160,7 +160,7 @@ class IsarServices {
     final taskCreate = Tasks(
       title: titleEdit.text,
       description: descEdit.text,
-      taskColor: myColor.hashCode,
+      taskColor: myColor.value,
     );
 
     List<Tasks> searchTask;
@@ -204,6 +204,7 @@ class IsarServices {
         .filter()
         .nameEqualTo(titleEdit.text)
         .task((q) => q.idEqualTo(task.id))
+        .todoCompletedTimeEqualTo(DateTime.tryParse(timeEdit.text))
         .findAll();
 
     if (getTodos.isEmpty) {
@@ -236,7 +237,7 @@ class IsarServices {
     await isar.writeTxn(() async {
       task.title = timeEdit.text;
       task.description = descEdit.text;
-      task.taskColor = myColor.hashCode;
+      task.taskColor = myColor.value;
       await isar.tasks.put(task);
     });
     EasyLoading.showSuccess('editCategory'.tr,
@@ -272,6 +273,7 @@ class IsarServices {
         );
       }
     });
+
     EasyLoading.showSuccess('update'.tr,
         duration: const Duration(milliseconds: 500));
     set();
