@@ -193,14 +193,16 @@ class _TaskPageState extends State<TaskPage> {
                           ],
                         ),
                       ),
-                      TodosList(
-                        allTask: false,
-                        calendare: false,
-                        toggle: service.toggleValue.value,
-                        task: widget.task,
-                        set: () {
-                          getCountTodos();
-                        },
+                      Expanded(
+                        child: TodosList(
+                          allTask: false,
+                          calendare: false,
+                          toggle: service.toggleValue.value,
+                          task: widget.task,
+                          set: () {
+                            getCountTodos();
+                          },
+                        ),
                       ),
                     ],
                   ),

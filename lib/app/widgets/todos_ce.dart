@@ -112,44 +112,6 @@ class _TodosCeState extends State<TodosCe> {
                         ],
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          textTrim(service.titleEdit.value);
-                          textTrim(service.descEdit.value);
-                          widget.category == false
-                              ? service.addTodo(
-                                  widget.task!,
-                                  service.titleEdit.value,
-                                  service.descEdit.value,
-                                  service.timeEdit.value,
-                                  widget.set,
-                                )
-                              : widget.edit == false
-                                  ? service.addTodo(
-                                      selectedTask!,
-                                      service.titleEdit.value,
-                                      service.descEdit.value,
-                                      service.timeEdit.value,
-                                      widget.set,
-                                    )
-                                  : service.updateTodo(
-                                      widget.todo!,
-                                      selectedTask!,
-                                      service.titleEdit.value,
-                                      service.descEdit.value,
-                                      service.timeEdit.value,
-                                      widget.set,
-                                    );
-                          textConroller.clear();
-                          Get.back();
-                        }
-                      },
-                      icon: const Icon(
-                        Icons.save,
-                        color: Colors.blue,
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -261,45 +223,101 @@ class _TodosCeState extends State<TodosCe> {
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
-              MyTextForm(
-                readOnly: true,
-                textEditingController: service.timeEdit.value,
-                hintText: 'timeComlete'.tr,
-                type: TextInputType.datetime,
-                icon: const Icon(Iconsax.clock),
-                iconButton: IconButton(
-                  icon: const Icon(
-                    Icons.close,
-                    size: 18,
+              Row(
+                children: [
+                  Flexible(
+                    flex: 5,
+                    child: MyTextForm(
+                      readOnly: true,
+                      textEditingController: service.timeEdit.value,
+                      hintText: 'timeComlete'.tr,
+                      type: TextInputType.datetime,
+                      icon: const Icon(Iconsax.clock),
+                      iconButton: IconButton(
+                        icon: const Icon(
+                          Icons.close,
+                          size: 18,
+                        ),
+                        onPressed: () {
+                          service.timeEdit.value.clear();
+                        },
+                      ),
+                      onTap: () {
+                        DatePicker.showDateTimePicker(
+                          context,
+                          showTitleActions: true,
+                          theme: DatePickerTheme(
+                            backgroundColor:
+                                context.theme.scaffoldBackgroundColor,
+                            cancelStyle: const TextStyle(color: Colors.red),
+                            itemStyle: const TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          minTime: DateTime.now(),
+                          maxTime:
+                              DateTime.now().add(const Duration(days: 1000)),
+                          onConfirm: (date) {
+                            service.timeEdit.value.text = date.toString();
+                          },
+                          currentTime: DateTime.now(),
+                          locale: '${locale?.languageCode}' == 'ru'
+                              ? LocaleType.ru
+                              : '${locale?.languageCode}' == 'zh'
+                                  ? LocaleType.zh
+                                  : LocaleType.en,
+                        );
+                      },
+                    ),
                   ),
-                  onPressed: () {
-                    service.timeEdit.value.clear();
-                  },
-                ),
-                onTap: () {
-                  DatePicker.showDateTimePicker(
-                    context,
-                    showTitleActions: true,
-                    theme: DatePickerTheme(
-                      backgroundColor: context.theme.scaffoldBackgroundColor,
-                      cancelStyle: const TextStyle(color: Colors.red),
-                      itemStyle: const TextStyle(
-                        color: Colors.white,
+                  Flexible(
+                    child: Container(
+                      margin:
+                          const EdgeInsets.only(right: 10, bottom: 5, top: 10),
+                      decoration: const BoxDecoration(
+                          color: Colors.deepPurple,
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: IconButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            textTrim(service.titleEdit.value);
+                            textTrim(service.descEdit.value);
+                            widget.category == false
+                                ? service.addTodo(
+                                    widget.task!,
+                                    service.titleEdit.value,
+                                    service.descEdit.value,
+                                    service.timeEdit.value,
+                                    widget.set,
+                                  )
+                                : widget.edit == false
+                                    ? service.addTodo(
+                                        selectedTask!,
+                                        service.titleEdit.value,
+                                        service.descEdit.value,
+                                        service.timeEdit.value,
+                                        widget.set,
+                                      )
+                                    : service.updateTodo(
+                                        widget.todo!,
+                                        selectedTask!,
+                                        service.titleEdit.value,
+                                        service.descEdit.value,
+                                        service.timeEdit.value,
+                                        widget.set,
+                                      );
+                            textConroller.clear();
+                            Get.back();
+                          }
+                        },
+                        icon: const Icon(
+                          Iconsax.send_1,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                    minTime: DateTime.now(),
-                    maxTime: DateTime.now().add(const Duration(days: 1000)),
-                    onConfirm: (date) {
-                      service.timeEdit.value.text = date.toString();
-                    },
-                    currentTime: DateTime.now(),
-                    locale: '${locale?.languageCode}' == 'ru'
-                        ? LocaleType.ru
-                        : '${locale?.languageCode}' == 'zh'
-                            ? LocaleType.zh
-                            : LocaleType.en,
-                  );
-                },
+                  ),
+                ],
               ),
               const SizedBox(height: 20),
             ],

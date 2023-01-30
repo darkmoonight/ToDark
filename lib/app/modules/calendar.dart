@@ -1,4 +1,5 @@
 import 'package:isar/isar.dart';
+import 'package:swipe/swipe.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/isar_service.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ class _CalendarPageState extends State<CalendarPage> {
   final service = IsarServices();
   final locale = Get.locale;
   DateTime selectedDay = DateTime.now();
+  DateTime firstDay = DateTime.now().add(const Duration(days: -1000));
+  DateTime lastDay = DateTime.now().add(const Duration(days: 1000));
   CalendarFormat calendarFormat = CalendarFormat.week;
 
   var todos = <Todos>[];
@@ -98,8 +101,8 @@ class _CalendarPageState extends State<CalendarPage> {
             },
           ),
           startingDayOfWeek: StartingDayOfWeek.monday,
-          firstDay: DateTime(2022, 09, 01),
-          lastDay: selectedDay.add(const Duration(days: 1000)),
+          firstDay: firstDay,
+          lastDay: lastDay,
           focusedDay: selectedDay,
           locale: '${locale?.languageCode}',
           weekendDays: const [DateTime.sunday],
@@ -183,15 +186,32 @@ class _CalendarPageState extends State<CalendarPage> {
                     ],
                   ),
                 ),
-                TodosList(
-                  calendare: true,
-                  allTask: false,
-                  toggle: service.toggleValue.value,
-                  selectedDay: selectedDay,
-                  set: () {
-                    getCountTodos();
-                    getTodosAll();
-                  },
+                Expanded(
+                  child: Swipe(
+                    horizontalMinDisplacement: 20,
+                    onSwipeLeft: () {
+                      if (selectedDay.isBefore(lastDay)) {
+                        selectedDay = selectedDay.add(const Duration(days: 1));
+                        setState(() {});
+                      }
+                    },
+                    onSwipeRight: () {
+                      if (selectedDay.isAfter(firstDay)) {
+                        selectedDay = selectedDay.add(const Duration(days: -1));
+                        setState(() {});
+                      }
+                    },
+                    child: TodosList(
+                      calendare: true,
+                      allTask: false,
+                      toggle: service.toggleValue.value,
+                      selectedDay: selectedDay,
+                      set: () {
+                        getCountTodos();
+                        getTodosAll();
+                      },
+                    ),
+                  ),
                 ),
               ],
             ),

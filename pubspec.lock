@@ -810,6 +810,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  swipe:
+    dependency: "direct main"
+    description:
+      name: swipe
+      sha256: e2f823093ef0161698cc380f5f868a6be380cb5c90c1c0ddc7fa2b0a7eadfa0e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   table_calendar:
     dependency: "direct main"
     description:

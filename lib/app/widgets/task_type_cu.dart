@@ -106,7 +106,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                       },
                       icon: const Icon(
                         Icons.save,
-                        color: Colors.blue,
+                        color: Colors.white,
                       ),
                     ),
                   ],
