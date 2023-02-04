@@ -271,6 +271,8 @@ class IsarServices {
           todo.description,
           DateTime.tryParse(timeEdit.text),
         );
+      } else {
+        await flutterLocalNotificationsPlugin.cancel(todo.id);
       }
     });
 
@@ -279,11 +281,11 @@ class IsarServices {
     set();
   }
 
-  Future<void> deleteTodo(Todos todos, Function() set) async {
+  Future<void> deleteTodo(Todos todo, Function() set) async {
     await isar.writeTxn(() async {
-      await isar.todos.delete(todos.id);
-      if (todos.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(todos.id);
+      await isar.todos.delete(todo.id);
+      if (todo.todoCompletedTime != null) {
+        await flutterLocalNotificationsPlugin.cancel(todo.id);
       }
     });
     EasyLoading.showSuccess('taskDelete'.tr,

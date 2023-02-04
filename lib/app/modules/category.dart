@@ -183,7 +183,6 @@ class _CategoryPageState extends State<CategoryPage> {
                 TaskTypeList(
                   toggle: service.toggleValue.value,
                   set: () {
-                    setState(() {});
                     getCountTodos();
                   },
                 ),
