@@ -163,18 +163,14 @@ class OnboardContent extends StatelessWidget {
               ),
               Text(
                 title,
-                style: context.theme.textTheme.titleLarge?.copyWith(
-                  color: Colors.white,
-                ),
+                style: context.theme.primaryTextTheme.titleLarge,
               ),
               const SizedBox(height: 10),
               SizedBox(
                 width: Get.width * 0.8,
                 child: Text(
                   description,
-                  style: context.theme.textTheme.labelLarge?.copyWith(
-                    color: Colors.white,
-                  ),
+                  style: context.theme.primaryTextTheme.labelLarge,
                   textAlign: TextAlign.center,
                 ),
               ),

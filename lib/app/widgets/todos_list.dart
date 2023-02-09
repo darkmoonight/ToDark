@@ -40,7 +40,7 @@ class _TodosListState extends State<TodosList> {
       <MaterialState>{
         MaterialState.pressed,
       };
-      return Colors.black;
+      return Get.isDarkMode ? Colors.white : Colors.black;
     }
 
     return StreamBuilder<List<Todos>>(
@@ -69,7 +69,7 @@ class _TodosListState extends State<TodosList> {
                               ? 'copletedTask'.tr
                               : 'addTask'.tr,
                           style: context.theme.textTheme.titleLarge?.copyWith(
-                            color: Colors.black,
+                            color: Get.isDarkMode ? Colors.white : Colors.black,
                           ),
                         ),
                       ],
@@ -80,7 +80,7 @@ class _TodosListState extends State<TodosList> {
               return StatefulBuilder(
                 builder: (context, innerState) {
                   return ListView.builder(
-                    physics: const BouncingScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: listData.data?.length,
                     itemBuilder: (BuildContext context, int index) {
                       final todosList = todos[index];
@@ -166,7 +166,9 @@ class _TodosListState extends State<TodosList> {
                                   child: Row(
                                     children: [
                                       Checkbox(
-                                        checkColor: Colors.white,
+                                        checkColor: Get.isDarkMode
+                                            ? Colors.black
+                                            : Colors.white,
                                         fillColor:
                                             MaterialStateProperty.resolveWith(
                                                 getColor),
@@ -222,7 +224,9 @@ class _TodosListState extends State<TodosList> {
                                                           todosList.done ==
                                                               false
                                                       ? Colors.redAccent
-                                                      : Colors.black,
+                                                      : Get.isDarkMode
+                                                          ? Colors.white
+                                                          : Colors.black,
                                                 ),
                                                 overflow: TextOverflow.visible,
                                               ),

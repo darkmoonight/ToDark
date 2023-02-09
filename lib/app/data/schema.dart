@@ -45,4 +45,5 @@ class Todos {
 class Settings {
   Id id = Isar.autoIncrement;
   bool onboard = false;
+  bool? theme;
 }

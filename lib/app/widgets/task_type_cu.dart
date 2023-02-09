@@ -143,7 +143,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 pickersEnabled: const <ColorPickerType, bool>{
                   ColorPickerType.accent: false,
                   ColorPickerType.primary: true,
-                  ColorPickerType.wheel: true,
+                  ColorPickerType.wheel: false,
                   ColorPickerType.both: false,
                 },
               ),

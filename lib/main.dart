@@ -9,6 +9,7 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
+import 'package:todark/theme/theme_controller.dart';
 import 'app/data/schema.dart';
 import 'package:path_provider/path_provider.dart';
 import 'l10n/translation.dart';
@@ -53,8 +54,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeController = Get.put(ThemeController());
+
     return GetMaterialApp(
-      theme: TodoTheme.baseTheme,
+      theme: TodoTheme.lightTheme,
+      darkTheme: TodoTheme.darkTheme,
+      themeMode: themeController.theme,
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

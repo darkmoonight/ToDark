@@ -79,8 +79,8 @@ class _TaskPageState extends State<TaskPage> {
                                     children: [
                                       Text(
                                         widget.task.title,
-                                        style: context
-                                            .theme.textTheme.headlineSmall
+                                        style: context.theme.primaryTextTheme
+                                            .headlineSmall
                                             ?.copyWith(
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -98,7 +98,8 @@ class _TaskPageState extends State<TaskPage> {
                                   )
                                 : Text(
                                     widget.task.title,
-                                    style: context.theme.textTheme.headlineSmall
+                                    style: context
+                                        .theme.primaryTextTheme.headlineSmall
                                         ?.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -145,10 +146,9 @@ class _TaskPageState extends State<TaskPage> {
               ),
               Expanded(
                 child: Container(
-                  width: Get.size.width,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: context.theme.colorScheme.secondaryContainer,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(40),
                       topRight: Radius.circular(40),
                     ),
@@ -169,7 +169,9 @@ class _TaskPageState extends State<TaskPage> {
                                   'tasks'.tr,
                                   style: context.theme.textTheme.titleLarge
                                       ?.copyWith(
-                                    color: Colors.black,
+                                    color: Get.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
                                   ),
                                 ),
                                 Text(
@@ -183,8 +185,9 @@ class _TaskPageState extends State<TaskPage> {
                               ],
                             ),
                             Switch(
-                              trackColor: service.trackColor,
-                              thumbIcon: service.thumbIcon,
+                              activeColor: Colors.white,
+                              activeTrackColor: Colors.black,
+                              thumbIcon: service.thumbIconTodo,
                               value: service.toggleValue.value,
                               onChanged: (value) {
                                 setState(() {

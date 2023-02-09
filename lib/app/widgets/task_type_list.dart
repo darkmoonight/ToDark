@@ -52,7 +52,9 @@ class _TaskTypeListState extends State<TaskTypeList> {
                               textAlign: TextAlign.center,
                               style:
                                   context.theme.textTheme.titleLarge?.copyWith(
-                                color: Colors.black,
+                                color: Get.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                             ),
                           ),
@@ -62,7 +64,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                   );
                 }
                 return ListView.builder(
-                  physics: const BouncingScrollPhysics(),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: listData.data?.length,
                   itemBuilder: (BuildContext context, int index) {
                     final taskList = task[index];
@@ -193,7 +195,9 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                 .theme.textTheme.titleMedium
                                                 ?.copyWith(
                                               fontWeight: FontWeight.bold,
-                                              color: Colors.black,
+                                              color: Get.isDarkMode
+                                                  ? Colors.white
+                                                  : Colors.black,
                                             ),
                                           ),
                                           customColors: CustomSliderColors(
@@ -235,7 +239,9 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                             style: context
                                                 .theme.textTheme.titleLarge
                                                 ?.copyWith(
-                                              color: Colors.black,
+                                              color: Get.isDarkMode
+                                                  ? Colors.white
+                                                  : Colors.black,
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
                                             ),

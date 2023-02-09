@@ -1608,6 +1608,11 @@ const SettingsSchema = CollectionSchema(
       id: 0,
       name: r'onboard',
       type: IsarType.bool,
+    ),
+    r'theme': PropertySchema(
+      id: 1,
+      name: r'theme',
+      type: IsarType.bool,
     )
   },
   estimateSize: _settingsEstimateSize,
@@ -1640,6 +1645,7 @@ void _settingsSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeBool(offsets[0], object.onboard);
+  writer.writeBool(offsets[1], object.theme);
 }
 
 Settings _settingsDeserialize(
@@ -1651,6 +1657,7 @@ Settings _settingsDeserialize(
   final object = Settings();
   object.id = id;
   object.onboard = reader.readBool(offsets[0]);
+  object.theme = reader.readBoolOrNull(offsets[1]);
   return object;
 }
 
@@ -1663,6 +1670,8 @@ P _settingsDeserializeProp<P>(
   switch (propertyId) {
     case 0:
       return (reader.readBool(offset)) as P;
+    case 1:
+      return (reader.readBoolOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -1818,6 +1827,32 @@ extension SettingsQueryFilter
       ));
     });
   }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> themeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'theme',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> themeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'theme',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> themeEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'theme',
+        value: value,
+      ));
+    });
+  }
 }
 
 extension SettingsQueryObject
@@ -1836,6 +1871,18 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByOnboardDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'onboard', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByTheme() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'theme', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByThemeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'theme', Sort.desc);
     });
   }
 }
@@ -1865,6 +1912,18 @@ extension SettingsQuerySortThenBy
       return query.addSortBy(r'onboard', Sort.desc);
     });
   }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByTheme() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'theme', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByThemeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'theme', Sort.desc);
+    });
+  }
 }
 
 extension SettingsQueryWhereDistinct
@@ -1872,6 +1931,12 @@ extension SettingsQueryWhereDistinct
   QueryBuilder<Settings, Settings, QDistinct> distinctByOnboard() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'onboard');
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QDistinct> distinctByTheme() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'theme');
     });
   }
 }
@@ -1887,6 +1952,12 @@ extension SettingsQueryProperty
   QueryBuilder<Settings, bool, QQueryOperations> onboardProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'onboard');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> themeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'theme');
     });
   }
 }

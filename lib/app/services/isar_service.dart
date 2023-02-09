@@ -13,10 +13,9 @@ class IsarServices {
   final descEdit = TextEditingController().obs;
   final timeEdit = TextEditingController().obs;
   final toggleValue = false.obs;
-  final tabIndex = 0.obs;
   final myColor = const Color(0xFF2196F3).obs;
 
-  final MaterialStateProperty<Icon?> thumbIcon =
+  final MaterialStateProperty<Icon?> thumbIconTodo =
       MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
       if (states.contains(MaterialState.selected)) {
@@ -26,20 +25,15 @@ class IsarServices {
     },
   );
 
-  final MaterialStateProperty<Color?> trackColor =
-      MaterialStateProperty.resolveWith<Color?>(
+  final MaterialStateProperty<Icon?> thumbIconTask =
+      MaterialStateProperty.resolveWith<Icon?>(
     (Set<MaterialState> states) {
       if (states.contains(MaterialState.selected)) {
-        return Colors.black;
+        return const Icon(Iconsax.archive_tick);
       }
-
-      return null;
+      return const Icon(Iconsax.archive_minus);
     },
   );
-
-  void changeTabIndex(int index) {
-    tabIndex.value = index;
-  }
 
   Future<int> getCountTotalTodosCalendar(DateTime selectedDay) async {
     return isar.todos

@@ -3,11 +3,10 @@ import 'package:todark/app/modules/all_tasks.dart';
 import 'package:todark/app/modules/calendar.dart';
 import 'package:todark/app/modules/category.dart';
 import 'package:todark/app/services/isar_service.dart';
-import 'package:todark/app/widgets/task_type_cu.dart';
-import 'package:todark/app/widgets/todos_ce.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:todark/theme/theme_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +17,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final service = IsarServices();
+  final themeController = Get.put(ThemeController());
+  final _bucket = PageStorageBucket();
+  int tabIndex = 0;
+
+  var widgetList = const [
+    CategoryPage(key: PageStorageKey(1)),
+    AllTaskPage(key: PageStorageKey(2)),
+    CalendarPage(key: PageStorageKey(3)),
+  ];
+
+  void changeTabIndex(int index) {
+    setState(() {
+      tabIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,80 +54,53 @@ class _HomePageState extends State<HomePage> {
             ),
             Text(
               'ToDark',
-              style: context.theme.textTheme.titleLarge?.copyWith(
-                color: Colors.white,
-              ),
+              style: context.theme.primaryTextTheme.titleLarge,
             ),
           ],
         ),
-      ),
-      body: Obx(
-        (() => IndexedStack(
-              index: service.tabIndex.value,
-              children: [
-                CategoryPage(key: UniqueKey()),
-                AllTaskPage(key: UniqueKey()),
-                CalendarPage(key: UniqueKey()),
-              ],
-            )),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          service.tabIndex.value == 0
-              ? showModalBottomSheet(
-                  enableDrag: false,
-                  backgroundColor: context.theme.scaffoldBackgroundColor,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return TaskTypeCu(
-                      text: 'create'.tr,
-                      edit: false,
-                    );
-                  },
-                )
-              : showModalBottomSheet(
-                  enableDrag: false,
-                  backgroundColor: context.theme.scaffoldBackgroundColor,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return TodosCe(
-                      text: "create".tr,
-                      edit: false,
-                      category: true,
-                      set: () {
-                        setState(() {});
-                      },
-                    );
-                  },
-                );
-        },
-        backgroundColor: context.theme.colorScheme.primaryContainer,
-        child: const Icon(
-          Iconsax.add,
-          color: Colors.greenAccent,
-        ),
-      ),
-      bottomNavigationBar: Obx(
-        () => Theme(
-          data: context.theme.copyWith(
+        actions: [
+          IconButton(
+            onPressed: () {
+              if (Get.isDarkMode) {
+                themeController.changeThemeMode(ThemeMode.light);
+                themeController.saveTheme(false);
+              } else {
+                themeController.changeThemeMode(ThemeMode.dark);
+                themeController.saveTheme(true);
+              }
+            },
+            icon: Icon(
+              Get.isDarkMode ? Iconsax.sun_1 : Iconsax.moon,
+              color: Colors.white,
+              size: 18,
+            ),
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
+            alignment: Alignment.centerLeft,
           ),
-          child: CustomNavigationBar(
-            backgroundColor: Colors.white,
-            strokeColor: const Color(0x300c18fb),
-            onTap: (int index) => service.changeTabIndex(index),
-            currentIndex: service.tabIndex.value,
-            iconSize: 24,
-            elevation: 0,
-            items: [
-              CustomNavigationBarItem(icon: const Icon(Iconsax.folder_2)),
-              CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
-              CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
-            ],
-          ),
+        ],
+      ),
+      body: PageStorage(
+        bucket: _bucket,
+        child: widgetList[tabIndex],
+      ),
+      bottomNavigationBar: Theme(
+        data: context.theme.copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: CustomNavigationBar(
+          backgroundColor: context.theme.colorScheme.secondaryContainer,
+          strokeColor: const Color(0x300c18fb),
+          onTap: (int index) => changeTabIndex(index),
+          currentIndex: tabIndex,
+          iconSize: 24,
+          elevation: 0,
+          items: [
+            CustomNavigationBarItem(icon: const Icon(Iconsax.folder_2)),
+            CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
+            CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
+          ],
         ),
       ),
     );
