@@ -9,7 +9,7 @@ class TodoTheme {
       useMaterial3: true,
       colorScheme: ColorScheme.fromSeed(
         seedColor: Colors.blue,
-        primaryContainer: const Color.fromARGB(255, 30, 29, 32),
+        primaryContainer: const Color.fromARGB(255, 35, 34, 37),
         secondaryContainer: const Color.fromARGB(255, 21, 20, 27),
       ),
       iconTheme: darkData.iconTheme.copyWith(
