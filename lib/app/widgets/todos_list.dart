@@ -68,8 +68,9 @@ class _TodosListState extends State<TodosList> {
                           widget.toggle == true
                               ? 'copletedTask'.tr
                               : 'addTask'.tr,
-                          style: context.theme.textTheme.titleLarge?.copyWith(
+                          style: context.theme.textTheme.titleMedium?.copyWith(
                             color: Get.isDarkMode ? Colors.white : Colors.black,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],
@@ -81,11 +82,11 @@ class _TodosListState extends State<TodosList> {
                 builder: (context, innerState) {
                   return ListView.builder(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: listData.data?.length,
+                    itemCount: todos.length,
                     itemBuilder: (BuildContext context, int index) {
                       final todosList = todos[index];
                       return Dismissible(
-                        key: ObjectKey(todosList),
+                        key: ValueKey(todosList),
                         direction: DismissDirection.endToStart,
                         confirmDismiss: (DismissDirection direction) async {
                           return await showDialog(
@@ -258,8 +259,10 @@ class _TodosListState extends State<TodosList> {
                                                       style: context.theme
                                                           .textTheme.bodyLarge
                                                           ?.copyWith(
-                                                              color: Colors
-                                                                  .deepPurple),
+                                                        color: Get.isDarkMode
+                                                            ? Colors.teal
+                                                            : Colors.deepPurple,
+                                                      ),
                                                     )
                                                   : Container(),
                                             ],

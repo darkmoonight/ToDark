@@ -183,12 +183,13 @@ class _TodosCeState extends State<TodosCe> {
                                 style: context.theme.textTheme.bodyLarge,
                               ),
                               trailing: Container(
-                                  width: 10,
-                                  height: 10,
-                                  decoration: BoxDecoration(
-                                    color: Color(tasks.taskColor),
-                                    shape: BoxShape.circle,
-                                  )),
+                                width: 10,
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: Color(tasks.taskColor),
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
                             ),
                           );
                         },

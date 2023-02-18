@@ -51,10 +51,11 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                   : 'addArchive'.tr,
                               textAlign: TextAlign.center,
                               style:
-                                  context.theme.textTheme.titleLarge?.copyWith(
+                                  context.theme.textTheme.titleMedium?.copyWith(
                                 color: Get.isDarkMode
                                     ? Colors.white
                                     : Colors.black,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
@@ -65,11 +66,11 @@ class _TaskTypeListState extends State<TaskTypeList> {
                 }
                 return ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: listData.data?.length,
+                  itemCount: task.length,
                   itemBuilder: (BuildContext context, int index) {
                     final taskList = task[index];
                     return Dismissible(
-                      key: UniqueKey(),
+                      key: ValueKey(taskList),
                       direction: DismissDirection.horizontal,
                       confirmDismiss: (DismissDirection direction) async {
                         return await showDialog(

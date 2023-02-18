@@ -140,7 +140,7 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
           Expanded(
             child: Container(
-              margin: const EdgeInsets.only(top: 14),
+              margin: const EdgeInsets.only(top: 10),
               decoration: BoxDecoration(
                 color: context.theme.colorScheme.secondaryContainer,
                 borderRadius: const BorderRadius.only(
