@@ -56,6 +56,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                     ? Colors.white
                                     : Colors.black,
                                 fontWeight: FontWeight.w600,
+                                fontSize: 18,
                               ),
                             ),
                           ),

@@ -207,8 +207,8 @@ class _TodosCeState extends State<TodosCe> {
                     )
                   : Container(),
               MyTextForm(
-                textEditingController: service.titleEdit.value,
-                hintText: 'name'.tr,
+                controller: service.titleEdit.value,
+                labelText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
                 validator: (value) {
@@ -219,8 +219,8 @@ class _TodosCeState extends State<TodosCe> {
                 },
               ),
               MyTextForm(
-                textEditingController: service.descEdit.value,
-                hintText: 'description'.tr,
+                controller: service.descEdit.value,
+                labelText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
@@ -230,8 +230,8 @@ class _TodosCeState extends State<TodosCe> {
                     flex: 5,
                     child: MyTextForm(
                       readOnly: true,
-                      textEditingController: service.timeEdit.value,
-                      hintText: 'timeComlete'.tr,
+                      controller: service.timeEdit.value,
+                      labelText: 'timeComlete'.tr,
                       type: TextInputType.datetime,
                       icon: const Icon(Iconsax.clock),
                       iconButton: IconButton(

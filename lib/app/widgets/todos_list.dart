@@ -71,6 +71,7 @@ class _TodosListState extends State<TodosList> {
                           style: context.theme.textTheme.titleMedium?.copyWith(
                             color: Get.isDarkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w600,
+                            fontSize: 18,
                           ),
                         ),
                       ],

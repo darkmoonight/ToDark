@@ -113,8 +113,8 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 ),
               ),
               MyTextForm(
-                textEditingController: service.titleEdit.value,
-                hintText: 'name'.tr,
+                controller: service.titleEdit.value,
+                labelText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
                 validator: (value) {
@@ -125,8 +125,8 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 },
               ),
               MyTextForm(
-                textEditingController: service.descEdit.value,
-                hintText: 'description'.tr,
+                controller: service.descEdit.value,
+                labelText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
