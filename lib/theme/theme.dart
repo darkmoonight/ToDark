@@ -11,6 +11,7 @@ class TodoTheme {
         seedColor: Colors.blue,
         primaryContainer: const Color.fromARGB(255, 35, 34, 37),
         secondaryContainer: const Color.fromARGB(255, 21, 20, 27),
+        background: const Color.fromARGB(255, 27, 26, 34),
       ),
       iconTheme: darkData.iconTheme.copyWith(
         size: 20,
@@ -30,6 +31,7 @@ class TodoTheme {
         seedColor: Colors.blue,
         primaryContainer: const Color.fromARGB(255, 37, 36, 41),
         secondaryContainer: Colors.white,
+        background: const Color.fromARGB(255, 245, 245, 245),
       ),
       iconTheme: lightData.iconTheme.copyWith(
         size: 20,

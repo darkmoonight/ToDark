@@ -167,7 +167,7 @@ class OnboardContent extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               SizedBox(
-                width: Get.width * 0.8,
+                width: 300,
                 child: Text(
                   description,
                   style: context.theme.primaryTextTheme.labelLarge,

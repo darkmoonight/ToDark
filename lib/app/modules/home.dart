@@ -2,6 +2,7 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:todark/app/modules/all_tasks.dart';
 import 'package:todark/app/modules/calendar.dart';
 import 'package:todark/app/modules/category.dart';
+import 'package:todark/app/modules/settings.dart';
 import 'package:todark/app/services/isar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,6 +26,7 @@ class _HomePageState extends State<HomePage> {
     CategoryPage(key: PageStorageKey(1)),
     AllTaskPage(key: PageStorageKey(2)),
     CalendarPage(key: PageStorageKey(3)),
+    SettingsPage(key: PageStorageKey(4)),
   ];
 
   void changeTabIndex(int index) {
@@ -46,8 +48,8 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           children: [
             Image.asset(
-              'assets/icons/icons.png',
-              scale: 13,
+              'assets/icons/icon_splash.png',
+              scale: 15,
             ),
             const SizedBox(
               width: 10,
@@ -100,6 +102,7 @@ class _HomePageState extends State<HomePage> {
             CustomNavigationBarItem(icon: const Icon(Iconsax.folder_2)),
             CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
             CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
+            CustomNavigationBarItem(icon: const Icon(Iconsax.setting_2)),
           ],
         ),
       ),
