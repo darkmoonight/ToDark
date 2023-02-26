@@ -19,12 +19,15 @@ dependencies:
   swipe: ^0.0.1
   iconsax: ^0.0.8
   file_picker: ^5.2.5
+  url_launcher: ^6.1.10
   path_provider: ^2.0.13
   table_calendar: ^3.0.8
+  package_info_plus: ^3.0.3
   flutter_typeahead: ^4.3.6
   isar_flutter_libs: ^3.0.5
   flex_color_picker: ^3.1.0
   flutter_easyloading: ^3.0.5
+  permission_handler: ^10.2.0
   custom_navigation_bar: ^0.8.2
   sleek_circular_slider: ^2.0.1
   flutter_datetime_picker: ^1.5.1
@@ -47,7 +50,7 @@ flutter_icons:
   adaptive_icon_foreground: "assets/icons/icon_adaptive.png"
 
 flutter_native_splash:
-  color: "#1F1F1F"
+  color: "#121212"
   image: "assets/icons/icon_splash.png"
 
 flutter:

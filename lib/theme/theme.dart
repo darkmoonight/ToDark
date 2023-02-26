@@ -13,6 +13,8 @@ class TodoTheme {
         secondaryContainer: const Color.fromARGB(255, 21, 20, 27),
         background: const Color.fromARGB(255, 27, 26, 34),
       ),
+      snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Color.fromARGB(255, 55, 55, 55)),
       iconTheme: darkData.iconTheme.copyWith(
         size: 20,
       ),
@@ -33,6 +35,8 @@ class TodoTheme {
         secondaryContainer: Colors.white,
         background: const Color.fromARGB(255, 245, 245, 245),
       ),
+      snackBarTheme: const SnackBarThemeData(
+          backgroundColor: Color.fromARGB(255, 225, 225, 225)),
       iconTheme: lightData.iconTheme.copyWith(
         size: 20,
       ),
