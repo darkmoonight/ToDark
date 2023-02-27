@@ -57,6 +57,16 @@ class Translation extends Translations {
           "addArchive": "Архивируйте категорию",
           "selectCategory": "Выбирете категорию",
           "notFound": "Ничего не найдено",
+          "settings": "Настройки",
+          "backup": "Резервное копирование",
+          "restore": "Восстановление данных",
+          "deleteAllBD": "Удалить все данные",
+          "deleteAllBDTitle": "Удаление данных",
+          "deleteAllBDQuery": "Вы уверены что хотите удалить все данные?",
+          "about": "О нас",
+          "aboutDesc":
+              "Это проект с открытым исходным кодом.\nЕсли вам понравилась наша работа поставьте несколько 🌟 и ❤ на репозитории",
+          "author": "Сделано с ❤ от",
         },
         'en_US': {
           "titile1": "Organize your tasks",
@@ -112,17 +122,24 @@ class Translation extends Translations {
           "addArchive": "Archive the category",
           "selectCategory": "Choose a category",
           "notFound": "Nothing found",
+          "settings": "Settings",
+          "backup": "Backup of user data",
+          "restore": "Restore User data",
+          "deleteAllBD": "Delete all data",
+          "deleteAllBDTitle": "Deleting data",
+          "deleteAllBDQuery": "Are you sure you want to delete all the data?",
+          "about": "About us",
+          "aboutDesc":
+              "This is an open source project.\nif you liked our work, put a few 🌟 and ❤ on the repositories",
+          "author": "Made with ❤ from",
         },
         'zh_TW': {
           "titile1": "安排你的任務",
           "titile2": "使用者友善的設計",
           "titile3": "聯絡我們",
-          "subtitle1":
-              "在我們的應用程式中，您將能夠將任務分類並逐步完成它們。",
-          "subtitle2":
-              "所有的導覽都是這樣設計的，以方便和快速的方式與應用程式互動。",
-          "subtitle3":
-              "如果您遇到任何問題，請透過電子郵件或應用程式評論聯繫我們。",
+          "subtitle1": "在我們的應用程式中，您將能夠將任務分類並逐步完成它們。",
+          "subtitle2": "所有的導覽都是這樣設計的，以方便和快速的方式與應用程式互動。",
+          "subtitle3": "如果您遇到任何問題，請透過電子郵件或應用程式評論聯繫我們。",
           "getStart": "開始",
           "next": "下一步",
           'week': '週',
@@ -167,6 +184,15 @@ class Translation extends Translations {
           "addArchive": "將類別存檔",
           "selectCategory": "選擇類別",
           "notFound": "沒有找到",
+          "settings": "设置",
+          "backup": "用户数据的备份",
+          "restore": "还原用户数据",
+          "deleteAllBD": "删除所有数据",
+          "deleteAllBDTitle": "删除数据",
+          "deleteAllBDQuery": "您确定要删除所有数据吗？",
+          "about": "关于我们",
+          "aboutDesc": "这是一个开源项目。\n如果你喜欢我们的工作，在仓库上放一些🌟和❤",
+          "author": "用❤从",
         }
       };
 }

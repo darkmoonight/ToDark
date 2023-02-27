@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/about.dart';
 import 'package:todark/app/widgets/settings_link.dart';
@@ -19,25 +18,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  void openPermission() async {
-    final theme = context.theme;
-    Get.snackbar(
-      '',
-      '',
-      backgroundColor: theme.snackBarTheme.backgroundColor,
-      mainButton: TextButton(
-        onPressed: () => openAppSettings(),
-        child: Text(
-          'sett',
-          style: theme.textTheme.bodyMedium?.copyWith(color: Colors.blue),
-        ),
-      ),
-      icon: const Icon(Iconsax.folder_minus),
-      shouldIconPulse: true,
-      snackPosition: SnackPosition.BOTTOM,
-      margin: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
-    );
-  }
+  void openPermission() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +38,7 @@ class _SettingsPageState extends State<SettingsPage> {
             padding:
                 const EdgeInsets.only(left: 30, top: 17, bottom: 10, right: 20),
             child: Text(
-              'Настройки',
+              'settings'.tr,
               style: context.theme.textTheme.titleLarge?.copyWith(
                 color: Get.isDarkMode ? Colors.white : Colors.black,
                 fontWeight: FontWeight.w600,
@@ -69,23 +50,14 @@ class _SettingsPageState extends State<SettingsPage> {
               Iconsax.cloud_plus,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
-            text: 'Резервное копирование',
+            text: 'backup'.tr,
             onPressed: () async {
               try {
-                openPermission();
-
                 final timeStamp =
                     DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
                 final dlPath = await FilePicker.platform.getDirectoryPath();
                 final dbFileName = 'db_$timeStamp.isar';
                 final dbFilePath = '$dlPath/$dbFileName';
-                final dbFile = File(dbFilePath);
-
-                final exists = await dbFile.exists();
-
-                if (exists) {
-                  await dbFile.delete(recursive: true);
-                }
 
                 await isar.copyToFile(dbFilePath);
               } catch (e) {
@@ -98,22 +70,31 @@ class _SettingsPageState extends State<SettingsPage> {
               Iconsax.cloud_add,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
-            text: 'Загрузка данных',
+            text: 'restore'.tr,
             onPressed: () async {
               try {
-                final dlPath = await FilePicker.platform.getDirectoryPath();
-                final dbFilePath = '$dlPath/';
+                final dlPath = await FilePicker.platform.pickFiles();
+
+                // FileMetadata? result = await PickOrSave().fileMetaData(
+                //   params: FileMetadataParams(filePath: dlFile!.single),
+                // );
+
+                // final filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
+                //     uri: dlFile.single);
 
                 if (isar.isOpen) {
                   await isar.close();
                 }
-                await Isar.open(
+
+                isar = await Isar.open(
                   [
                     TasksSchema,
                     TodosSchema,
                     SettingsSchema,
                   ],
-                  directory: dbFilePath,
+                  name: dlPath!.files.single.name,
+                  inspector: true,
+                  directory: File(dlPath.files.single.path!).parent.path,
                 );
               } catch (e) {
                 return Future.error(e);
@@ -125,20 +106,20 @@ class _SettingsPageState extends State<SettingsPage> {
               Iconsax.cloud_minus,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
-            text: 'Удалить все данные',
+            text: 'deleteAllBD'.tr,
             onPressed: () => Get.dialog(
               AlertDialog(
                 backgroundColor: context.theme.colorScheme.primaryContainer,
                 title: Text(
-                  "Удаление данных",
+                  "deleteAllBDTitle".tr,
                   style: context.theme.textTheme.titleLarge,
                 ),
-                content: Text("Вы уверены что хотите удалить все данные?",
+                content: Text("deleteAllBDQuery".tr,
                     style: context.theme.textTheme.titleMedium),
                 actions: [
                   TextButton(
                       onPressed: () => Get.back(),
-                      child: Text("Закрыть",
+                      child: Text("cancel".tr,
                           style: context.theme.textTheme.titleMedium
                               ?.copyWith(color: Colors.blueAccent))),
                   TextButton(
@@ -149,7 +130,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         });
                         Get.back();
                       },
-                      child: Text("Удалить",
+                      child: Text("delete".tr,
                           style: context.theme.textTheme.titleMedium
                               ?.copyWith(color: Colors.red))),
                 ],
@@ -161,7 +142,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Iconsax.info_circle,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
-            text: 'О нас',
+            text: 'about'.tr,
             onPressed: () => Get.to(
               () => const AboutPage(),
               transition: Transition.downToUp,
@@ -172,5 +153,3 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 }
-
-class Log {}

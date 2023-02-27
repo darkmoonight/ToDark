@@ -49,12 +49,13 @@ class _AboutPageState extends State<AboutPage> {
           highlightColor: Colors.transparent,
         ),
         title: Text(
-          'О нас',
+          'about'.tr,
           style: context.theme.primaryTextTheme.titleLarge,
         ),
       ),
       body: Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
@@ -90,8 +91,9 @@ class _AboutPageState extends State<AboutPage> {
                 SizedBox(
                   width: 320,
                   child: Text(
-                    'Это проект с открытым исходным кодом.\nЕсли вам понравилась наша работа поставьте несколько 🌟 и ❤ на репозитории',
+                    'aboutDesc'.tr,
                     style: context.theme.primaryTextTheme.labelLarge?.copyWith(
+                      height: 1.3,
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
                       fontSize: 16,
@@ -114,7 +116,7 @@ class _AboutPageState extends State<AboutPage> {
                     'GitHub',
                     style: context.theme.primaryTextTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      color: Colors.cyan,
                       fontSize: 28,
                     ),
                   ),
@@ -124,7 +126,7 @@ class _AboutPageState extends State<AboutPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(5, 30, 5, 20),
               child: Text(
-                'Сделано с ❤ от DARK NIGHT',
+                '${'author'.tr} DARK NIGHT',
                 style: context.theme.primaryTextTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.w400,
                   color: Colors.white,

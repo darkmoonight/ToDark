@@ -428,10 +428,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_typeahead
-      sha256: "3f7509bc1d43e245e0bfdc180f206508bc5ab0e0d84ce1b891cb0e4176b7802f"
+      sha256: edfc51579ca3756adaa32b6849cf44af03276b93e8a8a68d8247ee243598f1b2
       url: "https://pub.dev"
     source: hosted
-    version: "4.3.6"
+    version: "4.3.7"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
