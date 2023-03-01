@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -53,13 +54,26 @@ class _SettingsPageState extends State<SettingsPage> {
             text: 'backup'.tr,
             onPressed: () async {
               try {
+                final dlPath = await FilePicker.platform.getDirectoryPath();
+
+                if (dlPath == null) {
+                  return;
+                }
+
                 final timeStamp =
                     DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-                final dlPath = await FilePicker.platform.getDirectoryPath();
-                final dbFileName = 'db_$timeStamp.isar';
-                final dbFilePath = '$dlPath/$dbFileName';
 
-                await isar.copyToFile(dbFilePath);
+                final taskFileName = 'task_$timeStamp.json';
+                final todoFileName = 'todo_$timeStamp.json';
+
+                final fileTask = File('$dlPath/$taskFileName');
+                final fileTodo = File('$dlPath/$todoFileName');
+
+                final task = await isar.tasks.where().exportJson();
+                final todo = await isar.todos.where().exportJson();
+
+                await fileTask.writeAsString(jsonEncode(task));
+                await fileTodo.writeAsString(jsonEncode(todo));
               } catch (e) {
                 return Future.error(e);
               }
@@ -73,29 +87,32 @@ class _SettingsPageState extends State<SettingsPage> {
             text: 'restore'.tr,
             onPressed: () async {
               try {
-                final dlPath = await FilePicker.platform.pickFiles();
-
-                // FileMetadata? result = await PickOrSave().fileMetaData(
-                //   params: FileMetadataParams(filePath: dlFile!.single),
-                // );
-
-                // final filePath = await LecleFlutterAbsolutePath.getAbsolutePath(
-                //     uri: dlFile.single);
-
-                if (isar.isOpen) {
-                  await isar.close();
+                final result = await FilePicker.platform.pickFiles(
+                  type: FileType.custom,
+                  allowedExtensions: ['json'],
+                  allowMultiple: true,
+                );
+                if (result == null) {
+                  return;
                 }
 
-                isar = await Isar.open(
-                  [
-                    TasksSchema,
-                    TodosSchema,
-                    SettingsSchema,
-                  ],
-                  name: dlPath!.files.single.name,
-                  inspector: true,
-                  directory: File(dlPath.files.single.path!).parent.path,
-                );
+                for (final files in result.files) {
+                  final name = files.name.substring(0, 4);
+                  final file = File(files.path!);
+                  final jsonString = await file.readAsString();
+                  final dataList = jsonDecode(jsonString);
+                  final data = List<Map<String, dynamic>>.from(dataList);
+
+                  await isar.writeTxn(() async {
+                    if (name == 'task') {
+                      isar.tasks.importJson(data);
+                    } else if (name == 'todo') {
+                      isar.todos.importJson(data);
+                    } else {
+                      return;
+                    }
+                  });
+                }
               } catch (e) {
                 return Future.error(e);
               }
