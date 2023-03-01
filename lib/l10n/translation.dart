@@ -75,6 +75,8 @@ class Translation extends Translations {
           "successRestoreTodo": "Задачи успешно восстановлены",
           "errorFile": "Вы выбрали файлы не резервной копии",
           "deleteAll": "Все данные были успешно удалены",
+          "titleRe": "Восстановленные задачи",
+          "descriptionRe": "Здесь находятся все задачи из резервной копии",
         },
         'en_US': {
           "titile1": "Organize your tasks",
@@ -148,6 +150,8 @@ class Translation extends Translations {
           "successRestoreTodo": "Tasks have been successfully restored",
           "errorFile": "You have selected non-backup files",
           "deleteAll": "All data has been successfully deleted",
+          "titleRe": "Restored tasks",
+          "descriptionRe": "Here are all the tasks from the backup",
         },
         'zh_TW': {
           "titile1": "安排你的任務",
@@ -217,6 +221,8 @@ class Translation extends Translations {
           "successRestoreTodo": "任务已成功恢复",
           "errorFile": "您已选择非备份文件",
           "deleteAll": "所有数据已成功删除",
+          "titleRe": "恢复的任务",
+          "descriptionRe": "以下是备份中的所有任务",
         }
       };
 }

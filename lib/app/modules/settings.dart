@@ -20,8 +20,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  void openPermission() async {}
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -111,33 +109,46 @@ class _SettingsPageState extends State<SettingsPage> {
                   final file = File(files.path!);
                   final jsonString = await file.readAsString();
                   final dataList = jsonDecode(jsonString);
-                  final data = List<Map<String, dynamic>>.from(dataList);
 
-                  await isar.writeTxn(() async {
-                    if (name == 'task') {
-                      try {
-                        isar.tasks.importJson(data);
-                        EasyLoading.showSuccess('successRestoreTask'.tr);
-                      } catch (e) {
-                        EasyLoading.showError('error'.tr);
-                        return Future.error(e);
+                  for (final data in dataList) {
+                    await isar.writeTxn(() async {
+                      if (name == 'task') {
+                        try {
+                          final task = Tasks.fromJson(data);
+                          await isar.tasks.put(task);
+                          EasyLoading.showSuccess('successRestoreTask'.tr);
+                        } catch (e) {
+                          EasyLoading.showError('error'.tr);
+                          return Future.error(e);
+                        }
+                      } else if (name == 'todo') {
+                        try {
+                          final taskCollection = isar.tasks;
+                          final searchTask = await taskCollection
+                              .filter()
+                              .titleEqualTo('titleRe'.tr)
+                              .findAll();
+                          final task = searchTask.isNotEmpty
+                              ? searchTask.first
+                              : Tasks(
+                                  title: 'titleRe'.tr,
+                                  description: 'descriptionRe'.tr,
+                                  taskColor: 4284513675,
+                                );
+                          await isar.tasks.put(task);
+                          final todo = Todos.fromJson(data)..task.value = task;
+                          await isar.todos.put(todo);
+                          await todo.task.save();
+                          EasyLoading.showSuccess('successRestoreTodo'.tr);
+                        } catch (e) {
+                          EasyLoading.showError('error'.tr);
+                          return Future.error(e);
+                        }
+                      } else {
+                        EasyLoading.showInfo('errorFile'.tr);
                       }
-                    } else if (name == 'todo') {
-                      try {
-                        isar.todos.importJson(data);
-                        Future.delayed(
-                          const Duration(milliseconds: 2500),
-                          () =>
-                              EasyLoading.showSuccess('successRestoreTodo'.tr),
-                        );
-                      } catch (e) {
-                        EasyLoading.showError('error'.tr);
-                        return Future.error(e);
-                      }
-                    } else {
-                      EasyLoading.showInfo('errorFile'.tr);
-                    }
-                  });
+                    });
+                  }
                 }
               } catch (e) {
                 EasyLoading.showError('error'.tr);
