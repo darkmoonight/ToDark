@@ -67,6 +67,14 @@ class Translation extends Translations {
           "aboutDesc":
               "Это проект с открытым исходным кодом.\nЕсли вам понравилась наша работа поставьте несколько 🌟 и ❤ на репозитории",
           "author": "Сделано с ❤ от",
+          "errorPath": "Вы не выбрали путь для сохранения резервной копии",
+          "error": "Что-то пошло не так",
+          "successBackup": "Резервная копия успешно создана",
+          "errorPathRe": "Вы не выбрали файлы для восстановления",
+          "successRestoreTask": "Категории успешно восстановлены",
+          "successRestoreTodo": "Задачи успешно восстановлены",
+          "errorFile": "Вы выбрали файлы не резервной копии",
+          "deleteAll": "Все данные были успешно удалены",
         },
         'en_US': {
           "titile1": "Organize your tasks",
@@ -132,6 +140,14 @@ class Translation extends Translations {
           "aboutDesc":
               "This is an open source project.\nif you liked our work, put a few 🌟 and ❤ on the repositories",
           "author": "Made with ❤ from",
+          "errorPath": "You have not chosen the path to save the backup",
+          "error": "Something went wrong",
+          "successBackup": "The backup was created successfully",
+          "errorPathRe": "You have not selected the files to restore",
+          "successRestoreTask": "Categories have been successfully restored",
+          "successRestoreTodo": "Tasks have been successfully restored",
+          "errorFile": "You have selected non-backup files",
+          "deleteAll": "All data has been successfully deleted",
         },
         'zh_TW': {
           "titile1": "安排你的任務",
@@ -193,6 +209,14 @@ class Translation extends Translations {
           "about": "关于我们",
           "aboutDesc": "这是一个开源项目。\n如果你喜欢我们的工作，在仓库上放一些🌟和❤",
           "author": "用❤从",
+          "errorPath": "您尚未选择保存备份的路径",
+          "error": "出了点问题",
+          "successBackup": "备份已成功创建",
+          "errorPathRe": "您还没有选择要还原的文件",
+          "successRestoreTask": "类别已成功恢复",
+          "successRestoreTodo": "任务已成功恢复",
+          "errorFile": "您已选择非备份文件",
+          "deleteAll": "所有数据已成功删除",
         }
       };
 }

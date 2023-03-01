@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -57,24 +58,32 @@ class _SettingsPageState extends State<SettingsPage> {
                 final dlPath = await FilePicker.platform.getDirectoryPath();
 
                 if (dlPath == null) {
+                  EasyLoading.showInfo('errorPath'.tr);
                   return;
+                } else {
+                  try {
+                    final timeStamp =
+                        DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+
+                    final taskFileName = 'task_$timeStamp.json';
+                    final todoFileName = 'todo_$timeStamp.json';
+
+                    final fileTask = File('$dlPath/$taskFileName');
+                    final fileTodo = File('$dlPath/$todoFileName');
+
+                    final task = await isar.tasks.where().exportJson();
+                    final todo = await isar.todos.where().exportJson();
+
+                    await fileTask.writeAsString(jsonEncode(task));
+                    await fileTodo.writeAsString(jsonEncode(todo));
+                    EasyLoading.showSuccess('successBackup'.tr);
+                  } catch (e) {
+                    EasyLoading.showError('error'.tr);
+                    return Future.error(e);
+                  }
                 }
-
-                final timeStamp =
-                    DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-
-                final taskFileName = 'task_$timeStamp.json';
-                final todoFileName = 'todo_$timeStamp.json';
-
-                final fileTask = File('$dlPath/$taskFileName');
-                final fileTodo = File('$dlPath/$todoFileName');
-
-                final task = await isar.tasks.where().exportJson();
-                final todo = await isar.todos.where().exportJson();
-
-                await fileTask.writeAsString(jsonEncode(task));
-                await fileTodo.writeAsString(jsonEncode(todo));
               } catch (e) {
+                EasyLoading.showError('error'.tr);
                 return Future.error(e);
               }
             },
@@ -93,6 +102,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   allowMultiple: true,
                 );
                 if (result == null) {
+                  EasyLoading.showInfo('errorPathRe'.tr);
                   return;
                 }
 
@@ -105,15 +115,32 @@ class _SettingsPageState extends State<SettingsPage> {
 
                   await isar.writeTxn(() async {
                     if (name == 'task') {
-                      isar.tasks.importJson(data);
+                      try {
+                        isar.tasks.importJson(data);
+                        EasyLoading.showSuccess('successRestoreTask'.tr);
+                      } catch (e) {
+                        EasyLoading.showError('error'.tr);
+                        return Future.error(e);
+                      }
                     } else if (name == 'todo') {
-                      isar.todos.importJson(data);
+                      try {
+                        isar.todos.importJson(data);
+                        Future.delayed(
+                          const Duration(milliseconds: 2500),
+                          () =>
+                              EasyLoading.showSuccess('successRestoreTodo'.tr),
+                        );
+                      } catch (e) {
+                        EasyLoading.showError('error'.tr);
+                        return Future.error(e);
+                      }
                     } else {
-                      return;
+                      EasyLoading.showInfo('errorFile'.tr);
                     }
                   });
                 }
               } catch (e) {
+                EasyLoading.showError('error'.tr);
                 return Future.error(e);
               }
             },
@@ -145,6 +172,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           await isar.todos.clear();
                           await isar.tasks.clear();
                         });
+                        EasyLoading.showSuccess('deleteAll'.tr);
                         Get.back();
                       },
                       child: Text("delete".tr,
