@@ -128,15 +128,15 @@ class Onboard {
 final List<Onboard> data = [
   Onboard(
       image: 'assets/images/Task.png',
-      title: 'titile1'.tr,
+      title: 'title1'.tr,
       description: 'subtitle1'.tr),
   Onboard(
       image: 'assets/images/ScrumBoard.png',
-      title: 'titile2'.tr,
+      title: 'title2'.tr,
       description: 'subtitle2'.tr),
   Onboard(
       image: 'assets/images/Done.png',
-      title: 'titile3'.tr,
+      title: 'title3'.tr,
       description: 'subtitle3'.tr),
 ];
 

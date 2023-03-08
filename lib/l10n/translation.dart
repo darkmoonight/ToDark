@@ -4,9 +4,9 @@ class Translation extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'ru_RU': {
-          "titile1": "Организуйте свои задачи",
-          "titile2": "Удобный дизайн",
-          "titile3": "Связаться с нами",
+          "title1": "Организуйте свои задачи",
+          "title2": "Удобный дизайн",
+          "title3": "Связаться с нами",
           "subtitle1":
               "В нашем приложении вы сможете классифицировать задачи и постепенно выполнять их.",
           "subtitle2":
@@ -79,9 +79,9 @@ class Translation extends Translations {
           "descriptionRe": "Здесь находятся все задачи из резервной копии",
         },
         'en_US': {
-          "titile1": "Organize your tasks",
-          "titile2": "User-friendly design",
-          "titile3": "Contact us",
+          "title1": "Organize your tasks",
+          "title2": "User-friendly design",
+          "title3": "Contact us",
           "subtitle1":
               "In our application, you will be able to categorize tasks and gradually complete them.",
           "subtitle2":
@@ -154,9 +154,9 @@ class Translation extends Translations {
           "descriptionRe": "Here are all the tasks from the backup",
         },
         'zh_TW': {
-          "titile1": "安排你的任務",
-          "titile2": "使用者友善的設計",
-          "titile3": "聯絡我們",
+          "title1": "安排你的任務",
+          "title2": "使用者友善的設計",
+          "title3": "聯絡我們",
           "subtitle1": "在我們的應用程式中，您將能夠將任務分類並逐步完成它們。",
           "subtitle2": "所有的導覽都是這樣設計的，以方便和快速的方式與應用程式互動。",
           "subtitle3": "如果您遇到任何問題，請透過電子郵件或應用程式評論聯繫我們。",
