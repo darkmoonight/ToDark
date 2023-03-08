@@ -20,6 +20,9 @@ Task Management Application
 - Редактирование
 - Уведомления
 - Локализация (ru/en)
+- Резервное копирование
+- Восстановление данных
+- Удаление всех данных одной кнопкой 
 Также мы постарались сделать дизайн максимально удобным и красивым. -->
 This application allows you to manage your tasks.
 The following features are provided:
@@ -33,11 +36,14 @@ The following features are provided:
 - Editing
 - Notifications
 - Localization (ru/en/zh)
+- Backup
+- Data recovery
+- Delete all data with one button
 
 We also tried to make the design as convenient and beautiful as possible.
 
 ### Screenshots:
-<img src="/readme/1.jpg" width="150"/> <img src="/readme/2.jpg" width="150"/> <img src="/readme/3.jpg" width="150"/> <img src="/readme/4.jpg" width="150"/> <img src="/readme/5.jpg" width="150"/> <img src="/readme/6.jpg" width="150"/> <img src="/readme/7.jpg" width="150"/> <img src="/readme/8.jpg" width="150"/> <img src="/readme/9.jpg" width="150"/> <img src="/readme/10.jpg" width="150"/>
+<img src="/readme/1.png" width="200"/> <img src="/readme/2.png" width="200"/> <img src="/readme/3.png" width="200"/> <img src="/readme/4.png" width="200"/> <img src="/readme/5.png" width="200"/> <img src="/readme/6.png" width="200"/> <img src="/readme/7.png" width="200"/> 
 
 ### Download: 
 [![Play Store](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.yoshi.todark) 
