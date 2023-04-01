@@ -1,4 +1,3 @@
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/isar_service.dart';
@@ -36,6 +35,7 @@ class _TodosCeState extends State<TodosCe> {
   final locale = Get.locale;
   Tasks? selectedTask;
   List<Tasks>? task;
+  final FocusNode focusNode = FocusNode();
   final textConroller = TextEditingController();
 
   @override
@@ -119,89 +119,107 @@ class _TodosCeState extends State<TodosCe> {
                   ? Padding(
                       padding:
                           const EdgeInsets.only(left: 10, right: 10, top: 10),
-                      child: TypeAheadFormField<Tasks>(
-                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                          color: context.theme.scaffoldBackgroundColor,
-                        ),
-                        textFieldConfiguration: TextFieldConfiguration(
-                          controller: textConroller,
-                          decoration: InputDecoration(
-                            labelText: "selectCategory".tr,
-                            labelStyle:
-                                context.theme.textTheme.labelLarge?.copyWith(
-                              color: Colors.grey,
-                            ),
-                            prefixIcon: const Icon(Iconsax.folder_2),
-                            fillColor:
-                                context.theme.colorScheme.primaryContainer,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                color: context.theme.disabledColor,
+                      child: RawAutocomplete<Tasks>(
+                        focusNode: focusNode,
+                        textEditingController: textConroller,
+                        fieldViewBuilder: (BuildContext context,
+                            TextEditingController fieldTextEditingController,
+                            FocusNode fieldFocusNode,
+                            VoidCallback onFieldSubmitted) {
+                          return TextFormField(
+                            controller: textConroller,
+                            focusNode: focusNode,
+                            decoration: InputDecoration(
+                              labelText: "selectCategory".tr,
+                              labelStyle:
+                                  context.theme.textTheme.labelLarge?.copyWith(
+                                color: Colors.grey,
                               ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                color: context.theme.disabledColor,
-                              ),
-                            ),
-                            suffixIcon: IconButton(
-                              icon: const Icon(
-                                Icons.close,
-                                size: 18,
-                              ),
-                              onPressed: () {
-                                textConroller.clear();
-                              },
-                            ),
-                          ),
-                        ),
-                        noItemsFoundBuilder: (context) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            height: 45,
-                            child: Center(
-                              child: Text(
-                                'notFound'.tr,
-                                style: context.theme.textTheme.bodyLarge,
-                              ),
-                            ),
-                          );
-                        },
-                        suggestionsCallback: (pattern) async {
-                          return getTodosAll(pattern);
-                        },
-                        itemBuilder: (context, Tasks suggestion) {
-                          final tasks = suggestion;
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: ListTile(
-                              title: Text(
-                                tasks.title,
-                                style: context.theme.textTheme.bodyLarge,
-                              ),
-                              trailing: Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  color: Color(tasks.taskColor),
-                                  shape: BoxShape.circle,
+                              prefixIcon: const Icon(Iconsax.folder_2),
+                              fillColor:
+                                  context.theme.colorScheme.primaryContainer,
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: context.theme.disabledColor,
                                 ),
                               ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                  color: context.theme.disabledColor,
+                                ),
+                              ),
+                              suffixIcon: IconButton(
+                                icon: const Icon(
+                                  Icons.close,
+                                  size: 18,
+                                ),
+                                onPressed: () {
+                                  textConroller.clear();
+                                },
+                              ),
                             ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "selectCategory".tr;
+                              }
+                              return null;
+                            },
                           );
                         },
-                        onSuggestionSelected: (Tasks suggestion) {
-                          textConroller.text = suggestion.title;
-                          selectedTask = suggestion;
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "selectCategory".tr;
+                        optionsBuilder: (TextEditingValue textEditingValue) {
+                          if (textEditingValue.text.isEmpty) {
+                            return const Iterable<Tasks>.empty();
                           }
-                          return null;
+                          return getTodosAll(textEditingValue.text);
+                        },
+                        onSelected: (Tasks selection) {
+                          textConroller.text = selection.title;
+                          selectedTask = selection;
+                          focusNode.unfocus();
+                        },
+                        displayStringForOption: (Tasks option) => option.title,
+                        optionsViewBuilder: (BuildContext context,
+                            AutocompleteOnSelected<Tasks> onSelected,
+                            Iterable<Tasks> options) {
+                          return Align(
+                            alignment: Alignment.topCenter,
+                            child: Material(
+                              color: context.theme.scaffoldBackgroundColor,
+                              elevation: 4.0,
+                              child: ListView.builder(
+                                padding: EdgeInsets.zero,
+                                shrinkWrap: true,
+                                itemCount: options.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final Tasks tasks = options.elementAt(index);
+                                  return InkWell(
+                                    onTap: () => onSelected(tasks),
+                                    child: Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: ListTile(
+                                        title: Text(
+                                          tasks.title,
+                                          style:
+                                              context.theme.textTheme.bodyLarge,
+                                        ),
+                                        trailing: Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: BoxDecoration(
+                                            color: Color(tasks.taskColor),
+                                            shape: BoxShape.circle,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          );
                         },
                       ),
                     )
