@@ -58,7 +58,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeController = Get.put(ThemeController());
-
     return GetMaterialApp(
       theme: TodoTheme.lightTheme,
       darkTheme: TodoTheme.darkTheme,
@@ -76,6 +75,7 @@ class MyApp extends StatelessWidget {
         Locale('ru', 'RU'),
         Locale('zh', 'CN'),
         Locale('zh', 'TW'),
+        Locale('fa', 'IR'),
       ],
       localeResolutionCallback: (locale, supportedLocales) {
         for (var supportedLocale in supportedLocales) {
