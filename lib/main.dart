@@ -13,7 +13,6 @@ import 'package:todark/theme/theme_controller.dart';
 import 'app/data/schema.dart';
 import 'package:path_provider/path_provider.dart';
 import 'translation/translation.dart';
-// ignore_for_file: depend_on_referenced_packages
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 

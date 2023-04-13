@@ -5,7 +5,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/notification.dart';
-
 import 'package:todark/main.dart';
 
 class IsarServices {

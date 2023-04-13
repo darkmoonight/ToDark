@@ -18,6 +18,7 @@ dependencies:
   intl: ^0.17.0
   swipe: ^0.0.1
   iconsax: ^0.0.8
+  timezone: ^0.9.1
   file_picker: ^5.2.9
   url_launcher: ^6.1.10
   dynamic_color: ^1.6.3
