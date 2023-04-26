@@ -8,11 +8,12 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/modules/about.dart';
 import 'package:todark/app/widgets/settings_link.dart';
 import 'package:todark/main.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -23,6 +24,20 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  String? appVersion;
+
+  Future<void> infoVersion() async {
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      appVersion = packageInfo.version;
+    });
+  }
+
+  @override
+  void initState() {
+    infoVersion();
+    super.initState();
+  }
 
   void backup() async {
     final dlPath = await FilePicker.platform.getDirectoryPath();
@@ -83,6 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Iconsax.cloud_plus,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
+            info: false,
             text: 'backup'.tr,
             onPressed: () async {
               try {
@@ -107,6 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Iconsax.cloud_add,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
+            info: false,
             text: 'restore'.tr,
             onPressed: () async {
               try {
@@ -177,6 +194,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Iconsax.cloud_minus,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
+            info: false,
             text: 'deleteAllBD'.tr,
             onPressed: () => Get.dialog(
               AlertDialog(
@@ -211,14 +229,27 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           SettingLinks(
             icon: Icon(
-              Iconsax.info_circle,
+              Iconsax.code_circle,
               color: Get.isDarkMode ? Colors.white : Colors.black,
             ),
-            text: 'about'.tr,
-            onPressed: () => Get.to(
-              () => const AboutPage(),
-              transition: Transition.downToUp,
+            text: 'version'.tr,
+            info: true,
+            textInfo: '$appVersion',
+          ),
+          SettingLinks(
+            icon: Image.asset(
+              'assets/images/github.png',
+              scale: 20,
             ),
+            text: '${'project'.tr} GitHub',
+            info: false,
+            onPressed: () async {
+              final Uri url =
+                  Uri.parse('https://github.com/DarkMooNight/ToDark');
+              if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                throw Exception('Could not launch $url');
+              }
+            },
           ),
         ],
       ),

@@ -7,11 +7,17 @@ class SettingLinks extends StatelessWidget {
     super.key,
     required this.icon,
     required this.text,
-    required this.onPressed,
+    required this.info,
+    this.onPressed,
+    this.textInfo,
   });
-  final Icon icon;
+  final Widget icon;
   final String text;
-  final Function() onPressed;
+
+  final bool info;
+  final String? textInfo;
+
+  final Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +32,7 @@ class SettingLinks extends StatelessWidget {
         onPressed: onPressed,
         child: Row(
           children: [
-            Flexible(
+            Expanded(
               child: Row(
                 children: [
                   const SizedBox(width: 5),
@@ -44,10 +50,22 @@ class SettingLinks extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(
-              Iconsax.arrow_right_3,
-              color: Get.isDarkMode ? Colors.white : Colors.black,
-            ),
+            info
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 5),
+                    child: Text(
+                      textInfo!,
+                      style: context.theme.textTheme.titleMedium?.copyWith(
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
+                      ),
+                      overflow: TextOverflow.visible,
+                    ),
+                  )
+                : Icon(
+                    Iconsax.arrow_right_3,
+                    size: 18,
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
           ],
         ),
       ),

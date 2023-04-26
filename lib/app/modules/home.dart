@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
+        backgroundColor: context.theme.scaffoldBackgroundColor,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         titleSpacing: 30,

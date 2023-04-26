@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:todark/app/modules/home.dart';
 import 'package:todark/app/modules/onboarding_screen.dart';
 import 'package:todark/theme/theme.dart';
@@ -35,7 +36,7 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
   await isarInit();
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 Future<void> isarInit() async {
@@ -52,43 +53,47 @@ Future<void> isarInit() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+  final themeController = Get.put(ThemeController());
 
   @override
   Widget build(BuildContext context) {
-    final themeController = Get.put(ThemeController());
-    return GetMaterialApp(
-      theme: TodoTheme.lightTheme,
-      darkTheme: TodoTheme.darkTheme,
-      themeMode: themeController.theme,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      translations: Translation(),
-      locale: Get.deviceLocale,
-      fallbackLocale: const Locale('en', 'US'),
-      supportedLocales: const [
-        Locale('en', 'US'),
-        Locale('ru', 'RU'),
-        Locale('zh', 'CN'),
-        Locale('zh', 'TW'),
-        Locale('fa', 'IR'),
-      ],
-      localeResolutionCallback: (locale, supportedLocales) {
-        for (var supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale?.languageCode) {
-            return supportedLocale;
-          }
-        }
-        return supportedLocales.first;
+    return DynamicColorBuilder(
+      builder: (lightColorScheme, darkColorScheme) {
+        return GetMaterialApp(
+          theme: TodoTheme.lightTheme,
+          darkTheme: TodoTheme.darkTheme,
+          themeMode: themeController.theme,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          translations: Translation(),
+          locale: Get.deviceLocale,
+          fallbackLocale: const Locale('en', 'US'),
+          supportedLocales: const [
+            Locale('en', 'US'),
+            Locale('ru', 'RU'),
+            Locale('zh', 'CN'),
+            Locale('zh', 'TW'),
+            Locale('fa', 'IR'),
+          ],
+          localeResolutionCallback: (locale, supportedLocales) {
+            for (var supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale?.languageCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
+          debugShowCheckedModeBanner: false,
+          home: settings.onboard == false
+              ? const OnBordingScreen()
+              : const HomePage(),
+          builder: EasyLoading.init(),
+        );
       },
-      debugShowCheckedModeBanner: false,
-      home: settings.onboard == false
-          ? const OnBordingScreen()
-          : const HomePage(),
-      builder: EasyLoading.init(),
     );
   }
 }
