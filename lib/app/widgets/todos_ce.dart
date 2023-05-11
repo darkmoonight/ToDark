@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todark/main.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart'
+    as date_picker_theme;
 
 class TodosCe extends StatefulWidget {
   const TodosCe({
@@ -265,7 +267,7 @@ class _TodosCeState extends State<TodosCe> {
                         DatePicker.showDateTimePicker(
                           context,
                           showTitleActions: true,
-                          theme: DatePickerTheme(
+                          theme: date_picker_theme.DatePickerTheme(
                             backgroundColor:
                                 context.theme.scaffoldBackgroundColor,
                             cancelStyle: const TextStyle(color: Colors.red),
