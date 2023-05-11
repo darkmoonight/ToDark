@@ -1,4 +1,6 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:todark/app/modules/home.dart';
 import 'package:todark/app/modules/onboarding_screen.dart';
 import 'package:todark/theme/theme.dart';
@@ -6,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
@@ -22,10 +23,11 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 late Isar isar;
 late Settings settings;
+String? appVersion;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
+  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const InitializationSettings initializationSettings =
@@ -35,8 +37,14 @@ void main() async {
   tz.setLocalLocation(tz.getLocation(timeZoneName));
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+  infoVersion();
   await isarInit();
   runApp(MyApp());
+}
+
+Future<void> infoVersion() async {
+  final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+  appVersion = packageInfo.version;
 }
 
 Future<void> isarInit() async {

@@ -1,3 +1,6 @@
+import 'package:bottom_picker/bottom_picker.dart';
+import 'package:bottom_picker/resources/arrays.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/isar_service.dart';
@@ -5,10 +8,7 @@ import 'package:todark/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:todark/main.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart'
-    as date_picker_theme;
 
 class TodosCe extends StatefulWidget {
   const TodosCe({
@@ -264,30 +264,33 @@ class _TodosCeState extends State<TodosCe> {
                         },
                       ),
                       onTap: () {
-                        DatePicker.showDateTimePicker(
-                          context,
-                          showTitleActions: true,
-                          theme: date_picker_theme.DatePickerTheme(
-                            backgroundColor:
-                                context.theme.scaffoldBackgroundColor,
-                            cancelStyle: const TextStyle(color: Colors.red),
-                            itemStyle: const TextStyle(
-                              color: Colors.white,
-                            ),
+                        BottomPicker.dateTime(
+                          title: 'time'.tr,
+                          description: 'timeDesc'.tr,
+                          titleStyle:
+                              context.theme.primaryTextTheme.titleMedium!,
+                          descriptionStyle: context
+                              .theme.primaryTextTheme.bodyLarge!
+                              .copyWith(color: Colors.grey),
+                          pickerTextStyle: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
                           ),
-                          minTime: DateTime.now(),
-                          maxTime:
-                              DateTime.now().add(const Duration(days: 1000)),
-                          onConfirm: (date) {
+                          iconColor: Colors.white,
+                          closeIconColor: Colors.red,
+                          backgroundColor:
+                              context.theme.scaffoldBackgroundColor,
+                          onSubmit: (date) {
                             service.timeEdit.value.text = date.toString();
                           },
-                          currentTime: DateTime.now(),
-                          locale: '${locale?.languageCode}' == 'ru'
-                              ? LocaleType.ru
-                              : '${locale?.languageCode}' == 'zh'
-                                  ? LocaleType.zh
-                                  : LocaleType.en,
-                        );
+                          bottomPickerTheme: BottomPickerTheme.temptingAzure,
+                          minDateTime: DateTime.now(),
+                          maxDateTime:
+                              DateTime.now().add(const Duration(days: 1000)),
+                          initialDateTime: DateTime.now(),
+                          use24hFormat: true,
+                          dateOrder: DatePickerDateOrder.dmy,
+                        ).show(context);
                       },
                     ),
                   ),

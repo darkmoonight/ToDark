@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/widgets/settings_link.dart';
@@ -24,19 +23,30 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  String? appVersion;
-
-  Future<void> infoVersion() async {
-    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      appVersion = packageInfo.version;
-    });
-  }
-
+  late AndroidDeviceInfo androidInfo;
   @override
   void initState() {
-    infoVersion();
+    Future.delayed(Duration.zero, () async {
+      androidInfo = await deviceInfo.androidInfo;
+    });
     super.initState();
+  }
+
+  void check(Function fun) async {
+    try {
+      var statusManageExternalStorage =
+          await Permission.manageExternalStorage.request();
+
+      if (statusManageExternalStorage.isGranted &&
+          androidInfo.version.sdkInt > 29) {
+        fun();
+      } else if (androidInfo.version.sdkInt < 30) {
+        fun();
+      }
+    } catch (e) {
+      EasyLoading.showError('error'.tr);
+      return Future.error(e);
+    }
   }
 
   void backup() async {
@@ -64,6 +74,65 @@ class _SettingsPageState extends State<SettingsPage> {
       } catch (e) {
         EasyLoading.showError('error'.tr);
         return Future.error(e);
+      }
+    }
+  }
+
+  void restore() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['json'],
+      allowMultiple: true,
+    );
+    if (result == null) {
+      EasyLoading.showInfo('errorPathRe'.tr);
+      return;
+    }
+
+    for (final files in result.files) {
+      final name = files.name.substring(0, 4);
+      final file = File(files.path!);
+      final jsonString = await file.readAsString();
+      final dataList = jsonDecode(jsonString);
+
+      for (final data in dataList) {
+        await isar.writeTxn(() async {
+          if (name == 'task') {
+            try {
+              final task = Tasks.fromJson(data);
+              await isar.tasks.put(task);
+              EasyLoading.showSuccess('successRestoreTask'.tr);
+            } catch (e) {
+              EasyLoading.showError('error'.tr);
+              return Future.error(e);
+            }
+          } else if (name == 'todo') {
+            try {
+              final taskCollection = isar.tasks;
+              final searchTask = await taskCollection
+                  .filter()
+                  .titleEqualTo('titleRe'.tr)
+                  .findAll();
+              final task = searchTask.isNotEmpty
+                  ? searchTask.first
+                  : Tasks(
+                      title: 'titleRe'.tr,
+                      description: 'descriptionRe'.tr,
+                      taskColor: 4284513675,
+                    );
+              await isar.tasks.put(task);
+              final todo = Todos.fromJson(data)..task.value = task;
+              await isar.todos.put(todo);
+              await todo.task.save();
+              EasyLoading.showSuccess('successRestoreTodo'.tr);
+            } catch (e) {
+              EasyLoading.showError('error'.tr);
+              return Future.error(e);
+            }
+          } else {
+            EasyLoading.showInfo('errorFile'.tr);
+          }
+        });
       }
     }
   }
@@ -101,21 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
             info: false,
             text: 'backup'.tr,
             onPressed: () async {
-              try {
-                AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-                var statusManageExternalStorage =
-                    await Permission.manageExternalStorage.request();
-
-                if (statusManageExternalStorage.isGranted &&
-                    androidInfo.version.sdkInt > 29) {
-                  backup();
-                } else if (androidInfo.version.sdkInt < 30) {
-                  backup();
-                }
-              } catch (e) {
-                EasyLoading.showError('error'.tr);
-                return Future.error(e);
-              }
+              check(backup);
             },
           ),
           SettingLinks(
@@ -126,67 +181,7 @@ class _SettingsPageState extends State<SettingsPage> {
             info: false,
             text: 'restore'.tr,
             onPressed: () async {
-              try {
-                final result = await FilePicker.platform.pickFiles(
-                  type: FileType.custom,
-                  allowedExtensions: ['json'],
-                  allowMultiple: true,
-                );
-                if (result == null) {
-                  EasyLoading.showInfo('errorPathRe'.tr);
-                  return;
-                }
-
-                for (final files in result.files) {
-                  final name = files.name.substring(0, 4);
-                  final file = File(files.path!);
-                  final jsonString = await file.readAsString();
-                  final dataList = jsonDecode(jsonString);
-
-                  for (final data in dataList) {
-                    await isar.writeTxn(() async {
-                      if (name == 'task') {
-                        try {
-                          final task = Tasks.fromJson(data);
-                          await isar.tasks.put(task);
-                          EasyLoading.showSuccess('successRestoreTask'.tr);
-                        } catch (e) {
-                          EasyLoading.showError('error'.tr);
-                          return Future.error(e);
-                        }
-                      } else if (name == 'todo') {
-                        try {
-                          final taskCollection = isar.tasks;
-                          final searchTask = await taskCollection
-                              .filter()
-                              .titleEqualTo('titleRe'.tr)
-                              .findAll();
-                          final task = searchTask.isNotEmpty
-                              ? searchTask.first
-                              : Tasks(
-                                  title: 'titleRe'.tr,
-                                  description: 'descriptionRe'.tr,
-                                  taskColor: 4284513675,
-                                );
-                          await isar.tasks.put(task);
-                          final todo = Todos.fromJson(data)..task.value = task;
-                          await isar.todos.put(todo);
-                          await todo.task.save();
-                          EasyLoading.showSuccess('successRestoreTodo'.tr);
-                        } catch (e) {
-                          EasyLoading.showError('error'.tr);
-                          return Future.error(e);
-                        }
-                      } else {
-                        EasyLoading.showInfo('errorFile'.tr);
-                      }
-                    });
-                  }
-                }
-              } catch (e) {
-                EasyLoading.showError('error'.tr);
-                return Future.error(e);
-              }
+              check(restore);
             },
           ),
           SettingLinks(

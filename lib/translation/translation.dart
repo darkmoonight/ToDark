@@ -75,6 +75,8 @@ class Translation extends Translations {
           'descriptionRe': 'Здесь находятся все задачи из резервной копии',
           'project': 'Проект на',
           'version': 'Версия приложения',
+          'time': 'Время выполнения',
+          'timeDesc': 'Выберите время для выполнения задачи',
         },
         'en_US': {
           'title1': 'Organize your tasks',
@@ -148,6 +150,8 @@ class Translation extends Translations {
           'descriptionRe': 'Here are all the tasks from the backup',
           'project': 'Project on',
           'version': 'Application version',
+          'time': 'Execution time',
+          'timeDesc': 'Select the time to complete the task',
         },
         'zh_TW': {
           'title1': '安排你的任務',
@@ -218,6 +222,8 @@ class Translation extends Translations {
           'descriptionRe': '以下是备份中的所有任务',
           'project': '專案',
           'version': '應用程式版本',
+          'time': '选择完成任务的时间',
+          'timeDesc': '选择完成任务的时间',
         },
         'fa_IR': {
           'title1': 'کارهای خود را ساماندهی کنید',
@@ -295,6 +301,8 @@ class Translation extends Translations {
           'descriptionRe': 'اینها تمام کارها از پشتیبان هستند',
           'project': 'پروژه',
           'version': 'نسخه برنامه',
+          'time': 'زمان اجرا',
+          'timeDesc': 'زمان انجام کار را انتخاب کنید',
         },
         'zh_CN': {
           'title1': '组织你的任务',
@@ -365,6 +373,8 @@ class Translation extends Translations {
           'descriptionRe': '以下是备份中的所有任务',
           'project': '项目',
           'version': '应用程序版本',
+          'time': '选择完成任务的时间',
+          'timeDesc': '选择完成任务的时间',
         }
       };
 }
