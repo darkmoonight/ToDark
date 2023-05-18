@@ -1,4 +1,4 @@
-package com.example.dark_todo
+package com.yoshi.todark
 
 import io.flutter.embedding.android.FlutterActivity
 
