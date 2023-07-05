@@ -7,6 +7,8 @@ import 'package:todark/app/services/isar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:todark/app/widgets/task_type_cu.dart';
+import 'package:todark/app/widgets/todos_ce.dart';
 import 'package:todark/theme/theme_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,14 +21,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final service = IsarServices();
   final themeController = Get.put(ThemeController());
-  final _bucket = PageStorageBucket();
   int tabIndex = 0;
 
-  var widgetList = const [
-    CategoryPage(key: PageStorageKey(1)),
-    AllTaskPage(key: PageStorageKey(2)),
-    CalendarPage(key: PageStorageKey(3)),
-    SettingsPage(key: PageStorageKey(4)),
+  final pages = const [
+    CategoryPage(),
+    AllTaskPage(),
+    CalendarPage(),
+    SettingsPage(),
   ];
 
   void changeTabIndex(int index) {
@@ -38,10 +39,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
+      backgroundColor: context.theme.colorScheme.surface,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: context.theme.scaffoldBackgroundColor,
+        backgroundColor: context.theme.colorScheme.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         titleSpacing: 30,
@@ -56,7 +57,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Text(
               'ToDark',
-              style: context.theme.primaryTextTheme.titleLarge,
+              style: context.theme.textTheme.titleLarge,
             ),
           ],
         ),
@@ -73,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             },
             icon: Icon(
               Get.isDarkMode ? Iconsax.sun_1 : Iconsax.moon,
-              color: Colors.white,
+              color: context.theme.iconTheme.color,
               size: 18,
             ),
             splashColor: Colors.transparent,
@@ -82,9 +83,9 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: PageStorage(
-        bucket: _bucket,
-        child: widgetList[tabIndex],
+      body: IndexedStack(
+        index: tabIndex,
+        children: pages,
       ),
       bottomNavigationBar: Theme(
         data: context.theme.copyWith(
@@ -106,6 +107,35 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      floatingActionButton: tabIndex == 3
+          ? null
+          : FloatingActionButton(
+              onPressed: () {
+                showModalBottomSheet(
+                  enableDrag: false,
+                  backgroundColor: context.theme.colorScheme.surface,
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return tabIndex == 0
+                        ? TaskTypeCu(
+                            text: 'create'.tr,
+                            edit: false,
+                          )
+                        : TodosCe(
+                            text: "create".tr,
+                            edit: false,
+                            category: true,
+                          );
+                  },
+                );
+              },
+              backgroundColor: context.theme.colorScheme.primaryContainer,
+              child: const Icon(
+                Iconsax.add,
+                color: Colors.greenAccent,
+              ),
+            ),
     );
   }
 }

@@ -11,10 +11,8 @@ class TaskPage extends StatefulWidget {
   const TaskPage({
     super.key,
     required this.task,
-    required this.set,
   });
   final Tasks task;
-  final Function() set;
 
   @override
   State<TaskPage> createState() => _TaskPageState();
@@ -44,10 +42,10 @@ class _TaskPageState extends State<TaskPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        widget.set();
         return true;
       },
       child: Scaffold(
+        backgroundColor: context.theme.colorScheme.surface,
         body: SafeArea(
           child: Column(
             children: [
@@ -61,12 +59,11 @@ class _TaskPageState extends State<TaskPage> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              widget.set();
                               Get.back();
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Iconsax.arrow_left_1,
-                              color: Colors.white,
+                              color: context.theme.iconTheme.color,
                             ),
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
@@ -79,8 +76,8 @@ class _TaskPageState extends State<TaskPage> {
                                     children: [
                                       Text(
                                         widget.task.title,
-                                        style: context.theme.primaryTextTheme
-                                            .headlineSmall
+                                        style: context
+                                            .theme.textTheme.headlineSmall
                                             ?.copyWith(
                                           fontWeight: FontWeight.w600,
                                         ),
@@ -98,8 +95,7 @@ class _TaskPageState extends State<TaskPage> {
                                   )
                                 : Text(
                                     widget.task.title,
-                                    style: context
-                                        .theme.primaryTextTheme.headlineSmall
+                                    style: context.theme.textTheme.headlineSmall
                                         ?.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -111,7 +107,7 @@ class _TaskPageState extends State<TaskPage> {
                               showModalBottomSheet(
                                 enableDrag: false,
                                 backgroundColor:
-                                    context.theme.scaffoldBackgroundColor,
+                                    context.theme.colorScheme.surface,
                                 context: context,
                                 isScrollControlled: true,
                                 shape: const RoundedRectangleBorder(
@@ -124,16 +120,13 @@ class _TaskPageState extends State<TaskPage> {
                                     text: 'editing'.tr,
                                     edit: true,
                                     task: widget.task,
-                                    set: () {
-                                      setState(() {});
-                                    },
                                   );
                                 },
                               );
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Iconsax.edit,
-                              color: Colors.white,
+                              color: context.theme.iconTheme.color,
                             ),
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
@@ -167,12 +160,7 @@ class _TaskPageState extends State<TaskPage> {
                               children: [
                                 Text(
                                   'tasks'.tr,
-                                  style: context.theme.textTheme.titleLarge
-                                      ?.copyWith(
-                                    color: Get.isDarkMode
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
+                                  style: context.theme.textTheme.titleLarge,
                                 ),
                                 Text(
                                   '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
@@ -185,8 +173,6 @@ class _TaskPageState extends State<TaskPage> {
                               ],
                             ),
                             Switch(
-                              activeColor: Colors.white,
-                              activeTrackColor: Colors.black,
                               thumbIcon: service.thumbIconTodo,
                               value: service.toggleValue.value,
                               onChanged: (value) {
@@ -204,9 +190,6 @@ class _TaskPageState extends State<TaskPage> {
                           calendare: false,
                           toggle: service.toggleValue.value,
                           task: widget.task,
-                          set: () {
-                            getCountTodos();
-                          },
                         ),
                       ),
                     ],
@@ -220,7 +203,7 @@ class _TaskPageState extends State<TaskPage> {
           onPressed: () {
             showModalBottomSheet(
               enableDrag: false,
-              backgroundColor: context.theme.scaffoldBackgroundColor,
+              backgroundColor: context.theme.colorScheme.surface,
               context: context,
               isScrollControlled: true,
               builder: (BuildContext context) {
@@ -229,9 +212,6 @@ class _TaskPageState extends State<TaskPage> {
                   edit: false,
                   task: widget.task,
                   category: false,
-                  set: () {
-                    getCountTodos();
-                  },
                 );
               },
             );

@@ -16,7 +16,6 @@ class TodosCe extends StatefulWidget {
     required this.text,
     required this.edit,
     required this.category,
-    required this.set,
     this.task,
     this.todo,
   });
@@ -25,7 +24,6 @@ class TodosCe extends StatefulWidget {
   final Todos? todo;
   final bool edit;
   final bool category;
-  final Function() set;
 
   @override
   State<TodosCe> createState() => _TodosCeState();
@@ -102,9 +100,9 @@ class _TodosCeState extends State<TodosCe> {
                               textConroller.clear();
                               Get.back();
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.close,
-                              color: Colors.white,
+                              color: context.theme.iconTheme.color,
                             ),
                           ),
                           Text(
@@ -188,7 +186,7 @@ class _TodosCeState extends State<TodosCe> {
                           return Align(
                             alignment: Alignment.topCenter,
                             child: Material(
-                              color: context.theme.scaffoldBackgroundColor,
+                              color: context.theme.colorScheme.surface,
                               elevation: 4.0,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
@@ -267,19 +265,14 @@ class _TodosCeState extends State<TodosCe> {
                         BottomPicker.dateTime(
                           title: 'time'.tr,
                           description: 'timeDesc'.tr,
-                          titleStyle:
-                              context.theme.primaryTextTheme.titleMedium!,
-                          descriptionStyle: context
-                              .theme.primaryTextTheme.bodyLarge!
+                          titleStyle: context.theme.textTheme.titleMedium!,
+                          descriptionStyle: context.theme.textTheme.bodyLarge!
                               .copyWith(color: Colors.grey),
-                          pickerTextStyle: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                          ),
-                          iconColor: Colors.white,
+                          pickerTextStyle: context.theme.textTheme.labelMedium!
+                              .copyWith(fontSize: 15),
+                          iconColor: context.theme.iconTheme.color!,
                           closeIconColor: Colors.red,
-                          backgroundColor:
-                              context.theme.scaffoldBackgroundColor,
+                          backgroundColor: context.theme.colorScheme.surface,
                           onSubmit: (date) {
                             service.timeEdit.value.text = date.toString();
                           },
@@ -312,7 +305,6 @@ class _TodosCeState extends State<TodosCe> {
                                     service.titleEdit.value,
                                     service.descEdit.value,
                                     service.timeEdit.value,
-                                    widget.set,
                                   )
                                 : widget.edit == false
                                     ? service.addTodo(
@@ -320,7 +312,6 @@ class _TodosCeState extends State<TodosCe> {
                                         service.titleEdit.value,
                                         service.descEdit.value,
                                         service.timeEdit.value,
-                                        widget.set,
                                       )
                                     : service.updateTodo(
                                         widget.todo!,
@@ -328,7 +319,6 @@ class _TodosCeState extends State<TodosCe> {
                                         service.titleEdit.value,
                                         service.descEdit.value,
                                         service.timeEdit.value,
-                                        widget.set,
                                       );
                             textConroller.clear();
                             Get.back();

@@ -37,7 +37,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
+      backgroundColor: context.theme.colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -163,14 +163,14 @@ class OnboardContent extends StatelessWidget {
               ),
               Text(
                 title,
-                style: context.theme.primaryTextTheme.titleLarge,
+                style: context.theme.textTheme.titleLarge,
               ),
               const SizedBox(height: 10),
               SizedBox(
                 width: 300,
                 child: Text(
                   description,
-                  style: context.theme.primaryTextTheme.labelLarge,
+                  style: context.theme.textTheme.labelLarge,
                   textAlign: TextAlign.center,
                 ),
               ),

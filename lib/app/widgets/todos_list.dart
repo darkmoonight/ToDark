@@ -15,7 +15,6 @@ class TodosList extends StatefulWidget {
     required this.calendare,
     required this.allTask,
     required this.toggle,
-    required this.set,
     this.task,
     this.selectedDay,
   });
@@ -24,7 +23,6 @@ class TodosList extends StatefulWidget {
   final bool allTask;
   final Tasks? task;
   final bool toggle;
-  final Function() set;
 
   @override
   State<TodosList> createState() => _TodosListState();
@@ -36,13 +34,6 @@ class _TodosListState extends State<TodosList> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
-      <MaterialState>{
-        MaterialState.pressed,
-      };
-      return Get.isDarkMode ? Colors.white : Colors.black;
-    }
-
     return StreamBuilder<List<Todos>>(
       stream: widget.allTask == true
           ? service.getAllTodo(widget.toggle)
@@ -69,7 +60,6 @@ class _TodosListState extends State<TodosList> {
                               ? 'copletedTask'.tr
                               : 'addTask'.tr,
                           style: context.theme.textTheme.titleMedium?.copyWith(
-                            color: Get.isDarkMode ? Colors.white : Colors.black,
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
                           ),
@@ -122,7 +112,7 @@ class _TodosListState extends State<TodosList> {
                           );
                         },
                         onDismissed: (DismissDirection direction) {
-                          service.deleteTodo(todosList, widget.set);
+                          service.deleteTodo(todosList);
                         },
                         background: Container(
                           alignment: Alignment.centerRight,
@@ -141,14 +131,13 @@ class _TodosListState extends State<TodosList> {
                               right: 20, left: 20, bottom: 15),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            // color: Colors.white,
                           ),
                           child: InkWell(
                             onTap: () {
                               showModalBottomSheet(
                                 enableDrag: false,
                                 backgroundColor:
-                                    context.theme.scaffoldBackgroundColor,
+                                    context.theme.colorScheme.surface,
                                 context: context,
                                 isScrollControlled: true,
                                 builder: (BuildContext context) {
@@ -157,7 +146,6 @@ class _TodosListState extends State<TodosList> {
                                     edit: true,
                                     todo: todosList,
                                     category: true,
-                                    set: widget.set,
                                   );
                                 },
                               );
@@ -168,12 +156,8 @@ class _TodosListState extends State<TodosList> {
                                   child: Row(
                                     children: [
                                       Checkbox(
-                                        checkColor: Get.isDarkMode
-                                            ? Colors.black
-                                            : Colors.white,
-                                        fillColor:
-                                            MaterialStateProperty.resolveWith(
-                                                getColor),
+                                        fillColor: context
+                                            .theme.checkboxTheme.fillColor,
                                         value: todosList.done,
                                         shape: const CircleBorder(),
                                         onChanged: (val) {
@@ -197,8 +181,8 @@ class _TodosListState extends State<TodosList> {
                                           Future.delayed(
                                             const Duration(milliseconds: 300),
                                             () {
-                                              service.updateTodoCheck(
-                                                  todosList, widget.set);
+                                              service
+                                                  .updateTodoCheck(todosList);
                                             },
                                           );
                                         },
@@ -226,9 +210,8 @@ class _TodosListState extends State<TodosList> {
                                                           todosList.done ==
                                                               false
                                                       ? Colors.redAccent
-                                                      : Get.isDarkMode
-                                                          ? Colors.white
-                                                          : Colors.black,
+                                                      : context.theme.textTheme
+                                                          .labelLarge?.color,
                                                 ),
                                                 overflow: TextOverflow.visible,
                                               ),

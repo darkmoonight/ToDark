@@ -10,10 +10,8 @@ class TaskTypeList extends StatefulWidget {
   const TaskTypeList({
     super.key,
     required this.toggle,
-    required this.set,
   });
   final bool toggle;
-  final Function() set;
 
   @override
   State<TaskTypeList> createState() => _TaskTypeListState();
@@ -51,9 +49,6 @@ class _TaskTypeListState extends State<TaskTypeList> {
                               textAlign: TextAlign.center,
                               style:
                                   context.theme.textTheme.titleMedium?.copyWith(
-                                color: Get.isDarkMode
-                                    ? Colors.white
-                                    : Colors.black,
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
                               ),
@@ -120,11 +115,11 @@ class _TaskTypeListState extends State<TaskTypeList> {
                       },
                       onDismissed: (DismissDirection direction) {
                         if (direction == DismissDirection.endToStart) {
-                          service.deleteTask(taskList, widget.set);
+                          service.deleteTask(taskList);
                         } else if (direction == DismissDirection.startToEnd) {
                           widget.toggle == false
-                              ? service.archiveTask(taskList, widget.set)
-                              : service.noArchiveTask(taskList, widget.set);
+                              ? service.archiveTask(taskList)
+                              : service.noArchiveTask(taskList);
                         }
                       },
                       background: Container(
@@ -167,7 +162,6 @@ class _TaskTypeListState extends State<TaskTypeList> {
                             Get.to(
                               () => TaskPage(
                                 task: taskList,
-                                set: widget.set,
                               ),
                               transition: Transition.downToUp,
                             );
@@ -196,9 +190,6 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                 .theme.textTheme.titleMedium
                                                 ?.copyWith(
                                               fontWeight: FontWeight.bold,
-                                              color: Get.isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black,
                                             ),
                                           ),
                                           customColors: CustomSliderColors(
@@ -240,9 +231,6 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                             style: context
                                                 .theme.textTheme.titleLarge
                                                 ?.copyWith(
-                                              color: Get.isDarkMode
-                                                  ? Colors.white
-                                                  : Colors.black,
                                               fontSize: 18,
                                               fontWeight: FontWeight.w600,
                                             ),

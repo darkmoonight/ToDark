@@ -157,7 +157,6 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Text(
               'settings'.tr,
               style: context.theme.textTheme.titleLarge?.copyWith(
-                color: Get.isDarkMode ? Colors.white : Colors.black,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -165,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingLinks(
             icon: Icon(
               Iconsax.cloud_plus,
-              color: Get.isDarkMode ? Colors.white : Colors.black,
+              color: context.theme.iconTheme.color,
             ),
             info: false,
             text: 'backup'.tr,
@@ -176,7 +175,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingLinks(
             icon: Icon(
               Iconsax.cloud_add,
-              color: Get.isDarkMode ? Colors.white : Colors.black,
+              color: context.theme.iconTheme.color,
             ),
             info: false,
             text: 'restore'.tr,
@@ -187,7 +186,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingLinks(
             icon: Icon(
               Iconsax.cloud_minus,
-              color: Get.isDarkMode ? Colors.white : Colors.black,
+              color: context.theme.iconTheme.color,
             ),
             info: false,
             text: 'deleteAllBD'.tr,
@@ -225,7 +224,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SettingLinks(
             icon: Icon(
               Iconsax.code_circle,
-              color: Get.isDarkMode ? Colors.white : Colors.black,
+              color: context.theme.iconTheme.color,
             ),
             text: 'version'.tr,
             info: true,

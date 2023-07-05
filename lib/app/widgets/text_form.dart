@@ -27,26 +27,6 @@ class MyTextForm extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       child: TextFormField(
-        contextMenuBuilder:
-            (BuildContext context, EditableTextState editableTextState) {
-          return AdaptiveTextSelectionToolbar(
-            anchors: editableTextState.contextMenuAnchors,
-            children: editableTextState.contextMenuButtonItems
-                .map((ContextMenuButtonItem buttonItem) {
-              return MaterialButton(
-                textColor: Colors.white,
-                onPressed: buttonItem.onPressed,
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  AdaptiveTextSelectionToolbar.getButtonLabel(
-                    context,
-                    buttonItem,
-                  ),
-                ),
-              );
-            }).toList(),
-          );
-        },
         readOnly: readOnly,
         onTap: readOnly == true ? onTap : null,
         controller: controller,

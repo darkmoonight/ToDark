@@ -148,8 +148,11 @@ class IsarServices {
             .watch(fireImmediately: true);
   }
 
-  Future<void> addTask(TextEditingController titleEdit,
-      TextEditingController descEdit, Color myColor) async {
+  Future<void> addTask(
+    TextEditingController titleEdit,
+    TextEditingController descEdit,
+    Color myColor,
+  ) async {
     final taskCreate = Tasks(
       title: titleEdit.text,
       description: descEdit.text,
@@ -179,11 +182,11 @@ class IsarServices {
   }
 
   Future<void> addTodo(
-      Tasks task,
-      TextEditingController titleEdit,
-      TextEditingController descEdit,
-      TextEditingController timeEdit,
-      Function() set) async {
+    Tasks task,
+    TextEditingController titleEdit,
+    TextEditingController descEdit,
+    TextEditingController timeEdit,
+  ) async {
     final todosCreate = Todos(
       name: titleEdit.text,
       description: descEdit.text,
@@ -222,11 +225,14 @@ class IsarServices {
     titleEdit.clear();
     descEdit.clear();
     timeEdit.clear();
-    set();
   }
 
-  Future<void> updateTask(Tasks task, TextEditingController timeEdit,
-      TextEditingController descEdit, Color myColor) async {
+  Future<void> updateTask(
+    Tasks task,
+    TextEditingController timeEdit,
+    TextEditingController descEdit,
+    Color myColor,
+  ) async {
     await isar.writeTxn(() async {
       task.title = timeEdit.text;
       task.description = descEdit.text;
@@ -237,18 +243,17 @@ class IsarServices {
         duration: const Duration(milliseconds: 500));
   }
 
-  Future<void> updateTodoCheck(Todos todo, Function() set) async {
+  Future<void> updateTodoCheck(Todos todo) async {
     await isar.writeTxn(() async => isar.todos.put(todo));
-    set();
   }
 
   Future<void> updateTodo(
-      Todos todo,
-      Tasks task,
-      TextEditingController titleEdit,
-      TextEditingController descEdit,
-      TextEditingController timeEdit,
-      Function() set) async {
+    Todos todo,
+    Tasks task,
+    TextEditingController titleEdit,
+    TextEditingController descEdit,
+    TextEditingController timeEdit,
+  ) async {
     await isar.writeTxn(() async {
       todo.name = titleEdit.text;
       todo.description = descEdit.text;
@@ -271,10 +276,9 @@ class IsarServices {
 
     EasyLoading.showSuccess('update'.tr,
         duration: const Duration(milliseconds: 500));
-    set();
   }
 
-  Future<void> deleteTodo(Todos todo, Function() set) async {
+  Future<void> deleteTodo(Todos todo) async {
     await isar.writeTxn(() async {
       await isar.todos.delete(todo.id);
       if (todo.todoCompletedTime != null) {
@@ -283,10 +287,9 @@ class IsarServices {
     });
     EasyLoading.showSuccess('taskDelete'.tr,
         duration: const Duration(milliseconds: 500));
-    set();
   }
 
-  Future<void> deleteTask(Tasks task, Function() set) async {
+  Future<void> deleteTask(Tasks task) async {
     // Delete Notification
     List<Todos> getTodo;
     final taskCollection = isar.todos;
@@ -310,10 +313,9 @@ class IsarServices {
     });
     EasyLoading.showSuccess('categoryDelete'.tr,
         duration: const Duration(milliseconds: 500));
-    set();
   }
 
-  Future<void> archiveTask(Tasks task, Function() set) async {
+  Future<void> archiveTask(Tasks task) async {
     // Delete Notification
     List<Todos> getTodo;
     final taskCollection = isar.todos;
@@ -334,10 +336,9 @@ class IsarServices {
     });
     EasyLoading.showSuccess('taskArchive'.tr,
         duration: const Duration(milliseconds: 500));
-    set();
   }
 
-  Future<void> noArchiveTask(Tasks task, Function() set) async {
+  Future<void> noArchiveTask(Tasks task) async {
     // Create Notification
     List<Todos> getTodo;
     final taskCollection = isar.todos;
@@ -363,6 +364,5 @@ class IsarServices {
     });
     EasyLoading.showSuccess('noTaskArchive'.tr,
         duration: const Duration(milliseconds: 500));
-    set();
   }
 }

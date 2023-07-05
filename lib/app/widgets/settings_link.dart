@@ -25,7 +25,7 @@ class SettingLinks extends StatelessWidget {
       height: 50,
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
-        color: context.theme.colorScheme.background,
+        color: context.theme.colorScheme.primaryContainer,
         borderRadius: const BorderRadius.all(Radius.circular(50)),
       ),
       child: TextButton(
@@ -41,9 +41,7 @@ class SettingLinks extends StatelessWidget {
                   Expanded(
                     child: Text(
                       text,
-                      style: context.theme.textTheme.titleMedium?.copyWith(
-                        color: Get.isDarkMode ? Colors.white : Colors.black,
-                      ),
+                      style: context.theme.textTheme.titleMedium,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -55,16 +53,14 @@ class SettingLinks extends StatelessWidget {
                     padding: const EdgeInsets.only(right: 5),
                     child: Text(
                       textInfo!,
-                      style: context.theme.textTheme.titleMedium?.copyWith(
-                        color: Get.isDarkMode ? Colors.white : Colors.black,
-                      ),
+                      style: context.theme.textTheme.titleMedium,
                       overflow: TextOverflow.visible,
                     ),
                   )
                 : Icon(
                     Iconsax.arrow_right_3,
                     size: 18,
-                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                    color: context.theme.iconTheme.color,
                   ),
           ],
         ),

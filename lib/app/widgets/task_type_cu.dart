@@ -12,12 +12,10 @@ class TaskTypeCu extends StatefulWidget {
     required this.text,
     required this.edit,
     this.task,
-    this.set,
   });
   final String text;
   final bool edit;
   final Tasks? task;
-  final Function()? set;
 
   @override
   State<TaskTypeCu> createState() => _TaskTypeCuState();
@@ -72,9 +70,9 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
 
                               Get.back();
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.close,
-                              color: Colors.white,
+                              color: context.theme.iconTheme.color,
                             ),
                           ),
                           Text(
@@ -99,14 +97,13 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                               service.descEdit.value,
                               service.myColor.value,
                             );
-                            widget.set!();
                           }
                           Get.back();
                         }
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.save,
-                        color: Colors.white,
+                        color: context.theme.iconTheme.color,
                       ),
                     ),
                   ],
