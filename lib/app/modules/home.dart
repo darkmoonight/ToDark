@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           children: [
             Image.asset(
-              'assets/icons/icon_splash.png',
+              'assets/icons/splash.png',
               scale: 15,
             ),
             const SizedBox(

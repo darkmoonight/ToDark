@@ -29,12 +29,13 @@ dependencies:
   device_info_plus: ^9.0.2
   package_info_plus: ^4.0.2
   flex_color_picker: ^3.2.2
-  permission_handler: ^10.4.1
+  permission_handler: ^10.4.2
   isar_flutter_libs: ^3.1.0+1
   flutter_easyloading: ^3.0.5
+  flutter_displaymode: ^0.6.0
   custom_navigation_bar: ^0.8.2
   sleek_circular_slider: ^2.0.1
-  flutter_local_notifications: ^15.0.1
+  flutter_local_notifications: ^15.1.0+1
 
 dev_dependencies:
   flutter_test:
@@ -48,12 +49,14 @@ dev_dependencies:
 flutter_icons:
   android: true
   image_path: "assets/icons/icon.png"
-  adaptive_icon_background: "#1F1F1F"
-  adaptive_icon_foreground: "assets/icons/icon_adaptive.png"
+  adaptive_icon_background: "#181818"
+  adaptive_icon_foreground: "assets/icons/icon.png"
 
 flutter_native_splash:
-  color: "#121212"
-  image: "assets/icons/icon_splash.png"
+  color: "#181818"
+  android_12:
+    color: "#181818"
+  image: "assets/icons/icon.png"
 
 flutter:
   generate: false

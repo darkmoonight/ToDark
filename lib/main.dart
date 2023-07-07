@@ -1,4 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:todark/app/modules/home.dart';
@@ -27,6 +28,7 @@ String? appVersion;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await setOptimalDisplayMode();
   final String timeZoneName = await FlutterTimezone.getLocalTimezone();
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -40,6 +42,23 @@ void main() async {
   infoVersion();
   await isarInit();
   runApp(MyApp());
+}
+
+Future<void> setOptimalDisplayMode() async {
+  final List<DisplayMode> supported = await FlutterDisplayMode.supported;
+  final DisplayMode active = await FlutterDisplayMode.active;
+
+  final List<DisplayMode> sameResolution = supported
+      .where((DisplayMode m) =>
+          m.width == active.width && m.height == active.height)
+      .toList()
+    ..sort((DisplayMode a, DisplayMode b) =>
+        b.refreshRate.compareTo(a.refreshRate));
+
+  final DisplayMode mostOptimalMode =
+      sameResolution.isNotEmpty ? sameResolution.first : active;
+
+  await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
 }
 
 Future<void> infoVersion() async {
@@ -56,7 +75,6 @@ Future<void> isarInit() async {
     ],
     directory: (await getApplicationSupportDirectory()).path,
   );
-
   settings = await isar.settings.where().findFirst() ?? Settings();
 }
 
