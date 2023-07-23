@@ -34,12 +34,6 @@ class _CalendarPageState extends State<CalendarPage> {
     super.initState();
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    if (!mounted) return;
-    super.setState(fn);
-  }
-
   getCountTodos() async {
     final countTotal = await service.getCountTotalTodosCalendar(selectedDay);
     final countDone = await service.getCountDoneTodosCalendar(selectedDay);
@@ -91,7 +85,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       child: Center(
                         child: Text(
                           getCountTotalTodosCalendar(day).toString(),
-                          style: context.theme.textTheme.bodyLarge?.copyWith(
+                          style: context.textTheme.bodyLarge?.copyWith(
                             color: Colors.black,
                           ),
                         ),
@@ -141,7 +135,7 @@ class _CalendarPageState extends State<CalendarPage> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 30, top: 10, bottom: 5, right: 20),
+                    left: 20, top: 5, bottom: 5, right: 15),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -150,13 +144,13 @@ class _CalendarPageState extends State<CalendarPage> {
                       children: [
                         Text(
                           'tasks'.tr,
-                          style: context.theme.textTheme.titleLarge?.copyWith(
+                          style: context.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         Text(
                           '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                          style: context.theme.textTheme.bodySmall?.copyWith(
+                          style: context.textTheme.bodySmall?.copyWith(
                             color: Colors.grey[600],
                             fontWeight: FontWeight.w600,
                           ),

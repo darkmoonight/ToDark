@@ -129,11 +129,11 @@ final List<Onboard> data = [
       title: 'title1'.tr,
       description: 'subtitle1'.tr),
   Onboard(
-      image: 'assets/images/ScrumBoard.png',
+      image: 'assets/images/Design.png',
       title: 'title2'.tr,
       description: 'subtitle2'.tr),
   Onboard(
-      image: 'assets/images/Done.png',
+      image: 'assets/images/Feedback.png',
       title: 'title3'.tr,
       description: 'subtitle3'.tr),
 ];
@@ -161,7 +161,7 @@ class OnboardContent extends StatelessWidget {
               ),
               Text(
                 title,
-                style: context.theme.textTheme.titleLarge
+                style: context.textTheme.titleLarge
                     ?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 10),
@@ -169,8 +169,7 @@ class OnboardContent extends StatelessWidget {
                 width: 300,
                 child: Text(
                   description,
-                  style: context.theme.textTheme.labelLarge
-                      ?.copyWith(fontSize: 14),
+                  style: context.textTheme.labelLarge?.copyWith(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
               ),

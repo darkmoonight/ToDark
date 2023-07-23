@@ -59,25 +59,26 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 5, right: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              service.titleEdit.value.clear();
-                              service.descEdit.value.clear();
+                    IconButton(
+                      onPressed: () {
+                        service.titleEdit.value.clear();
+                        service.descEdit.value.clear();
 
-                              Get.back();
-                            },
-                            icon: const Icon(Icons.close),
-                          ),
-                          Text(
-                            widget.text,
-                            style: context.theme.textTheme.titleLarge,
-                          ),
-                        ],
+                        Get.back();
+                      },
+                      icon: const Icon(
+                        Iconsax.close_square,
+                        size: 20,
                       ),
+                    ),
+                    Text(
+                      widget.text,
+                      style: context.textTheme.titleLarge?.copyWith(
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                     IconButton(
                       onPressed: () {
@@ -98,7 +99,10 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                           Get.back();
                         }
                       },
-                      icon: const Icon(Icons.save),
+                      icon: const Icon(
+                        Iconsax.tick_square,
+                        size: 20,
+                      ),
                     ),
                   ],
                 ),

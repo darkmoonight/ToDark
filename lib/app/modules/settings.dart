@@ -294,17 +294,17 @@ class _SettingsPageState extends State<SettingsPage> {
                               onPressed: () => Get.dialog(
                                 AlertDialog(
                                   title: Text(
-                                    "deleteAllBDTitle".tr,
-                                    style: context.theme.textTheme.titleLarge,
+                                    'deleteAllBDTitle'.tr,
+                                    style: context.textTheme.titleLarge,
                                   ),
                                   content: Text(
-                                    "deleteAllBDQuery".tr,
-                                    style: context.theme.textTheme.titleMedium,
+                                    'deleteAllBDQuery'.tr,
+                                    style: context.textTheme.titleMedium,
                                   ),
                                   actions: [
                                     TextButton(
                                         onPressed: () => Get.back(),
-                                        child: Text("cancel".tr,
+                                        child: Text('cancel'.tr,
                                             style: context
                                                 .theme.textTheme.titleMedium
                                                 ?.copyWith(
@@ -319,7 +319,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                               'deleteAll'.tr);
                                           Get.back();
                                         },
-                                        child: Text("delete".tr,
+                                        child: Text('delete'.tr,
                                             style: context
                                                 .theme.textTheme.titleMedium
                                                 ?.copyWith(color: Colors.red))),
@@ -401,7 +401,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           SettingCard(
-            icon: const Icon(Iconsax.code),
+            icon: const Icon(Iconsax.hierarchy_square_2),
             text: 'version'.tr,
             info: true,
             textInfo: '$appVersion',

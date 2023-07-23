@@ -39,24 +39,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            Image.asset(
-              'assets/icons/splash.png',
-              scale: 15,
-            ),
-            const SizedBox(width: 10),
-            Text(
-              'ToDark',
-              style: context.theme.textTheme.titleLarge,
-            ),
-          ],
+        title: Text(
+          tabIndex == 0
+              ? 'categories'.tr
+              : tabIndex == 1
+                  ? 'allTasks'.tr
+                  : tabIndex == 2
+                      ? 'calendar'.tr
+                      : 'settings'.tr,
+          style: context.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
-      body: IndexedStack(
-        index: tabIndex,
-        children: pages,
+      body: SafeArea(
+        child: IndexedStack(
+          index: tabIndex,
+          children: pages,
+        ),
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) => changeTabIndex(index),
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                             edit: false,
                           )
                         : TodosCe(
-                            text: "create".tr,
+                            text: 'create'.tr,
                             edit: false,
                             category: true,
                           );

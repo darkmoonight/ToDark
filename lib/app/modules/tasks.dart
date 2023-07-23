@@ -81,7 +81,7 @@ class _TaskPageState extends State<TaskPage> {
                                       ),
                                       Text(
                                         widget.task.description!,
-                                        style: context.theme.textTheme.bodyLarge
+                                        style: context.textTheme.bodyLarge
                                             ?.copyWith(
                                           color: Colors.grey[600],
                                         ),
@@ -91,7 +91,7 @@ class _TaskPageState extends State<TaskPage> {
                                   )
                                 : Text(
                                     widget.task.title!,
-                                    style: context.theme.textTheme.headlineSmall
+                                    style: context.textTheme.headlineSmall
                                         ?.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -143,12 +143,11 @@ class _TaskPageState extends State<TaskPage> {
                             children: [
                               Text(
                                 'tasks'.tr,
-                                style: context.theme.textTheme.titleLarge,
+                                style: context.textTheme.titleLarge,
                               ),
                               Text(
                                 '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                                style:
-                                    context.theme.textTheme.bodySmall?.copyWith(
+                                style: context.textTheme.bodySmall?.copyWith(
                                   color: Colors.grey[600],
                                   fontWeight: FontWeight.w600,
                                 ),

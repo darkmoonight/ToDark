@@ -33,7 +33,7 @@ class MyTextForm extends StatelessWidget {
         onTap: readOnly == true ? onTap : null,
         controller: controller,
         keyboardType: type,
-        style: context.theme.textTheme.titleMedium,
+        style: context.textTheme.titleMedium,
         decoration: InputDecoration(
           prefixIcon: icon,
           suffixIcon: iconButton,

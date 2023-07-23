@@ -141,53 +141,57 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return DynamicColorBuilder(
-      builder: (lightColorScheme, darkColorScheme) {
-        final lightMaterialTheme =
-            lightTheme(lightColorScheme?.surface, lightColorScheme);
-        final darkMaterialTheme =
-            darkTheme(darkColorScheme?.surface, darkColorScheme);
-        final darkMaterialThemeOled = darkTheme(oledColor, darkColorScheme);
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: DynamicColorBuilder(
+        builder: (lightColorScheme, darkColorScheme) {
+          final lightMaterialTheme =
+              lightTheme(lightColorScheme?.surface, lightColorScheme);
+          final darkMaterialTheme =
+              darkTheme(darkColorScheme?.surface, darkColorScheme);
+          final darkMaterialThemeOled = darkTheme(oledColor, darkColorScheme);
 
-        return GetMaterialApp(
-          theme: materialColor
-              ? lightColorScheme != null
-                  ? lightMaterialTheme
-                  : lightTheme(lightColor, colorSchemeLight)
-              : lightTheme(lightColor, colorSchemeLight),
-          darkTheme: amoledTheme
-              ? materialColor
-                  ? darkColorScheme != null
-                      ? darkMaterialThemeOled
-                      : darkTheme(oledColor, colorSchemeDark)
-                  : darkTheme(oledColor, colorSchemeDark)
-              : materialColor
-                  ? darkColorScheme != null
-                      ? darkMaterialTheme
-                      : darkTheme(darkColor, colorSchemeDark)
-                  : darkTheme(darkColor, colorSchemeDark),
-          themeMode: themeController.theme,
-          localizationsDelegates: const [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          translations: Translation(),
-          locale: locale,
-          fallbackLocale: const Locale('en', 'US'),
-          supportedLocales: const [
-            Locale('en', 'US'),
-            Locale('ru', 'RU'),
-            Locale('zh', 'CN'),
-            Locale('zh', 'TW'),
-            Locale('fa', 'IR'),
-          ],
-          debugShowCheckedModeBanner: false,
-          home:
-              settings.onboard == false ? const OnBording() : const HomePage(),
-          builder: EasyLoading.init(),
-        );
-      },
+          return GetMaterialApp(
+            theme: materialColor
+                ? lightColorScheme != null
+                    ? lightMaterialTheme
+                    : lightTheme(lightColor, colorSchemeLight)
+                : lightTheme(lightColor, colorSchemeLight),
+            darkTheme: amoledTheme
+                ? materialColor
+                    ? darkColorScheme != null
+                        ? darkMaterialThemeOled
+                        : darkTheme(oledColor, colorSchemeDark)
+                    : darkTheme(oledColor, colorSchemeDark)
+                : materialColor
+                    ? darkColorScheme != null
+                        ? darkMaterialTheme
+                        : darkTheme(darkColor, colorSchemeDark)
+                    : darkTheme(darkColor, colorSchemeDark),
+            themeMode: themeController.theme,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            translations: Translation(),
+            locale: locale,
+            fallbackLocale: const Locale('en', 'US'),
+            supportedLocales: const [
+              Locale('en', 'US'),
+              Locale('ru', 'RU'),
+              Locale('zh', 'CN'),
+              Locale('zh', 'TW'),
+              Locale('fa', 'IR'),
+            ],
+            debugShowCheckedModeBanner: false,
+            home: settings.onboard == false
+                ? const OnBording()
+                : const HomePage(),
+            builder: EasyLoading.init(),
+          );
+        },
+      ),
     );
   }
 }

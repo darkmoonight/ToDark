@@ -67,8 +67,8 @@ class _TodosCeState extends State<TodosCe> {
 
   textTrim(value) {
     value.text = value.text.trim();
-    while (value.text.contains("  ")) {
-      value.text = value.text.replaceAll("  ", " ");
+    while (value.text.contains('  ')) {
+      value.text = value.text.replaceAll('  ', ' ');
     }
   }
 
@@ -88,57 +88,61 @@ class _TodosCeState extends State<TodosCe> {
               Padding(
                 padding: const EdgeInsets.only(top: 10, left: 5, right: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Flexible(
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              service.titleEdit.value.clear();
-                              service.descEdit.value.clear();
-                              service.timeEdit.value.clear();
-                              textConroller.clear();
-                              Get.back();
-                            },
-                            icon: const Icon(Icons.close),
-                          ),
-                          Text(
-                            widget.text,
-                            style: context.theme.textTheme.titleLarge,
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                textTrim(service.titleEdit.value);
-                                textTrim(service.descEdit.value);
-                                widget.category == false
-                                    ? service.addTodo(
-                                        widget.task!,
-                                        service.titleEdit.value,
-                                        service.descEdit.value,
-                                        service.timeEdit.value,
-                                      )
-                                    : widget.edit == false
-                                        ? service.addTodo(
-                                            selectedTask!,
-                                            service.titleEdit.value,
-                                            service.descEdit.value,
-                                            service.timeEdit.value,
-                                          )
-                                        : service.updateTodo(
-                                            widget.todo!,
-                                            selectedTask!,
-                                            service.titleEdit.value,
-                                            service.descEdit.value,
-                                            service.timeEdit.value,
-                                          );
-                                textConroller.clear();
-                                Get.back();
-                              }
-                            },
-                            icon: const Icon(Icons.save),
-                          )
-                        ],
+                    IconButton(
+                      onPressed: () {
+                        service.titleEdit.value.clear();
+                        service.descEdit.value.clear();
+                        service.timeEdit.value.clear();
+                        textConroller.clear();
+                        Get.back();
+                      },
+                      icon: const Icon(
+                        Iconsax.close_square,
+                        size: 20,
+                      ),
+                    ),
+                    Text(
+                      widget.text,
+                      style: context.textTheme.titleLarge?.copyWith(
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          textTrim(service.titleEdit.value);
+                          textTrim(service.descEdit.value);
+                          widget.category == false
+                              ? service.addTodo(
+                                  widget.task!,
+                                  service.titleEdit.value,
+                                  service.descEdit.value,
+                                  service.timeEdit.value,
+                                )
+                              : widget.edit == false
+                                  ? service.addTodo(
+                                      selectedTask!,
+                                      service.titleEdit.value,
+                                      service.descEdit.value,
+                                      service.timeEdit.value,
+                                    )
+                                  : service.updateTodo(
+                                      widget.todo!,
+                                      selectedTask!,
+                                      service.titleEdit.value,
+                                      service.descEdit.value,
+                                      service.timeEdit.value,
+                                    );
+                          textConroller.clear();
+                          Get.back();
+                        }
+                      },
+                      icon: const Icon(
+                        Iconsax.tick_square,
+                        size: 20,
                       ),
                     ),
                   ],
@@ -158,8 +162,9 @@ class _TodosCeState extends State<TodosCe> {
                           return TextFormField(
                             controller: textConroller,
                             focusNode: focusNode,
+                            style: context.textTheme.labelLarge,
                             decoration: InputDecoration(
-                              labelText: "selectCategory".tr,
+                              labelText: 'selectCategory'.tr,
                               prefixIcon: const Icon(Iconsax.folder_2),
                               suffixIcon: IconButton(
                                 icon: const Icon(
@@ -173,7 +178,7 @@ class _TodosCeState extends State<TodosCe> {
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "selectCategory".tr;
+                                return 'selectCategory'.tr;
                               }
                               return null;
                             },
@@ -197,6 +202,7 @@ class _TodosCeState extends State<TodosCe> {
                           return Align(
                             alignment: Alignment.topCenter,
                             child: Material(
+                              borderRadius: BorderRadius.circular(20),
                               elevation: 4.0,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
@@ -206,22 +212,17 @@ class _TodosCeState extends State<TodosCe> {
                                   final Tasks tasks = options.elementAt(index);
                                   return InkWell(
                                     onTap: () => onSelected(tasks),
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 10),
-                                      child: ListTile(
-                                        title: Text(
-                                          tasks.title!,
-                                          style:
-                                              context.theme.textTheme.bodyLarge,
-                                        ),
-                                        trailing: Container(
-                                          width: 10,
-                                          height: 10,
-                                          decoration: BoxDecoration(
-                                            color: Color(tasks.taskColor!),
-                                            shape: BoxShape.circle,
-                                          ),
+                                    child: ListTile(
+                                      title: Text(
+                                        tasks.title!,
+                                        style: context.textTheme.labelLarge,
+                                      ),
+                                      trailing: Container(
+                                        width: 10,
+                                        height: 10,
+                                        decoration: BoxDecoration(
+                                          color: Color(tasks.taskColor!),
+                                          shape: BoxShape.circle,
                                         ),
                                       ),
                                     ),
@@ -277,11 +278,11 @@ class _TodosCeState extends State<TodosCe> {
                   BottomPicker.dateTime(
                     title: 'time'.tr,
                     description: 'timeDesc'.tr,
-                    titleStyle: context.theme.textTheme.titleMedium!,
-                    descriptionStyle: context.theme.textTheme.bodyLarge!
+                    titleStyle: context.textTheme.titleMedium!,
+                    descriptionStyle: context.textTheme.bodyLarge!
                         .copyWith(color: Colors.grey),
-                    pickerTextStyle: context.theme.textTheme.labelMedium!
-                        .copyWith(fontSize: 15),
+                    pickerTextStyle:
+                        context.textTheme.labelMedium!.copyWith(fontSize: 15),
                     closeIconColor: Colors.red,
                     backgroundColor: context.theme.colorScheme.surface,
                     onSubmit: (date) {

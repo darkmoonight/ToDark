@@ -1,3 +1,4 @@
+import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/services/isar_service.dart';
 import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
     super.initState();
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    if (!mounted) return;
-    super.setState(fn);
-  }
-
   getCountTodos() async {
     final countTotal = await service.getCountTotalTodos();
     final countDone = await service.getCountDoneTodos();
@@ -42,29 +37,33 @@ class _AllTaskPageState extends State<AllTaskPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Card(
+          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+          child: TextField(
+            style: context.textTheme.labelLarge,
+            decoration: InputDecoration(
+              prefixIcon: const Icon(
+                Iconsax.search_normal_1,
+                size: 20,
+              ),
+              labelText: 'searchTodo'.tr,
+              border: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              enabledBorder: InputBorder.none,
+            ),
+          ),
+        ),
         Padding(
           padding:
-              const EdgeInsets.only(left: 30, top: 10, bottom: 5, right: 20),
+              const EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 15),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'allTasks'.tr,
-                    style: context.theme.textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Text(
-                    '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                    style: context.theme.textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
+              Text(
+                'allTasks'.tr,
+                style: context.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               Switch(
                 thumbIcon: service.thumbIconTodo,
