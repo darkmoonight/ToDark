@@ -8,6 +8,7 @@ class MyTextForm extends StatelessWidget {
     required this.type,
     required this.icon,
     required this.controller,
+    required this.padding,
     this.onTap,
     this.readOnly = false,
     this.validator,
@@ -19,13 +20,14 @@ class MyTextForm extends StatelessWidget {
   final IconButton? iconButton;
   final TextEditingController controller;
   final Function()? onTap;
+  final EdgeInsets padding;
   final String? Function(String?)? validator;
   final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+      padding: padding,
       child: TextFormField(
         readOnly: readOnly,
         onTap: readOnly == true ? onTap : null,
@@ -35,23 +37,7 @@ class MyTextForm extends StatelessWidget {
         decoration: InputDecoration(
           prefixIcon: icon,
           suffixIcon: iconButton,
-          fillColor: context.theme.colorScheme.primaryContainer,
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: context.theme.disabledColor,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: BorderSide(
-              color: context.theme.disabledColor,
-            ),
-          ),
           labelText: labelText,
-          labelStyle: context.theme.textTheme.labelLarge?.copyWith(
-            color: Colors.grey,
-          ),
         ),
         validator: validator,
       ),

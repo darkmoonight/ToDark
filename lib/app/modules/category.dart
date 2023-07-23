@@ -103,7 +103,7 @@ class _CategoryPageState extends State<CategoryPage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: context.theme.colorScheme.primaryContainer,
+                  color: context.theme.primaryColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
@@ -117,58 +117,49 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ),
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: context.theme.colorScheme.secondaryContainer,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(40),
-                topRight: Radius.circular(40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 30, top: 10, bottom: 5, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'categories'.tr,
+                          style: context.theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
+                          style: context.theme.textTheme.bodySmall?.copyWith(
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Switch(
+                      thumbIcon: service.thumbIconTask,
+                      value: service.toggleValue.value,
+                      onChanged: (value) {
+                        setState(() {
+                          service.toggleValue.value = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 30, top: 10, bottom: 5, right: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'categories'.tr,
-                            style: context.theme.textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text(
-                            '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                            style: context.theme.textTheme.bodySmall?.copyWith(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Switch(
-                        thumbIcon: service.thumbIconTask,
-                        value: service.toggleValue.value,
-                        onChanged: (value) {
-                          setState(() {
-                            service.toggleValue.value = value;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                TaskTypeList(
-                  toggle: service.toggleValue.value,
-                ),
-              ],
-            ),
+              TaskTypeList(
+                toggle: service.toggleValue.value,
+              ),
+            ],
           ),
         ),
       ],

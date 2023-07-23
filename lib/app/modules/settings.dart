@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/widgets/settings_link.dart';
+import 'package:todark/app/widgets/settings_card.dart';
 import 'package:todark/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -139,66 +139,37 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 14),
-      decoration: BoxDecoration(
-        color: context.theme.colorScheme.secondaryContainer,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(40),
-          topRight: Radius.circular(40),
-        ),
-      ),
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding:
-                const EdgeInsets.only(left: 30, top: 17, bottom: 10, right: 20),
-            child: Text(
-              'settings'.tr,
-              style: context.theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          SettingLinks(
-            icon: Icon(
-              Iconsax.cloud_plus,
-              color: context.theme.iconTheme.color,
-            ),
-            info: false,
+          SettingCard(
+            icon: const Icon(Iconsax.cloud_plus),
             text: 'backup'.tr,
             onPressed: () async {
               check(backup);
             },
           ),
-          SettingLinks(
-            icon: Icon(
-              Iconsax.cloud_add,
-              color: context.theme.iconTheme.color,
-            ),
-            info: false,
+          SettingCard(
+            icon: const Icon(Iconsax.cloud_add),
             text: 'restore'.tr,
             onPressed: () async {
               check(restore);
             },
           ),
-          SettingLinks(
-            icon: Icon(
-              Iconsax.cloud_minus,
-              color: context.theme.iconTheme.color,
-            ),
-            info: false,
+          SettingCard(
+            icon: const Icon(Iconsax.cloud_minus),
             text: 'deleteAllBD'.tr,
             onPressed: () => Get.dialog(
               AlertDialog(
-                backgroundColor: context.theme.colorScheme.primaryContainer,
                 title: Text(
                   "deleteAllBDTitle".tr,
                   style: context.theme.textTheme.titleLarge,
                 ),
-                content: Text("deleteAllBDQuery".tr,
-                    style: context.theme.textTheme.titleMedium),
+                content: Text(
+                  "deleteAllBDQuery".tr,
+                  style: context.theme.textTheme.titleMedium,
+                ),
                 actions: [
                   TextButton(
                       onPressed: () => Get.back(),
@@ -221,22 +192,18 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
-          SettingLinks(
-            icon: Icon(
-              Iconsax.code_circle,
-              color: context.theme.iconTheme.color,
-            ),
+          SettingCard(
+            icon: const Icon(Iconsax.code_circle),
             text: 'version'.tr,
             info: true,
             textInfo: '$appVersion',
           ),
-          SettingLinks(
+          SettingCard(
             icon: Image.asset(
               'assets/images/github.png',
               scale: 20,
             ),
             text: '${'project'.tr} GitHub',
-            info: false,
             onPressed: () async {
               final Uri url =
                   Uri.parse('https://github.com/DarkMooNight/ToDark');

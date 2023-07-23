@@ -72,8 +72,6 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              backgroundColor:
-                                  context.theme.colorScheme.primaryContainer,
                               title: Text(
                                 direction == DismissDirection.endToStart
                                     ? "deleteCategory".tr
@@ -83,12 +81,13 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                 style: context.theme.textTheme.titleLarge,
                               ),
                               content: Text(
-                                  direction == DismissDirection.endToStart
-                                      ? "deleteCategoryQuery".tr
-                                      : widget.toggle == false
-                                          ? "archiveTaskQuery".tr
-                                          : "noArchiveTaskQuery".tr,
-                                  style: context.theme.textTheme.titleMedium),
+                                direction == DismissDirection.endToStart
+                                    ? "deleteCategoryQuery".tr
+                                    : widget.toggle == false
+                                        ? "archiveTaskQuery".tr
+                                        : "noArchiveTaskQuery".tr,
+                                style: context.theme.textTheme.titleMedium,
+                              ),
                               actions: [
                                 TextButton(
                                     onPressed: () => Get.back(result: false),
@@ -194,10 +193,10 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                           ),
                                           customColors: CustomSliderColors(
                                             progressBarColors: <Color>[
-                                              Color(taskList.taskColor),
-                                              Color(taskList.taskColor)
+                                              Color(taskList.taskColor!),
+                                              Color(taskList.taskColor!)
                                                   .withOpacity(0.9),
-                                              Color(taskList.taskColor)
+                                              Color(taskList.taskColor!)
                                                   .withOpacity(0.8),
                                             ],
                                             trackColor: Colors.grey[300],
@@ -227,7 +226,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            taskList.title,
+                                            taskList.title!,
                                             style: context
                                                 .theme.textTheme.titleLarge
                                                 ?.copyWith(
@@ -236,9 +235,9 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                             ),
                                             overflow: TextOverflow.visible,
                                           ),
-                                          taskList.description.isNotEmpty
+                                          taskList.description!.isNotEmpty
                                               ? Text(
-                                                  taskList.description,
+                                                  taskList.description!,
                                                   style: context
                                                       .theme.textTheme.bodyLarge
                                                       ?.copyWith(

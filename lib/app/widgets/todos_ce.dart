@@ -42,7 +42,7 @@ class _TodosCeState extends State<TodosCe> {
   initState() {
     if (widget.edit == true) {
       selectedTask = widget.todo!.task.value;
-      textConroller.text = widget.todo!.task.value!.title;
+      textConroller.text = widget.todo!.task.value!.title!;
       service.titleEdit.value = TextEditingController(text: widget.todo!.name);
       service.descEdit.value =
           TextEditingController(text: widget.todo!.description);
@@ -59,7 +59,7 @@ class _TodosCeState extends State<TodosCe> {
     List<Tasks> getTask;
     getTask = await todosCollection.filter().archiveEqualTo(false).findAll();
     return getTask.where((element) {
-      final title = element.title.toLowerCase();
+      final title = element.title!.toLowerCase();
       final query = pattern.toLowerCase();
       return title.contains(query);
     }).toList();
@@ -100,15 +100,44 @@ class _TodosCeState extends State<TodosCe> {
                               textConroller.clear();
                               Get.back();
                             },
-                            icon: Icon(
-                              Icons.close,
-                              color: context.theme.iconTheme.color,
-                            ),
+                            icon: const Icon(Icons.close),
                           ),
                           Text(
                             widget.text,
                             style: context.theme.textTheme.titleLarge,
                           ),
+                          IconButton(
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                textTrim(service.titleEdit.value);
+                                textTrim(service.descEdit.value);
+                                widget.category == false
+                                    ? service.addTodo(
+                                        widget.task!,
+                                        service.titleEdit.value,
+                                        service.descEdit.value,
+                                        service.timeEdit.value,
+                                      )
+                                    : widget.edit == false
+                                        ? service.addTodo(
+                                            selectedTask!,
+                                            service.titleEdit.value,
+                                            service.descEdit.value,
+                                            service.timeEdit.value,
+                                          )
+                                        : service.updateTodo(
+                                            widget.todo!,
+                                            selectedTask!,
+                                            service.titleEdit.value,
+                                            service.descEdit.value,
+                                            service.timeEdit.value,
+                                          );
+                                textConroller.clear();
+                                Get.back();
+                              }
+                            },
+                            icon: const Icon(Icons.save),
+                          )
                         ],
                       ),
                     ),
@@ -117,8 +146,8 @@ class _TodosCeState extends State<TodosCe> {
               ),
               widget.category == true
                   ? Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
                       child: RawAutocomplete<Tasks>(
                         focusNode: focusNode,
                         textEditingController: textConroller,
@@ -131,25 +160,7 @@ class _TodosCeState extends State<TodosCe> {
                             focusNode: focusNode,
                             decoration: InputDecoration(
                               labelText: "selectCategory".tr,
-                              labelStyle:
-                                  context.theme.textTheme.labelLarge?.copyWith(
-                                color: Colors.grey,
-                              ),
                               prefixIcon: const Icon(Iconsax.folder_2),
-                              fillColor:
-                                  context.theme.colorScheme.primaryContainer,
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: context.theme.disabledColor,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                  color: context.theme.disabledColor,
-                                ),
-                              ),
                               suffixIcon: IconButton(
                                 icon: const Icon(
                                   Icons.close,
@@ -175,18 +186,17 @@ class _TodosCeState extends State<TodosCe> {
                           return getTodosAll(textEditingValue.text);
                         },
                         onSelected: (Tasks selection) {
-                          textConroller.text = selection.title;
+                          textConroller.text = selection.title!;
                           selectedTask = selection;
                           focusNode.unfocus();
                         },
-                        displayStringForOption: (Tasks option) => option.title,
+                        displayStringForOption: (Tasks option) => option.title!,
                         optionsViewBuilder: (BuildContext context,
                             AutocompleteOnSelected<Tasks> onSelected,
                             Iterable<Tasks> options) {
                           return Align(
                             alignment: Alignment.topCenter,
                             child: Material(
-                              color: context.theme.colorScheme.surface,
                               elevation: 4.0,
                               child: ListView.builder(
                                 padding: EdgeInsets.zero,
@@ -201,7 +211,7 @@ class _TodosCeState extends State<TodosCe> {
                                           horizontal: 10),
                                       child: ListTile(
                                         title: Text(
-                                          tasks.title,
+                                          tasks.title!,
                                           style:
                                               context.theme.textTheme.bodyLarge,
                                         ),
@@ -209,7 +219,7 @@ class _TodosCeState extends State<TodosCe> {
                                           width: 10,
                                           height: 10,
                                           decoration: BoxDecoration(
-                                            color: Color(tasks.taskColor),
+                                            color: Color(tasks.taskColor!),
                                             shape: BoxShape.circle,
                                           ),
                                         ),
@@ -225,6 +235,8 @@ class _TodosCeState extends State<TodosCe> {
                     )
                   : Container(),
               MyTextForm(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: service.titleEdit.value,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
@@ -237,103 +249,54 @@ class _TodosCeState extends State<TodosCe> {
                 },
               ),
               MyTextForm(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: service.descEdit.value,
                 labelText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
-              Row(
-                children: [
-                  Flexible(
-                    flex: 5,
-                    child: MyTextForm(
-                      readOnly: true,
-                      controller: service.timeEdit.value,
-                      labelText: 'timeComlete'.tr,
-                      type: TextInputType.datetime,
-                      icon: const Icon(Iconsax.clock),
-                      iconButton: IconButton(
-                        icon: const Icon(
-                          Icons.close,
-                          size: 18,
-                        ),
-                        onPressed: () {
-                          service.timeEdit.value.clear();
-                        },
-                      ),
-                      onTap: () {
-                        BottomPicker.dateTime(
-                          title: 'time'.tr,
-                          description: 'timeDesc'.tr,
-                          titleStyle: context.theme.textTheme.titleMedium!,
-                          descriptionStyle: context.theme.textTheme.bodyLarge!
-                              .copyWith(color: Colors.grey),
-                          pickerTextStyle: context.theme.textTheme.labelMedium!
-                              .copyWith(fontSize: 15),
-                          iconColor: context.theme.iconTheme.color!,
-                          closeIconColor: Colors.red,
-                          backgroundColor: context.theme.colorScheme.surface,
-                          onSubmit: (date) {
-                            service.timeEdit.value.text = date.toString();
-                          },
-                          bottomPickerTheme: BottomPickerTheme.temptingAzure,
-                          minDateTime: DateTime.now(),
-                          maxDateTime:
-                              DateTime.now().add(const Duration(days: 1000)),
-                          initialDateTime: DateTime.now(),
-                          use24hFormat: true,
-                          dateOrder: DatePickerDateOrder.dmy,
-                        ).show(context);
-                      },
-                    ),
+              MyTextForm(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                readOnly: true,
+                controller: service.timeEdit.value,
+                labelText: 'timeComlete'.tr,
+                type: TextInputType.datetime,
+                icon: const Icon(Iconsax.clock),
+                iconButton: IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    size: 18,
                   ),
-                  Flexible(
-                    child: Container(
-                      margin:
-                          const EdgeInsets.only(right: 10, bottom: 5, top: 10),
-                      decoration: const BoxDecoration(
-                          color: Colors.deepPurple,
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      child: IconButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            textTrim(service.titleEdit.value);
-                            textTrim(service.descEdit.value);
-                            widget.category == false
-                                ? service.addTodo(
-                                    widget.task!,
-                                    service.titleEdit.value,
-                                    service.descEdit.value,
-                                    service.timeEdit.value,
-                                  )
-                                : widget.edit == false
-                                    ? service.addTodo(
-                                        selectedTask!,
-                                        service.titleEdit.value,
-                                        service.descEdit.value,
-                                        service.timeEdit.value,
-                                      )
-                                    : service.updateTodo(
-                                        widget.todo!,
-                                        selectedTask!,
-                                        service.titleEdit.value,
-                                        service.descEdit.value,
-                                        service.timeEdit.value,
-                                      );
-                            textConroller.clear();
-                            Get.back();
-                          }
-                        },
-                        icon: const Icon(
-                          Iconsax.send_1,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                  onPressed: () {
+                    service.timeEdit.value.clear();
+                  },
+                ),
+                onTap: () {
+                  BottomPicker.dateTime(
+                    title: 'time'.tr,
+                    description: 'timeDesc'.tr,
+                    titleStyle: context.theme.textTheme.titleMedium!,
+                    descriptionStyle: context.theme.textTheme.bodyLarge!
+                        .copyWith(color: Colors.grey),
+                    pickerTextStyle: context.theme.textTheme.labelMedium!
+                        .copyWith(fontSize: 15),
+                    closeIconColor: Colors.red,
+                    backgroundColor: context.theme.colorScheme.surface,
+                    onSubmit: (date) {
+                      service.timeEdit.value.text = date.toString();
+                    },
+                    bottomPickerTheme: BottomPickerTheme.temptingAzure,
+                    minDateTime: DateTime.now(),
+                    maxDateTime: DateTime.now().add(const Duration(days: 1000)),
+                    initialDateTime: DateTime.now(),
+                    use24hFormat: true,
+                    dateOrder: DatePickerDateOrder.dmy,
+                  ).show(context);
+                },
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
             ],
           ),
         ),

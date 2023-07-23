@@ -77,6 +77,7 @@ class Translation extends Translations {
           'version': 'Версия приложения',
           'time': 'Время выполнения',
           'timeDesc': 'Выберите время для выполнения задачи',
+          'calendar': 'Календарь',
         },
         'en_US': {
           'title1': 'Organize your tasks',
@@ -152,6 +153,7 @@ class Translation extends Translations {
           'version': 'Application version',
           'time': 'Execution time',
           'timeDesc': 'Select the time to complete the task',
+          'calendar': 'Сalendar',
         },
         'zh_TW': {
           'title1': '安排你的任務',

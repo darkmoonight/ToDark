@@ -1,4 +1,3 @@
-import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:todark/app/modules/all_tasks.dart';
 import 'package:todark/app/modules/calendar.dart';
 import 'package:todark/app/modules/category.dart';
@@ -39,22 +38,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.colorScheme.surface,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: context.theme.colorScheme.surface,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        titleSpacing: 30,
         title: Row(
           children: [
             Image.asset(
               'assets/icons/splash.png',
               scale: 15,
             ),
-            const SizedBox(
-              width: 10,
-            ),
+            const SizedBox(width: 10),
             Text(
               'ToDark',
               style: context.theme.textTheme.titleLarge,
@@ -74,12 +66,8 @@ class _HomePageState extends State<HomePage> {
             },
             icon: Icon(
               Get.isDarkMode ? Iconsax.sun_1 : Iconsax.moon,
-              color: context.theme.iconTheme.color,
               size: 18,
             ),
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            alignment: Alignment.centerLeft,
           ),
         ],
       ),
@@ -87,25 +75,31 @@ class _HomePageState extends State<HomePage> {
         index: tabIndex,
         children: pages,
       ),
-      bottomNavigationBar: Theme(
-        data: context.theme.copyWith(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-        ),
-        child: CustomNavigationBar(
-          backgroundColor: context.theme.colorScheme.secondaryContainer,
-          strokeColor: const Color(0x300c18fb),
-          onTap: (int index) => changeTabIndex(index),
-          currentIndex: tabIndex,
-          iconSize: 24,
-          elevation: 0,
-          items: [
-            CustomNavigationBarItem(icon: const Icon(Iconsax.folder_2)),
-            CustomNavigationBarItem(icon: const Icon(Iconsax.task_square)),
-            CustomNavigationBarItem(icon: const Icon(Iconsax.calendar_1)),
-            CustomNavigationBarItem(icon: const Icon(Iconsax.setting_2)),
-          ],
-        ),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) => changeTabIndex(index),
+        selectedIndex: tabIndex,
+        destinations: [
+          NavigationDestination(
+            icon: const Icon(Iconsax.folder_2),
+            selectedIcon: const Icon(Iconsax.folder_25),
+            label: 'categories'.tr,
+          ),
+          NavigationDestination(
+            icon: const Icon(Iconsax.task_square),
+            selectedIcon: const Icon(Iconsax.task_square5),
+            label: 'allTasks'.tr,
+          ),
+          NavigationDestination(
+            icon: const Icon(Iconsax.calendar_1),
+            selectedIcon: const Icon(Iconsax.calendar5),
+            label: 'calendar'.tr,
+          ),
+          NavigationDestination(
+            icon: const Icon(Iconsax.category),
+            selectedIcon: const Icon(Iconsax.category5),
+            label: 'settings'.tr,
+          ),
+        ],
       ),
       floatingActionButton: tabIndex == 3
           ? null
@@ -113,7 +107,6 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 showModalBottomSheet(
                   enableDrag: false,
-                  backgroundColor: context.theme.colorScheme.surface,
                   context: context,
                   isScrollControlled: true,
                   builder: (BuildContext context) {
@@ -130,11 +123,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 );
               },
-              backgroundColor: context.theme.colorScheme.primaryContainer,
-              child: const Icon(
-                Iconsax.add,
-                color: Colors.greenAccent,
-              ),
+              child: const Icon(Iconsax.add),
             ),
     );
   }

@@ -210,8 +210,8 @@ class IsarServices {
         if (timeEdit.text.isNotEmpty) {
           NotificationShow().showNotification(
             todosCreate.id,
-            todosCreate.name,
-            todosCreate.description,
+            todosCreate.name!,
+            todosCreate.description!,
             DateTime.tryParse(timeEdit.text),
           );
         }
@@ -265,8 +265,8 @@ class IsarServices {
         await flutterLocalNotificationsPlugin.cancel(todo.id);
         NotificationShow().showNotification(
           todo.id,
-          todo.name,
-          todo.description,
+          todo.name!,
+          todo.description!,
           DateTime.tryParse(timeEdit.text),
         );
       } else {
@@ -351,8 +351,8 @@ class IsarServices {
       if (element.todoCompletedTime != null) {
         NotificationShow().showNotification(
           element.id,
-          element.name,
-          element.description,
+          element.name!,
+          element.description!,
           element.todoCompletedTime,
         );
       }

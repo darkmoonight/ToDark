@@ -84,14 +84,14 @@ class _TodosListState extends State<TodosList> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                backgroundColor:
-                                    context.theme.colorScheme.primaryContainer,
                                 title: Text(
                                   "deletedTask".tr,
                                   style: context.theme.textTheme.titleLarge,
                                 ),
-                                content: Text("deletedTaskQuery".tr,
-                                    style: context.theme.textTheme.titleMedium),
+                                content: Text(
+                                  "deletedTaskQuery".tr,
+                                  style: context.theme.textTheme.titleMedium,
+                                ),
                                 actions: [
                                   TextButton(
                                       onPressed: () => Get.back(result: false),
@@ -136,8 +136,6 @@ class _TodosListState extends State<TodosList> {
                             onTap: () {
                               showModalBottomSheet(
                                 enableDrag: false,
-                                backgroundColor:
-                                    context.theme.colorScheme.surface,
                                 context: context,
                                 isScrollControlled: true,
                                 builder: (BuildContext context) {
@@ -172,8 +170,8 @@ class _TodosListState extends State<TodosList> {
                                                   ? NotificationShow()
                                                       .showNotification(
                                                       todosList.id,
-                                                      todosList.name,
-                                                      todosList.description,
+                                                      todosList.name!,
+                                                      todosList.description!,
                                                       todosList
                                                           .todoCompletedTime,
                                                     )
@@ -196,7 +194,7 @@ class _TodosListState extends State<TodosList> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                todosList.name,
+                                                todosList.name!,
                                                 style: context
                                                     .theme.textTheme.titleLarge
                                                     ?.copyWith(
@@ -215,9 +213,9 @@ class _TodosListState extends State<TodosList> {
                                                 ),
                                                 overflow: TextOverflow.visible,
                                               ),
-                                              todosList.description.isNotEmpty
+                                              todosList.description!.isNotEmpty
                                                   ? Text(
-                                                      todosList.description,
+                                                      todosList.description!,
                                                       style: context.theme
                                                           .textTheme.bodyLarge
                                                           ?.copyWith(
@@ -258,10 +256,10 @@ class _TodosListState extends State<TodosList> {
                                 ),
                                 widget.allTask == true
                                     ? Text(
-                                        todosList.task.value!.title.length > 10
-                                            ? todosList.task.value!.title
+                                        todosList.task.value!.title!.length > 10
+                                            ? todosList.task.value!.title!
                                                 .substring(0, 10)
-                                            : todosList.task.value!.title,
+                                            : todosList.task.value!.title!,
                                         style: context.theme.textTheme.bodyLarge
                                             ?.copyWith(
                                           color: Colors.grey[700],
@@ -270,7 +268,7 @@ class _TodosListState extends State<TodosList> {
                                       )
                                     : widget.calendare == true
                                         ? Text(
-                                            '${todosList.task.value!.title.length > 10 ? todosList.task.value!.title.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
+                                            '${todosList.task.value!.title!.length > 10 ? todosList.task.value!.title!.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
                                               'HH:mm',
                                               '${locale?.languageCode}',
                                             ).format(todosList.todoCompletedTime!)}',

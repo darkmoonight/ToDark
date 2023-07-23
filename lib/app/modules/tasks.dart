@@ -45,7 +45,6 @@ class _TaskPageState extends State<TaskPage> {
         return true;
       },
       child: Scaffold(
-        backgroundColor: context.theme.colorScheme.surface,
         body: SafeArea(
           child: Column(
             children: [
@@ -61,21 +60,18 @@ class _TaskPageState extends State<TaskPage> {
                             onPressed: () {
                               Get.back();
                             },
-                            icon: Icon(
-                              Iconsax.arrow_left_1,
-                              color: context.theme.iconTheme.color,
-                            ),
+                            icon: const Icon(Iconsax.arrow_left_1),
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                           ),
                           Expanded(
-                            child: widget.task.description.isNotEmpty
+                            child: widget.task.description!.isNotEmpty
                                 ? Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        widget.task.title,
+                                        widget.task.title!,
                                         style: context
                                             .theme.textTheme.headlineSmall
                                             ?.copyWith(
@@ -84,7 +80,7 @@ class _TaskPageState extends State<TaskPage> {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                       Text(
-                                        widget.task.description,
+                                        widget.task.description!,
                                         style: context.theme.textTheme.bodyLarge
                                             ?.copyWith(
                                           color: Colors.grey[600],
@@ -94,7 +90,7 @@ class _TaskPageState extends State<TaskPage> {
                                     ],
                                   )
                                 : Text(
-                                    widget.task.title,
+                                    widget.task.title!,
                                     style: context.theme.textTheme.headlineSmall
                                         ?.copyWith(
                                       fontWeight: FontWeight.w600,
@@ -106,8 +102,6 @@ class _TaskPageState extends State<TaskPage> {
                             onPressed: () {
                               showModalBottomSheet(
                                 enableDrag: false,
-                                backgroundColor:
-                                    context.theme.colorScheme.surface,
                                 context: context,
                                 isScrollControlled: true,
                                 shape: const RoundedRectangleBorder(
@@ -124,10 +118,7 @@ class _TaskPageState extends State<TaskPage> {
                                 },
                               );
                             },
-                            icon: Icon(
-                              Iconsax.edit,
-                              color: context.theme.iconTheme.color,
-                            ),
+                            icon: const Icon(Iconsax.edit),
                             splashColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                           ),
@@ -138,62 +129,53 @@ class _TaskPageState extends State<TaskPage> {
                 ),
               ),
               Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: context.theme.colorScheme.secondaryContainer,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 30, top: 10, bottom: 5, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'tasks'.tr,
+                                style: context.theme.textTheme.titleLarge,
+                              ),
+                              Text(
+                                '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
+                                style:
+                                    context.theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Switch(
+                            thumbIcon: service.thumbIconTodo,
+                            value: service.toggleValue.value,
+                            onChanged: (value) {
+                              setState(() {
+                                service.toggleValue.value = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 30, top: 10, bottom: 5, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'tasks'.tr,
-                                  style: context.theme.textTheme.titleLarge,
-                                ),
-                                Text(
-                                  '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                                  style: context.theme.textTheme.bodySmall
-                                      ?.copyWith(
-                                    color: Colors.grey[600],
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Switch(
-                              thumbIcon: service.thumbIconTodo,
-                              value: service.toggleValue.value,
-                              onChanged: (value) {
-                                setState(() {
-                                  service.toggleValue.value = value;
-                                });
-                              },
-                            ),
-                          ],
-                        ),
+                    Expanded(
+                      child: TodosList(
+                        allTask: false,
+                        calendare: false,
+                        toggle: service.toggleValue.value,
+                        task: widget.task,
                       ),
-                      Expanded(
-                        child: TodosList(
-                          allTask: false,
-                          calendare: false,
-                          toggle: service.toggleValue.value,
-                          task: widget.task,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -203,7 +185,6 @@ class _TaskPageState extends State<TaskPage> {
           onPressed: () {
             showModalBottomSheet(
               enableDrag: false,
-              backgroundColor: context.theme.colorScheme.surface,
               context: context,
               isScrollControlled: true,
               builder: (BuildContext context) {
@@ -216,12 +197,7 @@ class _TaskPageState extends State<TaskPage> {
               },
             );
           },
-          elevation: 0,
-          backgroundColor: context.theme.colorScheme.primaryContainer,
-          child: const Icon(
-            Iconsax.add,
-            color: Colors.greenAccent,
-          ),
+          child: const Icon(Iconsax.add),
         ),
       ),
     );

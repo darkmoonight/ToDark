@@ -37,7 +37,6 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -73,7 +72,7 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
               child: MyTextButton(
                 buttonName:
                     pageIndex == data.length - 1 ? 'getStart'.tr : 'next'.tr,
-                onTap: () {
+                onPressed: () {
                   pageIndex == data.length - 1
                       ? onBoardHome()
                       : pageController.nextPage(
@@ -81,7 +80,6 @@ class _OnBordingScreenState extends State<OnBordingScreen> {
                           curve: Curves.ease,
                         );
                 },
-                bgColor: context.theme.colorScheme.primaryContainer,
               ),
             )
           ],
@@ -106,9 +104,8 @@ class DotIndicator extends StatelessWidget {
       height: 8,
       width: 8,
       decoration: BoxDecoration(
-        color: isActive
-            ? context.theme.dividerColor
-            : context.theme.colorScheme.primaryContainer,
+        color:
+            isActive ? context.theme.dividerColor : context.theme.primaryColor,
         shape: BoxShape.circle,
       ),
     );

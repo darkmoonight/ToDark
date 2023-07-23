@@ -31,7 +31,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
       service.titleEdit.value = TextEditingController(text: widget.task!.title);
       service.descEdit.value =
           TextEditingController(text: widget.task!.description);
-      service.myColor.value = Color(widget.task!.taskColor);
+      service.myColor.value = Color(widget.task!.taskColor!);
     }
     super.initState();
   }
@@ -70,10 +70,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
 
                               Get.back();
                             },
-                            icon: Icon(
-                              Icons.close,
-                              color: context.theme.iconTheme.color,
-                            ),
+                            icon: const Icon(Icons.close),
                           ),
                           Text(
                             widget.text,
@@ -101,15 +98,14 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                           Get.back();
                         }
                       },
-                      icon: Icon(
-                        Icons.save,
-                        color: context.theme.iconTheme.color,
-                      ),
+                      icon: const Icon(Icons.save),
                     ),
                   ],
                 ),
               ),
               MyTextForm(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: service.titleEdit.value,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
@@ -122,6 +118,8 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 },
               ),
               MyTextForm(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: service.descEdit.value,
                 labelText: 'description'.tr,
                 type: TextInputType.text,

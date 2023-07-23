@@ -5,10 +5,10 @@ part 'schema.g.dart';
 @collection
 class Tasks {
   Id id;
-  String title;
-  String description;
-  int taskColor;
-  bool archive;
+  String? title;
+  String? description;
+  int? taskColor;
+  bool? archive;
 
   @Backlink(to: 'task')
   final todos = IsarLinks<Todos>();
@@ -40,10 +40,10 @@ class Tasks {
 @collection
 class Todos {
   Id id;
-  String name;
-  String description;
+  String? name;
+  String? description;
   DateTime? todoCompletedTime;
-  bool done;
+  bool? done;
 
   final task = IsarLink<Tasks>();
 
