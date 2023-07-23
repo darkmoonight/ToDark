@@ -53,23 +53,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              if (Get.isDarkMode) {
-                themeController.changeThemeMode(ThemeMode.light);
-                themeController.saveTheme(false);
-              } else {
-                themeController.changeThemeMode(ThemeMode.dark);
-                themeController.saveTheme(true);
-              }
-            },
-            icon: Icon(
-              Get.isDarkMode ? Iconsax.sun_1 : Iconsax.moon,
-              size: 18,
-            ),
-          ),
-        ],
       ),
       body: IndexedStack(
         index: tabIndex,

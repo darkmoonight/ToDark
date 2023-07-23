@@ -1,9 +1,8 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:todark/app/modules/home.dart';
-import 'package:todark/app/modules/onboarding_screen.dart';
+import 'package:todark/app/modules/onboarding.dart';
 import 'package:todark/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +23,18 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 
 late Isar isar;
 late Settings settings;
-String? appVersion;
+
+bool amoledTheme = false;
+bool materialColor = false;
+Locale locale = const Locale('en', 'US');
+
+final List appLanguages = [
+  {'name': 'English', 'locale': const Locale('en', 'US')},
+  {'name': 'Русский', 'locale': const Locale('ru', 'RU')},
+  {'name': '中文', 'locale': const Locale('zh', 'CN')},
+  {'name': '中国传统台湾', 'locale': const Locale('zh', 'TW')},
+  {'name': 'فارسی', 'locale': const Locale('fa', 'IR')},
+];
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,9 +49,8 @@ void main() async {
   tz.setLocalLocation(tz.getLocation(timeZoneName));
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
-  infoVersion();
   await isarInit();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 Future<void> setOptimalDisplayMode() async {
@@ -58,11 +67,6 @@ Future<void> setOptimalDisplayMode() async {
   await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
 }
 
-Future<void> infoVersion() async {
-  final PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  appVersion = packageInfo.version;
-}
-
 Future<void> isarInit() async {
   isar = await Isar.open(
     [
@@ -73,19 +77,95 @@ Future<void> isarInit() async {
     directory: (await getApplicationSupportDirectory()).path,
   );
   settings = await isar.settings.where().findFirst() ?? Settings();
+  if (settings.language == null) {
+    settings.language = '${Get.deviceLocale}';
+    isar.writeTxn(() async => isar.settings.put(settings));
+  }
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  static Future<void> updateAppState(
+    BuildContext context, {
+    bool? newAmoledTheme,
+    bool? newMaterialColor,
+    Locale? newLocale,
+  }) async {
+    final state = context.findAncestorStateOfType<_MyAppState>()!;
+
+    if (newAmoledTheme != null) {
+      state.changeAmoledTheme(newAmoledTheme);
+    }
+    if (newMaterialColor != null) {
+      state.changeMarerialTheme(newMaterialColor);
+    }
+    if (newLocale != null) {
+      state.changeLocale(newLocale);
+    }
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final themeController = Get.put(ThemeController());
+
+  void changeAmoledTheme(bool newAmoledTheme) {
+    setState(() {
+      amoledTheme = newAmoledTheme;
+    });
+  }
+
+  void changeMarerialTheme(bool newMaterialColor) {
+    setState(() {
+      materialColor = newMaterialColor;
+    });
+  }
+
+  void changeLocale(Locale newLocale) {
+    setState(() {
+      locale = newLocale;
+    });
+  }
+
+  @override
+  void initState() {
+    amoledTheme = settings.amoledTheme;
+    materialColor = settings.materialColor;
+    locale = Locale(
+        settings.language!.substring(0, 2), settings.language!.substring(3));
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DynamicColorBuilder(
       builder: (lightColorScheme, darkColorScheme) {
+        final lightMaterialTheme =
+            lightTheme(lightColorScheme?.surface, lightColorScheme);
+        final darkMaterialTheme =
+            darkTheme(darkColorScheme?.surface, darkColorScheme);
+        final darkMaterialThemeOled = darkTheme(oledColor, darkColorScheme);
+
         return GetMaterialApp(
-          theme: lightTheme(lightColor, colorSchemeLight),
-          darkTheme: darkTheme(darkColor, colorSchemeDark),
+          theme: materialColor
+              ? lightColorScheme != null
+                  ? lightMaterialTheme
+                  : lightTheme(lightColor, colorSchemeLight)
+              : lightTheme(lightColor, colorSchemeLight),
+          darkTheme: amoledTheme
+              ? materialColor
+                  ? darkColorScheme != null
+                      ? darkMaterialThemeOled
+                      : darkTheme(oledColor, colorSchemeDark)
+                  : darkTheme(oledColor, colorSchemeDark)
+              : materialColor
+                  ? darkColorScheme != null
+                      ? darkMaterialTheme
+                      : darkTheme(darkColor, colorSchemeDark)
+                  : darkTheme(darkColor, colorSchemeDark),
           themeMode: themeController.theme,
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
@@ -93,7 +173,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           translations: Translation(),
-          locale: Get.deviceLocale,
+          locale: locale,
           fallbackLocale: const Locale('en', 'US'),
           supportedLocales: const [
             Locale('en', 'US'),
@@ -102,18 +182,9 @@ class MyApp extends StatelessWidget {
             Locale('zh', 'TW'),
             Locale('fa', 'IR'),
           ],
-          localeResolutionCallback: (locale, supportedLocales) {
-            for (var supportedLocale in supportedLocales) {
-              if (supportedLocale.languageCode == locale?.languageCode) {
-                return supportedLocale;
-              }
-            }
-            return supportedLocales.first;
-          },
           debugShowCheckedModeBanner: false,
-          home: settings.onboard == false
-              ? const OnBordingScreen()
-              : const HomePage(),
+          home:
+              settings.onboard == false ? const OnBording() : const HomePage(),
           builder: EasyLoading.init(),
         );
       },

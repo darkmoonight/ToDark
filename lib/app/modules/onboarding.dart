@@ -5,14 +5,14 @@ import 'package:todark/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OnBordingScreen extends StatefulWidget {
-  const OnBordingScreen({super.key});
+class OnBording extends StatefulWidget {
+  const OnBording({super.key});
 
   @override
-  State<OnBordingScreen> createState() => _OnBordingScreenState();
+  State<OnBording> createState() => _OnBordingState();
 }
 
-class _OnBordingScreenState extends State<OnBordingScreen> {
+class _OnBordingState extends State<OnBording> {
   late PageController pageController;
   int pageIndex = 0;
 
@@ -104,8 +104,9 @@ class DotIndicator extends StatelessWidget {
       height: 8,
       width: 8,
       decoration: BoxDecoration(
-        color:
-            isActive ? context.theme.dividerColor : context.theme.primaryColor,
+        color: isActive
+            ? context.theme.colorScheme.secondary
+            : context.theme.colorScheme.secondaryContainer,
         shape: BoxShape.circle,
       ),
     );
@@ -160,14 +161,16 @@ class OnboardContent extends StatelessWidget {
               ),
               Text(
                 title,
-                style: context.theme.textTheme.titleLarge,
+                style: context.theme.textTheme.titleLarge
+                    ?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 10),
               SizedBox(
                 width: 300,
                 child: Text(
                   description,
-                  style: context.theme.textTheme.labelLarge,
+                  style: context.theme.textTheme.labelLarge
+                      ?.copyWith(fontSize: 14),
                   textAlign: TextAlign.center,
                 ),
               ),
