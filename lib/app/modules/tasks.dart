@@ -1,5 +1,6 @@
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/widgets/my_delegate.dart';
 import 'package:todark/app/widgets/task_type_cu.dart';
 import 'package:todark/app/widgets/todos_ce.dart';
 import 'package:todark/app/widgets/todos_list.dart';
@@ -30,12 +31,8 @@ class _TaskPageState extends State<TaskPage> {
   }
 
   getCountTodos() async {
-    final countTotal = await todoController.getCountTotalTodosTask(widget.task);
-    final countDone = await todoController.getCountDoneTodosTask(widget.task);
-    setState(() {
-      countTotalTodos = countTotal;
-      countDoneTodos = countDone;
-    });
+    countTotalTodos = await todoController.getCountTotalTodosTask(widget.task);
+    countDoneTodos = await todoController.getCountDoneTodosTask(widget.task);
   }
 
   @override
@@ -45,130 +42,154 @@ class _TaskPageState extends State<TaskPage> {
         return true;
       },
       child: Scaffold(
-        body: SafeArea(
-          child: Column(
+        appBar: AppBar(
+          titleSpacing: 5,
+          automaticallyImplyLeading: false,
+          title: Row(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+              Flexible(
                 child: Row(
                   children: [
-                    Flexible(
-                      child: Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: const Icon(Iconsax.arrow_left_1),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                          ),
-                          Expanded(
-                            child: widget.task.description!.isNotEmpty
-                                ? Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        widget.task.title!,
-                                        style: context
-                                            .theme.textTheme.headlineSmall
-                                            ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      Text(
-                                        widget.task.description!,
-                                        style: context.textTheme.bodyLarge
-                                            ?.copyWith(
-                                          color: Colors.grey[600],
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  )
-                                : Text(
-                                    widget.task.title!,
-                                    style: context.textTheme.headlineSmall
-                                        ?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              showModalBottomSheet(
-                                enableDrag: false,
-                                context: context,
-                                isScrollControlled: true,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20),
-                                  ),
-                                ),
-                                builder: (BuildContext context) {
-                                  return TaskTypeCu(
-                                    text: 'editing'.tr,
-                                    edit: true,
-                                    task: widget.task,
-                                  );
-                                },
-                              );
-                            },
-                            icon: const Icon(Iconsax.edit),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 30, top: 10, bottom: 5, right: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'tasks'.tr,
-                                style: context.textTheme.titleLarge,
-                              ),
-                              Text(
-                                '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                                style: context.textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey[600],
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                    IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(
+                        Iconsax.arrow_left_1,
+                        size: 20,
                       ),
                     ),
                     Expanded(
-                      child: TodosList(
-                        allTask: false,
-                        calendare: false,
-                        toggle: false,
-                        task: widget.task,
+                      child: widget.task.description!.isNotEmpty
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.task.title!,
+                                  style: context.theme.textTheme.titleLarge
+                                      ?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                Text(
+                                  widget.task.description!,
+                                  style: context.textTheme.labelLarge?.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            )
+                          : Text(
+                              widget.task.title!,
+                              style: context.textTheme.headlineSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          enableDrag: false,
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(20),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return TaskTypeCu(
+                              text: 'editing'.tr,
+                              edit: true,
+                              task: widget.task,
+                            );
+                          },
+                        );
+                      },
+                      icon: const Icon(
+                        Iconsax.edit,
+                        size: 20,
                       ),
                     ),
                   ],
                 ),
               ),
             ],
+          ),
+        ),
+        body: SafeArea(
+          child: DefaultTabController(
+            length: 2,
+            child: NestedScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverToBoxAdapter(
+                    child: Card(
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
+                      child: TextField(
+                        style: context.textTheme.labelLarge,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            Iconsax.search_normal_1,
+                            size: 20,
+                          ),
+                          labelText: 'searchTodo'.tr,
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                        context),
+                    sliver: SliverPersistentHeader(
+                      delegate: MyDelegate(
+                        TabBar(
+                          isScrollable: true,
+                          dividerColor: Colors.transparent,
+                          splashFactory: NoSplash.splashFactory,
+                          overlayColor:
+                              MaterialStateProperty.resolveWith<Color?>(
+                            (Set<MaterialState> states) {
+                              return Colors.transparent;
+                            },
+                          ),
+                          tabs: [
+                            Tab(text: 'done'.tr),
+                            Tab(text: 'notDone'.tr),
+                          ],
+                        ),
+                      ),
+                      floating: true,
+                      pinned: true,
+                    ),
+                  ),
+                ];
+              },
+              body: TabBarView(
+                children: [
+                  TodosList(
+                    allTask: false,
+                    calendare: false,
+                    done: false,
+                    task: widget.task,
+                  ),
+                  TodosList(
+                    allTask: false,
+                    calendare: false,
+                    done: true,
+                    task: widget.task,
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(

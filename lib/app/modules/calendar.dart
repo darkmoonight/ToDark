@@ -1,10 +1,10 @@
 import 'package:isar/isar.dart';
-import 'package:swipe/swipe.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:todark/app/widgets/my_delegate.dart';
 import 'package:todark/app/widgets/todos_list.dart';
 import 'package:todark/main.dart';
 
@@ -35,14 +35,10 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   getCountTodos() async {
-    final countTotal =
+    countTotalTodos =
         await todoController.getCountTotalTodosCalendar(selectedDay);
-    final countDone =
+    countDoneTodos =
         await todoController.getCountDoneTodosCalendar(selectedDay);
-    setState(() {
-      countTotalTodos = countTotal;
-      countDoneTodos = countDone;
-    });
   }
 
   getTodosAll() async {
@@ -71,124 +67,114 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TableCalendar(
-          calendarBuilders: CalendarBuilders(
-            markerBuilder: (context, day, events) {
-              return getCountTotalTodosCalendar(day) != 0
-                  ? Container(
-                      width: 16,
-                      height: 16,
-                      decoration: const BoxDecoration(
-                        color: Colors.amber,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          getCountTotalTodosCalendar(day).toString(),
-                          style: context.textTheme.bodyLarge?.copyWith(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                    )
-                  : null;
-            },
-          ),
-          startingDayOfWeek: StartingDayOfWeek.monday,
-          firstDay: firstDay,
-          lastDay: lastDay,
-          focusedDay: selectedDay,
-          locale: '${locale?.languageCode}',
-          weekendDays: const [DateTime.sunday],
-          availableCalendarFormats: {
-            CalendarFormat.month: 'month'.tr,
-            CalendarFormat.twoWeeks: 'two_week'.tr,
-            CalendarFormat.week: 'week'.tr
-          },
-          selectedDayPredicate: (day) {
-            return isSameDay(selectedDay, day);
-          },
-          onDaySelected: (selected, focused) {
-            setState(() {
-              selectedDay = selected;
-            });
-            getCountTodos();
-          },
-          onPageChanged: (focused) {
-            setState(() {
-              selectedDay = focused;
-            });
-            getCountTodos();
-          },
-          calendarFormat: calendarFormat,
-          onFormatChanged: (format) {
-            setState(
-              () {
-                calendarFormat = format;
-              },
-            );
-          },
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 20, top: 5, bottom: 5, right: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'tasks'.tr,
-                          style: context.textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          '($countDoneTodos/$countTotalTodos) ${'completed'.tr}',
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: Colors.grey[600],
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverToBoxAdapter(
+              child: TableCalendar(
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, day, events) {
+                    return getCountTotalTodosCalendar(day) != 0
+                        ? Container(
+                            width: 16,
+                            height: 16,
+                            decoration: const BoxDecoration(
+                              color: Colors.amber,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                getCountTotalTodosCalendar(day).toString(),
+                                style: context.textTheme.bodyLarge?.copyWith(
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          )
+                        : null;
+                  },
                 ),
+                startingDayOfWeek: StartingDayOfWeek.monday,
+                firstDay: firstDay,
+                lastDay: lastDay,
+                focusedDay: selectedDay,
+                locale: '${locale?.languageCode}',
+                weekendDays: const [DateTime.sunday],
+                availableCalendarFormats: {
+                  CalendarFormat.month: 'month'.tr,
+                  CalendarFormat.twoWeeks: 'two_week'.tr,
+                  CalendarFormat.week: 'week'.tr
+                },
+                selectedDayPredicate: (day) {
+                  return isSameDay(selectedDay, day);
+                },
+                onDaySelected: (selected, focused) {
+                  setState(() {
+                    selectedDay = selected;
+                  });
+                  getCountTodos();
+                },
+                onPageChanged: (focused) {
+                  setState(() {
+                    selectedDay = focused;
+                  });
+                  getCountTodos();
+                },
+                calendarFormat: calendarFormat,
+                onFormatChanged: (format) {
+                  setState(
+                    () {
+                      calendarFormat = format;
+                    },
+                  );
+                },
               ),
-              Expanded(
-                child: Swipe(
-                  horizontalMinDisplacement: 20,
-                  onSwipeLeft: () {
-                    if (selectedDay.isBefore(lastDay)) {
-                      selectedDay = selectedDay.add(const Duration(days: 1));
-                      setState(() {});
-                    }
-                  },
-                  onSwipeRight: () {
-                    if (selectedDay.isAfter(firstDay)) {
-                      selectedDay = selectedDay.add(const Duration(days: -1));
-                      setState(() {});
-                    }
-                  },
-                  child: TodosList(
-                    calendare: true,
-                    allTask: false,
-                    toggle: false,
-                    selectedDay: selectedDay,
+            ),
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverPersistentHeader(
+                delegate: MyDelegate(
+                  TabBar(
+                    isScrollable: true,
+                    dividerColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
+                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
+                        return Colors.transparent;
+                      },
+                    ),
+                    tabs: [
+                      Tab(text: 'done'.tr),
+                      Tab(text: 'notDone'.tr),
+                    ],
                   ),
                 ),
+                floating: true,
+                pinned: true,
               ),
-            ],
-          ),
+            ),
+          ];
+        },
+        body: TabBarView(
+          children: [
+            TodosList(
+              calendare: true,
+              allTask: false,
+              done: false,
+              selectedDay: selectedDay,
+            ),
+            TodosList(
+              calendare: true,
+              allTask: false,
+              done: false,
+              selectedDay: selectedDay,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

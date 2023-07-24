@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class MyDelegate extends SliverPersistentHeaderDelegate {
   MyDelegate(this.tabBar);
@@ -10,7 +9,6 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
-      color: context.theme.primaryColor,
       height: 40,
       child: tabBar,
     );

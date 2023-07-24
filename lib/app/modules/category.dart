@@ -25,12 +25,8 @@ class _CategoryPageState extends State<CategoryPage> {
   }
 
   getCountTodos() async {
-    final countTotal = await todoController.getCountTotalTodos();
-    final countDone = await todoController.getCountDoneTodos();
-    setState(() {
-      countTotalTodos = countTotal;
-      countDoneTodos = countDone;
-    });
+    countTotalTodos = await todoController.getCountTotalTodos();
+    countDoneTodos = await todoController.getCountDoneTodos();
   }
 
   @override
@@ -68,25 +64,28 @@ class _CategoryPageState extends State<CategoryPage> {
                 ],
               ),
             ),
-            SliverPersistentHeader(
-              delegate: MyDelegate(
-                TabBar(
-                  isScrollable: true,
-                  dividerColor: Colors.transparent,
-                  splashFactory: NoSplash.splashFactory,
-                  overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
-                      return Colors.transparent;
-                    },
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverPersistentHeader(
+                delegate: MyDelegate(
+                  TabBar(
+                    isScrollable: true,
+                    dividerColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
+                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
+                        return Colors.transparent;
+                      },
+                    ),
+                    tabs: [
+                      Tab(text: 'active'.tr),
+                      Tab(text: 'archived'.tr),
+                    ],
                   ),
-                  tabs: const [
-                    Tab(text: 'active'),
-                    Tab(text: 'archived'),
-                  ],
                 ),
+                floating: true,
+                pinned: true,
               ),
-              floating: true,
-              pinned: true,
             ),
           ];
         },

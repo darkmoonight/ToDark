@@ -1,5 +1,6 @@
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/widgets/my_delegate.dart';
 import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,58 +24,76 @@ class _AllTaskPageState extends State<AllTaskPage> {
   }
 
   getCountTodos() async {
-    final countTotal = await todoController.getCountTotalTodos();
-    final countDone = await todoController.getCountDoneTodos();
-    setState(() {
-      countTotalTodos = countTotal;
-      countDoneTodos = countDone;
-    });
+    countTotalTodos = await todoController.getCountTotalTodos();
+    countDoneTodos = await todoController.getCountDoneTodos();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Card(
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: TextField(
-            style: context.textTheme.labelLarge,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
-                Iconsax.search_normal_1,
-                size: 20,
-              ),
-              labelText: 'searchTodo'.tr,
-              border: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
-            ),
-          ),
-        ),
-        Padding(
-          padding:
-              const EdgeInsets.only(left: 20, top: 5, bottom: 5, right: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'allTasks'.tr,
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return [
+            SliverToBoxAdapter(
+              child: Card(
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: TextField(
+                  style: context.textTheme.labelLarge,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(
+                      Iconsax.search_normal_1,
+                      size: 20,
+                    ),
+                    labelText: 'searchTodo'.tr,
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverPersistentHeader(
+                delegate: MyDelegate(
+                  TabBar(
+                    isScrollable: true,
+                    dividerColor: Colors.transparent,
+                    splashFactory: NoSplash.splashFactory,
+                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                      (Set<MaterialState> states) {
+                        return Colors.transparent;
+                      },
+                    ),
+                    tabs: [
+                      Tab(text: 'done'.tr),
+                      Tab(text: 'notDone'.tr),
+                    ],
+                  ),
+                ),
+                floating: true,
+                pinned: true,
+              ),
+            ),
+          ];
+        },
+        body: const TabBarView(
+          children: [
+            TodosList(
+              calendare: false,
+              allTask: true,
+              done: false,
+            ),
+            TodosList(
+              calendare: false,
+              allTask: true,
+              done: true,
+            ),
+          ],
         ),
-        const Expanded(
-          child: TodosList(
-            calendare: false,
-            allTask: true,
-            toggle: false,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
