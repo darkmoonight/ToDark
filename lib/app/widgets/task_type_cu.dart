@@ -1,5 +1,5 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/isar_service.dart';
+import 'package:todark/app/services/controller.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -23,16 +23,18 @@ class TaskTypeCu extends StatefulWidget {
 
 class _TaskTypeCuState extends State<TaskTypeCu> {
   final formKey = GlobalKey<FormState>();
-  final service = IsarServices();
+  final todoController = Get.put(TodoController());
+  TextEditingController titleEdit = TextEditingController();
+  TextEditingController descEdit = TextEditingController();
+  Color myColor = const Color(0xFF2196F3);
 
   @override
   initState() {
     if (widget.edit == true) {
-      service.titleEdit.value = TextEditingController(text: widget.task!.title);
-      service.descEdit.value =
-          TextEditingController(text: widget.task!.description);
-      service.myColor.value = Color(widget.task!.taskColor!);
-    }
+      titleEdit = TextEditingController(text: widget.task!.title);
+      descEdit = TextEditingController(text: widget.task!.description);
+      myColor = Color(widget.task!.taskColor!);
+    } else {}
     super.initState();
   }
 
@@ -63,8 +65,8 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        service.titleEdit.value.clear();
-                        service.descEdit.value.clear();
+                        titleEdit.clear();
+                        descEdit.clear();
 
                         Get.back();
                       },
@@ -83,17 +85,17 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                     IconButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          textTrim(service.titleEdit.value);
-                          textTrim(service.descEdit.value);
+                          textTrim(titleEdit);
+                          textTrim(descEdit);
                           if (widget.edit == false) {
-                            service.addTask(service.titleEdit.value,
-                                service.descEdit.value, service.myColor.value);
+                            todoController.addTask(
+                                titleEdit, descEdit, myColor);
                           } else {
-                            service.updateTask(
+                            todoController.updateTask(
                               widget.task!,
-                              service.titleEdit.value,
-                              service.descEdit.value,
-                              service.myColor.value,
+                              titleEdit,
+                              descEdit,
+                              myColor,
                             );
                           }
                           Get.back();
@@ -110,7 +112,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
               MyTextForm(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                controller: service.titleEdit.value,
+                controller: titleEdit,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
@@ -124,16 +126,16 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
               MyTextForm(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                controller: service.descEdit.value,
+                controller: descEdit,
                 labelText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
               ColorPicker(
-                color: service.myColor.value,
+                color: myColor,
                 onColorChanged: (Color color) => setState(
                   () {
-                    service.myColor.value = color;
+                    myColor = color;
                   },
                 ),
                 borderRadius: 20,

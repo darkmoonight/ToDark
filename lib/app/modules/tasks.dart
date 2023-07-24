@@ -1,5 +1,5 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/isar_service.dart';
+import 'package:todark/app/services/controller.dart';
 import 'package:todark/app/widgets/task_type_cu.dart';
 import 'package:todark/app/widgets/todos_ce.dart';
 import 'package:todark/app/widgets/todos_list.dart';
@@ -19,7 +19,7 @@ class TaskPage extends StatefulWidget {
 }
 
 class _TaskPageState extends State<TaskPage> {
-  final service = IsarServices();
+  final todoController = Get.put(TodoController());
   int countTotalTodos = 0;
   int countDoneTodos = 0;
 
@@ -30,8 +30,8 @@ class _TaskPageState extends State<TaskPage> {
   }
 
   getCountTodos() async {
-    final countTotal = await service.getCountTotalTodosTask(widget.task);
-    final countDone = await service.getCountDoneTodosTask(widget.task);
+    final countTotal = await todoController.getCountTotalTodosTask(widget.task);
+    final countDone = await todoController.getCountDoneTodosTask(widget.task);
     setState(() {
       countTotalTodos = countTotal;
       countDoneTodos = countDone;
@@ -154,15 +154,6 @@ class _TaskPageState extends State<TaskPage> {
                               ),
                             ],
                           ),
-                          Switch(
-                            thumbIcon: service.thumbIconTodo,
-                            value: service.toggleValue.value,
-                            onChanged: (value) {
-                              setState(() {
-                                service.toggleValue.value = value;
-                              });
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -170,7 +161,7 @@ class _TaskPageState extends State<TaskPage> {
                       child: TodosList(
                         allTask: false,
                         calendare: false,
-                        toggle: service.toggleValue.value,
+                        toggle: false,
                         task: widget.task,
                       ),
                     ),

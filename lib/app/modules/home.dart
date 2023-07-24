@@ -2,7 +2,6 @@ import 'package:todark/app/modules/all_tasks.dart';
 import 'package:todark/app/modules/calendar.dart';
 import 'package:todark/app/modules/category.dart';
 import 'package:todark/app/modules/settings.dart';
-import 'package:todark/app/services/isar_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
@@ -18,7 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final service = IsarServices();
   final themeController = Get.put(ThemeController());
   int tabIndex = 0;
 

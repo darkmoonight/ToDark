@@ -3,7 +3,7 @@ import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/isar_service.dart';
+import 'package:todark/app/services/controller.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,22 +31,24 @@ class TodosCe extends StatefulWidget {
 
 class _TodosCeState extends State<TodosCe> {
   final formKey = GlobalKey<FormState>();
-  final service = IsarServices();
+  final todoController = Get.put(TodoController());
   final locale = Get.locale;
   Tasks? selectedTask;
   List<Tasks>? task;
   final FocusNode focusNode = FocusNode();
   final textConroller = TextEditingController();
+  TextEditingController titleEdit = TextEditingController();
+  TextEditingController descEdit = TextEditingController();
+  TextEditingController timeEdit = TextEditingController();
 
   @override
   initState() {
     if (widget.edit == true) {
       selectedTask = widget.todo!.task.value;
       textConroller.text = widget.todo!.task.value!.title!;
-      service.titleEdit.value = TextEditingController(text: widget.todo!.name);
-      service.descEdit.value =
-          TextEditingController(text: widget.todo!.description);
-      service.timeEdit.value = TextEditingController(
+      titleEdit = TextEditingController(text: widget.todo!.name);
+      descEdit = TextEditingController(text: widget.todo!.description);
+      timeEdit = TextEditingController(
           text: widget.todo!.todoCompletedTime != null
               ? widget.todo!.todoCompletedTime.toString()
               : '');
@@ -92,9 +94,9 @@ class _TodosCeState extends State<TodosCe> {
                   children: [
                     IconButton(
                       onPressed: () {
-                        service.titleEdit.value.clear();
-                        service.descEdit.value.clear();
-                        service.timeEdit.value.clear();
+                        titleEdit.clear();
+                        descEdit.clear();
+                        timeEdit.clear();
                         textConroller.clear();
                         Get.back();
                       },
@@ -113,28 +115,28 @@ class _TodosCeState extends State<TodosCe> {
                     IconButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          textTrim(service.titleEdit.value);
-                          textTrim(service.descEdit.value);
+                          textTrim(titleEdit);
+                          textTrim(descEdit);
                           widget.category == false
-                              ? service.addTodo(
+                              ? todoController.addTodo(
                                   widget.task!,
-                                  service.titleEdit.value,
-                                  service.descEdit.value,
-                                  service.timeEdit.value,
+                                  titleEdit,
+                                  descEdit,
+                                  timeEdit,
                                 )
                               : widget.edit == false
-                                  ? service.addTodo(
+                                  ? todoController.addTodo(
                                       selectedTask!,
-                                      service.titleEdit.value,
-                                      service.descEdit.value,
-                                      service.timeEdit.value,
+                                      titleEdit,
+                                      descEdit,
+                                      timeEdit,
                                     )
-                                  : service.updateTodo(
+                                  : todoController.updateTodo(
                                       widget.todo!,
                                       selectedTask!,
-                                      service.titleEdit.value,
-                                      service.descEdit.value,
-                                      service.timeEdit.value,
+                                      titleEdit,
+                                      descEdit,
+                                      timeEdit,
                                     );
                           textConroller.clear();
                           Get.back();
@@ -238,7 +240,7 @@ class _TodosCeState extends State<TodosCe> {
               MyTextForm(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                controller: service.titleEdit.value,
+                controller: titleEdit,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
@@ -252,7 +254,7 @@ class _TodosCeState extends State<TodosCe> {
               MyTextForm(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                controller: service.descEdit.value,
+                controller: descEdit,
                 labelText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
@@ -261,7 +263,7 @@ class _TodosCeState extends State<TodosCe> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 readOnly: true,
-                controller: service.timeEdit.value,
+                controller: timeEdit,
                 labelText: 'timeComlete'.tr,
                 type: TextInputType.datetime,
                 icon: const Icon(Iconsax.clock),
@@ -271,7 +273,7 @@ class _TodosCeState extends State<TodosCe> {
                     size: 18,
                   ),
                   onPressed: () {
-                    service.timeEdit.value.clear();
+                    timeEdit.clear();
                   },
                 ),
                 onTap: () {
@@ -286,7 +288,7 @@ class _TodosCeState extends State<TodosCe> {
                     closeIconColor: Colors.red,
                     backgroundColor: context.theme.colorScheme.surface,
                     onSubmit: (date) {
-                      service.timeEdit.value.text = date.toString();
+                      timeEdit.text = date.toString();
                     },
                     bottomPickerTheme: BottomPickerTheme.temptingAzure,
                     minDateTime: DateTime.now(),

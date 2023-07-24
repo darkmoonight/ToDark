@@ -1,39 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/notification.dart';
 import 'package:todark/main.dart';
 
-class IsarServices {
-  final titleEdit = TextEditingController().obs;
-  final descEdit = TextEditingController().obs;
-  final timeEdit = TextEditingController().obs;
-  final toggleValue = false.obs;
-  final myColor = const Color(0xFF2196F3).obs;
-
-  final MaterialStateProperty<Icon?> thumbIconTodo =
-      MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Icon(Iconsax.tick_circle);
-      }
-      return const Icon(Iconsax.close_circle);
-    },
-  );
-
-  final MaterialStateProperty<Icon?> thumbIconTask =
-      MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
-        return const Icon(Iconsax.archive_tick);
-      }
-      return const Icon(Iconsax.archive_minus);
-    },
-  );
-
+class TodoController extends GetxController {
   Future<int> getCountTotalTodosCalendar(DateTime selectedDay) async {
     return isar.todos
         .filter()

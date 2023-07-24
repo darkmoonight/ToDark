@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:intl/intl.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/isar_service.dart';
+import 'package:todark/app/services/controller.dart';
 import 'package:todark/app/services/notification.dart';
 import 'package:todark/app/widgets/todos_ce.dart';
 import 'package:flutter/material.dart';
@@ -29,17 +29,18 @@ class TodosList extends StatefulWidget {
 }
 
 class _TodosListState extends State<TodosList> {
-  final service = IsarServices();
+  final todoController = Get.put(TodoController());
   final locale = Get.locale;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Todos>>(
       stream: widget.allTask == true
-          ? service.getAllTodo(widget.toggle)
+          ? todoController.getAllTodo(widget.toggle)
           : widget.calendare == true
-              ? service.getCalendarTodo(widget.toggle, widget.selectedDay!)
-              : service.getTodo(widget.toggle, widget.task!),
+              ? todoController.getCalendarTodo(
+                  widget.toggle, widget.selectedDay!)
+              : todoController.getTodo(widget.toggle, widget.task!),
       builder: (BuildContext context, AsyncSnapshot<List<Todos>> listData) {
         switch (listData.connectionState) {
           case ConnectionState.done:
@@ -110,7 +111,7 @@ class _TodosListState extends State<TodosList> {
                           );
                         },
                         onDismissed: (DismissDirection direction) {
-                          service.deleteTodo(todosList);
+                          todoController.deleteTodo(todosList);
                         },
                         background: Container(
                           alignment: Alignment.centerRight,
@@ -177,7 +178,7 @@ class _TodosListState extends State<TodosList> {
                                           Future.delayed(
                                             const Duration(milliseconds: 300),
                                             () {
-                                              service
+                                              todoController
                                                   .updateTodoCheck(todosList);
                                             },
                                           );

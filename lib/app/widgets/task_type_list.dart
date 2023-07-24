@@ -3,67 +3,68 @@ import 'package:todark/app/data/schema.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:todark/app/services/isar_service.dart';
+import 'package:todark/app/services/controller.dart';
 import '../modules/tasks.dart';
 
 class TaskTypeList extends StatefulWidget {
   const TaskTypeList({
     super.key,
-    required this.toggle,
+    required this.archived,
   });
-  final bool toggle;
+  final bool archived;
 
   @override
   State<TaskTypeList> createState() => _TaskTypeListState();
 }
 
 class _TaskTypeListState extends State<TaskTypeList> {
-  final service = IsarServices();
+  final todoController = Get.put(TodoController());
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: StreamBuilder<List<Tasks>>(
-        stream: service.getTask(widget.toggle),
-        builder: (BuildContext context, AsyncSnapshot<List<Tasks>> listData) {
-          switch (listData.connectionState) {
-            case ConnectionState.done:
-            default:
-              if (listData.hasData) {
-                final task = listData.data!;
-                if (task.isEmpty) {
-                  return Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/Starting.png',
-                            scale: 5,
-                          ),
-                          SizedBox(
-                            width: Get.size.width * 0.8,
-                            child: Text(
-                              widget.toggle == false
-                                  ? 'addCategory'.tr
-                                  : 'addArchive'.tr,
-                              textAlign: TextAlign.center,
-                              style: context.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              ),
+    return StreamBuilder<List<Tasks>>(
+      stream: todoController.getTask(widget.archived),
+      builder: (BuildContext context, AsyncSnapshot<List<Tasks>> listData) {
+        switch (listData.connectionState) {
+          case ConnectionState.done:
+          default:
+            if (listData.hasData) {
+              final task = listData.data!;
+              if (task.isEmpty) {
+                return Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Image.asset(
+                          'assets/images/Starting.png',
+                          scale: 5,
+                        ),
+                        SizedBox(
+                          width: Get.size.width * 0.8,
+                          child: Text(
+                            widget.archived == false
+                                ? 'addCategory'.tr
+                                : 'addArchive'.tr,
+                            textAlign: TextAlign.center,
+                            style: context.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  );
-                }
-                return ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: task.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final taskList = task[index];
-                    return Dismissible(
+                  ),
+                );
+              }
+              return ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: task.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final taskList = task[index];
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 10),
+                    child: Dismissible(
                       key: ValueKey(taskList),
                       direction: DismissDirection.horizontal,
                       confirmDismiss: (DismissDirection direction) async {
@@ -74,7 +75,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                               title: Text(
                                 direction == DismissDirection.endToStart
                                     ? "deleteCategory".tr
-                                    : widget.toggle == false
+                                    : widget.archived == false
                                         ? "archiveTask".tr
                                         : "noArchiveTask".tr,
                                 style: context.textTheme.titleLarge,
@@ -82,7 +83,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                               content: Text(
                                 direction == DismissDirection.endToStart
                                     ? "deleteCategoryQuery".tr
-                                    : widget.toggle == false
+                                    : widget.archived == false
                                         ? "archiveTaskQuery".tr
                                         : "noArchiveTaskQuery".tr,
                                 style: context.textTheme.titleMedium,
@@ -99,7 +100,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                     child: Text(
                                         direction == DismissDirection.endToStart
                                             ? "delete".tr
-                                            : widget.toggle == false
+                                            : widget.archived == false
                                                 ? "archive".tr
                                                 : "noArchive".tr,
                                         style: context.textTheme.titleMedium
@@ -111,11 +112,11 @@ class _TaskTypeListState extends State<TaskTypeList> {
                       },
                       onDismissed: (DismissDirection direction) {
                         if (direction == DismissDirection.endToStart) {
-                          service.deleteTask(taskList);
+                          todoController.deleteTask(taskList);
                         } else if (direction == DismissDirection.startToEnd) {
-                          widget.toggle == false
-                              ? service.archiveTask(taskList)
-                              : service.noArchiveTask(taskList);
+                          widget.archived == false
+                              ? todoController.archiveTask(taskList)
+                              : todoController.noArchiveTask(taskList);
                         }
                       },
                       background: Container(
@@ -125,10 +126,10 @@ class _TaskTypeListState extends State<TaskTypeList> {
                             left: 15,
                           ),
                           child: Icon(
-                            widget.toggle == false
+                            widget.archived == false
                                 ? Iconsax.archive_2
                                 : Iconsax.refresh_left_square,
-                            color: widget.toggle == false
+                            color: widget.archived == false
                                 ? Colors.red
                                 : Colors.green,
                           ),
@@ -260,17 +261,17 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           ),
                         ),
                       ),
-                    );
-                  },
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-          }
-        },
-      ),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+        }
+      },
     );
   }
 }

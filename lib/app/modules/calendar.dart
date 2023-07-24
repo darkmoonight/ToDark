@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
 import 'package:swipe/swipe.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/isar_service.dart';
+import 'package:todark/app/services/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -16,7 +16,7 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  final service = IsarServices();
+  final todoController = Get.put(TodoController());
   final locale = Get.locale;
   DateTime selectedDay = DateTime.now();
   DateTime firstDay = DateTime.now().add(const Duration(days: -1000));
@@ -35,8 +35,10 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   getCountTodos() async {
-    final countTotal = await service.getCountTotalTodosCalendar(selectedDay);
-    final countDone = await service.getCountDoneTodosCalendar(selectedDay);
+    final countTotal =
+        await todoController.getCountTotalTodosCalendar(selectedDay);
+    final countDone =
+        await todoController.getCountDoneTodosCalendar(selectedDay);
     setState(() {
       countTotalTodos = countTotal;
       countDoneTodos = countDone;
@@ -157,15 +159,6 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                       ],
                     ),
-                    Switch(
-                      thumbIcon: service.thumbIconTodo,
-                      value: service.toggleValue.value,
-                      onChanged: (value) {
-                        setState(() {
-                          service.toggleValue.value = value;
-                        });
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -187,7 +180,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   child: TodosList(
                     calendare: true,
                     allTask: false,
-                    toggle: service.toggleValue.value,
+                    toggle: false,
                     selectedDay: selectedDay,
                   ),
                 ),

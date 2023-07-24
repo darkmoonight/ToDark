@@ -1,5 +1,5 @@
 import 'package:iconsax/iconsax.dart';
-import 'package:todark/app/services/isar_service.dart';
+import 'package:todark/app/services/controller.dart';
 import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,8 +12,7 @@ class AllTaskPage extends StatefulWidget {
 }
 
 class _AllTaskPageState extends State<AllTaskPage> {
-  final service = IsarServices();
-
+  final todoController = Get.put(TodoController());
   int countTotalTodos = 0;
   int countDoneTodos = 0;
 
@@ -24,8 +23,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
   }
 
   getCountTodos() async {
-    final countTotal = await service.getCountTotalTodos();
-    final countDone = await service.getCountDoneTodos();
+    final countTotal = await todoController.getCountTotalTodos();
+    final countDone = await todoController.getCountDoneTodos();
     setState(() {
       countTotalTodos = countTotal;
       countDoneTodos = countDone;
@@ -65,23 +64,14 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Switch(
-                thumbIcon: service.thumbIconTodo,
-                value: service.toggleValue.value,
-                onChanged: (value) {
-                  setState(() {
-                    service.toggleValue.value = value;
-                  });
-                },
-              ),
             ],
           ),
         ),
-        Expanded(
+        const Expanded(
           child: TodosList(
             calendare: false,
             allTask: true,
-            toggle: service.toggleValue.value,
+            toggle: false,
           ),
         ),
       ],
