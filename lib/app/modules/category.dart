@@ -5,6 +5,7 @@ import 'package:todark/app/services/controller.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
 import 'package:todark/app/widgets/statistics.dart';
 import 'package:todark/app/widgets/task_type_list.dart';
+import 'package:todark/app/widgets/text_form.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -40,22 +41,16 @@ class _CategoryPageState extends State<CategoryPage> {
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  Card(
+                  MyTextForm(
+                    labelText: 'searchTask'.tr,
+                    type: TextInputType.text,
+                    icon: const Icon(
+                      Iconsax.search_normal_1,
+                      size: 20,
+                    ),
+                    controller: TextEditingController(),
                     margin:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    child: TextField(
-                      style: context.textTheme.labelLarge,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Iconsax.search_normal_1,
-                          size: 20,
-                        ),
-                        labelText: 'searchTask'.tr,
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                      ),
-                    ),
                   ),
                   Statistics(
                     countTotalTodos: countTotalTodos,

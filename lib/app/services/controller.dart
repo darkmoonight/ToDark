@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/notification.dart';
@@ -122,21 +123,20 @@ class TodoController extends GetxController {
   }
 
   Future<void> addTask(
-    TextEditingController titleEdit,
-    TextEditingController descEdit,
+    String title,
+    String desc,
     Color myColor,
   ) async {
     final taskCreate = Tasks(
-      title: titleEdit.text,
-      description: descEdit.text,
+      title: title,
+      description: desc,
       taskColor: myColor.value,
     );
 
     List<Tasks> searchTask;
     final taskCollection = isar.tasks;
 
-    searchTask =
-        await taskCollection.filter().titleEqualTo(titleEdit.text).findAll();
+    searchTask = await taskCollection.filter().titleEqualTo(title).findAll();
 
     if (searchTask.isEmpty) {
       await isar.writeTxn(() async {
@@ -148,22 +148,20 @@ class TodoController extends GetxController {
       EasyLoading.showError('duplicateCategory'.tr,
           duration: const Duration(milliseconds: 500));
     }
-
-    titleEdit.clear();
-    descEdit.clear();
     myColor = const Color(0xFF2196F3);
   }
 
   Future<void> addTodo(
     Tasks task,
-    TextEditingController titleEdit,
-    TextEditingController descEdit,
-    TextEditingController timeEdit,
+    String title,
+    String desc,
+    String time,
   ) async {
+    DateTime date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
     final todosCreate = Todos(
-      name: titleEdit.text,
-      description: descEdit.text,
-      todoCompletedTime: DateTime.tryParse(timeEdit.text),
+      name: title,
+      description: desc,
+      todoCompletedTime: date,
     )..task.value = task;
 
     final todosCollection = isar.todos;
@@ -171,21 +169,21 @@ class TodoController extends GetxController {
 
     getTodos = await todosCollection
         .filter()
-        .nameEqualTo(titleEdit.text)
+        .nameEqualTo(title)
         .task((q) => q.idEqualTo(task.id))
-        .todoCompletedTimeEqualTo(DateTime.tryParse(timeEdit.text))
+        .todoCompletedTimeEqualTo(date)
         .findAll();
 
     if (getTodos.isEmpty) {
       await isar.writeTxn(() async {
         await isar.todos.put(todosCreate);
         await todosCreate.task.save();
-        if (timeEdit.text.isNotEmpty) {
+        if (time.isNotEmpty) {
           NotificationShow().showNotification(
             todosCreate.id,
             todosCreate.name!,
             todosCreate.description!,
-            DateTime.tryParse(timeEdit.text),
+            date,
           );
         }
       });
@@ -195,20 +193,17 @@ class TodoController extends GetxController {
       EasyLoading.showError('duplicateTask'.tr,
           duration: const Duration(milliseconds: 500));
     }
-    titleEdit.clear();
-    descEdit.clear();
-    timeEdit.clear();
   }
 
   Future<void> updateTask(
     Tasks task,
-    TextEditingController timeEdit,
-    TextEditingController descEdit,
+    String time,
+    String desc,
     Color myColor,
   ) async {
     await isar.writeTxn(() async {
-      task.title = timeEdit.text;
-      task.description = descEdit.text;
+      task.title = time;
+      task.description = desc;
       task.taskColor = myColor.value;
       await isar.tasks.put(task);
     });
@@ -223,24 +218,25 @@ class TodoController extends GetxController {
   Future<void> updateTodo(
     Todos todo,
     Tasks task,
-    TextEditingController titleEdit,
-    TextEditingController descEdit,
-    TextEditingController timeEdit,
+    String title,
+    String desc,
+    String time,
   ) async {
+    DateTime date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
     await isar.writeTxn(() async {
-      todo.name = titleEdit.text;
-      todo.description = descEdit.text;
-      todo.todoCompletedTime = DateTime.tryParse(timeEdit.text);
+      todo.name = title;
+      todo.description = desc;
+      todo.todoCompletedTime = date;
       todo.task.value = task;
       await isar.todos.put(todo);
       await todo.task.save();
-      if (timeEdit.text.isNotEmpty) {
+      if (time.isNotEmpty) {
         await flutterLocalNotificationsPlugin.cancel(todo.id);
         NotificationShow().showNotification(
           todo.id,
           todo.name!,
           todo.description!,
-          DateTime.tryParse(timeEdit.text),
+          date,
         );
       } else {
         await flutterLocalNotificationsPlugin.cancel(todo.id);

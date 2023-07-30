@@ -85,6 +85,10 @@ class Translation extends Translations {
           'functions': 'Функции',
           'data': 'Данные',
           'language': 'Язык',
+          'active': 'Активные',
+          'archived': 'Архивные',
+          'done': 'Выполненные',
+          'doing': 'В процессе',
         },
         'en_US': {
           'title1': 'Organize your tasks',

@@ -1,6 +1,7 @@
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/services/controller.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
+import 'package:todark/app/widgets/text_form.dart';
 import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,21 +38,15 @@ class _AllTaskPageState extends State<AllTaskPage> {
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverToBoxAdapter(
-              child: Card(
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                child: TextField(
-                  style: context.textTheme.labelLarge,
-                  decoration: InputDecoration(
-                    prefixIcon: const Icon(
-                      Iconsax.search_normal_1,
-                      size: 20,
-                    ),
-                    labelText: 'searchTodo'.tr,
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
+              child: MyTextForm(
+                labelText: 'searchTodo'.tr,
+                type: TextInputType.text,
+                icon: const Icon(
+                  Iconsax.search_normal_1,
+                  size: 20,
                 ),
+                controller: TextEditingController(),
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               ),
             ),
             SliverOverlapAbsorber(
@@ -68,8 +63,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       },
                     ),
                     tabs: [
+                      Tab(text: 'doing'.tr),
                       Tab(text: 'done'.tr),
-                      Tab(text: 'notDone'.tr),
                     ],
                   ),
                 ),

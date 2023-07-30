@@ -38,7 +38,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                       child: Column(
                         children: [
                           Image.asset(
-                            'assets/images/Starting.png',
+                            'assets/images/Category.png',
                             scale: 5,
                           ),
                           SizedBox(

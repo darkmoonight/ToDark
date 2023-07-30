@@ -54,10 +54,15 @@ class _TodosListState extends State<TodosList> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          Image.asset(
-                            'assets/images/AddTasks.png',
-                            scale: 5,
-                          ),
+                          widget.calendare
+                              ? Image.asset(
+                                  'assets/images/Calendar.png',
+                                  scale: 5,
+                                )
+                              : Image.asset(
+                                  'assets/images/Todo.png',
+                                  scale: 5,
+                                ),
                           Text(
                             widget.done == true
                                 ? 'copletedTask'.tr

@@ -89,12 +89,14 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                           textTrim(descEdit);
                           if (widget.edit == false) {
                             todoController.addTask(
-                                titleEdit, descEdit, myColor);
+                                titleEdit.text, descEdit.text, myColor);
+                            titleEdit.clear();
+                            descEdit.clear();
                           } else {
                             todoController.updateTask(
                               widget.task!,
-                              titleEdit,
-                              descEdit,
+                              titleEdit.text,
+                              descEdit.text,
                               myColor,
                             );
                           }
@@ -110,8 +112,8 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 ),
               ),
               MyTextForm(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: titleEdit,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
@@ -124,30 +126,51 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 },
               ),
               MyTextForm(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: descEdit,
                 labelText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
-              ColorPicker(
-                color: myColor,
-                onColorChanged: (Color color) => setState(
-                  () {
-                    myColor = color;
-                  },
+              Card(
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: ListTile(
+                  leading: const Icon(Iconsax.colorfilter),
+                  title: Text(
+                    'color'.tr,
+                    style: context.textTheme.titleMedium,
+                    overflow: TextOverflow.visible,
+                  ),
+                  trailing: ColorIndicator(
+                    height: 25,
+                    width: 25,
+                    borderRadius: 20,
+                    color: myColor,
+                    onSelectFocus: false,
+                    onSelect: () async {
+                      final Color newColor = await showColorPickerDialog(
+                        context,
+                        myColor,
+                        borderRadius: 20,
+                        enableShadesSelection: false,
+                        enableTonalPalette: true,
+                        pickersEnabled: const <ColorPickerType, bool>{
+                          ColorPickerType.accent: false,
+                          ColorPickerType.primary: true,
+                          ColorPickerType.wheel: false,
+                          ColorPickerType.both: false,
+                        },
+                      );
+                      setState(() {
+                        myColor = newColor;
+                      });
+                    },
+                  ),
                 ),
-                borderRadius: 20,
-                enableShadesSelection: false,
-                enableTonalPalette: true,
-                pickersEnabled: const <ColorPickerType, bool>{
-                  ColorPickerType.accent: false,
-                  ColorPickerType.primary: true,
-                  ColorPickerType.wheel: false,
-                  ColorPickerType.both: false,
-                },
               ),
+              const SizedBox(height: 10)
             ],
           ),
         ),

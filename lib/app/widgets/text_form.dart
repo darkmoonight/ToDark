@@ -8,11 +8,14 @@ class MyTextForm extends StatelessWidget {
     required this.type,
     required this.icon,
     required this.controller,
-    required this.padding,
+    required this.margin,
     this.onTap,
+    this.onChanged,
     this.readOnly = false,
     this.validator,
     this.iconButton,
+    this.elevation,
+    this.focusNode,
   });
   final String labelText;
   final TextInputType type;
@@ -20,24 +23,33 @@ class MyTextForm extends StatelessWidget {
   final IconButton? iconButton;
   final TextEditingController controller;
   final Function()? onTap;
-  final EdgeInsets padding;
+  final Function(String)? onChanged;
+  final EdgeInsets margin;
   final String? Function(String?)? validator;
   final bool readOnly;
+  final double? elevation;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding,
+    return Card(
+      elevation: elevation,
+      margin: margin,
       child: TextFormField(
+        focusNode: focusNode,
         readOnly: readOnly,
+        onChanged: onChanged,
         onTap: readOnly == true ? onTap : null,
         controller: controller,
         keyboardType: type,
-        style: context.textTheme.titleMedium,
+        style: context.textTheme.labelLarge,
         decoration: InputDecoration(
           prefixIcon: icon,
           suffixIcon: iconButton,
           labelText: labelText,
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          enabledBorder: InputBorder.none,
         ),
         validator: validator,
       ),

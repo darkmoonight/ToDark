@@ -15,7 +15,6 @@ dependencies:
     sdk: flutter
   get: ^4.6.5
   intl: ^0.18.0
-  swipe: ^0.0.1
   isar: ^3.1.0+1
   iconsax: ^0.0.8
   timezone: ^0.9.2

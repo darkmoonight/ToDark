@@ -147,8 +147,8 @@ class _CalendarPageState extends State<CalendarPage> {
                       },
                     ),
                     tabs: [
+                      Tab(text: 'doing'.tr),
                       Tab(text: 'done'.tr),
-                      Tab(text: 'notDone'.tr),
                     ],
                   ),
                 ),

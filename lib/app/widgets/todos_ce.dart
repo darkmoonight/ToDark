@@ -1,6 +1,7 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/services/controller.dart';
@@ -32,7 +33,6 @@ class TodosCe extends StatefulWidget {
 class _TodosCeState extends State<TodosCe> {
   final formKey = GlobalKey<FormState>();
   final todoController = Get.put(TodoController());
-  final locale = Get.locale;
   Tasks? selectedTask;
   List<Tasks>? task;
   final FocusNode focusNode = FocusNode();
@@ -120,25 +120,28 @@ class _TodosCeState extends State<TodosCe> {
                           widget.category == false
                               ? todoController.addTodo(
                                   widget.task!,
-                                  titleEdit,
-                                  descEdit,
-                                  timeEdit,
+                                  titleEdit.text,
+                                  descEdit.text,
+                                  timeEdit.text,
                                 )
                               : widget.edit == false
                                   ? todoController.addTodo(
                                       selectedTask!,
-                                      titleEdit,
-                                      descEdit,
-                                      timeEdit,
+                                      titleEdit.text,
+                                      descEdit.text,
+                                      timeEdit.text,
                                     )
                                   : todoController.updateTodo(
                                       widget.todo!,
                                       selectedTask!,
-                                      titleEdit,
-                                      descEdit,
-                                      timeEdit,
+                                      titleEdit.text,
+                                      descEdit.text,
+                                      timeEdit.text,
                                     );
                           textConroller.clear();
+                          titleEdit.clear();
+                          descEdit.clear();
+                          timeEdit.clear();
                           Get.back();
                         }
                       },
@@ -151,57 +154,61 @@ class _TodosCeState extends State<TodosCe> {
                 ),
               ),
               widget.category == true
-                  ? Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 5),
-                      child: RawAutocomplete<Tasks>(
-                        focusNode: focusNode,
-                        textEditingController: textConroller,
-                        fieldViewBuilder: (BuildContext context,
-                            TextEditingController fieldTextEditingController,
-                            FocusNode fieldFocusNode,
-                            VoidCallback onFieldSubmitted) {
-                          return TextFormField(
-                            controller: textConroller,
-                            focusNode: focusNode,
-                            style: context.textTheme.labelLarge,
-                            decoration: InputDecoration(
-                              labelText: 'selectCategory'.tr,
-                              prefixIcon: const Icon(Iconsax.folder_2),
-                              suffixIcon: IconButton(
-                                icon: const Icon(
-                                  Icons.close,
-                                  size: 18,
-                                ),
-                                onPressed: () {
-                                  textConroller.clear();
-                                },
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'selectCategory'.tr;
-                              }
-                              return null;
-                            },
-                          );
-                        },
-                        optionsBuilder: (TextEditingValue textEditingValue) {
-                          if (textEditingValue.text.isEmpty) {
-                            return const Iterable<Tasks>.empty();
-                          }
-                          return getTodosAll(textEditingValue.text);
-                        },
-                        onSelected: (Tasks selection) {
-                          textConroller.text = selection.title!;
-                          selectedTask = selection;
-                          focusNode.unfocus();
-                        },
-                        displayStringForOption: (Tasks option) => option.title!,
-                        optionsViewBuilder: (BuildContext context,
-                            AutocompleteOnSelected<Tasks> onSelected,
-                            Iterable<Tasks> options) {
-                          return Align(
+                  ? RawAutocomplete<Tasks>(
+                      focusNode: focusNode,
+                      textEditingController: textConroller,
+                      fieldViewBuilder: (BuildContext context,
+                          TextEditingController fieldTextEditingController,
+                          FocusNode fieldFocusNode,
+                          VoidCallback onFieldSubmitted) {
+                        return MyTextForm(
+                          elevation: 4,
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
+                          onChanged: (value) => setState(() {}),
+                          controller: textConroller,
+                          focusNode: focusNode,
+                          labelText: 'selectCategory'.tr,
+                          type: TextInputType.text,
+                          icon: const Icon(Iconsax.folder_2),
+                          iconButton: textConroller.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(
+                                    Icons.close,
+                                    size: 18,
+                                  ),
+                                  onPressed: () {
+                                    textConroller.clear();
+                                    setState(() {});
+                                  },
+                                )
+                              : null,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'selectCategory'.tr;
+                            }
+                            return null;
+                          },
+                        );
+                      },
+                      optionsBuilder: (TextEditingValue textEditingValue) {
+                        if (textEditingValue.text.isEmpty) {
+                          return const Iterable<Tasks>.empty();
+                        }
+                        return getTodosAll(textEditingValue.text);
+                      },
+                      onSelected: (Tasks selection) {
+                        textConroller.text = selection.title!;
+                        selectedTask = selection;
+                        focusNode.unfocus();
+                      },
+                      displayStringForOption: (Tasks option) => option.title!,
+                      optionsViewBuilder: (BuildContext context,
+                          AutocompleteOnSelected<Tasks> onSelected,
+                          Iterable<Tasks> options) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Align(
                             alignment: Alignment.topCenter,
                             child: Material(
                               borderRadius: BorderRadius.circular(20),
@@ -232,14 +239,14 @@ class _TodosCeState extends State<TodosCe> {
                                 },
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     )
                   : Container(),
               MyTextForm(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: titleEdit,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
@@ -252,30 +259,34 @@ class _TodosCeState extends State<TodosCe> {
                 },
               ),
               MyTextForm(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: descEdit,
                 labelText: 'description'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.note_text),
               ),
               MyTextForm(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                elevation: 4,
+                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                onChanged: (value) => setState(() {}),
                 readOnly: true,
                 controller: timeEdit,
                 labelText: 'timeComlete'.tr,
                 type: TextInputType.datetime,
                 icon: const Icon(Iconsax.clock),
-                iconButton: IconButton(
-                  icon: const Icon(
-                    Icons.close,
-                    size: 18,
-                  ),
-                  onPressed: () {
-                    timeEdit.clear();
-                  },
-                ),
+                iconButton: timeEdit.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(
+                          Icons.close,
+                          size: 18,
+                        ),
+                        onPressed: () {
+                          timeEdit.clear();
+                          setState(() {});
+                        },
+                      )
+                    : null,
                 onTap: () {
                   BottomPicker.dateTime(
                     title: 'time'.tr,
@@ -288,7 +299,12 @@ class _TodosCeState extends State<TodosCe> {
                     closeIconColor: Colors.red,
                     backgroundColor: context.theme.colorScheme.surface,
                     onSubmit: (date) {
-                      timeEdit.text = date.toString();
+                      String formattedDate =
+                          DateFormat.yMMMEd(locale.languageCode)
+                              .add_Hm()
+                              .format(date);
+                      timeEdit.text = formattedDate;
+                      setState(() {});
                     },
                     bottomPickerTheme: BottomPickerTheme.temptingAzure,
                     minDateTime: DateTime.now(),
