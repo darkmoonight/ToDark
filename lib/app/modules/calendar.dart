@@ -78,22 +78,34 @@ class _CalendarPageState extends State<CalendarPage> {
                 calendarBuilders: CalendarBuilders(
                   markerBuilder: (context, day, events) {
                     return getCountTotalTodosCalendar(day) != 0
-                        ? Container(
-                            width: 16,
-                            height: 16,
-                            decoration: const BoxDecoration(
-                              color: Colors.amber,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Center(
-                              child: Text(
-                                getCountTotalTodosCalendar(day).toString(),
-                                style: context.textTheme.bodyLarge?.copyWith(
-                                  color: Colors.black,
+                        ? selectedDay.isAtSameMomentAs(day)
+                            ? Container(
+                                width: 16,
+                                height: 16,
+                                decoration: const BoxDecoration(
+                                  color: Colors.amber,
+                                  shape: BoxShape.circle,
                                 ),
-                              ),
-                            ),
-                          )
+                                child: Center(
+                                  child: Text(
+                                    getCountTotalTodosCalendar(day).toString(),
+                                    style:
+                                        context.textTheme.bodyLarge?.copyWith(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                getCountTotalTodosCalendar(day).toString(),
+                                style: const TextStyle(
+                                  color: Colors.amber,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              )
                         : null;
                   },
                 ),
@@ -169,7 +181,7 @@ class _CalendarPageState extends State<CalendarPage> {
             TodosList(
               calendare: true,
               allTask: false,
-              done: false,
+              done: true,
               selectedDay: selectedDay,
             ),
           ],

@@ -50,7 +50,9 @@ class _TodosCeState extends State<TodosCe> {
       descEdit = TextEditingController(text: widget.todo!.description);
       timeEdit = TextEditingController(
           text: widget.todo!.todoCompletedTime != null
-              ? widget.todo!.todoCompletedTime.toString()
+              ? DateFormat.yMMMEd(locale.languageCode)
+                  .add_Hm()
+                  .format(widget.todo!.todoCompletedTime!)
               : '');
     }
     super.initState();

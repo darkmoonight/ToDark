@@ -137,6 +137,25 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 child: ListTile(
+                  splashColor: Colors.transparent,
+                  onTap: () async {
+                    final Color newColor = await showColorPickerDialog(
+                      context,
+                      myColor,
+                      borderRadius: 20,
+                      enableShadesSelection: false,
+                      enableTonalPalette: true,
+                      pickersEnabled: const <ColorPickerType, bool>{
+                        ColorPickerType.accent: false,
+                        ColorPickerType.primary: true,
+                        ColorPickerType.wheel: false,
+                        ColorPickerType.both: false,
+                      },
+                    );
+                    setState(() {
+                      myColor = newColor;
+                    });
+                  },
                   leading: const Icon(Iconsax.colorfilter),
                   title: Text(
                     'color'.tr,
@@ -149,24 +168,6 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                     borderRadius: 20,
                     color: myColor,
                     onSelectFocus: false,
-                    onSelect: () async {
-                      final Color newColor = await showColorPickerDialog(
-                        context,
-                        myColor,
-                        borderRadius: 20,
-                        enableShadesSelection: false,
-                        enableTonalPalette: true,
-                        pickersEnabled: const <ColorPickerType, bool>{
-                          ColorPickerType.accent: false,
-                          ColorPickerType.primary: true,
-                          ColorPickerType.wheel: false,
-                          ColorPickerType.both: false,
-                        },
-                      );
-                      setState(() {
-                        myColor = newColor;
-                      });
-                    },
                   ),
                 ),
               ),

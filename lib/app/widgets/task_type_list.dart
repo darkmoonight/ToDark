@@ -34,28 +34,26 @@ class _TaskTypeListState extends State<TaskTypeList> {
                 final task = listData.data!;
                 if (task.isEmpty) {
                   return Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/Category.png',
-                            scale: 5,
-                          ),
-                          SizedBox(
-                            width: Get.size.width * 0.8,
-                            child: Text(
-                              widget.archived == false
-                                  ? 'addCategory'.tr
-                                  : 'addArchive'.tr,
-                              textAlign: TextAlign.center,
-                              style: context.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                              ),
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        Image.asset(
+                          'assets/images/Category.png',
+                          scale: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            widget.archived == false
+                                ? 'addCategory'.tr
+                                : 'addArchive'.tr,
+                            textAlign: TextAlign.center,
+                            style: context.textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -151,9 +149,10 @@ class _TaskTypeListState extends State<TaskTypeList> {
                         margin: const EdgeInsets.symmetric(
                             horizontal: 15, vertical: 5),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 15),
+                          padding: const EdgeInsets.all(15),
                           child: InkWell(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               Get.to(
                                 () => TaskPage(
@@ -196,7 +195,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                 Color(taskList.taskColor!)
                                                     .withOpacity(0.8),
                                               ],
-                                              trackColor: Colors.grey[300],
+                                              trackColor: Colors.grey.shade300,
                                             ),
                                             customWidths: CustomSliderWidths(
                                               progressBarWidth: 5,
@@ -236,14 +235,14 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                                 ? Text(
                                                     taskList.description!,
                                                     style: context
-                                                        .textTheme.bodyLarge
+                                                        .textTheme.labelLarge
                                                         ?.copyWith(
-                                                      color: Colors.grey[700],
+                                                      color: Colors.grey,
                                                     ),
                                                     overflow:
                                                         TextOverflow.visible,
                                                   )
-                                                : Container(),
+                                                : const SizedBox.shrink(),
                                           ],
                                         ),
                                       ),
@@ -252,8 +251,8 @@ class _TaskTypeListState extends State<TaskTypeList> {
                                 ),
                                 Text(
                                   '${taskList.todos.where((e) => e.done == true).toList().length}/${taskList.todos.length}',
-                                  style: context.textTheme.bodyLarge?.copyWith(
-                                    color: Colors.grey[700],
+                                  style: context.textTheme.labelLarge?.copyWith(
+                                    color: Colors.grey,
                                   ),
                                 ),
                               ],

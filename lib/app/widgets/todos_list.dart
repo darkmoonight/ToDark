@@ -51,29 +51,31 @@ class _TodosListState extends State<TodosList> {
                 final todos = listData.data!;
                 if (todos.isEmpty) {
                   return Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          widget.calendare
-                              ? Image.asset(
-                                  'assets/images/Calendar.png',
-                                  scale: 5,
-                                )
-                              : Image.asset(
-                                  'assets/images/Todo.png',
-                                  scale: 5,
-                                ),
-                          Text(
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        widget.calendare
+                            ? Image.asset(
+                                'assets/images/Calendar.png',
+                                scale: 5,
+                              )
+                            : Image.asset(
+                                'assets/images/Todo.png',
+                                scale: 5,
+                              ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
                             widget.done == true
                                 ? 'copletedTask'.tr
                                 : 'addTask'.tr,
-                            style: context.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 18,
+                            textAlign: TextAlign.center,
+                            style: context.textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 }
@@ -133,69 +135,68 @@ class _TodosListState extends State<TodosList> {
                               ),
                             ),
                           ),
-                          child: Container(
-                            margin: const EdgeInsets.only(
-                                right: 20, left: 20, bottom: 15),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: InkWell(
-                              onTap: () {
-                                showModalBottomSheet(
-                                  enableDrag: false,
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (BuildContext context) {
-                                    return TodosCe(
-                                      text: 'editing'.tr,
-                                      edit: true,
-                                      todo: todosList,
-                                      category: true,
-                                    );
-                                  },
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                    child: Row(
-                                      children: [
-                                        Checkbox(
-                                          fillColor: context
-                                              .theme.checkboxTheme.fillColor,
-                                          value: todosList.done,
-                                          shape: const CircleBorder(),
-                                          onChanged: (val) {
-                                            innerState(() {
-                                              todosList.done = val!;
-                                            });
-                                            todosList.done == true
-                                                ? flutterLocalNotificationsPlugin
-                                                    .cancel(todosList.id)
-                                                : todosList.todoCompletedTime !=
-                                                        null
-                                                    ? NotificationShow()
-                                                        .showNotification(
-                                                        todosList.id,
-                                                        todosList.name!,
-                                                        todosList.description!,
-                                                        todosList
-                                                            .todoCompletedTime,
-                                                      )
-                                                    : null;
-                                            Future.delayed(
-                                              const Duration(milliseconds: 300),
-                                              () {
-                                                todoController
-                                                    .updateTodoCheck(todosList);
-                                              },
-                                            );
-                                          },
-                                        ),
-                                        Expanded(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 10),
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    enableDrag: false,
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (BuildContext context) {
+                                      return TodosCe(
+                                        text: 'editing'.tr,
+                                        edit: true,
+                                        todo: todosList,
+                                        category: true,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Row(
+                                        children: [
+                                          Checkbox(
+                                            value: todosList.done,
+                                            shape: const CircleBorder(),
+                                            onChanged: (val) {
+                                              innerState(() {
+                                                todosList.done = val!;
+                                              });
+                                              todosList.done == true
+                                                  ? flutterLocalNotificationsPlugin
+                                                      .cancel(todosList.id)
+                                                  : todosList.todoCompletedTime !=
+                                                          null
+                                                      ? NotificationShow()
+                                                          .showNotification(
+                                                          todosList.id,
+                                                          todosList.name!,
+                                                          todosList
+                                                              .description!,
+                                                          todosList
+                                                              .todoCompletedTime,
+                                                        )
+                                                      : null;
+                                              Future.delayed(
+                                                const Duration(
+                                                    milliseconds: 300),
+                                                () {
+                                                  todoController
+                                                      .updateTodoCheck(
+                                                          todosList);
+                                                },
+                                              );
+                                            },
+                                          ),
+                                          Expanded(
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -206,17 +207,7 @@ class _TodosListState extends State<TodosList> {
                                                       .textTheme.titleLarge
                                                       ?.copyWith(
                                                     fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                    color: todosList.todoCompletedTime !=
-                                                                null &&
-                                                            DateTime.now()
-                                                                .isAfter(todosList
-                                                                    .todoCompletedTime!) &&
-                                                            todosList.done ==
-                                                                false
-                                                        ? Colors.redAccent
-                                                        : context.textTheme
-                                                            .labelLarge?.color,
+                                                    fontSize: 16,
                                                   ),
                                                   overflow:
                                                       TextOverflow.visible,
@@ -225,17 +216,28 @@ class _TodosListState extends State<TodosList> {
                                                         .description!.isNotEmpty
                                                     ? Text(
                                                         todosList.description!,
-                                                        style: context
-                                                            .textTheme.bodyLarge
+                                                        style: context.textTheme
+                                                            .labelLarge
                                                             ?.copyWith(
-                                                          fontSize: 12,
-                                                          color:
-                                                              Colors.grey[700],
+                                                          color: Colors.grey,
                                                         ),
                                                         overflow: TextOverflow
                                                             .visible,
                                                       )
-                                                    : Container(),
+                                                    : const SizedBox.shrink(),
+                                                widget.allTask ||
+                                                        widget.calendare
+                                                    ? Text(
+                                                        todosList
+                                                            .task.value!.title!,
+                                                        style: context
+                                                            .textTheme.bodyLarge
+                                                            ?.copyWith(
+                                                          color: Colors.grey,
+                                                          fontSize: 12,
+                                                        ),
+                                                      )
+                                                    : const SizedBox.shrink(),
                                                 todosList.todoCompletedTime !=
                                                             null &&
                                                         widget.calendare ==
@@ -243,56 +245,37 @@ class _TodosListState extends State<TodosList> {
                                                     ? Text(
                                                         todosList.todoCompletedTime !=
                                                                 null
-                                                            ? DateFormat(
-                                                                'dd MMM yyyy HH:mm',
-                                                                '${locale?.languageCode}',
-                                                              ).format(todosList
-                                                                .todoCompletedTime!)
+                                                            ? DateFormat.yMMMEd(
+                                                                    locale
+                                                                        ?.languageCode)
+                                                                .add_Hm()
+                                                                .format(todosList
+                                                                    .todoCompletedTime!)
                                                             : '',
-                                                        style: context
-                                                            .textTheme.bodyLarge
-                                                            ?.copyWith(
-                                                          color: Get.isDarkMode
-                                                              ? Colors.teal
-                                                              : Colors
-                                                                  .deepPurple,
-                                                        ),
+                                                        style: context.textTheme
+                                                            .labelLarge,
                                                       )
-                                                    : Container(),
+                                                    : const SizedBox.shrink(),
                                               ],
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  widget.allTask == true
-                                      ? Text(
-                                          todosList.task.value!.title!.length >
-                                                  10
-                                              ? todosList.task.value!.title!
-                                                  .substring(0, 10)
-                                              : todosList.task.value!.title!,
-                                          style: context.textTheme.bodyLarge
-                                              ?.copyWith(
-                                            color: Colors.grey[700],
-                                            fontSize: 12,
-                                          ),
-                                        )
-                                      : widget.calendare == true
-                                          ? Text(
-                                              '${todosList.task.value!.title!.length > 10 ? todosList.task.value!.title!.substring(0, 10) : todosList.task.value!.title}\n${DateFormat(
-                                                'HH:mm',
-                                                '${locale?.languageCode}',
-                                              ).format(todosList.todoCompletedTime!)}',
-                                              style: context.textTheme.bodyLarge
-                                                  ?.copyWith(
-                                                color: Colors.grey[700],
-                                                fontSize: 12,
-                                              ),
-                                            )
-                                          : Container(),
-                                ],
+                                    widget.calendare
+                                        ? Text(
+                                            DateFormat.Hm(locale?.languageCode)
+                                                .format(todosList
+                                                    .todoCompletedTime!),
+                                            style: context.textTheme.bodyLarge
+                                                ?.copyWith(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                          )
+                                        : const SizedBox.shrink(),
+                                  ],
+                                ),
                               ),
                             ),
                           ),

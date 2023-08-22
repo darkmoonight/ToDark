@@ -157,7 +157,10 @@ class TodoController extends GetxController {
     String desc,
     String time,
   ) async {
-    DateTime date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+    DateTime? date;
+    if (time.isNotEmpty) {
+      date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+    }
     final todosCreate = Todos(
       name: title,
       description: desc,
@@ -222,7 +225,10 @@ class TodoController extends GetxController {
     String desc,
     String time,
   ) async {
-    DateTime date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+    DateTime? date;
+    if (time.isNotEmpty) {
+      date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+    }
     await isar.writeTxn(() async {
       todo.name = title;
       todo.description = desc;

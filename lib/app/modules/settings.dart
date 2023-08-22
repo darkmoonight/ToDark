@@ -159,12 +159,9 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SettingCard(
-            icon: const Icon(
-              Iconsax.brush_1,
-            ),
+            icon: const Icon(Iconsax.brush_1),
             text: 'appearance'.tr,
             onPressed: () {
               showModalBottomSheet(
@@ -189,9 +186,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                             SettingCard(
                               elevation: 4,
-                              icon: const Icon(
-                                Iconsax.moon,
-                              ),
+                              icon: const Icon(Iconsax.moon),
                               text: 'theme'.tr,
                               switcher: true,
                               value: Get.isDarkMode,
@@ -209,9 +204,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                             SettingCard(
                               elevation: 4,
-                              icon: const Icon(
-                                Iconsax.mobile,
-                              ),
+                              icon: const Icon(Iconsax.mobile),
                               text: 'amoledTheme'.tr,
                               switcher: true,
                               value: settings.amoledTheme,
@@ -223,9 +216,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                             SettingCard(
                               elevation: 4,
-                              icon: const Icon(
-                                Iconsax.colorfilter,
-                              ),
+                              icon: const Icon(Iconsax.colorfilter),
                               text: 'materialColor'.tr,
                               switcher: true,
                               value: settings.materialColor,
@@ -246,9 +237,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           SettingCard(
-            icon: const Icon(
-              Iconsax.code,
-            ),
+            icon: const Icon(Iconsax.code),
             text: 'functions'.tr,
             onPressed: () {
               showModalBottomSheet(
@@ -338,9 +327,7 @@ class _SettingsPageState extends State<SettingsPage> {
             },
           ),
           SettingCard(
-            icon: const Icon(
-              Iconsax.language_square,
-            ),
+            icon: const Icon(Iconsax.language_square),
             text: 'language'.tr,
             info: true,
             infoSettings: true,
