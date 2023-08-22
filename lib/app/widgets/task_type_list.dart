@@ -1,10 +1,9 @@
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/services/controller.dart';
-import '../modules/tasks.dart';
+import 'package:todark/app/widgets/task_card.dart';
 
 class TaskTypeList extends StatefulWidget {
   const TaskTypeList({
@@ -145,120 +144,8 @@ class _TaskTypeListState extends State<TaskTypeList> {
                           ),
                         ),
                       ),
-                      child: Card(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 5),
-                        child: Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () {
-                              Get.to(
-                                () => TaskPage(
-                                  task: taskList,
-                                ),
-                                transition: Transition.downToUp,
-                              );
-                            },
-                            child: Row(
-                              children: [
-                                Flexible(
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        height: 60,
-                                        width: 60,
-                                        child: SleekCircularSlider(
-                                          appearance: CircularSliderAppearance(
-                                            animationEnabled: false,
-                                            angleRange: 360,
-                                            startAngle: 270,
-                                            size: 110,
-                                            infoProperties: InfoProperties(
-                                              modifier: (percentage) {
-                                                return taskList.todos.isNotEmpty
-                                                    ? '${((taskList.todos.where((e) => e.done == true).toList().length / taskList.todos.length) * 100).round()}%'
-                                                    : '0%';
-                                              },
-                                              mainLabelStyle: context
-                                                  .textTheme.titleMedium
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            customColors: CustomSliderColors(
-                                              progressBarColors: <Color>[
-                                                Color(taskList.taskColor!),
-                                                Color(taskList.taskColor!)
-                                                    .withOpacity(0.9),
-                                                Color(taskList.taskColor!)
-                                                    .withOpacity(0.8),
-                                              ],
-                                              trackColor: Colors.grey.shade300,
-                                            ),
-                                            customWidths: CustomSliderWidths(
-                                              progressBarWidth: 5,
-                                              trackWidth: 3,
-                                              handlerSize: 0,
-                                              shadowWidth: 0,
-                                            ),
-                                          ),
-                                          min: 0,
-                                          max: taskList.todos.isNotEmpty
-                                              ? taskList.todos.length.toDouble()
-                                              : 1,
-                                          initialValue: taskList.todos
-                                              .where((e) => e.done == true)
-                                              .toList()
-                                              .length
-                                              .toDouble(),
-                                        ),
-                                      ),
-                                      const SizedBox(width: 15),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              taskList.title!,
-                                              style: context
-                                                  .textTheme.titleLarge
-                                                  ?.copyWith(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                              overflow: TextOverflow.visible,
-                                            ),
-                                            taskList.description!.isNotEmpty
-                                                ? Text(
-                                                    taskList.description!,
-                                                    style: context
-                                                        .textTheme.labelLarge
-                                                        ?.copyWith(
-                                                      color: Colors.grey,
-                                                    ),
-                                                    overflow:
-                                                        TextOverflow.visible,
-                                                  )
-                                                : const SizedBox.shrink(),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Text(
-                                  '${taskList.todos.where((e) => e.done == true).toList().length}/${taskList.todos.length}',
-                                  style: context.textTheme.labelLarge?.copyWith(
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                      child: TaskCard(
+                        taskList: taskList,
                       ),
                     );
                   },

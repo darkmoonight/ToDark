@@ -39,15 +39,16 @@ class _StatisticsState extends State<Statistics> {
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '${widget.countDoneTodos}/${widget.countTotalTodos} ${'completed'.tr}',
-                    style: context.textTheme.titleSmall?.copyWith(
-                      color: Colors.grey,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 3),
+                    child: Text(
+                      '${widget.countDoneTodos}/${widget.countTotalTodos} ${'completed'.tr}',
+                      style: context.textTheme.titleSmall?.copyWith(
+                        color: Colors.grey,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 5),
                   Text(
                     DateFormat.MMMMEEEEd(locale.languageCode)
                         .format(DateTime.now()),

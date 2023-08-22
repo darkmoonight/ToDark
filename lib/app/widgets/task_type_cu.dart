@@ -159,7 +159,7 @@ class _TaskTypeCuState extends State<TaskTypeCu> {
                   leading: const Icon(Iconsax.colorfilter),
                   title: Text(
                     'color'.tr,
-                    style: context.textTheme.titleMedium,
+                    style: context.textTheme.labelLarge,
                     overflow: TextOverflow.visible,
                   ),
                   trailing: ColorIndicator(

@@ -89,6 +89,9 @@ class Translation extends Translations {
           'archived': 'Архивные',
           'done': 'Выполненные',
           'doing': 'В процессе',
+          'color': 'Выберите цвет',
+          'searchTask': 'Поиск категории',
+          'searchTodo': 'Поиск задачи',
         },
         'en_US': {
           'title1': 'Organize your tasks',
