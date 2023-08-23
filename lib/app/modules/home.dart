@@ -27,6 +27,13 @@ class _HomePageState extends State<HomePage> {
     SettingsPage(),
   ];
 
+  final namePages = [
+    'categories'.tr,
+    'allTasks'.tr,
+    'calendar'.tr,
+    'settings'.tr,
+  ];
+
   void changeTabIndex(int index) {
     setState(() {
       tabIndex = index;
@@ -39,13 +46,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          tabIndex == 0
-              ? 'categories'.tr
-              : tabIndex == 1
-                  ? 'allTasks'.tr
-                  : tabIndex == 2
-                      ? 'calendar'.tr
-                      : 'settings'.tr,
+          namePages[tabIndex],
           style: context.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.w600,
           ),

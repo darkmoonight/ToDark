@@ -98,6 +98,7 @@ class _TaskCardState extends State<TaskCard> {
                             widget.taskList.description!,
                             style: context.textTheme.labelLarge?.copyWith(
                               color: Colors.grey,
+                              fontSize: 14,
                             ),
                             overflow: TextOverflow.visible,
                           )

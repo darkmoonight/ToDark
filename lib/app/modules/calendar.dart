@@ -17,7 +17,6 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   final todoController = Get.put(TodoController());
-  final locale = Get.locale;
   DateTime selectedDay = DateTime.now();
   DateTime firstDay = DateTime.now().add(const Duration(days: -1000));
   DateTime lastDay = DateTime.now().add(const Duration(days: 1000));
@@ -113,7 +112,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 firstDay: firstDay,
                 lastDay: lastDay,
                 focusedDay: selectedDay,
-                locale: '${locale?.languageCode}',
+                locale: locale.languageCode,
                 weekendDays: const [DateTime.sunday],
                 availableCalendarFormats: {
                   CalendarFormat.month: 'month'.tr,

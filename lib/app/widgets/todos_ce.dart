@@ -294,12 +294,12 @@ class _TodosCeState extends State<TodosCe> {
                     title: 'time'.tr,
                     description: 'timeDesc'.tr,
                     titleStyle: context.textTheme.titleMedium!,
-                    descriptionStyle: context.textTheme.bodyLarge!
+                    descriptionStyle: context.textTheme.labelLarge!
                         .copyWith(color: Colors.grey),
                     pickerTextStyle:
                         context.textTheme.labelMedium!.copyWith(fontSize: 15),
                     closeIconColor: Colors.red,
-                    backgroundColor: context.theme.colorScheme.surface,
+                    backgroundColor: context.theme.primaryColor,
                     onSubmit: (date) {
                       String formattedDate =
                           DateFormat.yMMMEd(locale.languageCode)
@@ -308,7 +308,7 @@ class _TodosCeState extends State<TodosCe> {
                       timeEdit.text = formattedDate;
                       setState(() {});
                     },
-                    bottomPickerTheme: BottomPickerTheme.temptingAzure,
+                    bottomPickerTheme: BottomPickerTheme.blue,
                     minDateTime: DateTime.now(),
                     maxDateTime: DateTime.now().add(const Duration(days: 1000)),
                     initialDateTime: DateTime.now(),
