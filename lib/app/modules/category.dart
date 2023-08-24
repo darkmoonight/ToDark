@@ -16,19 +16,6 @@ class CategoryPage extends StatefulWidget {
 
 class _CategoryPageState extends State<CategoryPage> {
   final todoController = Get.put(TodoController());
-  int countTotalTodos = 0;
-  int countDoneTodos = 0;
-
-  @override
-  void initState() {
-    getCountTodos();
-    super.initState();
-  }
-
-  getCountTodos() async {
-    countTotalTodos = await todoController.getCountTotalTodos();
-    countDoneTodos = await todoController.getCountDoneTodos();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +39,10 @@ class _CategoryPageState extends State<CategoryPage> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   ),
-                  Statistics(
-                    countTotalTodos: countTotalTodos,
-                    countDoneTodos: countDoneTodos,
+                  // TODO: countTotalTodos, countDoneTodos
+                  const Statistics(
+                    countTotalTodos: 0,
+                    countDoneTodos: 0,
                   ),
                 ],
               ),

@@ -20,57 +20,6 @@ class TodoController extends GetxController {
         isar.tasks.filter().archiveEqualTo(true).sortByIndex().findAllSync());
   }
 
-  Future<int> getCountTotalTodosCalendar(DateTime selectedDay) async {
-    return isar.todos
-        .filter()
-        .todoCompletedTimeIsNotNull()
-        .todoCompletedTimeBetween(
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
-        .task((q) => q.archiveEqualTo(false))
-        .count();
-  }
-
-  Future<int> getCountDoneTodosCalendar(DateTime selectedDay) async {
-    return isar.todos
-        .filter()
-        .doneEqualTo(true)
-        .todoCompletedTimeIsNotNull()
-        .todoCompletedTimeBetween(
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-            DateTime(
-                selectedDay.year, selectedDay.month, selectedDay.day, 23, 59))
-        .task((q) => q.archiveEqualTo(false))
-        .count();
-  }
-
-  Future<int> getCountTotalTodos() async {
-    return isar.todos.filter().task((q) => q.archiveEqualTo(false)).count();
-  }
-
-  Future<int> getCountDoneTodos() async {
-    return isar.todos
-        .filter()
-        .doneEqualTo(true)
-        .task((q) => q.archiveEqualTo(false))
-        .count();
-  }
-
-  Future<int> getCountTotalTodosTask(Tasks task) async {
-    return isar.todos.filter().task((q) => q.idEqualTo(task.id)).count();
-  }
-
-  Future<int> getCountDoneTodosTask(Tasks task) async {
-    return isar.todos
-        .filter()
-        .doneEqualTo(true)
-        .task((q) => q.idEqualTo(task.id))
-        .count();
-  }
-
   Stream<List<Todos>> getTodo(bool toggle, Tasks task) async* {
     yield* toggle == false
         ? isar.todos
@@ -128,11 +77,7 @@ class TodoController extends GetxController {
             .watch(fireImmediately: true);
   }
 
-  Future<void> addTask(
-    String title,
-    String desc,
-    Color myColor,
-  ) async {
+  Future<void> addTask(String title, String desc, Color myColor) async {
     final taskCreate = Tasks(
       title: title,
       description: desc,
@@ -158,11 +103,7 @@ class TodoController extends GetxController {
   }
 
   Future<void> addTodo(
-    Tasks task,
-    String title,
-    String desc,
-    String time,
-  ) async {
+      Tasks task, String title, String desc, String time) async {
     DateTime? date;
     if (time.isNotEmpty) {
       date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
@@ -205,11 +146,7 @@ class TodoController extends GetxController {
   }
 
   Future<void> updateTask(
-    Tasks task,
-    String time,
-    String desc,
-    Color myColor,
-  ) async {
+      Tasks task, String time, String desc, Color myColor) async {
     await isar.writeTxn(() async {
       task.title = time;
       task.description = desc;
@@ -225,12 +162,7 @@ class TodoController extends GetxController {
   }
 
   Future<void> updateTodo(
-    Todos todo,
-    Tasks task,
-    String title,
-    String desc,
-    String time,
-  ) async {
+      Todos todo, Tasks task, String title, String desc, String time) async {
     DateTime? date;
     if (time.isNotEmpty) {
       date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);

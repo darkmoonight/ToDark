@@ -21,8 +21,8 @@ class _TaskCardState extends State<TaskCard> {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15),
         horizontalTitleGap: 10,
+        minVerticalPadding: 25,
         splashColor: Colors.transparent,
         onTap: () {
           Get.to(

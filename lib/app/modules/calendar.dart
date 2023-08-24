@@ -23,21 +23,11 @@ class _CalendarPageState extends State<CalendarPage> {
   CalendarFormat calendarFormat = CalendarFormat.week;
 
   var todos = <Todos>[];
-  int countTotalTodos = 0;
-  int countDoneTodos = 0;
 
   @override
   void initState() {
-    getCountTodos();
     getTodosAll();
     super.initState();
-  }
-
-  getCountTodos() async {
-    countTotalTodos =
-        await todoController.getCountTotalTodosCalendar(selectedDay);
-    countDoneTodos =
-        await todoController.getCountDoneTodosCalendar(selectedDay);
   }
 
   getTodosAll() async {
@@ -126,13 +116,11 @@ class _CalendarPageState extends State<CalendarPage> {
                   setState(() {
                     selectedDay = selected;
                   });
-                  getCountTodos();
                 },
                 onPageChanged: (focused) {
                   setState(() {
                     selectedDay = focused;
                   });
-                  getCountTodos();
                 },
                 calendarFormat: calendarFormat,
                 onFormatChanged: (format) {

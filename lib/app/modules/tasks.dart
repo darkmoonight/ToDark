@@ -22,19 +22,6 @@ class TaskPage extends StatefulWidget {
 
 class _TaskPageState extends State<TaskPage> {
   final todoController = Get.put(TodoController());
-  int countTotalTodos = 0;
-  int countDoneTodos = 0;
-
-  @override
-  void initState() {
-    getCountTodos();
-    super.initState();
-  }
-
-  getCountTodos() async {
-    countTotalTodos = await todoController.getCountTotalTodosTask(widget.task);
-    countDoneTodos = await todoController.getCountDoneTodosTask(widget.task);
-  }
 
   @override
   Widget build(BuildContext context) {
