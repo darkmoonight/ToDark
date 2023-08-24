@@ -84,10 +84,10 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
           ];
         },
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            TaskTypeList(archived: false),
-            TaskTypeList(archived: true),
+            TaskTypeList(archived: false, tasks: todoController.tasksActive),
+            TaskTypeList(archived: true, tasks: todoController.tasksArchive),
           ],
         ),
       ),

@@ -3,12 +3,23 @@ import 'package:isar/isar.dart';
 part 'schema.g.dart';
 
 @collection
+class Settings {
+  Id id = Isar.autoIncrement;
+  bool onboard = false;
+  bool? theme;
+  bool materialColor = false;
+  bool amoledTheme = false;
+  String? language;
+}
+
+@collection
 class Tasks {
   Id id;
   String? title;
   String? description;
   int? taskColor;
   bool? archive;
+  int? index;
 
   @Backlink(to: 'task')
   final todos = IsarLinks<Todos>();
@@ -19,6 +30,7 @@ class Tasks {
     this.description = '',
     this.archive = false,
     required this.taskColor,
+    this.index,
   });
 
   Tasks.fromJson(Map<String, dynamic> json)
@@ -69,14 +81,4 @@ class Todos {
         'todoCompletedTime': todoCompletedTime,
         'done': done,
       };
-}
-
-@collection
-class Settings {
-  Id id = Isar.autoIncrement;
-  bool onboard = false;
-  bool? theme;
-  bool materialColor = false;
-  bool amoledTheme = false;
-  String? language;
 }

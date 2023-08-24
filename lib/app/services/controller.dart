@@ -8,6 +8,18 @@ import 'package:todark/app/services/notification.dart';
 import 'package:todark/main.dart';
 
 class TodoController extends GetxController {
+  final tasksActive = <Tasks>[].obs;
+  final tasksArchive = <Tasks>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    tasksActive.assignAll(
+        isar.tasks.filter().archiveEqualTo(false).sortByIndex().findAllSync());
+    tasksArchive.assignAll(
+        isar.tasks.filter().archiveEqualTo(true).sortByIndex().findAllSync());
+  }
+
   Future<int> getCountTotalTodosCalendar(DateTime selectedDay) async {
     return isar.todos
         .filter()
@@ -57,12 +69,6 @@ class TodoController extends GetxController {
         .doneEqualTo(true)
         .task((q) => q.idEqualTo(task.id))
         .count();
-  }
-
-  Stream<List<Tasks>> getTask(bool toggle) async* {
-    yield* toggle == false
-        ? isar.tasks.filter().archiveEqualTo(false).watch(fireImmediately: true)
-        : isar.tasks.filter().archiveEqualTo(true).watch(fireImmediately: true);
   }
 
   Stream<List<Todos>> getTodo(bool toggle, Tasks task) async* {
