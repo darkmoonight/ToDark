@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/modules/todos/widgets/todos_action.dart';
 import 'package:todark/app/services/notification.dart';
-import 'package:todark/app/widgets/todos_ce.dart';
 import 'package:todark/main.dart';
 
 class TodoCard extends StatefulWidget {
@@ -42,7 +42,7 @@ class _TodoCardState extends State<TodoCard> {
                   context: context,
                   isScrollControlled: true,
                   builder: (BuildContext context) {
-                    return TodosCe(
+                    return TodosAction(
                       text: 'editing'.tr,
                       edit: true,
                       todo: widget.todosList,

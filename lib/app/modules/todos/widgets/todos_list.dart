@@ -1,9 +1,9 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/controller.dart';
-import 'package:todark/app/widgets/todo_card.dart';
+import 'package:todark/app/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:todark/app/modules/todos/widgets/todo_card.dart';
 
 class TodosList extends StatefulWidget {
   const TodosList({

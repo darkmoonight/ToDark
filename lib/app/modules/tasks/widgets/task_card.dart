@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/modules/tasks.dart';
+import 'package:todark/app/modules/todos/view/todos_task.dart';
 
 class TaskCard extends StatefulWidget {
   const TaskCard({
@@ -26,7 +26,7 @@ class _TaskCardState extends State<TaskCard> {
         splashColor: Colors.transparent,
         onTap: () {
           Get.to(
-            () => TaskPage(
+            () => TodosTask(
               task: widget.taskList,
             ),
             transition: Transition.downToUp,

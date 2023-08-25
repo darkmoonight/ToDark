@@ -1,21 +1,21 @@
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:todark/app/modules/todos/widgets/todos_list.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
-import 'package:todark/app/widgets/todos_list.dart';
 import 'package:todark/main.dart';
 
-class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
+class CalendarTodos extends StatefulWidget {
+  const CalendarTodos({super.key});
 
   @override
-  State<CalendarPage> createState() => _CalendarPageState();
+  State<CalendarTodos> createState() => _CalendarTodosState();
 }
 
-class _CalendarPageState extends State<CalendarPage> {
+class _CalendarTodosState extends State<CalendarTodos> {
   final todoController = Get.put(TodoController());
   DateTime selectedDay = DateTime.now();
   DateTime firstDay = DateTime.now().add(const Duration(days: -1000));

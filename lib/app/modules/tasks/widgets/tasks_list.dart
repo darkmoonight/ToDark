@@ -2,25 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/controller.dart';
-import 'package:todark/app/widgets/task_card.dart';
+import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/modules/tasks/widgets/task_card.dart';
 import 'package:todark/main.dart';
 
-class TaskTypeList extends StatefulWidget {
-  const TaskTypeList({
+class TasksList extends StatefulWidget {
+  const TasksList({
     super.key,
     required this.archived,
-    required this.tasks,
   });
   final bool archived;
-  final RxList<Tasks> tasks;
 
   @override
-  State<TaskTypeList> createState() => _TaskTypeListState();
+  State<TasksList> createState() => _TasksListState();
 }
 
-class _TaskTypeListState extends State<TaskTypeList> {
+class _TasksListState extends State<TasksList> {
   final todoController = Get.put(TodoController());
+  late RxList<Tasks> tasks;
+
+  @override
+  void initState() {
+    tasks = todoController.tasks
+        .where((task) => task.archive == widget.archived)
+        .toList()
+        .obs;
+    super.initState();
+  }
 
   void updateItemOrderInDatabase(List<Tasks> weatherCard) async {
     for (int i = 0; i < weatherCard.length; i++) {
@@ -35,7 +43,7 @@ class _TaskTypeListState extends State<TaskTypeList> {
     return Padding(
       padding: const EdgeInsets.only(top: 50),
       child: Obx(
-        () => widget.tasks.isEmpty
+        () => tasks.isEmpty
             ? Center(
                 child: ListView(
                   shrinkWrap: true,
@@ -64,13 +72,13 @@ class _TaskTypeListState extends State<TaskTypeList> {
                   if (newIndex > oldIndex) {
                     newIndex -= 1;
                   }
-                  final element = widget.tasks.removeAt(oldIndex);
-                  widget.tasks.insert(newIndex, element);
-                  updateItemOrderInDatabase(widget.tasks);
+                  final element = tasks.removeAt(oldIndex);
+                  tasks.insert(newIndex, element);
+                  updateItemOrderInDatabase(tasks);
                 },
-                itemCount: widget.tasks.length,
+                itemCount: tasks.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final taskList = widget.tasks[index];
+                  final taskList = tasks[index];
                   return Dismissible(
                     key: ValueKey(taskList),
                     direction: DismissDirection.horizontal,

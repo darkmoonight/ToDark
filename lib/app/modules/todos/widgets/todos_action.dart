@@ -4,15 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/controller/controller.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/main.dart';
 
-class TodosCe extends StatefulWidget {
-  const TodosCe({
+class TodosAction extends StatefulWidget {
+  const TodosAction({
     super.key,
     required this.text,
     required this.edit,
@@ -27,10 +27,10 @@ class TodosCe extends StatefulWidget {
   final bool category;
 
   @override
-  State<TodosCe> createState() => _TodosCeState();
+  State<TodosAction> createState() => _TodosActionState();
 }
 
-class _TodosCeState extends State<TodosCe> {
+class _TodosActionState extends State<TodosAction> {
   final formKey = GlobalKey<FormState>();
   final todoController = Get.put(TodoController());
   Tasks? selectedTask;

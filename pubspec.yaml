@@ -29,12 +29,12 @@ dependencies:
   device_info_plus: ^9.0.3
   package_info_plus: ^4.1.0
   flex_color_picker: ^3.3.0
-  permission_handler: ^10.4.3
   isar_flutter_libs: ^3.1.0+1
+  permission_handler: ^10.4.3
   flutter_easyloading: ^3.0.5
   flutter_displaymode: ^0.6.0
   sleek_circular_slider: ^2.0.1
-  flutter_local_notifications: ^15.1.0+1
+  flutter_local_notifications: ^15.1.1
 
 dev_dependencies:
   flutter_test:

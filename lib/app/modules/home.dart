@@ -1,12 +1,12 @@
-import 'package:todark/app/modules/all_tasks.dart';
-import 'package:todark/app/modules/calendar.dart';
-import 'package:todark/app/modules/category.dart';
-import 'package:todark/app/modules/settings.dart';
+import 'package:todark/app/modules/tasks/view/all_tasks.dart';
+import 'package:todark/app/modules/settings/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:todark/app/widgets/task_type_cu.dart';
-import 'package:todark/app/widgets/todos_ce.dart';
+import 'package:todark/app/modules/tasks/widgets/tasks_action.dart';
+import 'package:todark/app/modules/todos/view/calendar_todos.dart';
+import 'package:todark/app/modules/todos/widgets/all_todos.dart';
+import 'package:todark/app/modules/todos/widgets/todos_action.dart';
 import 'package:todark/theme/theme_controller.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,9 +21,9 @@ class _HomePageState extends State<HomePage> {
   int tabIndex = 0;
 
   final pages = const [
-    CategoryPage(),
-    AllTaskPage(),
-    CalendarPage(),
+    AllTasks(),
+    AllTodos(),
+    CalendarTodos(),
     SettingsPage(),
   ];
 
@@ -94,11 +94,11 @@ class _HomePageState extends State<HomePage> {
                   isScrollControlled: true,
                   builder: (BuildContext context) {
                     return tabIndex == 0
-                        ? TaskTypeCu(
+                        ? TasksAction(
                             text: 'create'.tr,
                             edit: false,
                           )
-                        : TodosCe(
+                        : TodosAction(
                             text: 'create'.tr,
                             edit: false,
                             category: true,

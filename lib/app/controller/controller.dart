@@ -8,16 +8,12 @@ import 'package:todark/app/services/notification.dart';
 import 'package:todark/main.dart';
 
 class TodoController extends GetxController {
-  final tasksActive = <Tasks>[].obs;
-  final tasksArchive = <Tasks>[].obs;
+  final tasks = <Tasks>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    tasksActive.assignAll(
-        isar.tasks.filter().archiveEqualTo(false).sortByIndex().findAllSync());
-    tasksArchive.assignAll(
-        isar.tasks.filter().archiveEqualTo(true).sortByIndex().findAllSync());
+    tasks.assignAll(isar.tasks.where().sortByIndex().findAllSync());
   }
 
   Stream<List<Todos>> getTodo(bool toggle, Tasks task) async* {
@@ -91,6 +87,7 @@ class TodoController extends GetxController {
 
     if (searchTask.isEmpty) {
       await isar.writeTxn(() async {
+        tasks.add(taskCreate);
         await isar.tasks.put(taskCreate);
       });
       EasyLoading.showSuccess('createCategory'.tr,
@@ -152,6 +149,11 @@ class TodoController extends GetxController {
       task.description = desc;
       task.taskColor = myColor.value;
       await isar.tasks.put(task);
+
+      var newTask = task;
+      int oldIdx = tasks.indexOf(task);
+      tasks[oldIdx] = newTask;
+      tasks.refresh();
     });
     EasyLoading.showSuccess('editCategory'.tr,
         duration: const Duration(milliseconds: 500));
@@ -222,6 +224,7 @@ class TodoController extends GetxController {
     });
     // Delete Task
     await isar.writeTxn(() async {
+      tasks.remove(task);
       await isar.tasks.delete(task.id);
     });
     EasyLoading.showSuccess('categoryDelete'.tr,

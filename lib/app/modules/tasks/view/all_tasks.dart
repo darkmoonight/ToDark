@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/modules/tasks/widgets/tasks_list.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
-import 'package:todark/app/widgets/statistics.dart';
-import 'package:todark/app/widgets/task_type_list.dart';
+import 'package:todark/app/modules/tasks/widgets/statistics.dart';
 import 'package:todark/app/widgets/text_form.dart';
 
-class CategoryPage extends StatefulWidget {
-  const CategoryPage({super.key});
+class AllTasks extends StatefulWidget {
+  const AllTasks({super.key});
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  State<AllTasks> createState() => _AllTasksState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _AllTasksState extends State<AllTasks> {
   final todoController = Get.put(TodoController());
 
   @override
@@ -72,10 +72,10 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
           ];
         },
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            TaskTypeList(archived: false, tasks: todoController.tasksActive),
-            TaskTypeList(archived: true, tasks: todoController.tasksArchive),
+            TasksList(archived: false),
+            TasksList(archived: true),
           ],
         ),
       ),

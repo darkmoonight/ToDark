@@ -1,13 +1,13 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/controller/controller.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class TaskTypeCu extends StatefulWidget {
-  const TaskTypeCu({
+class TasksAction extends StatefulWidget {
+  const TasksAction({
     super.key,
     required this.text,
     required this.edit,
@@ -18,10 +18,10 @@ class TaskTypeCu extends StatefulWidget {
   final Tasks? task;
 
   @override
-  State<TaskTypeCu> createState() => _TaskTypeCuState();
+  State<TasksAction> createState() => _TasksActionState();
 }
 
-class _TaskTypeCuState extends State<TaskTypeCu> {
+class _TasksActionState extends State<TasksAction> {
   final formKey = GlobalKey<FormState>();
   final todoController = Get.put(TodoController());
   TextEditingController titleEdit = TextEditingController();

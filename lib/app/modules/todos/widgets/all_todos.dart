@@ -1,19 +1,19 @@
 import 'package:iconsax/iconsax.dart';
-import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/modules/todos/widgets/todos_list.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
 import 'package:todark/app/widgets/text_form.dart';
-import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class AllTaskPage extends StatefulWidget {
-  const AllTaskPage({super.key});
+class AllTodos extends StatefulWidget {
+  const AllTodos({super.key});
 
   @override
-  State<AllTaskPage> createState() => _AllTaskPageState();
+  State<AllTodos> createState() => _AllTodosState();
 }
 
-class _AllTaskPageState extends State<AllTaskPage> {
+class _AllTodosState extends State<AllTodos> {
   final todoController = Get.put(TodoController());
 
   @override

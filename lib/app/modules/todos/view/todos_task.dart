@@ -1,26 +1,26 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/controller.dart';
+import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/modules/tasks/widgets/tasks_action.dart';
+import 'package:todark/app/modules/todos/widgets/todos_action.dart';
+import 'package:todark/app/modules/todos/widgets/todos_list.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
-import 'package:todark/app/widgets/task_type_cu.dart';
 import 'package:todark/app/widgets/text_form.dart';
-import 'package:todark/app/widgets/todos_ce.dart';
-import 'package:todark/app/widgets/todos_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-class TaskPage extends StatefulWidget {
-  const TaskPage({
+class TodosTask extends StatefulWidget {
+  const TodosTask({
     super.key,
     required this.task,
   });
   final Tasks task;
 
   @override
-  State<TaskPage> createState() => _TaskPageState();
+  State<TodosTask> createState() => _TodosTaskState();
 }
 
-class _TaskPageState extends State<TaskPage> {
+class _TodosTaskState extends State<TodosTask> {
   final todoController = Get.put(TodoController());
 
   @override
@@ -72,7 +72,7 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ),
                 builder: (BuildContext context) {
-                  return TaskTypeCu(
+                  return TasksAction(
                     text: 'editing'.tr,
                     edit: true,
                     task: widget.task,
@@ -159,7 +159,7 @@ class _TaskPageState extends State<TaskPage> {
             context: context,
             isScrollControlled: true,
             builder: (BuildContext context) {
-              return TodosCe(
+              return TodosAction(
                 text: 'create'.tr,
                 edit: false,
                 task: widget.task,

@@ -11,7 +11,7 @@ import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/widgets/settings_card.dart';
+import 'package:todark/app/modules/settings/widgets/settings_card.dart';
 import 'package:todark/main.dart';
 import 'package:todark/theme/theme_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
