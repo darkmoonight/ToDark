@@ -67,7 +67,6 @@ class _TasksActionState extends State<TasksAction> {
                       onPressed: () {
                         titleEdit.clear();
                         descEdit.clear();
-
                         Get.back();
                       },
                       icon: const Icon(

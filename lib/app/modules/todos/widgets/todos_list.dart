@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/modules/todos/widgets/todo_card.dart';
+import 'package:todark/app/widgets/list_empty.dart';
 
 class TodosList extends StatefulWidget {
   const TodosList({
@@ -45,33 +46,12 @@ class _TodosListState extends State<TodosList> {
               if (listData.hasData) {
                 final todos = listData.data!;
                 if (todos.isEmpty) {
-                  return Center(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        widget.calendare
-                            ? Image.asset(
-                                'assets/images/Calendar.png',
-                                scale: 5,
-                              )
-                            : Image.asset(
-                                'assets/images/Todo.png',
-                                scale: 5,
-                              ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            widget.done == true
-                                ? 'copletedTask'.tr
-                                : 'addTask'.tr,
-                            textAlign: TextAlign.center,
-                            style: context.textTheme.bodyLarge?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  return ListEmpty(
+                    img: widget.calendare
+                        ? 'assets/images/Calendar.png'
+                        : 'assets/images/Todo.png',
+                    text:
+                        widget.done == true ? 'copletedTask'.tr : 'addTask'.tr,
                   );
                 }
                 return ListView.builder(

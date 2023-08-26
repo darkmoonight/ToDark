@@ -16,6 +16,140 @@ class TodoController extends GetxController {
     tasks.assignAll(isar.tasks.where().sortByIndex().findAllSync());
   }
 
+  // Tasks
+  Future<void> addTask(String title, String desc, Color myColor) async {
+    List<Tasks> searchTask;
+    final taskCollection = isar.tasks;
+    searchTask = await taskCollection.filter().titleEqualTo(title).findAll();
+
+    final taskCreate = Tasks(
+      title: title,
+      description: desc,
+      taskColor: myColor.value,
+    );
+
+    if (searchTask.isEmpty) {
+      await isar.writeTxn(() async {
+        tasks.add(taskCreate);
+        await isar.tasks.put(taskCreate);
+      });
+      EasyLoading.showSuccess('createCategory'.tr,
+          duration: const Duration(milliseconds: 500));
+    } else {
+      EasyLoading.showError('duplicateCategory'.tr,
+          duration: const Duration(milliseconds: 500));
+    }
+  }
+
+  Future<void> updateTask(
+      Tasks task, String title, String desc, Color myColor) async {
+    List<Tasks> searchTask;
+    final taskCollection = isar.tasks;
+    searchTask = await taskCollection.filter().titleEqualTo(title).findAll();
+
+    if (searchTask.isEmpty) {
+      await isar.writeTxn(() async {
+        task.title = title;
+        task.description = desc;
+        task.taskColor = myColor.value;
+        await isar.tasks.put(task);
+
+        var newTask = task;
+        int oldIdx = tasks.indexOf(task);
+        tasks[oldIdx] = newTask;
+        tasks.refresh();
+      });
+      EasyLoading.showSuccess('editCategory'.tr,
+          duration: const Duration(milliseconds: 500));
+    } else {
+      EasyLoading.showError('duplicateCategory'.tr,
+          duration: const Duration(milliseconds: 500));
+    }
+  }
+
+  Future<void> deleteTask(Tasks task) async {
+    // Delete Notification
+    List<Todos> getTodo;
+    final taskCollection = isar.todos;
+    getTodo = await taskCollection
+        .filter()
+        .task((q) => q.idEqualTo(task.id))
+        .findAll();
+
+    for (var element in getTodo) {
+      if (element.todoCompletedTime != null) {
+        await flutterLocalNotificationsPlugin.cancel(element.id);
+      }
+    }
+    // Delete Todos
+    await isar.writeTxn(() async {
+      await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
+    });
+    // Delete Task
+    await isar.writeTxn(() async {
+      tasks.remove(task);
+      await isar.tasks.delete(task.id);
+    });
+    EasyLoading.showSuccess('categoryDelete'.tr,
+        duration: const Duration(milliseconds: 500));
+  }
+
+  Future<void> archiveTask(Tasks task) async {
+    // Delete Notification
+    List<Todos> getTodo;
+    final taskCollection = isar.todos;
+    getTodo = await taskCollection
+        .filter()
+        .task((q) => q.idEqualTo(task.id))
+        .findAll();
+
+    for (var element in getTodo) {
+      if (element.todoCompletedTime != null) {
+        await flutterLocalNotificationsPlugin.cancel(element.id);
+      }
+    }
+    // Archive Task
+    await isar.writeTxn(() async {
+      task.archive = true;
+      await isar.tasks.put(task);
+
+      tasks.refresh();
+    });
+    EasyLoading.showSuccess('taskArchive'.tr,
+        duration: const Duration(milliseconds: 500));
+  }
+
+  Future<void> noArchiveTask(Tasks task) async {
+    // Create Notification
+    List<Todos> getTodo;
+    final taskCollection = isar.todos;
+    getTodo = await taskCollection
+        .filter()
+        .task((q) => q.idEqualTo(task.id))
+        .findAll();
+
+    for (var element in getTodo) {
+      if (element.todoCompletedTime != null) {
+        NotificationShow().showNotification(
+          element.id,
+          element.name!,
+          element.description!,
+          element.todoCompletedTime,
+        );
+      }
+    }
+    // No archive Task
+    await isar.writeTxn(() async {
+      task.archive = false;
+      await isar.tasks.put(task);
+
+      tasks.refresh();
+    });
+    EasyLoading.showSuccess('noTaskArchive'.tr,
+        duration: const Duration(milliseconds: 500));
+  }
+
+  // Todos
   Stream<List<Todos>> getTodo(bool toggle, Tasks task) async* {
     yield* toggle == false
         ? isar.todos
@@ -73,32 +207,6 @@ class TodoController extends GetxController {
             .watch(fireImmediately: true);
   }
 
-  Future<void> addTask(String title, String desc, Color myColor) async {
-    final taskCreate = Tasks(
-      title: title,
-      description: desc,
-      taskColor: myColor.value,
-    );
-
-    List<Tasks> searchTask;
-    final taskCollection = isar.tasks;
-
-    searchTask = await taskCollection.filter().titleEqualTo(title).findAll();
-
-    if (searchTask.isEmpty) {
-      await isar.writeTxn(() async {
-        tasks.add(taskCreate);
-        await isar.tasks.put(taskCreate);
-      });
-      EasyLoading.showSuccess('createCategory'.tr,
-          duration: const Duration(milliseconds: 500));
-    } else {
-      EasyLoading.showError('duplicateCategory'.tr,
-          duration: const Duration(milliseconds: 500));
-    }
-    myColor = const Color(0xFF2196F3);
-  }
-
   Future<void> addTodo(
       Tasks task, String title, String desc, String time) async {
     DateTime? date;
@@ -140,23 +248,6 @@ class TodoController extends GetxController {
       EasyLoading.showError('duplicateTask'.tr,
           duration: const Duration(milliseconds: 500));
     }
-  }
-
-  Future<void> updateTask(
-      Tasks task, String time, String desc, Color myColor) async {
-    await isar.writeTxn(() async {
-      task.title = time;
-      task.description = desc;
-      task.taskColor = myColor.value;
-      await isar.tasks.put(task);
-
-      var newTask = task;
-      int oldIdx = tasks.indexOf(task);
-      tasks[oldIdx] = newTask;
-      tasks.refresh();
-    });
-    EasyLoading.showSuccess('editCategory'.tr,
-        duration: const Duration(milliseconds: 500));
   }
 
   Future<void> updateTodoCheck(Todos todo) async {
@@ -201,84 +292,6 @@ class TodoController extends GetxController {
       }
     });
     EasyLoading.showSuccess('taskDelete'.tr,
-        duration: const Duration(milliseconds: 500));
-  }
-
-  Future<void> deleteTask(Tasks task) async {
-    // Delete Notification
-    List<Todos> getTodo;
-    final taskCollection = isar.todos;
-    getTodo = await taskCollection
-        .filter()
-        .task((q) => q.idEqualTo(task.id))
-        .findAll();
-
-    for (var element in getTodo) {
-      if (element.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(element.id);
-      }
-    }
-    // Delete Todos
-    await isar.writeTxn(() async {
-      await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
-    });
-    // Delete Task
-    await isar.writeTxn(() async {
-      tasks.remove(task);
-      await isar.tasks.delete(task.id);
-    });
-    EasyLoading.showSuccess('categoryDelete'.tr,
-        duration: const Duration(milliseconds: 500));
-  }
-
-  Future<void> archiveTask(Tasks task) async {
-    // Delete Notification
-    List<Todos> getTodo;
-    final taskCollection = isar.todos;
-    getTodo = await taskCollection
-        .filter()
-        .task((q) => q.idEqualTo(task.id))
-        .findAll();
-
-    for (var element in getTodo) {
-      if (element.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(element.id);
-      }
-    }
-    // Archive Task
-    await isar.writeTxn(() async {
-      task.archive = true;
-      await isar.tasks.put(task);
-    });
-    EasyLoading.showSuccess('taskArchive'.tr,
-        duration: const Duration(milliseconds: 500));
-  }
-
-  Future<void> noArchiveTask(Tasks task) async {
-    // Create Notification
-    List<Todos> getTodo;
-    final taskCollection = isar.todos;
-    getTodo = await taskCollection
-        .filter()
-        .task((q) => q.idEqualTo(task.id))
-        .findAll();
-
-    for (var element in getTodo) {
-      if (element.todoCompletedTime != null) {
-        NotificationShow().showNotification(
-          element.id,
-          element.name!,
-          element.description!,
-          element.todoCompletedTime,
-        );
-      }
-    }
-    // No archive Task
-    await isar.writeTxn(() async {
-      task.archive = false;
-      await isar.tasks.put(task);
-    });
-    EasyLoading.showSuccess('noTaskArchive'.tr,
         duration: const Duration(milliseconds: 500));
   }
 }
