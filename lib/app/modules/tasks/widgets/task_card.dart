@@ -26,9 +26,7 @@ class _TaskCardState extends State<TaskCard> {
         splashColor: Colors.transparent,
         onTap: () {
           Get.to(
-            () => TodosTask(
-              task: widget.taskList,
-            ),
+            () => TodosTask(task: widget.taskList),
             transition: Transition.downToUp,
           );
         },

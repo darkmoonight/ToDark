@@ -43,7 +43,7 @@ class _TodosActionState extends State<TodosAction> {
 
   @override
   initState() {
-    if (widget.edit == true) {
+    if (widget.edit) {
       selectedTask = widget.todo!.task.value;
       textConroller.text = widget.todo!.task.value!.title!;
       titleEdit = TextEditingController(text: widget.todo!.name);
@@ -119,23 +119,23 @@ class _TodosActionState extends State<TodosAction> {
                         if (formKey.currentState!.validate()) {
                           textTrim(titleEdit);
                           textTrim(descEdit);
-                          widget.category == false
-                              ? todoController.addTodo(
-                                  widget.task!,
+                          widget.edit
+                              ? todoController.updateTodo(
+                                  widget.todo!,
+                                  selectedTask!,
                                   titleEdit.text,
                                   descEdit.text,
                                   timeEdit.text,
                                 )
-                              : widget.edit == false
+                              : widget.category
                                   ? todoController.addTodo(
                                       selectedTask!,
                                       titleEdit.text,
                                       descEdit.text,
                                       timeEdit.text,
                                     )
-                                  : todoController.updateTodo(
-                                      widget.todo!,
-                                      selectedTask!,
+                                  : todoController.addTodo(
+                                      widget.task!,
                                       titleEdit.text,
                                       descEdit.text,
                                       timeEdit.text,
@@ -155,7 +155,7 @@ class _TodosActionState extends State<TodosAction> {
                   ],
                 ),
               ),
-              widget.category == true
+              widget.category
                   ? RawAutocomplete<Tasks>(
                       focusNode: focusNode,
                       textEditingController: textConroller,

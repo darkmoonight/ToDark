@@ -9,11 +9,13 @@ import 'package:todark/main.dart';
 
 class TodoController extends GetxController {
   final tasks = <Tasks>[].obs;
+  final todos = <Todos>[].obs;
 
   @override
   void onInit() {
     super.onInit();
     tasks.assignAll(isar.tasks.where().sortByIndex().findAllSync());
+    todos.assignAll(isar.todos.where().findAllSync());
   }
 
   // Tasks
@@ -43,28 +45,20 @@ class TodoController extends GetxController {
 
   Future<void> updateTask(
       Tasks task, String title, String desc, Color myColor) async {
-    List<Tasks> searchTask;
-    final taskCollection = isar.tasks;
-    searchTask = await taskCollection.filter().titleEqualTo(title).findAll();
+    await isar.writeTxn(() async {
+      task.title = title;
+      task.description = desc;
+      task.taskColor = myColor.value;
+      await isar.tasks.put(task);
 
-    if (searchTask.isEmpty) {
-      await isar.writeTxn(() async {
-        task.title = title;
-        task.description = desc;
-        task.taskColor = myColor.value;
-        await isar.tasks.put(task);
-
-        var newTask = task;
-        int oldIdx = tasks.indexOf(task);
-        tasks[oldIdx] = newTask;
-        tasks.refresh();
-      });
-      EasyLoading.showSuccess('editCategory'.tr,
-          duration: const Duration(milliseconds: 500));
-    } else {
-      EasyLoading.showError('duplicateCategory'.tr,
-          duration: const Duration(milliseconds: 500));
-    }
+      var newTask = task;
+      int oldIdx = tasks.indexOf(task);
+      tasks[oldIdx] = newTask;
+      tasks.refresh();
+      todos.refresh();
+    });
+    EasyLoading.showSuccess('editCategory'.tr,
+        duration: const Duration(milliseconds: 500));
   }
 
   Future<void> deleteTask(Tasks task) async {
@@ -114,6 +108,7 @@ class TodoController extends GetxController {
       await isar.tasks.put(task);
 
       tasks.refresh();
+      todos.refresh();
     });
     EasyLoading.showSuccess('taskArchive'.tr,
         duration: const Duration(milliseconds: 500));
@@ -144,84 +139,21 @@ class TodoController extends GetxController {
       await isar.tasks.put(task);
 
       tasks.refresh();
+      todos.refresh();
     });
     EasyLoading.showSuccess('noTaskArchive'.tr,
         duration: const Duration(milliseconds: 500));
   }
 
   // Todos
-  Stream<List<Todos>> getTodo(bool toggle, Tasks task) async* {
-    yield* toggle == false
-        ? isar.todos
-            .filter()
-            .task((q) => q.idEqualTo(task.id))
-            .doneEqualTo(false)
-            .watch(fireImmediately: true)
-        : isar.todos
-            .filter()
-            .task((q) => q.idEqualTo(task.id))
-            .doneEqualTo(true)
-            .watch(fireImmediately: true);
-  }
-
-  Stream<List<Todos>> getAllTodo(bool toggle) async* {
-    yield* toggle == false
-        ? isar.todos
-            .filter()
-            .doneEqualTo(false)
-            .task((q) => q.archiveEqualTo(false))
-            .watch(fireImmediately: true)
-        : isar.todos
-            .filter()
-            .doneEqualTo(true)
-            .task((q) => q.archiveEqualTo(false))
-            .watch(fireImmediately: true);
-  }
-
-  Stream<List<Todos>> getCalendarTodo(
-      bool toggle, DateTime selectedDay) async* {
-    yield* toggle == false
-        ? isar.todos
-            .filter()
-            .doneEqualTo(false)
-            .todoCompletedTimeIsNotNull()
-            .todoCompletedTimeBetween(
-                DateTime(
-                    selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-                DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
-                    23, 59))
-            .task((q) => q.archiveEqualTo(false))
-            .sortByTodoCompletedTime()
-            .watch(fireImmediately: true)
-        : isar.todos
-            .filter()
-            .doneEqualTo(true)
-            .todoCompletedTimeIsNotNull()
-            .todoCompletedTimeBetween(
-                DateTime(
-                    selectedDay.year, selectedDay.month, selectedDay.day, 0, 0),
-                DateTime(selectedDay.year, selectedDay.month, selectedDay.day,
-                    23, 59))
-            .task((q) => q.archiveEqualTo(false))
-            .sortByTodoCompletedTime()
-            .watch(fireImmediately: true);
-  }
-
   Future<void> addTodo(
       Tasks task, String title, String desc, String time) async {
     DateTime? date;
     if (time.isNotEmpty) {
       date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
     }
-    final todosCreate = Todos(
-      name: title,
-      description: desc,
-      todoCompletedTime: date,
-    )..task.value = task;
-
     final todosCollection = isar.todos;
     List<Todos> getTodos;
-
     getTodos = await todosCollection
         .filter()
         .nameEqualTo(title)
@@ -229,8 +161,15 @@ class TodoController extends GetxController {
         .todoCompletedTimeEqualTo(date)
         .findAll();
 
+    final todosCreate = Todos(
+      name: title,
+      description: desc,
+      todoCompletedTime: date,
+    )..task.value = task;
+
     if (getTodos.isEmpty) {
       await isar.writeTxn(() async {
+        todos.add(todosCreate);
         await isar.todos.put(todosCreate);
         await todosCreate.task.save();
         if (time.isNotEmpty) {
@@ -252,6 +191,7 @@ class TodoController extends GetxController {
 
   Future<void> updateTodoCheck(Todos todo) async {
     await isar.writeTxn(() async => isar.todos.put(todo));
+    todos.refresh();
   }
 
   Future<void> updateTodo(
@@ -267,6 +207,12 @@ class TodoController extends GetxController {
       todo.task.value = task;
       await isar.todos.put(todo);
       await todo.task.save();
+
+      var newTodo = todo;
+      int oldIdx = todos.indexOf(todo);
+      todos[oldIdx] = newTodo;
+      todos.refresh();
+
       if (time.isNotEmpty) {
         await flutterLocalNotificationsPlugin.cancel(todo.id);
         NotificationShow().showNotification(
@@ -279,13 +225,13 @@ class TodoController extends GetxController {
         await flutterLocalNotificationsPlugin.cancel(todo.id);
       }
     });
-
     EasyLoading.showSuccess('update'.tr,
         duration: const Duration(milliseconds: 500));
   }
 
   Future<void> deleteTodo(Todos todo) async {
     await isar.writeTxn(() async {
+      todos.remove(todo);
       await isar.todos.delete(todo.id);
       if (todo.todoCompletedTime != null) {
         await flutterLocalNotificationsPlugin.cancel(todo.id);

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/modules/tasks/widgets/tasks_action.dart';
 import 'package:todark/app/modules/todos/view/calendar_todos.dart';
-import 'package:todark/app/modules/todos/widgets/all_todos.dart';
+import 'package:todark/app/modules/todos/view/all_todos.dart';
 import 'package:todark/app/modules/todos/widgets/todos_action.dart';
 import 'package:todark/theme/theme_controller.dart';
 

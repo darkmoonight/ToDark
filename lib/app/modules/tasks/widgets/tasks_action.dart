@@ -30,11 +30,11 @@ class _TasksActionState extends State<TasksAction> {
 
   @override
   initState() {
-    if (widget.edit == true) {
+    if (widget.edit) {
       titleEdit = TextEditingController(text: widget.task!.title);
       descEdit = TextEditingController(text: widget.task!.description);
       myColor = Color(widget.task!.taskColor!);
-    } else {}
+    }
     super.initState();
   }
 
@@ -86,18 +86,18 @@ class _TasksActionState extends State<TasksAction> {
                         if (formKey.currentState!.validate()) {
                           textTrim(titleEdit);
                           textTrim(descEdit);
-                          if (widget.edit == false) {
-                            todoController.addTask(
-                                titleEdit.text, descEdit.text, myColor);
-                            titleEdit.clear();
-                            descEdit.clear();
-                          } else {
+                          if (widget.edit) {
                             todoController.updateTask(
                               widget.task!,
                               titleEdit.text,
                               descEdit.text,
                               myColor,
                             );
+                          } else {
+                            todoController.addTask(
+                                titleEdit.text, descEdit.text, myColor);
+                            titleEdit.clear();
+                            descEdit.clear();
                           }
                           Get.back();
                         }

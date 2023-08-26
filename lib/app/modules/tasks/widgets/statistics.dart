@@ -78,7 +78,7 @@ class _StatisticsState extends State<Statistics> {
                     Colors.blueAccent,
                     Colors.greenAccent,
                   ],
-                  trackColor: Colors.grey[300],
+                  trackColor: Colors.grey.shade300,
                 ),
                 customWidths: CustomSliderWidths(
                   progressBarWidth: 7,

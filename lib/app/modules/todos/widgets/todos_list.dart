@@ -9,17 +9,17 @@ import 'package:todark/app/widgets/list_empty.dart';
 class TodosList extends StatefulWidget {
   const TodosList({
     super.key,
-    required this.calendare,
-    required this.allTask,
     required this.done,
     this.task,
+    required this.allTask,
+    required this.calendare,
     this.selectedDay,
   });
-  final DateTime? selectedDay;
-  final bool calendare;
-  final bool allTask;
-  final Tasks? task;
   final bool done;
+  final Tasks? task;
+  final bool allTask;
+  final bool calendare;
+  final DateTime? selectedDay;
 
   @override
   State<TodosList> createState() => _TodosListState();
@@ -32,30 +32,55 @@ class _TodosListState extends State<TodosList> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 50),
-      child: StreamBuilder<List<Todos>>(
-        stream: widget.allTask == true
-            ? todoController.getAllTodo(widget.done)
-            : widget.calendare == true
-                ? todoController.getCalendarTodo(
-                    widget.done, widget.selectedDay!)
-                : todoController.getTodo(widget.done, widget.task!),
-        builder: (BuildContext context, AsyncSnapshot<List<Todos>> listData) {
-          switch (listData.connectionState) {
-            case ConnectionState.done:
-            default:
-              if (listData.hasData) {
-                final todos = listData.data!;
-                if (todos.isEmpty) {
-                  return ListEmpty(
-                    img: widget.calendare
-                        ? 'assets/images/Calendar.png'
-                        : 'assets/images/Todo.png',
-                    text:
-                        widget.done == true ? 'copletedTask'.tr : 'addTask'.tr,
-                  );
-                }
-                return ListView.builder(
-                  physics: const AlwaysScrollableScrollPhysics(),
+      child: Obx(
+        () {
+          final todos = widget.task != null
+              ? todoController.todos
+                  .where((todo) =>
+                      todo.task.value?.id == widget.task?.id &&
+                      todo.done == widget.done)
+                  .toList()
+                  .obs
+              : widget.allTask
+                  ? todoController.todos
+                      .where((todo) =>
+                          todo.task.value?.archive == false &&
+                          todo.done == widget.done)
+                      .toList()
+                      .obs
+                  : widget.calendare
+                      ? todoController.todos
+                          .where((todo) =>
+                              todo.task.value?.archive == false &&
+                              todo.todoCompletedTime != null &&
+                              todo.todoCompletedTime!.isAfter(
+                                DateTime(
+                                    widget.selectedDay!.year,
+                                    widget.selectedDay!.month,
+                                    widget.selectedDay!.day,
+                                    0,
+                                    0),
+                              ) &&
+                              todo.todoCompletedTime!.isBefore(
+                                DateTime(
+                                    widget.selectedDay!.year,
+                                    widget.selectedDay!.month,
+                                    widget.selectedDay!.day,
+                                    23,
+                                    59),
+                              ) &&
+                              todo.done == widget.done)
+                          .toList()
+                          .obs
+                      : todoController.todos;
+          return todos.isEmpty
+              ? ListEmpty(
+                  img: widget.calendare
+                      ? 'assets/images/Calendar.png'
+                      : 'assets/images/Todo.png',
+                  text: widget.done == true ? 'copletedTask'.tr : 'addTask'.tr,
+                )
+              : ListView.builder(
                   itemCount: todos.length,
                   itemBuilder: (BuildContext context, int index) {
                     final todosList = todos[index];
@@ -115,10 +140,6 @@ class _TodosListState extends State<TodosList> {
                     );
                   },
                 );
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-          }
         },
       ),
     );
