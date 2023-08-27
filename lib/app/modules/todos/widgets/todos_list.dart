@@ -11,13 +11,13 @@ class TodosList extends StatefulWidget {
     super.key,
     required this.done,
     this.task,
-    required this.allTask,
+    required this.allTodos,
     required this.calendare,
     this.selectedDay,
   });
   final bool done;
   final Tasks? task;
-  final bool allTask;
+  final bool allTodos;
   final bool calendare;
   final DateTime? selectedDay;
 
@@ -41,7 +41,7 @@ class _TodosListState extends State<TodosList> {
                       todo.done == widget.done)
                   .toList()
                   .obs
-              : widget.allTask
+              : widget.allTodos
                   ? todoController.todos
                       .where((todo) =>
                           todo.task.value?.archive == false &&
@@ -133,8 +133,8 @@ class _TodosListState extends State<TodosList> {
                         ),
                       ),
                       child: TodoCard(
-                        todosList: todosList,
-                        allTask: widget.allTask,
+                        todos: todosList,
+                        allTodos: widget.allTodos,
                         calendare: widget.calendare,
                       ),
                     );

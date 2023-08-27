@@ -161,13 +161,13 @@ class _CalendarTodosState extends State<CalendarTodos> {
           children: [
             TodosList(
               calendare: true,
-              allTask: false,
+              allTodos: false,
               done: false,
               selectedDay: selectedDay,
             ),
             TodosList(
               calendare: true,
-              allTask: false,
+              allTodos: false,
               done: true,
               selectedDay: selectedDay,
             ),

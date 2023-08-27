@@ -10,12 +10,12 @@ import 'package:todark/main.dart';
 class TodoCard extends StatefulWidget {
   const TodoCard({
     super.key,
-    required this.todosList,
-    required this.allTask,
+    required this.todos,
+    required this.allTodos,
     required this.calendare,
   });
-  final Todos todosList;
-  final bool allTask;
+  final Todos todos;
+  final bool allTodos;
   final bool calendare;
 
   @override
@@ -45,7 +45,7 @@ class _TodoCardState extends State<TodoCard> {
                     return TodosAction(
                       text: 'editing'.tr,
                       edit: true,
-                      todo: widget.todosList,
+                      todo: widget.todos,
                       category: true,
                     );
                   },
@@ -57,28 +57,27 @@ class _TodoCardState extends State<TodoCard> {
                     child: Row(
                       children: [
                         Checkbox(
-                          value: widget.todosList.done,
+                          value: widget.todos.done,
                           shape: const CircleBorder(),
                           onChanged: (val) {
                             innerState(() {
-                              widget.todosList.done = val!;
+                              widget.todos.done = val!;
                             });
-                            widget.todosList.done == true
+                            widget.todos.done == true
                                 ? flutterLocalNotificationsPlugin
-                                    .cancel(widget.todosList.id)
-                                : widget.todosList.todoCompletedTime != null
+                                    .cancel(widget.todos.id)
+                                : widget.todos.todoCompletedTime != null
                                     ? NotificationShow().showNotification(
-                                        widget.todosList.id,
-                                        widget.todosList.name!,
-                                        widget.todosList.description!,
-                                        widget.todosList.todoCompletedTime,
+                                        widget.todos.id,
+                                        widget.todos.name!,
+                                        widget.todos.description!,
+                                        widget.todos.todoCompletedTime,
                                       )
                                     : null;
                             Future.delayed(
                               const Duration(milliseconds: 300),
                               () {
-                                todoController
-                                    .updateTodoCheck(widget.todosList);
+                                todoController.updateTodoCheck(widget.todos);
                               },
                             );
                           },
@@ -88,16 +87,16 @@ class _TodoCardState extends State<TodoCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.todosList.name!,
+                                widget.todos.name!,
                                 style: context.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                 ),
                                 overflow: TextOverflow.visible,
                               ),
-                              widget.todosList.description!.isNotEmpty
+                              widget.todos.description!.isNotEmpty
                                   ? Text(
-                                      widget.todosList.description!,
+                                      widget.todos.description!,
                                       style: context.textTheme.labelLarge
                                           ?.copyWith(
                                         color: Colors.grey,
@@ -105,9 +104,9 @@ class _TodoCardState extends State<TodoCard> {
                                       overflow: TextOverflow.visible,
                                     )
                                   : const SizedBox.shrink(),
-                              widget.allTask || widget.calendare
+                              widget.allTodos || widget.calendare
                                   ? Text(
-                                      widget.todosList.task.value!.title!,
+                                      widget.todos.task.value!.title!,
                                       style:
                                           context.textTheme.bodyLarge?.copyWith(
                                         color: Colors.grey,
@@ -115,15 +114,15 @@ class _TodoCardState extends State<TodoCard> {
                                       ),
                                     )
                                   : const SizedBox.shrink(),
-                              widget.todosList.todoCompletedTime != null &&
+                              widget.todos.todoCompletedTime != null &&
                                       widget.calendare == false
                                   ? Text(
-                                      widget.todosList.todoCompletedTime != null
+                                      widget.todos.todoCompletedTime != null
                                           ? DateFormat.yMMMEd(
                                                   locale.languageCode)
                                               .add_Hm()
                                               .format(widget
-                                                  .todosList.todoCompletedTime!)
+                                                  .todos.todoCompletedTime!)
                                           : '',
                                       style: context.textTheme.labelLarge,
                                     )
@@ -137,7 +136,7 @@ class _TodoCardState extends State<TodoCard> {
                   widget.calendare
                       ? Text(
                           DateFormat.Hm(locale.languageCode)
-                              .format(widget.todosList.todoCompletedTime!),
+                              .format(widget.todos.todoCompletedTime!),
                           style: context.textTheme.bodyLarge?.copyWith(
                             color: Colors.grey,
                             fontSize: 12,

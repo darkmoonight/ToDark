@@ -12,10 +12,12 @@ class TasksAction extends StatefulWidget {
     required this.text,
     required this.edit,
     this.task,
+    this.updateTaskName,
   });
   final String text;
   final bool edit;
   final Tasks? task;
+  final Function()? updateTaskName;
 
   @override
   State<TasksAction> createState() => _TasksActionState();
@@ -93,6 +95,7 @@ class _TasksActionState extends State<TasksAction> {
                               descEdit.text,
                               myColor,
                             );
+                            widget.updateTaskName!();
                           } else {
                             todoController.addTask(
                                 titleEdit.text, descEdit.text, myColor);

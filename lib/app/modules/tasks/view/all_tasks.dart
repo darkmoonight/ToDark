@@ -39,10 +39,18 @@ class _AllTasksState extends State<AllTasks> {
                     margin:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                   ),
-                  // TODO: countTotalTodos, countDoneTodos
-                  const Statistics(
-                    countTotalTodos: 0,
-                    countDoneTodos: 0,
+                  Obx(
+                    () {
+                      var createdTodos = todoController.createdAllTodos();
+                      var completedTodos = todoController.completedAllTodos();
+                      var precent = (completedTodos / createdTodos * 100)
+                          .toStringAsFixed(0);
+                      return Statistics(
+                        createdTodos: createdTodos,
+                        completedTodos: completedTodos,
+                        precent: precent,
+                      );
+                    },
                   ),
                 ],
               ),

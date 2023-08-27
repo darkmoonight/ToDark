@@ -135,7 +135,7 @@ class _TasksListState extends State<TasksList> {
                           ),
                         ),
                       ),
-                      child: TaskCard(taskList: taskList),
+                      child: TaskCard(task: taskList),
                     );
                   },
                 );

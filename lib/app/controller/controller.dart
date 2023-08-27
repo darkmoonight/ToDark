@@ -77,6 +77,7 @@ class TodoController extends GetxController {
     }
     // Delete Todos
     await isar.writeTxn(() async {
+      todos.removeWhere((todo) => todo.task.value == task);
       await isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAll();
     });
     // Delete Task
@@ -239,5 +240,15 @@ class TodoController extends GetxController {
     });
     EasyLoading.showSuccess('taskDelete'.tr,
         duration: const Duration(milliseconds: 500));
+  }
+
+  int createdAllTodos() {
+    return todos.where((todo) => todo.task.value?.archive == false).length;
+  }
+
+  int completedAllTodos() {
+    return todos
+        .where((todo) => todo.task.value?.archive == false && todo.done == true)
+        .length;
   }
 }

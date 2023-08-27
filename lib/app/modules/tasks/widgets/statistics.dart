@@ -4,20 +4,17 @@ import 'package:intl/intl.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/main.dart';
 
-class Statistics extends StatefulWidget {
+class Statistics extends StatelessWidget {
   const Statistics({
     super.key,
-    required this.countTotalTodos,
-    required this.countDoneTodos,
+    required this.createdTodos,
+    required this.completedTodos,
+    required this.precent,
   });
-  final int countTotalTodos;
-  final int countDoneTodos;
+  final int createdTodos;
+  final int completedTodos;
+  final String precent;
 
-  @override
-  State<Statistics> createState() => _StatisticsState();
-}
-
-class _StatisticsState extends State<Statistics> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -42,7 +39,7 @@ class _StatisticsState extends State<Statistics> {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 3),
                     child: Text(
-                      '${widget.countDoneTodos}/${widget.countTotalTodos} ${'completed'.tr}',
+                      '$completedTodos/$createdTodos ${'completed'.tr}',
                       style: context.textTheme.titleSmall?.copyWith(
                         color: Colors.grey,
                       ),
@@ -66,9 +63,7 @@ class _StatisticsState extends State<Statistics> {
                 size: 70,
                 infoProperties: InfoProperties(
                   modifier: (percentage) {
-                    return widget.countTotalTodos != 0
-                        ? '${((widget.countDoneTodos / widget.countTotalTodos) * 100).round()}%'
-                        : '0%';
+                    return createdTodos != 0 ? '$precent%' : '0%';
                   },
                   mainLabelStyle:
                       context.textTheme.labelLarge?.copyWith(fontSize: 18),
@@ -88,10 +83,8 @@ class _StatisticsState extends State<Statistics> {
                 ),
               ),
               min: 0,
-              max: widget.countTotalTodos != 0
-                  ? widget.countTotalTodos.toDouble()
-                  : 1,
-              initialValue: widget.countDoneTodos.toDouble(),
+              max: createdTodos != 0 ? createdTodos.toDouble() : 1,
+              initialValue: completedTodos.toDouble(),
             ),
           ],
         ),

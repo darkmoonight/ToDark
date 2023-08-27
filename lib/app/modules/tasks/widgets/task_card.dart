@@ -4,18 +4,13 @@ import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/todos/view/todos_task.dart';
 
-class TaskCard extends StatefulWidget {
+class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
-    required this.taskList,
+    required this.task,
   });
-  final Tasks taskList;
+  final Tasks task;
 
-  @override
-  State<TaskCard> createState() => _TaskCardState();
-}
-
-class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -26,7 +21,7 @@ class _TaskCardState extends State<TaskCard> {
         splashColor: Colors.transparent,
         onTap: () {
           Get.to(
-            () => TodosTask(task: widget.taskList),
+            () => TodosTask(task: task),
             transition: Transition.downToUp,
           );
         },
@@ -41,8 +36,8 @@ class _TaskCardState extends State<TaskCard> {
               size: 110,
               infoProperties: InfoProperties(
                 modifier: (percentage) {
-                  return widget.taskList.todos.isNotEmpty
-                      ? '${((widget.taskList.todos.where((e) => e.done == true).toList().length / widget.taskList.todos.length) * 100).round()}%'
+                  return task.todos.isNotEmpty
+                      ? '${((task.todos.where((e) => e.done == true).toList().length / task.todos.length) * 100).round()}%'
                       : '0%';
                 },
                 mainLabelStyle: context.textTheme.titleMedium?.copyWith(
@@ -50,11 +45,7 @@ class _TaskCardState extends State<TaskCard> {
                 ),
               ),
               customColors: CustomSliderColors(
-                progressBarColors: <Color>[
-                  Color(widget.taskList.taskColor!),
-                  Color(widget.taskList.taskColor!).withOpacity(0.9),
-                  Color(widget.taskList.taskColor!).withOpacity(0.8),
-                ],
+                progressBarColor: Color(task.taskColor!),
                 trackColor: Colors.grey.shade300,
               ),
               customWidths: CustomSliderWidths(
@@ -65,10 +56,8 @@ class _TaskCardState extends State<TaskCard> {
               ),
             ),
             min: 0,
-            max: widget.taskList.todos.isNotEmpty
-                ? widget.taskList.todos.length.toDouble()
-                : 1,
-            initialValue: widget.taskList.todos
+            max: task.todos.isNotEmpty ? task.todos.length.toDouble() : 1,
+            initialValue: task.todos
                 .where((e) => e.done == true)
                 .toList()
                 .length
@@ -76,15 +65,15 @@ class _TaskCardState extends State<TaskCard> {
           ),
         ),
         title: Text(
-          widget.taskList.title!,
+          task.title!,
           style: context.textTheme.titleLarge?.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
-        subtitle: widget.taskList.description!.isNotEmpty
+        subtitle: task.description!.isNotEmpty
             ? Text(
-                widget.taskList.description!,
+                task.description!,
                 style: context.textTheme.labelLarge?.copyWith(
                   color: Colors.grey,
                   fontSize: 14,

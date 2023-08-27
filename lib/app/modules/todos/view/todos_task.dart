@@ -76,6 +76,7 @@ class _TodosTaskState extends State<TodosTask> {
                     text: 'editing'.tr,
                     edit: true,
                     task: widget.task,
+                    updateTaskName: () => setState(() {}),
                   );
                 },
               );
@@ -136,13 +137,13 @@ class _TodosTaskState extends State<TodosTask> {
             body: TabBarView(
               children: [
                 TodosList(
-                  allTask: false,
+                  allTodos: false,
                   calendare: false,
                   done: false,
                   task: widget.task,
                 ),
                 TodosList(
-                  allTask: false,
+                  allTodos: false,
                   calendare: false,
                   done: true,
                   task: widget.task,

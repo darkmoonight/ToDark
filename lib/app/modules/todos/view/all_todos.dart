@@ -65,12 +65,12 @@ class _AllTodosState extends State<AllTodos> {
           children: [
             TodosList(
               calendare: false,
-              allTask: true,
+              allTodos: true,
               done: false,
             ),
             TodosList(
               calendare: false,
-              allTask: true,
+              allTodos: true,
               done: true,
             ),
           ],
