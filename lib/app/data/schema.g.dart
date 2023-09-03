@@ -748,18 +748,8 @@ int _tasksEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.description;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.title;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.description.length * 3;
+  bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
 
@@ -783,12 +773,12 @@ Tasks _tasksDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Tasks(
-    archive: reader.readBoolOrNull(offsets[0]),
-    description: reader.readStringOrNull(offsets[1]),
+    archive: reader.readBoolOrNull(offsets[0]) ?? false,
+    description: reader.readStringOrNull(offsets[1]) ?? '',
     id: id,
     index: reader.readLongOrNull(offsets[2]),
-    taskColor: reader.readLongOrNull(offsets[3]),
-    title: reader.readStringOrNull(offsets[4]),
+    taskColor: reader.readLong(offsets[3]),
+    title: reader.readString(offsets[4]),
   );
   return object;
 }
@@ -801,15 +791,15 @@ P _tasksDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 2:
       return (reader.readLongOrNull(offset)) as P;
     case 3:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -904,24 +894,7 @@ extension TasksQueryWhere on QueryBuilder<Tasks, Tasks, QWhereClause> {
 }
 
 extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> archiveIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'archive',
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> archiveIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'archive',
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> archiveEqualTo(
-      bool? value) {
+  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> archiveEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'archive',
@@ -930,24 +903,8 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> descriptionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> descriptionIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'description',
-      ));
-    });
-  }
-
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> descriptionEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -960,7 +917,7 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> descriptionGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -975,7 +932,7 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> descriptionLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -990,8 +947,8 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> descriptionBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1196,24 +1153,8 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskColorIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'taskColor',
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskColorIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'taskColor',
-      ));
-    });
-  }
-
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskColorEqualTo(
-      int? value) {
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'taskColor',
@@ -1223,7 +1164,7 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskColorGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1236,7 +1177,7 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskColorLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1249,8 +1190,8 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> taskColorBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1265,24 +1206,8 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'title',
-      ));
-    });
-  }
-
-  QueryBuilder<Tasks, Tasks, QAfterFilterCondition> titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'title',
-      ));
-    });
-  }
-
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> titleEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1295,7 +1220,7 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> titleGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1310,7 +1235,7 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> titleLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1325,8 +1250,8 @@ extension TasksQueryFilter on QueryBuilder<Tasks, Tasks, QFilterCondition> {
   }
 
   QueryBuilder<Tasks, Tasks, QAfterFilterCondition> titleBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1647,13 +1572,13 @@ extension TasksQueryProperty on QueryBuilder<Tasks, Tasks, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Tasks, bool?, QQueryOperations> archiveProperty() {
+  QueryBuilder<Tasks, bool, QQueryOperations> archiveProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'archive');
     });
   }
 
-  QueryBuilder<Tasks, String?, QQueryOperations> descriptionProperty() {
+  QueryBuilder<Tasks, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
@@ -1665,13 +1590,13 @@ extension TasksQueryProperty on QueryBuilder<Tasks, Tasks, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Tasks, int?, QQueryOperations> taskColorProperty() {
+  QueryBuilder<Tasks, int, QQueryOperations> taskColorProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'taskColor');
     });
   }
 
-  QueryBuilder<Tasks, String?, QQueryOperations> titleProperty() {
+  QueryBuilder<Tasks, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });
@@ -1737,18 +1662,8 @@ int _todosEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.description;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.name;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.description.length * 3;
+  bytesCount += 3 + object.name.length * 3;
   return bytesCount;
 }
 
@@ -1771,10 +1686,10 @@ Todos _todosDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = Todos(
-    description: reader.readStringOrNull(offsets[0]),
-    done: reader.readBoolOrNull(offsets[1]),
+    description: reader.readStringOrNull(offsets[0]) ?? '',
+    done: reader.readBoolOrNull(offsets[1]) ?? false,
     id: id,
-    name: reader.readStringOrNull(offsets[2]),
+    name: reader.readString(offsets[2]),
     todoCompletedTime: reader.readDateTimeOrNull(offsets[3]),
   );
   return object;
@@ -1788,11 +1703,11 @@ P _todosDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readStringOrNull(offset) ?? '') as P;
     case 1:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
@@ -1889,24 +1804,8 @@ extension TodosQueryWhere on QueryBuilder<Todos, Todos, QWhereClause> {
 }
 
 extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> descriptionIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'description',
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> descriptionIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'description',
-      ));
-    });
-  }
-
   QueryBuilder<Todos, Todos, QAfterFilterCondition> descriptionEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1919,7 +1818,7 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
   }
 
   QueryBuilder<Todos, Todos, QAfterFilterCondition> descriptionGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1934,7 +1833,7 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
   }
 
   QueryBuilder<Todos, Todos, QAfterFilterCondition> descriptionLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1949,8 +1848,8 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
   }
 
   QueryBuilder<Todos, Todos, QAfterFilterCondition> descriptionBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2035,23 +1934,7 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> doneIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'done',
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> doneIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'done',
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> doneEqualTo(bool? value) {
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> doneEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'done',
@@ -2112,24 +1995,8 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> nameIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'name',
-      ));
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> nameIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'name',
-      ));
-    });
-  }
-
   QueryBuilder<Todos, Todos, QAfterFilterCondition> nameEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2142,7 +2009,7 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
   }
 
   QueryBuilder<Todos, Todos, QAfterFilterCondition> nameGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2157,7 +2024,7 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
   }
 
   QueryBuilder<Todos, Todos, QAfterFilterCondition> nameLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -2172,8 +2039,8 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
   }
 
   QueryBuilder<Todos, Todos, QAfterFilterCondition> nameBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2491,19 +2358,19 @@ extension TodosQueryProperty on QueryBuilder<Todos, Todos, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Todos, String?, QQueryOperations> descriptionProperty() {
+  QueryBuilder<Todos, String, QQueryOperations> descriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'description');
     });
   }
 
-  QueryBuilder<Todos, bool?, QQueryOperations> doneProperty() {
+  QueryBuilder<Todos, bool, QQueryOperations> doneProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'done');
     });
   }
 
-  QueryBuilder<Todos, String?, QQueryOperations> nameProperty() {
+  QueryBuilder<Todos, String, QQueryOperations> nameProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'name');
     });

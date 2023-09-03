@@ -8,8 +8,14 @@ class TaskCard extends StatelessWidget {
   const TaskCard({
     super.key,
     required this.task,
+    required this.createdTodos,
+    required this.completedTodos,
+    required this.precent,
   });
   final Tasks task;
+  final int createdTodos;
+  final int completedTodos;
+  final String precent;
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +42,14 @@ class TaskCard extends StatelessWidget {
               size: 110,
               infoProperties: InfoProperties(
                 modifier: (percentage) {
-                  return task.todos.isNotEmpty
-                      ? '${((task.todos.where((e) => e.done == true).toList().length / task.todos.length) * 100).round()}%'
-                      : '0%';
+                  return createdTodos != 0 ? '$precent%' : '0%';
                 },
                 mainLabelStyle: context.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               customColors: CustomSliderColors(
-                progressBarColor: Color(task.taskColor!),
+                progressBarColor: Color(task.taskColor),
                 trackColor: Colors.grey.shade300,
               ),
               customWidths: CustomSliderWidths(
@@ -56,24 +60,20 @@ class TaskCard extends StatelessWidget {
               ),
             ),
             min: 0,
-            max: task.todos.isNotEmpty ? task.todos.length.toDouble() : 1,
-            initialValue: task.todos
-                .where((e) => e.done == true)
-                .toList()
-                .length
-                .toDouble(),
+            max: createdTodos != 0 ? createdTodos.toDouble() : 1,
+            initialValue: completedTodos.toDouble(),
           ),
         ),
         title: Text(
-          task.title!,
+          task.title,
           style: context.textTheme.titleLarge?.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
-        subtitle: task.description!.isNotEmpty
+        subtitle: task.description.isNotEmpty
             ? Text(
-                task.description!,
+                task.description,
                 style: context.textTheme.labelLarge?.copyWith(
                   color: Colors.grey,
                   fontSize: 14,

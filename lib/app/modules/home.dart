@@ -27,13 +27,6 @@ class _HomePageState extends State<HomePage> {
     SettingsPage(),
   ];
 
-  final namePages = [
-    'categories'.tr,
-    'allTasks'.tr,
-    'calendar'.tr,
-    'settings'.tr,
-  ];
-
   void changeTabIndex(int index) {
     setState(() {
       tabIndex = index;
@@ -43,15 +36,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          namePages[tabIndex],
-          style: context.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
       body: SafeArea(
         child: IndexedStack(
           index: tabIndex,

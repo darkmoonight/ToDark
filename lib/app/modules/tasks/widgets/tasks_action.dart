@@ -35,7 +35,7 @@ class _TasksActionState extends State<TasksAction> {
     if (widget.edit) {
       titleEdit = TextEditingController(text: widget.task!.title);
       descEdit = TextEditingController(text: widget.task!.description);
-      myColor = Color(widget.task!.taskColor!);
+      myColor = Color(widget.task!.taskColor);
     }
     super.initState();
   }

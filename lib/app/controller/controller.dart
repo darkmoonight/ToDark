@@ -128,8 +128,8 @@ class TodoController extends GetxController {
       if (element.todoCompletedTime != null) {
         NotificationShow().showNotification(
           element.id,
-          element.name!,
-          element.description!,
+          element.name,
+          element.description,
           element.todoCompletedTime,
         );
       }
@@ -176,8 +176,8 @@ class TodoController extends GetxController {
         if (time.isNotEmpty) {
           NotificationShow().showNotification(
             todosCreate.id,
-            todosCreate.name!,
-            todosCreate.description!,
+            todosCreate.name,
+            todosCreate.description,
             date,
           );
         }
@@ -218,8 +218,8 @@ class TodoController extends GetxController {
         await flutterLocalNotificationsPlugin.cancel(todo.id);
         NotificationShow().showNotification(
           todo.id,
-          todo.name!,
-          todo.description!,
+          todo.name,
+          todo.description,
           date,
         );
       } else {
@@ -249,6 +249,16 @@ class TodoController extends GetxController {
   int completedAllTodos() {
     return todos
         .where((todo) => todo.task.value?.archive == false && todo.done == true)
+        .length;
+  }
+
+  int createdAllTodosTask(Tasks task) {
+    return todos.where((todo) => todo.task.value?.id == task.id).length;
+  }
+
+  int completedAllTodosTask(Tasks task) {
+    return todos
+        .where((todo) => todo.task.value?.id == task.id && todo.done == true)
         .length;
   }
 }

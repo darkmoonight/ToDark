@@ -44,17 +44,17 @@ class _TodosTaskState extends State<TodosTask> {
             ),
           ),
           title: Text(
-            widget.task.title!,
+            widget.task.title,
             style: context.theme.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600,
               fontSize: 20,
             ),
             overflow: TextOverflow.ellipsis,
           ),
-          subtitle: widget.task.description!.isEmpty
+          subtitle: widget.task.description.isEmpty
               ? null
               : Text(
-                  widget.task.description!,
+                  widget.task.description,
                   style: context.textTheme.labelLarge?.copyWith(
                     color: Colors.grey,
                   ),

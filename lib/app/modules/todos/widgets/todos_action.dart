@@ -45,7 +45,7 @@ class _TodosActionState extends State<TodosAction> {
   initState() {
     if (widget.edit) {
       selectedTask = widget.todo!.task.value;
-      textConroller.text = widget.todo!.task.value!.title!;
+      textConroller.text = widget.todo!.task.value!.title;
       titleEdit = TextEditingController(text: widget.todo!.name);
       descEdit = TextEditingController(text: widget.todo!.description);
       timeEdit = TextEditingController(
@@ -63,7 +63,7 @@ class _TodosActionState extends State<TodosAction> {
     List<Tasks> getTask;
     getTask = await todosCollection.filter().archiveEqualTo(false).findAll();
     return getTask.where((element) {
-      final title = element.title!.toLowerCase();
+      final title = element.title.toLowerCase();
       final query = pattern.toLowerCase();
       return title.contains(query);
     }).toList();
@@ -200,11 +200,11 @@ class _TodosActionState extends State<TodosAction> {
                         return getTodosAll(textEditingValue.text);
                       },
                       onSelected: (Tasks selection) {
-                        textConroller.text = selection.title!;
+                        textConroller.text = selection.title;
                         selectedTask = selection;
                         focusNode.unfocus();
                       },
-                      displayStringForOption: (Tasks option) => option.title!,
+                      displayStringForOption: (Tasks option) => option.title,
                       optionsViewBuilder: (BuildContext context,
                           AutocompleteOnSelected<Tasks> onSelected,
                           Iterable<Tasks> options) {
@@ -225,14 +225,14 @@ class _TodosActionState extends State<TodosAction> {
                                     onTap: () => onSelected(tasks),
                                     child: ListTile(
                                       title: Text(
-                                        tasks.title!,
+                                        tasks.title,
                                         style: context.textTheme.labelLarge,
                                       ),
                                       trailing: Container(
                                         width: 10,
                                         height: 10,
                                         decoration: BoxDecoration(
-                                          color: Color(tasks.taskColor!),
+                                          color: Color(tasks.taskColor),
                                           shape: BoxShape.circle,
                                         ),
                                       ),

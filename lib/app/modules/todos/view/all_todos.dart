@@ -18,62 +18,75 @@ class _AllTodosState extends State<AllTodos> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: NestedScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverToBoxAdapter(
-              child: MyTextForm(
-                labelText: 'searchTodo'.tr,
-                type: TextInputType.text,
-                icon: const Icon(
-                  Iconsax.search_normal_1,
-                  size: 20,
-                ),
-                controller: TextEditingController(),
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              ),
-            ),
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverPersistentHeader(
-                delegate: MyDelegate(
-                  TabBar(
-                    isScrollable: true,
-                    dividerColor: Colors.transparent,
-                    splashFactory: NoSplash.splashFactory,
-                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                        return Colors.transparent;
-                      },
-                    ),
-                    tabs: [
-                      Tab(text: 'doing'.tr),
-                      Tab(text: 'done'.tr),
-                    ],
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          'allTasks'.tr,
+          style: context.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+      body: DefaultTabController(
+        length: 2,
+        child: NestedScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverToBoxAdapter(
+                child: MyTextForm(
+                  labelText: 'searchTodo'.tr,
+                  type: TextInputType.text,
+                  icon: const Icon(
+                    Iconsax.search_normal_1,
+                    size: 20,
                   ),
+                  controller: TextEditingController(),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 ),
-                floating: true,
-                pinned: true,
               ),
-            ),
-          ];
-        },
-        body: const TabBarView(
-          children: [
-            TodosList(
-              calendare: false,
-              allTodos: true,
-              done: false,
-            ),
-            TodosList(
-              calendare: false,
-              allTodos: true,
-              done: true,
-            ),
-          ],
+              SliverOverlapAbsorber(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverPersistentHeader(
+                  delegate: MyDelegate(
+                    TabBar(
+                      isScrollable: true,
+                      dividerColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                        (Set<MaterialState> states) {
+                          return Colors.transparent;
+                        },
+                      ),
+                      tabs: [
+                        Tab(text: 'doing'.tr),
+                        Tab(text: 'done'.tr),
+                      ],
+                    ),
+                  ),
+                  floating: true,
+                  pinned: true,
+                ),
+              ),
+            ];
+          },
+          body: const TabBarView(
+            children: [
+              TodosList(
+                calendare: false,
+                allTodos: true,
+                done: false,
+              ),
+              TodosList(
+                calendare: false,
+                allTodos: true,
+                done: true,
+              ),
+            ],
+          ),
         ),
       ),
     );

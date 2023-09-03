@@ -177,13 +177,8 @@ class _MyAppState extends State<MyApp> {
             translations: Translation(),
             locale: locale,
             fallbackLocale: const Locale('en', 'US'),
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('ru', 'RU'),
-              Locale('zh', 'CN'),
-              Locale('zh', 'TW'),
-              Locale('fa', 'IR'),
-            ],
+            supportedLocales:
+                appLanguages.map((e) => e['locale'] as Locale).toList(),
             debugShowCheckedModeBanner: false,
             home: settings.onboard == false
                 ? const OnBording()

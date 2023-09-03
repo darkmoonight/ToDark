@@ -34,7 +34,7 @@ class _TodosListState extends State<TodosList> {
       padding: const EdgeInsets.only(top: 50),
       child: Obx(
         () {
-          final todos = widget.task != null
+          var todos = widget.task != null
               ? todoController.todos
                   .where((todo) =>
                       todo.task.value?.id == widget.task?.id &&
@@ -80,65 +80,73 @@ class _TodosListState extends State<TodosList> {
                       : 'assets/images/Todo.png',
                   text: widget.done == true ? 'copletedTask'.tr : 'addTask'.tr,
                 )
-              : ListView.builder(
-                  itemCount: todos.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final todosList = todos[index];
-                    return Dismissible(
-                      key: ValueKey(todosList),
-                      direction: DismissDirection.endToStart,
-                      confirmDismiss: (DismissDirection direction) async {
-                        return await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text(
-                                'deletedTask'.tr,
-                                style: context.textTheme.titleLarge,
+              : ListView(
+                  children: [
+                    ...todos
+                        .map(
+                          (todosList) => Dismissible(
+                            key: ValueKey(todosList),
+                            direction: DismissDirection.endToStart,
+                            confirmDismiss: (DismissDirection direction) async {
+                              return await showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text(
+                                      'deletedTask'.tr,
+                                      style: context.textTheme.titleLarge,
+                                    ),
+                                    content: Text(
+                                      'deletedTaskQuery'.tr,
+                                      style: context.textTheme.titleMedium,
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () =>
+                                              Get.back(result: false),
+                                          child: Text('cancel'.tr,
+                                              style: context
+                                                  .textTheme.titleMedium
+                                                  ?.copyWith(
+                                                      color:
+                                                          Colors.blueAccent))),
+                                      TextButton(
+                                          onPressed: () =>
+                                              Get.back(result: true),
+                                          child: Text('delete'.tr,
+                                              style: context
+                                                  .textTheme.titleMedium
+                                                  ?.copyWith(
+                                                      color: Colors.red))),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            onDismissed: (DismissDirection direction) {
+                              todoController.deleteTodo(todosList);
+                            },
+                            background: Container(
+                              alignment: Alignment.centerRight,
+                              child: const Padding(
+                                padding: EdgeInsets.only(
+                                  right: 15,
+                                ),
+                                child: Icon(
+                                  Iconsax.trush_square,
+                                  color: Colors.red,
+                                ),
                               ),
-                              content: Text(
-                                'deletedTaskQuery'.tr,
-                                style: context.textTheme.titleMedium,
-                              ),
-                              actions: [
-                                TextButton(
-                                    onPressed: () => Get.back(result: false),
-                                    child: Text('cancel'.tr,
-                                        style: context.textTheme.titleMedium
-                                            ?.copyWith(
-                                                color: Colors.blueAccent))),
-                                TextButton(
-                                    onPressed: () => Get.back(result: true),
-                                    child: Text('delete'.tr,
-                                        style: context.textTheme.titleMedium
-                                            ?.copyWith(color: Colors.red))),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                      onDismissed: (DismissDirection direction) {
-                        todoController.deleteTodo(todosList);
-                      },
-                      background: Container(
-                        alignment: Alignment.centerRight,
-                        child: const Padding(
-                          padding: EdgeInsets.only(
-                            right: 15,
+                            ),
+                            child: TodoCard(
+                              todos: todosList,
+                              allTodos: widget.allTodos,
+                              calendare: widget.calendare,
+                            ),
                           ),
-                          child: Icon(
-                            Iconsax.trush_square,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                      child: TodoCard(
-                        todos: todosList,
-                        allTodos: widget.allTodos,
-                        calendare: widget.calendare,
-                      ),
-                    );
-                  },
+                        )
+                        .toList(),
+                  ],
                 );
         },
       ),

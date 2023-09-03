@@ -15,10 +15,10 @@ class Settings {
 @collection
 class Tasks {
   Id id;
-  String? title;
-  String? description;
-  int? taskColor;
-  bool? archive;
+  String title;
+  String description;
+  int taskColor;
+  bool archive;
   int? index;
 
   @Backlink(to: 'task')
@@ -52,10 +52,10 @@ class Tasks {
 @collection
 class Todos {
   Id id;
-  String? name;
-  String? description;
+  String name;
+  String description;
   DateTime? todoCompletedTime;
-  bool? done;
+  bool done;
 
   final task = IsarLink<Tasks>();
 

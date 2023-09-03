@@ -69,8 +69,8 @@ class _TodoCardState extends State<TodoCard> {
                                 : widget.todos.todoCompletedTime != null
                                     ? NotificationShow().showNotification(
                                         widget.todos.id,
-                                        widget.todos.name!,
-                                        widget.todos.description!,
+                                        widget.todos.name,
+                                        widget.todos.description,
                                         widget.todos.todoCompletedTime,
                                       )
                                     : null;
@@ -87,16 +87,16 @@ class _TodoCardState extends State<TodoCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.todos.name!,
+                                widget.todos.name,
                                 style: context.textTheme.titleLarge?.copyWith(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 16,
                                 ),
                                 overflow: TextOverflow.visible,
                               ),
-                              widget.todos.description!.isNotEmpty
+                              widget.todos.description.isNotEmpty
                                   ? Text(
-                                      widget.todos.description!,
+                                      widget.todos.description,
                                       style: context.textTheme.labelLarge
                                           ?.copyWith(
                                         color: Colors.grey,
@@ -106,7 +106,7 @@ class _TodoCardState extends State<TodoCard> {
                                   : const SizedBox.shrink(),
                               widget.allTodos || widget.calendare
                                   ? Text(
-                                      widget.todos.task.value!.title!,
+                                      widget.todos.task.value!.title,
                                       style:
                                           context.textTheme.bodyLarge?.copyWith(
                                         color: Colors.grey,
