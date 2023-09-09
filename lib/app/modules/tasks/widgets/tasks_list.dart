@@ -20,6 +20,16 @@ class TasksList extends StatefulWidget {
 
 class _TasksListState extends State<TasksList> {
   final todoController = Get.put(TodoController());
+  var tasks = <Tasks>[].obs;
+
+  @override
+  void initState() {
+    tasks = todoController.tasks
+        .where((task) => task.archive == widget.archived)
+        .toList()
+        .obs;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +37,7 @@ class _TasksListState extends State<TasksList> {
       padding: const EdgeInsets.only(top: 50),
       child: Obx(
         () {
-          var tasks = todoController.tasks
-              .where((task) => task.archive == widget.archived)
-              .toList()
-              .obs;
+          tasks;
           return tasks.isEmpty
               ? ListEmpty(
                   img: 'assets/images/Category.png',
@@ -116,6 +123,7 @@ class _TasksListState extends State<TasksList> {
                                   ? todoController.noArchiveTask(taskList)
                                   : todoController.archiveTask(taskList);
                             }
+                            tasks.remove(taskList);
                           },
                           background: Container(
                             alignment: Alignment.centerLeft,
