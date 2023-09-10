@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/controller/controller.dart';
-import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/tasks/widgets/task_card.dart';
 import 'package:todark/app/widgets/list_empty.dart';
-import 'package:todark/main.dart';
 
 class TasksList extends StatefulWidget {
   const TasksList({
@@ -20,16 +18,6 @@ class TasksList extends StatefulWidget {
 
 class _TasksListState extends State<TasksList> {
   final todoController = Get.put(TodoController());
-  var tasks = <Tasks>[].obs;
-
-  @override
-  void initState() {
-    tasks = todoController.tasks
-        .where((task) => task.archive == widget.archived)
-        .toList()
-        .obs;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,26 +25,16 @@ class _TasksListState extends State<TasksList> {
       padding: const EdgeInsets.only(top: 50),
       child: Obx(
         () {
-          tasks;
+          var tasks = todoController.tasks
+              .where((task) => task.archive == widget.archived)
+              .toList()
+              .obs;
           return tasks.isEmpty
               ? ListEmpty(
                   img: 'assets/images/Category.png',
                   text: widget.archived ? 'addArchive'.tr : 'addCategory'.tr,
                 )
-              : ReorderableListView(
-                  onReorder: (oldIndex, newIndex) {
-                    if (newIndex > oldIndex) {
-                      newIndex -= 1;
-                    }
-                    final items = tasks.removeAt(oldIndex);
-                    tasks.insert(newIndex, items);
-
-                    for (int i = 0; i < tasks.length; i++) {
-                      final item = tasks[i];
-                      item.index = i;
-                      isar.writeTxn(() async => await isar.tasks.put(item));
-                    }
-                  },
+              : ListView(
                   children: [
                     ...tasks.map(
                       (taskList) {
@@ -123,7 +101,6 @@ class _TasksListState extends State<TasksList> {
                                   ? todoController.noArchiveTask(taskList)
                                   : todoController.archiveTask(taskList);
                             }
-                            tasks.remove(taskList);
                           },
                           background: Container(
                             alignment: Alignment.centerLeft,

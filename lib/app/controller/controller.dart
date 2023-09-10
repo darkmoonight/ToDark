@@ -262,7 +262,7 @@ class TodoController extends GetxController {
         .length;
   }
 
-  int getCountTotalTodosCalendar(DateTime date) {
+  int countTotalTodosCalendar(DateTime date) {
     return todos
         .where((todo) =>
             todo.done == false &&

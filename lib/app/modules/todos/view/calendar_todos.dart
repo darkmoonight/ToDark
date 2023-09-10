@@ -39,76 +39,73 @@ class _CalendarTodosState extends State<CalendarTodos> {
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverToBoxAdapter(
-                child: Obx(
-                  () {
-                    return TableCalendar(
-                      calendarBuilders: CalendarBuilders(
-                        markerBuilder: (context, day, events) {
-                          return todoController
-                                      .getCountTotalTodosCalendar(day) !=
-                                  0
-                              ? selectedDay.isAtSameMomentAs(day)
-                                  ? Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: const BoxDecoration(
-                                        color: Colors.amber,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          '${todoController.getCountTotalTodosCalendar(day)}',
-                                          style: context.textTheme.bodyLarge
-                                              ?.copyWith(
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                          ),
+                child: TableCalendar(
+                  calendarBuilders: CalendarBuilders(
+                    markerBuilder: (context, day, events) {
+                      return Obx(() {
+                        var countTodos =
+                            todoController.countTotalTodosCalendar(day);
+                        return countTodos != 0
+                            ? selectedDay.isAtSameMomentAs(day)
+                                ? Container(
+                                    width: 16,
+                                    height: 16,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.amber,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '$countTodos',
+                                        style: context.textTheme.bodyLarge
+                                            ?.copyWith(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 12,
                                         ),
                                       ),
-                                    )
-                                  : Text(
-                                      '${todoController.getCountTotalTodosCalendar(day)}',
-                                      style: const TextStyle(
-                                        color: Colors.amber,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12,
-                                      ),
-                                    )
-                              : null;
-                        },
-                      ),
-                      startingDayOfWeek: StartingDayOfWeek.monday,
-                      firstDay: firstDay,
-                      lastDay: lastDay,
-                      focusedDay: selectedDay,
-                      locale: locale.languageCode,
-                      weekendDays: const [DateTime.sunday],
-                      availableCalendarFormats: {
-                        CalendarFormat.month: 'month'.tr,
-                        CalendarFormat.twoWeeks: 'two_week'.tr,
-                        CalendarFormat.week: 'week'.tr
-                      },
-                      selectedDayPredicate: (day) {
-                        return isSameDay(selectedDay, day);
-                      },
-                      onDaySelected: (selected, focused) {
-                        setState(() {
-                          selectedDay = selected;
-                        });
-                      },
-                      onPageChanged: (focused) {
-                        setState(() {
-                          selectedDay = focused;
-                        });
-                      },
-                      calendarFormat: calendarFormat,
-                      onFormatChanged: (format) {
-                        setState(
-                          () {
-                            calendarFormat = format;
-                          },
-                        );
+                                    ),
+                                  )
+                                : Text(
+                                    '$countTodos',
+                                    style: const TextStyle(
+                                      color: Colors.amber,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12,
+                                    ),
+                                  )
+                            : const SizedBox.shrink();
+                      });
+                    },
+                  ),
+                  startingDayOfWeek: StartingDayOfWeek.monday,
+                  firstDay: firstDay,
+                  lastDay: lastDay,
+                  focusedDay: selectedDay,
+                  locale: locale.languageCode,
+                  availableCalendarFormats: {
+                    CalendarFormat.month: 'month'.tr,
+                    CalendarFormat.twoWeeks: 'two_week'.tr,
+                    CalendarFormat.week: 'week'.tr
+                  },
+                  selectedDayPredicate: (day) {
+                    return isSameDay(selectedDay, day);
+                  },
+                  onDaySelected: (selected, focused) {
+                    setState(() {
+                      selectedDay = selected;
+                    });
+                  },
+                  onPageChanged: (focused) {
+                    setState(() {
+                      selectedDay = focused;
+                    });
+                  },
+                  calendarFormat: calendarFormat,
+                  onFormatChanged: (format) {
+                    setState(
+                      () {
+                        calendarFormat = format;
                       },
                     );
                   },
