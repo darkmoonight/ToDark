@@ -261,4 +261,17 @@ class TodoController extends GetxController {
         .where((todo) => todo.task.value?.id == task.id && todo.done == true)
         .length;
   }
+
+  int getCountTotalTodosCalendar(DateTime date) {
+    return todos
+        .where((todo) =>
+            todo.done == false &&
+            todo.todoCompletedTime != null &&
+            todo.task.value?.archive == false &&
+            DateTime(date.year, date.month, date.day, 0, -1)
+                .isBefore(todo.todoCompletedTime!) &&
+            DateTime(date.year, date.month, date.day, 23, 60)
+                .isAfter(todo.todoCompletedTime!))
+        .length;
+  }
 }

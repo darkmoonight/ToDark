@@ -18,7 +18,7 @@ import 'translation/translation.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 late Isar isar;
@@ -39,17 +39,17 @@ final List appLanguages = [
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setOptimalDisplayMode();
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
+  await isarInit();
   final String timeZoneName = await FlutterTimezone.getLocalTimezone();
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const InitializationSettings initializationSettings =
       InitializationSettings(android: initializationSettingsAndroid);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  tz.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation(timeZoneName));
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
-  await isarInit();
   runApp(const MyApp());
 }
 
