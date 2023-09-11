@@ -15,6 +15,19 @@ class AllTodos extends StatefulWidget {
 
 class _AllTodosState extends State<AllTodos> {
   final todoController = Get.put(TodoController());
+  TextEditingController searchTodos = TextEditingController();
+  String filter = '';
+
+  applyFilter(String value) async {
+    filter = value.toLowerCase();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    applyFilter('');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +55,23 @@ class _AllTodosState extends State<AllTodos> {
                     Iconsax.search_normal_1,
                     size: 20,
                   ),
-                  controller: TextEditingController(),
+                  controller: searchTodos,
                   margin:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  onChanged: applyFilter,
+                  iconButton: searchTodos.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            searchTodos.clear();
+                            applyFilter('');
+                          },
+                          icon: const Icon(
+                            Iconsax.close_circle,
+                            color: Colors.grey,
+                            size: 20,
+                          ),
+                        )
+                      : null,
                 ),
               ),
               SliverOverlapAbsorber(
@@ -73,17 +100,19 @@ class _AllTodosState extends State<AllTodos> {
               ),
             ];
           },
-          body: const TabBarView(
+          body: TabBarView(
             children: [
               TodosList(
                 calendare: false,
                 allTodos: true,
                 done: false,
+                searchTodo: filter,
               ),
               TodosList(
                 calendare: false,
                 allTodos: true,
                 done: true,
+                searchTodo: filter,
               ),
             ],
           ),

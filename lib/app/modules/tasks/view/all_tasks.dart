@@ -16,6 +16,19 @@ class AllTasks extends StatefulWidget {
 
 class _AllTasksState extends State<AllTasks> {
   final todoController = Get.put(TodoController());
+  TextEditingController searchTasks = TextEditingController();
+  String filter = '';
+
+  applyFilter(String value) async {
+    filter = value.toLowerCase();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    applyFilter('');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +58,23 @@ class _AllTasksState extends State<AllTasks> {
                         Iconsax.search_normal_1,
                         size: 20,
                       ),
-                      controller: TextEditingController(),
+                      controller: searchTasks,
                       margin: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 5),
+                      onChanged: applyFilter,
+                      iconButton: searchTasks.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                searchTasks.clear();
+                                applyFilter('');
+                              },
+                              icon: const Icon(
+                                Iconsax.close_circle,
+                                color: Colors.grey,
+                                size: 20,
+                              ),
+                            )
+                          : null,
                     ),
                     Obx(
                       () {
@@ -91,10 +118,16 @@ class _AllTasksState extends State<AllTasks> {
               ),
             ];
           },
-          body: const TabBarView(
+          body: TabBarView(
             children: [
-              TasksList(archived: false),
-              TasksList(archived: true),
+              TasksList(
+                archived: false,
+                searhTask: filter,
+              ),
+              TasksList(
+                archived: true,
+                searhTask: filter,
+              ),
             ],
           ),
         ),

@@ -9,8 +9,10 @@ class TasksList extends StatefulWidget {
   const TasksList({
     super.key,
     required this.archived,
+    required this.searhTask,
   });
   final bool archived;
+  final String searhTask;
 
   @override
   State<TasksList> createState() => _TasksListState();
@@ -26,7 +28,10 @@ class _TasksListState extends State<TasksList> {
       child: Obx(
         () {
           var tasks = todoController.tasks
-              .where((task) => task.archive == widget.archived)
+              .where((task) =>
+                  task.archive == widget.archived &&
+                  (widget.searhTask.isEmpty ||
+                      task.title.toLowerCase().contains(widget.searhTask)))
               .toList()
               .obs;
           return tasks.isEmpty

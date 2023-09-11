@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:todark/app/controller/controller.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/settings/widgets/settings_card.dart';
 import 'package:todark/main.dart';
@@ -24,6 +25,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final todoController = Get.put(TodoController());
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   late AndroidDeviceInfo androidInfo;
   final themeController = Get.put(ThemeController());
@@ -314,6 +316,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                             await isar.writeTxn(() async {
                                               await isar.todos.clear();
                                               await isar.tasks.clear();
+                                              todoController.tasks.clear();
+                                              todoController.todos.clear();
                                             });
                                             EasyLoading.showSuccess(
                                                 'deleteAll'.tr);

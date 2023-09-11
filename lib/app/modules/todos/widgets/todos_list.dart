@@ -14,12 +14,14 @@ class TodosList extends StatefulWidget {
     required this.allTodos,
     required this.calendare,
     this.selectedDay,
+    required this.searchTodo,
   });
   final bool done;
   final Tasks? task;
   final bool allTodos;
   final bool calendare;
   final DateTime? selectedDay;
+  final String searchTodo;
 
   @override
   State<TodosList> createState() => _TodosListState();
@@ -38,14 +40,20 @@ class _TodosListState extends State<TodosList> {
               ? todoController.todos
                   .where((todo) =>
                       todo.task.value?.id == widget.task?.id &&
-                      todo.done == widget.done)
+                      todo.done == widget.done &&
+                      (widget.searchTodo.isEmpty ||
+                          todo.name.toLowerCase().contains(widget.searchTodo)))
                   .toList()
                   .obs
               : widget.allTodos
                   ? todoController.todos
                       .where((todo) =>
                           todo.task.value?.archive == false &&
-                          todo.done == widget.done)
+                          todo.done == widget.done &&
+                          (widget.searchTodo.isEmpty ||
+                              todo.name
+                                  .toLowerCase()
+                                  .contains(widget.searchTodo)))
                       .toList()
                       .obs
                   : widget.calendare

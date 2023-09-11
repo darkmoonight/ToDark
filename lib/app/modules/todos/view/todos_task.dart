@@ -22,6 +22,19 @@ class TodosTask extends StatefulWidget {
 
 class _TodosTaskState extends State<TodosTask> {
   final todoController = Get.put(TodoController());
+  TextEditingController searchTodos = TextEditingController();
+  String filter = '';
+
+  applyFilter(String value) async {
+    filter = value.toLowerCase();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    applyFilter('');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -103,9 +116,23 @@ class _TodosTaskState extends State<TodosTask> {
                       Iconsax.search_normal_1,
                       size: 20,
                     ),
-                    controller: TextEditingController(),
+                    controller: searchTodos,
                     margin:
                         const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    onChanged: applyFilter,
+                    iconButton: searchTodos.text.isNotEmpty
+                        ? IconButton(
+                            onPressed: () {
+                              searchTodos.clear();
+                              applyFilter('');
+                            },
+                            icon: const Icon(
+                              Iconsax.close_circle,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          )
+                        : null,
                   ),
                 ),
                 SliverOverlapAbsorber(
@@ -141,12 +168,14 @@ class _TodosTaskState extends State<TodosTask> {
                   calendare: false,
                   done: false,
                   task: widget.task,
+                  searchTodo: filter,
                 ),
                 TodosList(
                   allTodos: false,
                   calendare: false,
                   done: true,
                   task: widget.task,
+                  searchTodo: filter,
                 ),
               ],
             ),
