@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -9,10 +8,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:todark/app/controller/controller.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/settings/widgets/settings_card.dart';
+import 'package:todark/app/services/notification.dart';
 import 'package:todark/main.dart';
 import 'package:todark/theme/theme_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -26,8 +25,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final todoController = Get.put(TodoController());
-  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  late AndroidDeviceInfo androidInfo;
   final themeController = Get.put(ThemeController());
   String? appVersion;
 
@@ -36,7 +33,6 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       appVersion = packageInfo.version;
     });
-    androidInfo = await deviceInfo.androidInfo;
   }
 
   updateLanguage(Locale locale) {
@@ -52,49 +48,32 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
   }
 
-  void check(Function fun) async {
-    try {
-      var statusManageExternalStorage =
-          await Permission.manageExternalStorage.request();
-
-      if (statusManageExternalStorage.isGranted &&
-          androidInfo.version.sdkInt > 29) {
-        fun();
-      } else if (androidInfo.version.sdkInt < 30) {
-        fun();
-      }
-    } catch (e) {
-      EasyLoading.showError('error'.tr);
-      return Future.error(e);
-    }
-  }
-
   void backup() async {
     final dlPath = await FilePicker.platform.getDirectoryPath();
 
     if (dlPath == null) {
       EasyLoading.showInfo('errorPath'.tr);
       return;
-    } else {
-      try {
-        final timeStamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
+    }
 
-        final taskFileName = 'task_$timeStamp.json';
-        final todoFileName = 'todo_$timeStamp.json';
+    try {
+      final timeStamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
 
-        final fileTask = File('$dlPath/$taskFileName');
-        final fileTodo = File('$dlPath/$todoFileName');
+      final taskFileName = 'task_$timeStamp.json';
+      final todoFileName = 'todo_$timeStamp.json';
 
-        final task = await isar.tasks.where().exportJson();
-        final todo = await isar.todos.where().exportJson();
+      final fileTask = File('$dlPath/$taskFileName');
+      final fileTodo = File('$dlPath/$todoFileName');
 
-        await fileTask.writeAsString(jsonEncode(task));
-        await fileTodo.writeAsString(jsonEncode(todo));
-        EasyLoading.showSuccess('successBackup'.tr);
-      } catch (e) {
-        EasyLoading.showError('error'.tr);
-        return Future.error(e);
-      }
+      final task = await isar.tasks.where().exportJson();
+      final todo = await isar.todos.where().exportJson();
+
+      await fileTask.writeAsString(jsonEncode(task));
+      await fileTodo.writeAsString(jsonEncode(todo));
+      EasyLoading.showSuccess('successBackup'.tr);
+    } catch (e) {
+      EasyLoading.showError('error'.tr);
+      return Future.error(e);
     }
   }
 
@@ -104,6 +83,7 @@ class _SettingsPageState extends State<SettingsPage> {
       allowedExtensions: ['json'],
       allowMultiple: true,
     );
+
     if (result == null) {
       EasyLoading.showInfo('errorPathRe'.tr);
       return;
@@ -120,6 +100,7 @@ class _SettingsPageState extends State<SettingsPage> {
           if (name == 'task') {
             try {
               final task = Tasks.fromJson(data);
+              todoController.tasks.add(task);
               await isar.tasks.put(task);
               EasyLoading.showSuccess('successRestoreTask'.tr);
             } catch (e) {
@@ -140,10 +121,20 @@ class _SettingsPageState extends State<SettingsPage> {
                       description: 'descriptionRe'.tr,
                       taskColor: 4284513675,
                     );
+              todoController.tasks.add(task);
               await isar.tasks.put(task);
               final todo = Todos.fromJson(data)..task.value = task;
+              todoController.todos.add(todo);
               await isar.todos.put(todo);
               await todo.task.save();
+              if (todo.todoCompletedTime != null) {
+                NotificationShow().showNotification(
+                  todo.id,
+                  todo.name,
+                  todo.description,
+                  todo.todoCompletedTime,
+                );
+              }
               EasyLoading.showSuccess('successRestoreTodo'.tr);
             } catch (e) {
               EasyLoading.showError('error'.tr);
@@ -276,17 +267,13 @@ class _SettingsPageState extends State<SettingsPage> {
                                 elevation: 4,
                                 icon: const Icon(Iconsax.cloud_plus),
                                 text: 'backup'.tr,
-                                onPressed: () async {
-                                  check(backup);
-                                },
+                                onPressed: backup,
                               ),
                               SettingCard(
                                 elevation: 4,
                                 icon: const Icon(Iconsax.cloud_add),
                                 text: 'restore'.tr,
-                                onPressed: () async {
-                                  check(restore);
-                                },
+                                onPressed: restore,
                               ),
                               SettingCard(
                                 elevation: 4,
