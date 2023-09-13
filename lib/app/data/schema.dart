@@ -71,8 +71,9 @@ class Todos {
       : id = json['id'],
         name = json['name'],
         description = json['description'] ?? '',
-        todoCompletedTime =
-            DateTime.fromMicrosecondsSinceEpoch(json['todoCompletedTime']),
+        todoCompletedTime = json['todoCompletedTime'] != null
+            ? DateTime.fromMicrosecondsSinceEpoch(json['todoCompletedTime'])
+            : json['todoCompletedTime'],
         done = json['done'] ?? false;
 
   Map<String, dynamic> toJson() => {

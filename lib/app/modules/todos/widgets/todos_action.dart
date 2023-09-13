@@ -291,6 +291,7 @@ class _TodosActionState extends State<TodosAction> {
                     : null,
                 onTap: () {
                   BottomPicker.dateTime(
+                    titlePadding: const EdgeInsets.only(top: 10),
                     title: 'time'.tr,
                     description: 'timeDesc'.tr,
                     titleStyle: context.textTheme.titleMedium!,

@@ -89,6 +89,9 @@ class _SettingsPageState extends State<SettingsPage> {
       return;
     }
 
+    bool taskSuccessShown = false;
+    bool todoSuccessShown = false;
+
     for (final files in result.files) {
       final name = files.name.substring(0, 4);
       final file = File(files.path!);
@@ -100,17 +103,24 @@ class _SettingsPageState extends State<SettingsPage> {
           if (name == 'task') {
             try {
               final task = Tasks.fromJson(data);
-              todoController.tasks.add(task);
+              final existingTask =
+                  todoController.tasks.firstWhereOrNull((t) => t.id == task.id);
+
+              if (existingTask == null) {
+                todoController.tasks.add(task);
+              }
               await isar.tasks.put(task);
-              EasyLoading.showSuccess('successRestoreTask'.tr);
+              if (!taskSuccessShown) {
+                EasyLoading.showSuccess('successRestoreTask'.tr);
+                taskSuccessShown = true;
+              }
             } catch (e) {
               EasyLoading.showError('error'.tr);
               return Future.error(e);
             }
           } else if (name == 'todo') {
             try {
-              final taskCollection = isar.tasks;
-              final searchTask = await taskCollection
+              final searchTask = await isar.tasks
                   .filter()
                   .titleEqualTo('titleRe'.tr)
                   .findAll();
@@ -121,10 +131,19 @@ class _SettingsPageState extends State<SettingsPage> {
                       description: 'descriptionRe'.tr,
                       taskColor: 4284513675,
                     );
-              todoController.tasks.add(task);
+              final existingTask =
+                  todoController.tasks.firstWhereOrNull((t) => t.id == task.id);
+
+              if (existingTask == null) {
+                todoController.tasks.add(task);
+              }
               await isar.tasks.put(task);
               final todo = Todos.fromJson(data)..task.value = task;
-              todoController.todos.add(todo);
+              final existingTodos =
+                  todoController.todos.firstWhereOrNull((t) => t.id == todo.id);
+              if (existingTodos == null) {
+                todoController.todos.add(todo);
+              }
               await isar.todos.put(todo);
               await todo.task.save();
               if (todo.todoCompletedTime != null) {
@@ -135,7 +154,10 @@ class _SettingsPageState extends State<SettingsPage> {
                   todo.todoCompletedTime,
                 );
               }
-              EasyLoading.showSuccess('successRestoreTodo'.tr);
+              if (!todoSuccessShown) {
+                EasyLoading.showSuccess('successRestoreTodo'.tr);
+                todoSuccessShown = true;
+              }
             } catch (e) {
               EasyLoading.showError('error'.tr);
               return Future.error(e);
