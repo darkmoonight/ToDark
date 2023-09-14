@@ -1,17 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:todark/app/controller/controller.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/settings/widgets/settings_card.dart';
-import 'package:todark/app/services/notification.dart';
 import 'package:todark/main.dart';
 import 'package:todark/theme/theme_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,128 +40,6 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     infoVersion();
     super.initState();
-  }
-
-  void backup() async {
-    final dlPath = await FilePicker.platform.getDirectoryPath();
-
-    if (dlPath == null) {
-      EasyLoading.showInfo('errorPath'.tr);
-      return;
-    }
-
-    try {
-      final timeStamp = DateFormat('yyyyMMdd_HHmmss').format(DateTime.now());
-
-      final taskFileName = 'task_$timeStamp.json';
-      final todoFileName = 'todo_$timeStamp.json';
-
-      final fileTask = File('$dlPath/$taskFileName');
-      final fileTodo = File('$dlPath/$todoFileName');
-
-      final task = await isar.tasks.where().exportJson();
-      final todo = await isar.todos.where().exportJson();
-
-      await fileTask.writeAsString(jsonEncode(task));
-      await fileTodo.writeAsString(jsonEncode(todo));
-      EasyLoading.showSuccess('successBackup'.tr);
-    } catch (e) {
-      EasyLoading.showError('error'.tr);
-      return Future.error(e);
-    }
-  }
-
-  void restore() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['json'],
-      allowMultiple: true,
-    );
-
-    if (result == null) {
-      EasyLoading.showInfo('errorPathRe'.tr);
-      return;
-    }
-
-    bool taskSuccessShown = false;
-    bool todoSuccessShown = false;
-
-    for (final files in result.files) {
-      final name = files.name.substring(0, 4);
-      final file = File(files.path!);
-      final jsonString = await file.readAsString();
-      final dataList = jsonDecode(jsonString);
-
-      for (final data in dataList) {
-        await isar.writeTxn(() async {
-          if (name == 'task') {
-            try {
-              final task = Tasks.fromJson(data);
-              final existingTask =
-                  todoController.tasks.firstWhereOrNull((t) => t.id == task.id);
-
-              if (existingTask == null) {
-                todoController.tasks.add(task);
-              }
-              await isar.tasks.put(task);
-              if (!taskSuccessShown) {
-                EasyLoading.showSuccess('successRestoreTask'.tr);
-                taskSuccessShown = true;
-              }
-            } catch (e) {
-              EasyLoading.showError('error'.tr);
-              return Future.error(e);
-            }
-          } else if (name == 'todo') {
-            try {
-              final searchTask = await isar.tasks
-                  .filter()
-                  .titleEqualTo('titleRe'.tr)
-                  .findAll();
-              final task = searchTask.isNotEmpty
-                  ? searchTask.first
-                  : Tasks(
-                      title: 'titleRe'.tr,
-                      description: 'descriptionRe'.tr,
-                      taskColor: 4284513675,
-                    );
-              final existingTask =
-                  todoController.tasks.firstWhereOrNull((t) => t.id == task.id);
-
-              if (existingTask == null) {
-                todoController.tasks.add(task);
-              }
-              await isar.tasks.put(task);
-              final todo = Todos.fromJson(data)..task.value = task;
-              final existingTodos =
-                  todoController.todos.firstWhereOrNull((t) => t.id == todo.id);
-              if (existingTodos == null) {
-                todoController.todos.add(todo);
-              }
-              await isar.todos.put(todo);
-              await todo.task.save();
-              if (todo.todoCompletedTime != null) {
-                NotificationShow().showNotification(
-                  todo.id,
-                  todo.name,
-                  todo.description,
-                  todo.todoCompletedTime,
-                );
-              }
-              if (!todoSuccessShown) {
-                EasyLoading.showSuccess('successRestoreTodo'.tr);
-                todoSuccessShown = true;
-              }
-            } catch (e) {
-              EasyLoading.showError('error'.tr);
-              return Future.error(e);
-            }
-          } else {
-            EasyLoading.showInfo('errorFile'.tr);
-          }
-        });
-      }
-    }
   }
 
   @override
@@ -289,13 +161,13 @@ class _SettingsPageState extends State<SettingsPage> {
                                 elevation: 4,
                                 icon: const Icon(Iconsax.cloud_plus),
                                 text: 'backup'.tr,
-                                onPressed: backup,
+                                onPressed: todoController.backup,
                               ),
                               SettingCard(
                                 elevation: 4,
                                 icon: const Icon(Iconsax.cloud_add),
                                 text: 'restore'.tr,
-                                onPressed: restore,
+                                onPressed: todoController.restore,
                               ),
                               SettingCard(
                                 elevation: 4,

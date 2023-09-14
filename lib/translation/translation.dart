@@ -55,7 +55,7 @@ class Translation extends Translations {
           'noArchive': 'Вернуть',
           'noTaskArchive': 'Категория возвращена',
           'addArchive': 'Архивируйте категорию',
-          'selectCategory': 'Выбирете категорию',
+          'selectCategory': 'Выберите категорию',
           'notFound': 'Ничего не найдено',
           'settings': 'Настройки',
           'backup': 'Резервное копирование',
