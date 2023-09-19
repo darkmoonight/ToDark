@@ -30,7 +30,7 @@ class _OnBordingState extends State<OnBording> {
 
   void onBoardHome() {
     settings.onboard = true;
-    isar.writeTxn(() async => isar.settings.put(settings));
+    isar.writeTxnSync(() => isar.settings.putSync(settings));
     Get.off(() => const HomePage(), transition: Transition.downToUp);
   }
 

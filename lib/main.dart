@@ -76,10 +76,10 @@ Future<void> isarInit() async {
     ],
     directory: (await getApplicationSupportDirectory()).path,
   );
-  settings = await isar.settings.where().findFirst() ?? Settings();
+  settings = isar.settings.where().findFirstSync() ?? Settings();
   if (settings.language == null) {
     settings.language = '${Get.deviceLocale}';
-    isar.writeTxn(() async => isar.settings.put(settings));
+    isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
 }
 

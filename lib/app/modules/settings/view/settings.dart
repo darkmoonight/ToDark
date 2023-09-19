@@ -31,7 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   updateLanguage(Locale locale) {
     settings.language = '$locale';
-    isar.writeTxn(() async => isar.settings.put(settings));
+    isar.writeTxnSync(() => isar.settings.putSync(settings));
     Get.updateLocale(locale);
     Get.back();
   }
@@ -193,10 +193,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                                       color:
                                                           Colors.blueAccent))),
                                       TextButton(
-                                          onPressed: () async {
-                                            await isar.writeTxn(() async {
-                                              await isar.todos.clear();
-                                              await isar.tasks.clear();
+                                          onPressed: () {
+                                            isar.writeTxnSync(() {
+                                              isar.todos.clearSync();
+                                              isar.tasks.clearSync();
                                               todoController.tasks.clear();
                                               todoController.todos.clear();
                                             });

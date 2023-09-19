@@ -59,9 +59,8 @@ class _TodosActionState extends State<TodosAction> {
   }
 
   Future<List<Tasks>> getTodosAll(String pattern) async {
-    final todosCollection = isar.tasks;
     List<Tasks> getTask;
-    getTask = await todosCollection.filter().archiveEqualTo(false).findAll();
+    getTask = isar.tasks.filter().archiveEqualTo(false).findAllSync();
     return getTask.where((element) {
       final title = element.title.toLowerCase();
       final query = pattern.toLowerCase();
