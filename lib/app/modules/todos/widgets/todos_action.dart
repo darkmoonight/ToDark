@@ -264,8 +264,9 @@ class _TodosActionState extends State<TodosAction> {
                 margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: descEdit,
                 labelText: 'description'.tr,
-                type: TextInputType.text,
+                type: TextInputType.multiline,
                 icon: const Icon(Iconsax.note_text),
+                maxLine: null,
               ),
               MyTextForm(
                 elevation: 4,

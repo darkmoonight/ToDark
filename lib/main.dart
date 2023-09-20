@@ -180,9 +180,7 @@ class _MyAppState extends State<MyApp> {
             supportedLocales:
                 appLanguages.map((e) => e['locale'] as Locale).toList(),
             debugShowCheckedModeBanner: false,
-            home: settings.onboard == false
-                ? const OnBording()
-                : const HomePage(),
+            home: settings.onboard ? const HomePage() : const OnBording(),
             builder: EasyLoading.init(),
           );
         },

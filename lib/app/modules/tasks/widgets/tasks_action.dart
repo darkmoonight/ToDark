@@ -132,8 +132,9 @@ class _TasksActionState extends State<TasksAction> {
                 margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: descEdit,
                 labelText: 'description'.tr,
-                type: TextInputType.text,
+                type: TextInputType.multiline,
                 icon: const Icon(Iconsax.note_text),
+                maxLine: null,
               ),
               Card(
                 elevation: 4,

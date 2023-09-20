@@ -16,6 +16,7 @@ class MyTextForm extends StatelessWidget {
     this.iconButton,
     this.elevation,
     this.focusNode,
+    this.maxLine = 1,
   });
   final String labelText;
   final TextInputType type;
@@ -29,6 +30,7 @@ class MyTextForm extends StatelessWidget {
   final bool readOnly;
   final double? elevation;
   final FocusNode? focusNode;
+  final int? maxLine;
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,7 @@ class MyTextForm extends StatelessWidget {
           enabledBorder: InputBorder.none,
         ),
         validator: validator,
+        maxLines: maxLine,
       ),
     );
   }
