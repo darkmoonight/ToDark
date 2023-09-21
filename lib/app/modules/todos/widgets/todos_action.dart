@@ -250,7 +250,7 @@ class _TodosActionState extends State<TodosAction> {
                 margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                 controller: titleEdit,
                 labelText: 'name'.tr,
-                type: TextInputType.text,
+                type: TextInputType.multiline,
                 icon: const Icon(Iconsax.edit_2),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -258,6 +258,7 @@ class _TodosActionState extends State<TodosAction> {
                   }
                   return null;
                 },
+                maxLine: null,
               ),
               MyTextForm(
                 elevation: 4,

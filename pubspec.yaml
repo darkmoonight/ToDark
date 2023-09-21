@@ -21,7 +21,7 @@ dependencies:
   workmanager: ^0.5.1
   home_widget: ^0.3.0
   file_picker: ^5.5.0
-  google_fonts: ^6.0.0
+  google_fonts: ^6.1.0
   url_launcher: ^6.1.14
   bottom_picker: ^2.1.0
   dynamic_color: ^1.6.7
