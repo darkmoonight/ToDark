@@ -28,7 +28,7 @@ ThemeData lightTheme(Color? color, ColorScheme? colorScheme) {
           surface: baseLigth.colorScheme.background,
         )
         .harmonized(),
-    textTheme: GoogleFonts.ubuntuTextTheme(baseLigth.textTheme),
+    textTheme: GoogleFonts.getTextTheme('Ubuntu', baseLigth.textTheme),
     appBarTheme: AppBarTheme(
       backgroundColor: color,
       foregroundColor: baseLigth.colorScheme.onSurface,
@@ -87,7 +87,7 @@ ThemeData darkTheme(Color? color, ColorScheme? colorScheme) {
           surface: baseDark.colorScheme.background,
         )
         .harmonized(),
-    textTheme: GoogleFonts.ubuntuTextTheme(baseDark.textTheme),
+    textTheme: GoogleFonts.getTextTheme('Ubuntu', baseDark.textTheme),
     appBarTheme: AppBarTheme(
       backgroundColor: color,
       foregroundColor: baseDark.colorScheme.onSurface,
