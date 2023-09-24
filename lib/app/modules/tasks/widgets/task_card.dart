@@ -80,6 +80,10 @@ class TaskCard extends StatelessWidget {
                 ),
               )
             : null,
+        trailing: Text(
+          '$completedTodos/$createdTodos',
+          style: context.textTheme.labelMedium?.copyWith(color: Colors.grey),
+        ),
       ),
     );
   }

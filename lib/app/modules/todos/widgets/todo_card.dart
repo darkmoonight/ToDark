@@ -63,7 +63,7 @@ class _TodoCardState extends State<TodoCard> {
                             innerState(() {
                               widget.todos.done = val!;
                             });
-                            widget.todos.done == true
+                            widget.todos.done
                                 ? flutterLocalNotificationsPlugin
                                     .cancel(widget.todos.id)
                                 : widget.todos.todoCompletedTime != null
@@ -75,11 +75,9 @@ class _TodoCardState extends State<TodoCard> {
                                       )
                                     : null;
                             Future.delayed(
-                              const Duration(milliseconds: 300),
-                              () {
-                                todoController.updateTodoCheck(widget.todos);
-                              },
-                            );
+                                const Duration(milliseconds: 300),
+                                () => todoController
+                                    .updateTodoCheck(widget.todos));
                           },
                         ),
                         Expanded(

@@ -36,11 +36,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: IndexedStack(
-          index: tabIndex,
-          children: pages,
-        ),
+      body: IndexedStack(
+        index: tabIndex,
+        children: pages,
       ),
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) => changeTabIndex(index),

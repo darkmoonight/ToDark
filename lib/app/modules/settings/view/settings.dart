@@ -260,11 +260,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                   margin: const EdgeInsets.symmetric(
                                       horizontal: 15, vertical: 5),
                                   child: ListTile(
-                                    title: Center(
-                                      child: Text(
-                                        appLanguages[index]['name'],
-                                        style: context.textTheme.labelLarge,
-                                      ),
+                                    title: Text(
+                                      appLanguages[index]['name'],
+                                      style: context.textTheme.labelLarge,
+                                      textAlign: TextAlign.center,
                                     ),
                                     onTap: () {
                                       MyApp.updateAppState(context,

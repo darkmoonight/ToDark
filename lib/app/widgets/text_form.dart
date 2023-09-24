@@ -41,7 +41,7 @@ class MyTextForm extends StatelessWidget {
         focusNode: focusNode,
         readOnly: readOnly,
         onChanged: onChanged,
-        onTap: readOnly == true ? onTap : null,
+        onTap: readOnly ? onTap : null,
         controller: controller,
         keyboardType: type,
         style: context.textTheme.labelLarge,
