@@ -6,7 +6,7 @@ part 'schema.g.dart';
 class Settings {
   Id id = Isar.autoIncrement;
   bool onboard = false;
-  bool? theme;
+  String? theme = 'system';
   bool materialColor = false;
   bool amoledTheme = false;
   String? language;

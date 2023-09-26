@@ -6,9 +6,11 @@ import 'package:todark/main.dart';
 class ThemeController extends GetxController {
   ThemeMode get theme => settings.theme == null
       ? ThemeMode.system
-      : settings.theme == true
-          ? ThemeMode.dark
-          : ThemeMode.light;
+      : settings.theme == 'system'
+          ? ThemeMode.system
+          : settings.theme == 'dark'
+              ? ThemeMode.dark
+              : ThemeMode.light;
 
   void saveOledTheme(bool isOled) {
     settings.amoledTheme = isOled;
@@ -20,8 +22,8 @@ class ThemeController extends GetxController {
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
 
-  void saveTheme(bool isDarkMode) {
-    settings.theme = isDarkMode;
+  void saveTheme(String themeMode) {
+    settings.theme = themeMode;
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
 
