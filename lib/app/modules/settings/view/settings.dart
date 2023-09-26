@@ -296,6 +296,66 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SettingCard(
+              icon: const Icon(Iconsax.dollar_square),
+              text: 'support'.tr,
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return StatefulBuilder(
+                      builder: (BuildContext context, setState) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                child: Text(
+                                  'support'.tr,
+                                  style: context.textTheme.titleLarge?.copyWith(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              SettingCard(
+                                elevation: 4,
+                                icon: const Icon(Iconsax.card),
+                                text: 'DonationAlerts',
+                                onPressed: () async {
+                                  final Uri url = Uri.parse(
+                                      'https://www.donationalerts.com/r/yoshimok');
+                                  if (!await launchUrl(url,
+                                      mode: LaunchMode.externalApplication)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
+                              ),
+                              SettingCard(
+                                elevation: 4,
+                                icon: const Icon(Iconsax.wallet),
+                                text: 'ЮMoney',
+                                onPressed: () async {
+                                  final Uri url = Uri.parse(
+                                      'https://yoomoney.ru/to/4100117672775961');
+                                  if (!await launchUrl(url,
+                                      mode: LaunchMode.externalApplication)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+            SettingCard(
               icon: const Icon(Iconsax.hierarchy_square_2),
               text: 'version'.tr,
               info: true,

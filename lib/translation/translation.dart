@@ -95,6 +95,7 @@ class Translation extends Translations {
           'system': 'Системная',
           'dark': 'Тёмная',
           'light': 'Светлая',
+          'support': 'Поддержка',
         },
         'en_US': {
           'title1': 'Organize your tasks',
@@ -188,6 +189,7 @@ class Translation extends Translations {
           'system': 'System',
           'dark': 'Dark',
           'light': 'Light',
+          'support': 'Support',
         },
         'zh_CN': {
           'title1': '组织你的任务',
@@ -278,6 +280,7 @@ class Translation extends Translations {
           'system': '系统',
           'dark': '深色',
           'light': '浅色',
+          'support': '支持',
         },
         'zh_TW': {
           'title1': '安排你的任務',
@@ -368,6 +371,7 @@ class Translation extends Translations {
           'system': '系統',
           'dark': '深色',
           'light': '淺色',
+          'support': '支援',
         },
         'fa_IR': {
           'title1': 'کارهای خود را ساماندهی کنید',
@@ -465,6 +469,7 @@ class Translation extends Translations {
           'system': 'سیستمی',
           'dark': 'تاریک',
           'light': 'روشن',
+          'support': 'پشتیبانی',
         },
       };
 }

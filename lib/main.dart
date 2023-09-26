@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:time_machine/time_machine.dart';
 import 'package:todark/app/modules/home.dart';
 import 'package:todark/app/modules/onboarding.dart';
 import 'package:todark/theme/theme.dart';
@@ -29,7 +32,7 @@ late Settings settings;
 bool amoledTheme = false;
 bool materialColor = false;
 Locale locale = const Locale('en', 'US');
-late int sdkVersion;
+int sdkVersion = 0;
 
 final List appLanguages = [
   {'name': 'English', 'locale': const Locale('en', 'US')},
@@ -40,19 +43,30 @@ final List appLanguages = [
 ];
 
 void main() async {
+  final String timeZoneName;
   WidgetsFlutterBinding.ensureInitialized();
-  await setOptimalDisplayMode();
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
-  AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-  sdkVersion = androidInfo.version.sdkInt;
-  final String timeZoneName = await FlutterTimezone.getLocalTimezone();
+  if (Platform.isAndroid) {
+    await setOptimalDisplayMode();
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    sdkVersion = androidInfo.version.sdkInt;
+  }
+  if (Platform.isAndroid || Platform.isIOS) {
+    timeZoneName = await FlutterTimezone.getLocalTimezone();
+  } else {
+    timeZoneName = '${DateTimeZone.local}';
+  }
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
-  const InitializationSettings initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
+  const LinuxInitializationSettings initializationSettingsLinux =
+      LinuxInitializationSettings(defaultActionName: 'ToDark');
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    linux: initializationSettingsLinux,
+  );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await isarInit();
   runApp(const MyApp());
