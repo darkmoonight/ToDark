@@ -7,7 +7,7 @@ class Settings {
   Id id = Isar.autoIncrement;
   bool onboard = false;
   String? theme = 'system';
-  bool materialColor = false;
+  bool? materialColor;
   bool amoledTheme = false;
   String? language;
 }
