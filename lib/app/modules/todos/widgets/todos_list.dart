@@ -86,7 +86,7 @@ class _TodosListState extends State<TodosList> {
                   img: widget.calendare
                       ? 'assets/images/Calendar.png'
                       : 'assets/images/Todo.png',
-                  text: widget.done ? 'copletedTask'.tr : 'addTask'.tr,
+                  text: widget.done ? 'copletedTodo'.tr : 'addTodo'.tr,
                 )
               : ListView(
                   children: [
@@ -101,11 +101,11 @@ class _TodosListState extends State<TodosList> {
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text(
-                                      'deletedTask'.tr,
+                                      'deletedTodo'.tr,
                                       style: context.textTheme.titleLarge,
                                     ),
                                     content: Text(
-                                      'deletedTaskQuery'.tr,
+                                      'deletedTodoQuery'.tr,
                                       style: context.textTheme.titleMedium,
                                     ),
                                     actions: [

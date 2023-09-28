@@ -37,7 +37,9 @@ class _TasksListState extends State<TasksList> {
           return tasks.isEmpty
               ? ListEmpty(
                   img: 'assets/images/Category.png',
-                  text: widget.archived ? 'addArchive'.tr : 'addCategory'.tr,
+                  text: widget.archived
+                      ? 'addArchiveCategory'.tr
+                      : 'addCategory'.tr,
                 )
               : ListView(
                   children: [
@@ -61,16 +63,16 @@ class _TasksListState extends State<TasksList> {
                                     direction == DismissDirection.endToStart
                                         ? 'deleteCategory'.tr
                                         : widget.archived
-                                            ? 'noArchiveTask'.tr
-                                            : 'archiveTask'.tr,
+                                            ? 'noArchiveCategory'.tr
+                                            : 'archiveCategory'.tr,
                                     style: context.textTheme.titleLarge,
                                   ),
                                   content: Text(
                                     direction == DismissDirection.endToStart
                                         ? 'deleteCategoryQuery'.tr
                                         : widget.archived
-                                            ? 'noArchiveTaskQuery'.tr
-                                            : 'archiveTaskQuery'.tr,
+                                            ? 'noArchiveCategoryQuery'.tr
+                                            : 'archiveCategoryQuery'.tr,
                                     style: context.textTheme.titleMedium,
                                   ),
                                   actions: [

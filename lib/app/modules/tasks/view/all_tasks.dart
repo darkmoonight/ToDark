@@ -52,7 +52,7 @@ class _AllTasksState extends State<AllTasks> {
                 child: Column(
                   children: [
                     MyTextForm(
-                      labelText: 'searchTask'.tr,
+                      labelText: 'searchCategory'.tr,
                       type: TextInputType.text,
                       icon: const Icon(
                         Iconsax.search_normal_1,

@@ -107,7 +107,7 @@ class TodoController extends GetxController {
       tasks.refresh();
       todos.refresh();
     });
-    EasyLoading.showSuccess('taskArchive'.tr,
+    EasyLoading.showSuccess('categoryArchive'.tr,
         duration: const Duration(milliseconds: 500));
   }
 
@@ -135,7 +135,7 @@ class TodoController extends GetxController {
       tasks.refresh();
       todos.refresh();
     });
-    EasyLoading.showSuccess('noTaskArchive'.tr,
+    EasyLoading.showSuccess('noCategoryArchive'.tr,
         duration: const Duration(milliseconds: 500));
   }
 
@@ -174,10 +174,10 @@ class TodoController extends GetxController {
           );
         }
       });
-      EasyLoading.showSuccess('taskCreate'.tr,
+      EasyLoading.showSuccess('todoCreate'.tr,
           duration: const Duration(milliseconds: 500));
     } else {
-      EasyLoading.showError('duplicateTask'.tr,
+      EasyLoading.showError('duplicateTodo'.tr,
           duration: const Duration(milliseconds: 500));
     }
   }
@@ -217,7 +217,7 @@ class TodoController extends GetxController {
     } else {
       await flutterLocalNotificationsPlugin.cancel(todo.id);
     }
-    EasyLoading.showSuccess('update'.tr,
+    EasyLoading.showSuccess('updateTodo'.tr,
         duration: const Duration(milliseconds: 500));
   }
 
@@ -229,7 +229,7 @@ class TodoController extends GetxController {
     if (todo.todoCompletedTime != null) {
       await flutterLocalNotificationsPlugin.cancel(todo.id);
     }
-    EasyLoading.showSuccess('taskDelete'.tr,
+    EasyLoading.showSuccess('todoDelete'.tr,
         duration: const Duration(milliseconds: 500));
   }
 
@@ -329,7 +329,7 @@ class TodoController extends GetxController {
               }
               isar.tasks.putSync(task);
               if (!taskSuccessShown) {
-                EasyLoading.showSuccess('successRestoreTask'.tr);
+                EasyLoading.showSuccess('successRestoreCategory'.tr);
                 taskSuccessShown = true;
               }
             } catch (e) {

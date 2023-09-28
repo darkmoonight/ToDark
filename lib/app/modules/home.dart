@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           NavigationDestination(
             icon: const Icon(Iconsax.task_square),
             selectedIcon: const Icon(Iconsax.task_square5),
-            label: 'allTasks'.tr,
+            label: 'allTodos'.tr,
           ),
           NavigationDestination(
             icon: const Icon(Iconsax.calendar_1),

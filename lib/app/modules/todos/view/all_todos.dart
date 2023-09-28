@@ -35,7 +35,7 @@ class _AllTodosState extends State<AllTodos> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'allTasks'.tr,
+          'allTodos'.tr,
           style: context.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.w600,
           ),

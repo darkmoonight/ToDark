@@ -3,7 +3,7 @@ description: Task management app.
 
 publish_to: "none"
 
-version: 1.4.3+33
+version: 1.4.4+34
 
 environment:
   sdk: ">=3.1.2 <4.0.0"
@@ -24,7 +24,7 @@ dependencies:
   google_fonts: ^6.1.0
   time_machine: ^0.9.17
   url_launcher: ^6.1.14
-  bottom_picker: ^2.1.0
+  bottom_picker: ^2.1.1
   dynamic_color: ^1.6.7
   path_provider: ^2.1.1
   table_calendar: ^3.0.9

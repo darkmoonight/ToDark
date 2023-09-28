@@ -29,7 +29,7 @@ class Statistics extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'taskCompleted'.tr,
+                    'todoCompleted'.tr,
                     style: context.textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 20,

@@ -4,13 +4,11 @@ import 'package:todark/app/data/schema.dart';
 import 'package:todark/main.dart';
 
 class ThemeController extends GetxController {
-  ThemeMode get theme => settings.theme == null
+  ThemeMode get theme => settings.theme == 'system'
       ? ThemeMode.system
-      : settings.theme == 'system'
-          ? ThemeMode.system
-          : settings.theme == 'dark'
-              ? ThemeMode.dark
-              : ThemeMode.light;
+      : settings.theme == 'dark'
+          ? ThemeMode.dark
+          : ThemeMode.light;
 
   void saveOledTheme(bool isOled) {
     settings.amoledTheme = isOled;
