@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -23,7 +22,6 @@ import 'package:timezone/timezone.dart' as tz;
 
 FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
-DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
 
 late Isar isar;
 late Settings settings;
@@ -31,7 +29,6 @@ late Settings settings;
 bool amoledTheme = false;
 bool materialColor = false;
 Locale locale = const Locale('en', 'US');
-int sdkVersion = 0;
 
 final List appLanguages = [
   {'name': 'English', 'locale': const Locale('en', 'US')},
@@ -48,8 +45,6 @@ void main() async {
       const SystemUiOverlayStyle(systemNavigationBarColor: Colors.black));
   if (Platform.isAndroid) {
     await setOptimalDisplayMode();
-    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    sdkVersion = androidInfo.version.sdkInt;
   }
   if (Platform.isAndroid || Platform.isIOS) {
     timeZoneName = await FlutterTimezone.getLocalTimezone();
@@ -104,14 +99,6 @@ Future<void> isarInit() async {
     settings.theme = 'system';
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
-
-  if (sdkVersion > 30 && settings.materialColor == null) {
-    settings.materialColor = true;
-    isar.writeTxnSync(() => isar.settings.putSync(settings));
-  } else {
-    settings.materialColor = false;
-    isar.writeTxnSync(() => isar.settings.putSync(settings));
-  }
 }
 
 class MyApp extends StatefulWidget {
@@ -164,7 +151,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     amoledTheme = settings.amoledTheme;
-    materialColor = settings.materialColor!;
+    materialColor = settings.materialColor;
     locale = Locale(
         settings.language!.substring(0, 2), settings.language!.substring(3));
     super.initState();
