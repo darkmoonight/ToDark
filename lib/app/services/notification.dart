@@ -39,7 +39,8 @@ class NotificationShow {
         flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>();
     if (platform != null) {
-      await platform.requestPermission();
+      await platform.requestExactAlarmsPermission();
+      await platform.requestNotificationsPermission();
     }
   }
 }
