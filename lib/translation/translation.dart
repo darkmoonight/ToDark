@@ -97,6 +97,7 @@ class Translation extends Translations {
           'dark': 'Тёмная',
           'light': 'Светлая',
           'support': 'Поддержка',
+          'license': 'Лицензии',
         },
         'en_US': {
           'title1': 'Organize your todos',
@@ -194,6 +195,7 @@ class Translation extends Translations {
           'dark': 'Dark',
           'light': 'Light',
           'support': 'Support',
+          'license': 'Licenses',
         },
         'zh_CN': {
           'title1': '组织你的任务',
@@ -285,6 +287,7 @@ class Translation extends Translations {
           'dark': '深色',
           'light': '浅色',
           'support': '支持',
+          'license': '许可证',
         },
         'zh_TW': {
           'title1': '安排你的任務',
@@ -376,6 +379,7 @@ class Translation extends Translations {
           'dark': '深色',
           'light': '淺色',
           'support': '支援',
+          'license': '許可證',
         },
         'fa_IR': {
           'title1': 'کارهای خود را ساماندهی کنید',
@@ -474,12 +478,14 @@ class Translation extends Translations {
           'dark': 'تاریک',
           'light': 'روشن',
           'support': 'پشتیبانی',
+          'license': 'مجوزها',
         },
         'ar_AR': {
           'title1': 'نضِم المهام الخاصة بك',
           'title2': 'تصميم سهل الاستخدام',
           'title3': 'اتصل بنا',
-          'subtitle1': 'في تطبيقنا ستتمكن من ترتيب المهام على شكل فئات وإكمالها تدرجيا.',
+          'subtitle1':
+              'في تطبيقنا ستتمكن من ترتيب المهام على شكل فئات وإكمالها تدرجيا.',
           'subtitle2':
               'صنعت جميع عمليات التنقل بحيث يمكن التفاعل مع التطبيق بأكبر قدر ممكن من الراحة والسرعة.',
           'subtitle3':
@@ -568,6 +574,7 @@ class Translation extends Translations {
           'dark': 'داكن',
           'light': 'فاتح',
           'support': 'الدعم',
+          'license': 'تراخيص',
         },
       };
 }

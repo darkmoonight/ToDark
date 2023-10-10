@@ -362,6 +362,26 @@ class _SettingsPageState extends State<SettingsPage> {
               textInfo: '$appVersion',
             ),
             SettingCard(
+              icon: const Icon(Iconsax.document),
+              text: 'license'.tr,
+              onPressed: () => Get.to(
+                LicensePage(
+                  applicationIcon: Container(
+                    width: 100,
+                    height: 100,
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        image: DecorationImage(
+                            image: AssetImage('assets/icons/icon.png'))),
+                  ),
+                  applicationName: 'ToDark',
+                  applicationVersion: appVersion,
+                ),
+                transition: Transition.downToUp,
+              ),
+            ),
+            SettingCard(
               icon: Image.asset(
                 'assets/images/github.png',
                 scale: 20,
