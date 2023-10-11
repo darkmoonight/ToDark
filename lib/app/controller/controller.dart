@@ -63,80 +63,86 @@ class TodoController extends GetxController {
         duration: const Duration(milliseconds: 500));
   }
 
-  Future<void> deleteTask(Tasks task) async {
-    // Delete Notification
-    List<Todos> getTodo;
-    getTodo =
-        isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
+  Future<void> deleteTask(List<Tasks> taskList) async {
+    for (var task in taskList) {
+      // Delete Notification
+      List<Todos> getTodo;
+      getTodo =
+          isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
 
-    for (var element in getTodo) {
-      if (element.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(element.id);
+      for (var element in getTodo) {
+        if (element.todoCompletedTime != null) {
+          await flutterLocalNotificationsPlugin.cancel(element.id);
+        }
       }
+      // Delete Todos
+      isar.writeTxnSync(() {
+        todos.removeWhere((todo) => todo.task.value == task);
+        isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAllSync();
+      });
+      // Delete Task
+      isar.writeTxnSync(() {
+        tasks.remove(task);
+        isar.tasks.deleteSync(task.id);
+      });
+      EasyLoading.showSuccess('categoryDelete'.tr,
+          duration: const Duration(milliseconds: 500));
     }
-    // Delete Todos
-    isar.writeTxnSync(() {
-      todos.removeWhere((todo) => todo.task.value == task);
-      isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAllSync();
-    });
-    // Delete Task
-    isar.writeTxnSync(() {
-      tasks.remove(task);
-      isar.tasks.deleteSync(task.id);
-    });
-    EasyLoading.showSuccess('categoryDelete'.tr,
-        duration: const Duration(milliseconds: 500));
   }
 
-  Future<void> archiveTask(Tasks task) async {
-    // Delete Notification
-    List<Todos> getTodo;
-    getTodo =
-        isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
+  Future<void> archiveTask(List<Tasks> taskList) async {
+    for (var task in taskList) {
+      // Delete Notification
+      List<Todos> getTodo;
+      getTodo =
+          isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
 
-    for (var element in getTodo) {
-      if (element.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(element.id);
+      for (var element in getTodo) {
+        if (element.todoCompletedTime != null) {
+          await flutterLocalNotificationsPlugin.cancel(element.id);
+        }
       }
-    }
-    // Archive Task
-    isar.writeTxnSync(() {
-      task.archive = true;
-      isar.tasks.putSync(task);
+      // Archive Task
+      isar.writeTxnSync(() {
+        task.archive = true;
+        isar.tasks.putSync(task);
 
-      tasks.refresh();
-      todos.refresh();
-    });
-    EasyLoading.showSuccess('categoryArchive'.tr,
-        duration: const Duration(milliseconds: 500));
+        tasks.refresh();
+        todos.refresh();
+      });
+      EasyLoading.showSuccess('categoryArchive'.tr,
+          duration: const Duration(milliseconds: 500));
+    }
   }
 
-  Future<void> noArchiveTask(Tasks task) async {
-    // Create Notification
-    List<Todos> getTodo;
-    getTodo =
-        isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
+  Future<void> noArchiveTask(List<Tasks> taskList) async {
+    for (var task in taskList) {
+      // Create Notification
+      List<Todos> getTodo;
+      getTodo =
+          isar.todos.filter().task((q) => q.idEqualTo(task.id)).findAllSync();
 
-    for (var element in getTodo) {
-      if (element.todoCompletedTime != null) {
-        NotificationShow().showNotification(
-          element.id,
-          element.name,
-          element.description,
-          element.todoCompletedTime,
-        );
+      for (var element in getTodo) {
+        if (element.todoCompletedTime != null) {
+          NotificationShow().showNotification(
+            element.id,
+            element.name,
+            element.description,
+            element.todoCompletedTime,
+          );
+        }
       }
-    }
-    // No archive Task
-    isar.writeTxnSync(() {
-      task.archive = false;
-      isar.tasks.putSync(task);
+      // No archive Task
+      isar.writeTxnSync(() {
+        task.archive = false;
+        isar.tasks.putSync(task);
 
-      tasks.refresh();
-      todos.refresh();
-    });
-    EasyLoading.showSuccess('noCategoryArchive'.tr,
-        duration: const Duration(milliseconds: 500));
+        tasks.refresh();
+        todos.refresh();
+      });
+      EasyLoading.showSuccess('noCategoryArchive'.tr,
+          duration: const Duration(milliseconds: 500));
+    }
   }
 
   // Todos
@@ -221,16 +227,18 @@ class TodoController extends GetxController {
         duration: const Duration(milliseconds: 500));
   }
 
-  Future<void> deleteTodo(Todos todo) async {
-    isar.writeTxnSync(() {
-      todos.remove(todo);
-      isar.todos.deleteSync(todo.id);
-    });
-    if (todo.todoCompletedTime != null) {
-      await flutterLocalNotificationsPlugin.cancel(todo.id);
+  Future<void> deleteTodo(List<Todos> todoList) async {
+    for (var todo in todoList) {
+      isar.writeTxnSync(() {
+        todos.remove(todo);
+        isar.todos.deleteSync(todo.id);
+      });
+      if (todo.todoCompletedTime != null) {
+        await flutterLocalNotificationsPlugin.cancel(todo.id);
+      }
+      EasyLoading.showSuccess('todoDelete'.tr,
+          duration: const Duration(milliseconds: 500));
     }
-    EasyLoading.showSuccess('todoDelete'.tr,
-        duration: const Duration(milliseconds: 500));
   }
 
   int createdAllTodos() {

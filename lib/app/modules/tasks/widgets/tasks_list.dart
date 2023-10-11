@@ -101,12 +101,12 @@ class _TasksListState extends State<TasksList> {
                           },
                           onDismissed: (DismissDirection direction) {
                             if (direction == DismissDirection.endToStart) {
-                              todoController.deleteTask(taskList);
+                              todoController.deleteTask([taskList]);
                             } else if (direction ==
                                 DismissDirection.startToEnd) {
                               widget.archived
-                                  ? todoController.noArchiveTask(taskList)
-                                  : todoController.archiveTask(taskList);
+                                  ? todoController.noArchiveTask([taskList])
+                                  : todoController.archiveTask([taskList]);
                             }
                           },
                           background: Container(

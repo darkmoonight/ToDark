@@ -132,7 +132,7 @@ class _TodosListState extends State<TodosList> {
                               );
                             },
                             onDismissed: (DismissDirection direction) {
-                              todoController.deleteTodo(todosList);
+                              todoController.deleteTodo([todosList]);
                             },
                             background: Container(
                               alignment: Alignment.centerRight,
