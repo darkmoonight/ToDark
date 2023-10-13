@@ -39,10 +39,12 @@ class _AllTasksState extends State<AllTasks>
       } else {
         selectedItem.add(tasks);
       }
+
+      if (selectedItem.isEmpty) {
+        isMultiSelectionEnabled = false;
+      }
       setState(() {});
-    } else {
-      //Other logic
-    }
+    } else {}
   }
 
   @override
@@ -113,6 +115,7 @@ class _AllTasksState extends State<AllTasks>
                             onPressed: () {
                               todoController.deleteTask(selectedItem);
                               selectedItem.clear();
+                              isMultiSelectionEnabled = false;
                               setState(() {});
                               Get.back();
                             },
@@ -166,7 +169,7 @@ class _AllTasksState extends State<AllTasks>
                                 todoController.noArchiveTask(selectedItem);
                               }
                               selectedItem.clear();
-
+                              isMultiSelectionEnabled = false;
                               setState(() {});
                               Get.back();
                             },

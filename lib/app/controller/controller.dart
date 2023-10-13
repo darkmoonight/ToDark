@@ -72,7 +72,9 @@ class TodoController extends GetxController {
 
       for (var element in getTodo) {
         if (element.todoCompletedTime != null) {
-          await flutterLocalNotificationsPlugin.cancel(element.id);
+          if (element.todoCompletedTime!.isAfter(DateTime.now())) {
+            await flutterLocalNotificationsPlugin.cancel(element.id);
+          }
         }
       }
       // Delete Todos
@@ -99,7 +101,9 @@ class TodoController extends GetxController {
 
       for (var element in getTodo) {
         if (element.todoCompletedTime != null) {
-          await flutterLocalNotificationsPlugin.cancel(element.id);
+          if (element.todoCompletedTime!.isAfter(DateTime.now())) {
+            await flutterLocalNotificationsPlugin.cancel(element.id);
+          }
         }
       }
       // Archive Task
@@ -124,12 +128,14 @@ class TodoController extends GetxController {
 
       for (var element in getTodo) {
         if (element.todoCompletedTime != null) {
-          NotificationShow().showNotification(
-            element.id,
-            element.name,
-            element.description,
-            element.todoCompletedTime,
-          );
+          if (element.todoCompletedTime!.isAfter(DateTime.now())) {
+            NotificationShow().showNotification(
+              element.id,
+              element.name,
+              element.description,
+              element.todoCompletedTime,
+            );
+          }
         }
       }
       // No archive Task
