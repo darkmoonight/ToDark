@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/modules/todos/view/todos_task.dart';
 
 class TaskCard extends StatelessWidget {
   const TaskCard({
@@ -11,26 +10,37 @@ class TaskCard extends StatelessWidget {
     required this.createdTodos,
     required this.completedTodos,
     required this.precent,
+    required this.onLongPress,
+    required this.onTap,
+    required this.isMultiSelectionEnabled,
+    required this.selectedItem,
   });
   final Tasks task;
   final int createdTodos;
   final int completedTodos;
   final String precent;
+  final Function() onLongPress;
+  final Function() onTap;
+  final bool isMultiSelectionEnabled;
+  final List<Tasks> selectedItem;
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: isMultiSelectionEnabled && selectedItem.contains(task)
+          ? RoundedRectangleBorder(
+              side: BorderSide(
+                  color: context.theme.colorScheme.onPrimaryContainer),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
+            )
+          : null,
       margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
       child: ListTile(
         horizontalTitleGap: 10,
         minVerticalPadding: 25,
         splashColor: Colors.transparent,
-        onTap: () {
-          Get.to(
-            () => TodosTask(task: task),
-            transition: Transition.downToUp,
-          );
-        },
+        onLongPress: onLongPress,
+        onTap: onTap,
         leading: SizedBox(
           height: 60,
           width: 60,
