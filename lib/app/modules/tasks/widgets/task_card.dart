@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
+import 'package:todark/app/controller/controller.dart';
 import 'package:todark/app/data/schema.dart';
 
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   const TaskCard({
     super.key,
     required this.task,
@@ -12,8 +13,6 @@ class TaskCard extends StatelessWidget {
     required this.precent,
     required this.onLongPress,
     required this.onTap,
-    required this.isMultiSelectionEnabled,
-    required this.selectedItem,
   });
   final Tasks task;
   final int createdTodos;
@@ -21,13 +20,19 @@ class TaskCard extends StatelessWidget {
   final String precent;
   final Function() onLongPress;
   final Function() onTap;
-  final bool isMultiSelectionEnabled;
-  final List<Tasks> selectedItem;
+
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  final todoController = Get.put(TodoController());
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: isMultiSelectionEnabled && selectedItem.contains(task)
+      shape: todoController.isMultiSelectionTask.isTrue &&
+              todoController.selectedTask.contains(widget.task)
           ? RoundedRectangleBorder(
               side: BorderSide(
                   color: context.theme.colorScheme.onPrimaryContainer),
@@ -39,8 +44,8 @@ class TaskCard extends StatelessWidget {
         horizontalTitleGap: 10,
         minVerticalPadding: 25,
         splashColor: Colors.transparent,
-        onLongPress: onLongPress,
-        onTap: onTap,
+        onLongPress: widget.onLongPress,
+        onTap: widget.onTap,
         leading: SizedBox(
           height: 60,
           width: 60,
@@ -52,14 +57,14 @@ class TaskCard extends StatelessWidget {
               size: 110,
               infoProperties: InfoProperties(
                 modifier: (percentage) {
-                  return createdTodos != 0 ? '$precent%' : '0%';
+                  return widget.createdTodos != 0 ? '${widget.precent}%' : '0%';
                 },
                 mainLabelStyle: context.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
               customColors: CustomSliderColors(
-                progressBarColor: Color(task.taskColor),
+                progressBarColor: Color(widget.task.taskColor),
                 trackColor: Colors.grey.shade300,
               ),
               customWidths: CustomSliderWidths(
@@ -70,20 +75,20 @@ class TaskCard extends StatelessWidget {
               ),
             ),
             min: 0,
-            max: createdTodos != 0 ? createdTodos.toDouble() : 1,
-            initialValue: completedTodos.toDouble(),
+            max: widget.createdTodos != 0 ? widget.createdTodos.toDouble() : 1,
+            initialValue: widget.completedTodos.toDouble(),
           ),
         ),
         title: Text(
-          task.title,
+          widget.task.title,
           style: context.textTheme.titleLarge?.copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
         ),
-        subtitle: task.description.isNotEmpty
+        subtitle: widget.task.description.isNotEmpty
             ? Text(
-                task.description,
+                widget.task.description,
                 style: context.textTheme.labelLarge?.copyWith(
                   color: Colors.grey,
                   fontSize: 14,
@@ -91,7 +96,7 @@ class TaskCard extends StatelessWidget {
               )
             : null,
         trailing: Text(
-          '$completedTodos/$createdTodos',
+          '${widget.completedTodos}/${widget.createdTodos}',
           style: context.textTheme.labelMedium?.copyWith(color: Colors.grey),
         ),
       ),

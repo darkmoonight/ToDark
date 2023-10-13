@@ -14,10 +14,16 @@ class TodoController extends GetxController {
   final tasks = <Tasks>[].obs;
   final todos = <Todos>[].obs;
 
+  final selectedTask = <Tasks>[].obs;
+  final isMultiSelectionTask = false.obs;
+
+  final selectedTodo = <Todos>[].obs;
+  final isMultiSelectionTodo = false.obs;
+
   @override
   void onInit() {
     super.onInit();
-    tasks.assignAll(isar.tasks.where().sortByIndex().findAllSync());
+    tasks.assignAll(isar.tasks.where().findAllSync());
     todos.assignAll(isar.todos.where().findAllSync());
   }
 
@@ -240,7 +246,9 @@ class TodoController extends GetxController {
         isar.todos.deleteSync(todo.id);
       });
       if (todo.todoCompletedTime != null) {
-        await flutterLocalNotificationsPlugin.cancel(todo.id);
+        if (todo.todoCompletedTime!.isAfter(DateTime.now())) {
+          await flutterLocalNotificationsPlugin.cancel(todo.id);
+        }
       }
       EasyLoading.showSuccess('todoDelete'.tr,
           duration: const Duration(milliseconds: 500));
@@ -278,6 +286,34 @@ class TodoController extends GetxController {
             DateTime(date.year, date.month, date.day, 23, 60)
                 .isAfter(todo.todoCompletedTime!))
         .length;
+  }
+
+  void doMultiSelectionTask(Tasks tasks) {
+    if (isMultiSelectionTask.isTrue) {
+      if (selectedTask.contains(tasks)) {
+        selectedTask.remove(tasks);
+      } else {
+        selectedTask.add(tasks);
+      }
+
+      if (selectedTask.isEmpty) {
+        isMultiSelectionTask.value = false;
+      }
+    }
+  }
+
+  void doMultiSelectionTodo(Todos todos) {
+    if (isMultiSelectionTodo.isTrue) {
+      if (selectedTodo.contains(todos)) {
+        selectedTodo.remove(todos);
+      } else {
+        selectedTodo.add(todos);
+      }
+
+      if (selectedTodo.isEmpty) {
+        isMultiSelectionTodo.value = false;
+      }
+    }
   }
 
   void backup() async {
