@@ -81,6 +81,12 @@ class _TodosListState extends State<TodosList> {
                           .toList()
                           .obs
                       : todoController.todos;
+
+          if (widget.calendare) {
+            todos.sort(
+                (a, b) => a.todoCompletedTime!.compareTo(b.todoCompletedTime!));
+          }
+
           return todos.isEmpty
               ? ListEmpty(
                   img: widget.calendare
@@ -92,8 +98,8 @@ class _TodosListState extends State<TodosList> {
                   children: [
                     ...todos
                         .map(
-                          (todosList) => Dismissible(
-                            key: ValueKey(todosList),
+                          (todo) => Dismissible(
+                            key: ValueKey(todo),
                             direction: DismissDirection.endToStart,
                             confirmDismiss: (DismissDirection direction) async {
                               return await showDialog(
@@ -132,7 +138,7 @@ class _TodosListState extends State<TodosList> {
                               );
                             },
                             onDismissed: (DismissDirection direction) {
-                              todoController.deleteTodo([todosList]);
+                              todoController.deleteTodo([todo]);
                             },
                             background: Container(
                               alignment: Alignment.centerRight,
@@ -147,7 +153,7 @@ class _TodosListState extends State<TodosList> {
                               ),
                             ),
                             child: TodoCard(
-                              todos: todosList,
+                              todo: todo,
                               allTodos: widget.allTodos,
                               calendare: widget.calendare,
                             ),

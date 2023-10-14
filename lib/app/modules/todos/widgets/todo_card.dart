@@ -10,11 +10,11 @@ import 'package:todark/main.dart';
 class TodoCard extends StatefulWidget {
   const TodoCard({
     super.key,
-    required this.todos,
+    required this.todo,
     required this.allTodos,
     required this.calendare,
   });
-  final Todos todos;
+  final Todos todo;
   final bool allTodos;
   final bool calendare;
 
@@ -45,7 +45,7 @@ class _TodoCardState extends State<TodoCard> {
                     return TodosAction(
                       text: 'editing'.tr,
                       edit: true,
-                      todo: widget.todos,
+                      todo: widget.todo,
                       category: true,
                     );
                   },
@@ -57,27 +57,27 @@ class _TodoCardState extends State<TodoCard> {
                     child: Row(
                       children: [
                         Checkbox(
-                          value: widget.todos.done,
+                          value: widget.todo.done,
                           shape: const CircleBorder(),
                           onChanged: (val) {
                             innerState(() {
-                              widget.todos.done = val!;
+                              widget.todo.done = val!;
                             });
-                            widget.todos.done
+                            widget.todo.done
                                 ? flutterLocalNotificationsPlugin
-                                    .cancel(widget.todos.id)
-                                : widget.todos.todoCompletedTime != null
+                                    .cancel(widget.todo.id)
+                                : widget.todo.todoCompletedTime != null
                                     ? NotificationShow().showNotification(
-                                        widget.todos.id,
-                                        widget.todos.name,
-                                        widget.todos.description,
-                                        widget.todos.todoCompletedTime,
+                                        widget.todo.id,
+                                        widget.todo.name,
+                                        widget.todo.description,
+                                        widget.todo.todoCompletedTime,
                                       )
                                     : null;
                             Future.delayed(
                                 const Duration(milliseconds: 300),
                                 () => todoController
-                                    .updateTodoCheck(widget.todos));
+                                    .updateTodoCheck(widget.todo));
                           },
                         ),
                         Expanded(
@@ -85,8 +85,8 @@ class _TodoCardState extends State<TodoCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.todos.name,
-                                style: widget.todos.description.isNotEmpty
+                                widget.todo.name,
+                                style: widget.todo.description.isNotEmpty
                                     ? context.textTheme.titleLarge?.copyWith(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 16,
@@ -96,9 +96,9 @@ class _TodoCardState extends State<TodoCard> {
                                       ),
                                 overflow: TextOverflow.visible,
                               ),
-                              widget.todos.description.isNotEmpty
+                              widget.todo.description.isNotEmpty
                                   ? Text(
-                                      widget.todos.description,
+                                      widget.todo.description,
                                       style: context.textTheme.labelLarge
                                           ?.copyWith(
                                         color: Colors.grey,
@@ -108,7 +108,7 @@ class _TodoCardState extends State<TodoCard> {
                                   : const SizedBox.shrink(),
                               widget.allTodos || widget.calendare
                                   ? Text(
-                                      widget.todos.task.value!.title,
+                                      widget.todo.task.value!.title,
                                       style:
                                           context.textTheme.bodyLarge?.copyWith(
                                         color: Colors.grey,
@@ -116,15 +116,15 @@ class _TodoCardState extends State<TodoCard> {
                                       ),
                                     )
                                   : const SizedBox.shrink(),
-                              widget.todos.todoCompletedTime != null &&
+                              widget.todo.todoCompletedTime != null &&
                                       widget.calendare == false
                                   ? Text(
-                                      widget.todos.todoCompletedTime != null
+                                      widget.todo.todoCompletedTime != null
                                           ? DateFormat.yMMMEd(
                                                   locale.languageCode)
                                               .add_Hm()
                                               .format(widget
-                                                  .todos.todoCompletedTime!)
+                                                  .todo.todoCompletedTime!)
                                           : '',
                                       style: context.textTheme.labelLarge,
                                     )
@@ -138,7 +138,7 @@ class _TodoCardState extends State<TodoCard> {
                   widget.calendare
                       ? Text(
                           DateFormat.Hm(locale.languageCode)
-                              .format(widget.todos.todoCompletedTime!),
+                              .format(widget.todo.todoCompletedTime!),
                           style: context.textTheme.bodyLarge?.copyWith(
                             color: Colors.grey,
                             fontSize: 12,

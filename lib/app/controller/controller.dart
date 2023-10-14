@@ -20,6 +20,8 @@ class TodoController extends GetxController {
   final selectedTodo = <Todos>[].obs;
   final isMultiSelectionTodo = false.obs;
 
+  final duration = const Duration(milliseconds: 500);
+
   @override
   void onInit() {
     super.onInit();
@@ -39,15 +41,11 @@ class TodoController extends GetxController {
     );
 
     if (searchTask.isEmpty) {
-      isar.writeTxnSync(() {
-        tasks.add(taskCreate);
-        isar.tasks.putSync(taskCreate);
-      });
-      EasyLoading.showSuccess('createCategory'.tr,
-          duration: const Duration(milliseconds: 500));
+      tasks.add(taskCreate);
+      isar.writeTxnSync(() => isar.tasks.putSync(taskCreate));
+      EasyLoading.showSuccess('createCategory'.tr, duration: duration);
     } else {
-      EasyLoading.showError('duplicateCategory'.tr,
-          duration: const Duration(milliseconds: 500));
+      EasyLoading.showError('duplicateCategory'.tr, duration: duration);
     }
   }
 
@@ -58,15 +56,15 @@ class TodoController extends GetxController {
       task.description = desc;
       task.taskColor = myColor.value;
       isar.tasks.putSync(task);
-
-      var newTask = task;
-      int oldIdx = tasks.indexOf(task);
-      tasks[oldIdx] = newTask;
-      tasks.refresh();
-      todos.refresh();
     });
-    EasyLoading.showSuccess('editCategory'.tr,
-        duration: const Duration(milliseconds: 500));
+
+    var newTask = task;
+    int oldIdx = tasks.indexOf(task);
+    tasks[oldIdx] = newTask;
+    tasks.refresh();
+    todos.refresh();
+
+    EasyLoading.showSuccess('editCategory'.tr, duration: duration);
   }
 
   Future<void> deleteTask(List<Tasks> taskList) async {
@@ -84,17 +82,16 @@ class TodoController extends GetxController {
         }
       }
       // Delete Todos
-      isar.writeTxnSync(() {
-        todos.removeWhere((todo) => todo.task.value == task);
-        isar.todos.filter().task((q) => q.idEqualTo(task.id)).deleteAllSync();
-      });
+      todos.removeWhere((todo) => todo.task.value?.id == task.id);
+      isar.writeTxnSync(() => isar.todos
+          .filter()
+          .task((q) => q.idEqualTo(task.id))
+          .deleteAllSync());
+
       // Delete Task
-      isar.writeTxnSync(() {
-        tasks.remove(task);
-        isar.tasks.deleteSync(task.id);
-      });
-      EasyLoading.showSuccess('categoryDelete'.tr,
-          duration: const Duration(milliseconds: 500));
+      tasks.remove(task);
+      isar.writeTxnSync(() => isar.tasks.deleteSync(task.id));
+      EasyLoading.showSuccess('categoryDelete'.tr, duration: duration);
     }
   }
 
@@ -116,12 +113,10 @@ class TodoController extends GetxController {
       isar.writeTxnSync(() {
         task.archive = true;
         isar.tasks.putSync(task);
-
-        tasks.refresh();
-        todos.refresh();
       });
-      EasyLoading.showSuccess('categoryArchive'.tr,
-          duration: const Duration(milliseconds: 500));
+      tasks.refresh();
+      todos.refresh();
+      EasyLoading.showSuccess('categoryArchive'.tr, duration: duration);
     }
   }
 
@@ -148,12 +143,10 @@ class TodoController extends GetxController {
       isar.writeTxnSync(() {
         task.archive = false;
         isar.tasks.putSync(task);
-
-        tasks.refresh();
-        todos.refresh();
       });
-      EasyLoading.showSuccess('noCategoryArchive'.tr,
-          duration: const Duration(milliseconds: 500));
+      tasks.refresh();
+      todos.refresh();
+      EasyLoading.showSuccess('noCategoryArchive'.tr, duration: duration);
     }
   }
 
@@ -179,24 +172,22 @@ class TodoController extends GetxController {
     )..task.value = task;
 
     if (getTodos.isEmpty) {
+      todos.add(todosCreate);
       isar.writeTxnSync(() {
-        todos.add(todosCreate);
         isar.todos.putSync(todosCreate);
         todosCreate.task.saveSync();
-        if (time.isNotEmpty) {
-          NotificationShow().showNotification(
-            todosCreate.id,
-            todosCreate.name,
-            todosCreate.description,
-            date,
-          );
-        }
       });
-      EasyLoading.showSuccess('todoCreate'.tr,
-          duration: const Duration(milliseconds: 500));
+      if (time.isNotEmpty) {
+        NotificationShow().showNotification(
+          todosCreate.id,
+          todosCreate.name,
+          todosCreate.description,
+          date,
+        );
+      }
+      EasyLoading.showSuccess('todoCreate'.tr, duration: duration);
     } else {
-      EasyLoading.showError('duplicateTodo'.tr,
-          duration: const Duration(milliseconds: 500));
+      EasyLoading.showError('duplicateTodo'.tr, duration: duration);
     }
   }
 
@@ -218,12 +209,13 @@ class TodoController extends GetxController {
       todo.task.value = task;
       isar.todos.putSync(todo);
       todo.task.saveSync();
-
-      var newTodo = todo;
-      int oldIdx = todos.indexOf(todo);
-      todos[oldIdx] = newTodo;
-      todos.refresh();
     });
+
+    var newTodo = todo;
+    int oldIdx = todos.indexOf(todo);
+    todos[oldIdx] = newTodo;
+    todos.refresh();
+
     if (time.isNotEmpty) {
       await flutterLocalNotificationsPlugin.cancel(todo.id);
       NotificationShow().showNotification(
@@ -235,23 +227,19 @@ class TodoController extends GetxController {
     } else {
       await flutterLocalNotificationsPlugin.cancel(todo.id);
     }
-    EasyLoading.showSuccess('updateTodo'.tr,
-        duration: const Duration(milliseconds: 500));
+    EasyLoading.showSuccess('updateTodo'.tr, duration: duration);
   }
 
   Future<void> deleteTodo(List<Todos> todoList) async {
     for (var todo in todoList) {
-      isar.writeTxnSync(() {
-        todos.remove(todo);
-        isar.todos.deleteSync(todo.id);
-      });
+      todos.remove(todo);
+      isar.writeTxnSync(() => isar.todos.deleteSync(todo.id));
       if (todo.todoCompletedTime != null) {
         if (todo.todoCompletedTime!.isAfter(DateTime.now())) {
           await flutterLocalNotificationsPlugin.cancel(todo.id);
         }
       }
-      EasyLoading.showSuccess('todoDelete'.tr,
-          duration: const Duration(milliseconds: 500));
+      EasyLoading.showSuccess('todoDelete'.tr, duration: duration);
     }
   }
 
