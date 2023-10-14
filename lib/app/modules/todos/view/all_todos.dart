@@ -31,90 +31,151 @@ class _AllTodosState extends State<AllTodos> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'allTodos'.tr,
-          style: context.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ),
-      body: DefaultTabController(
-        length: 2,
-        child: NestedScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverToBoxAdapter(
-                child: MyTextForm(
-                  labelText: 'searchTodo'.tr,
-                  type: TextInputType.text,
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          leading: todoController.isMultiSelectionTodo.isTrue
+              ? IconButton(
+                  onPressed: () {
+                    todoController.selectedTodo.clear();
+                    todoController.isMultiSelectionTodo.value = false;
+                  },
                   icon: const Icon(
-                    Iconsax.search_normal_1,
+                    Iconsax.close_square,
                     size: 20,
                   ),
-                  controller: searchTodos,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                  onChanged: applyFilter,
-                  iconButton: searchTodos.text.isNotEmpty
-                      ? IconButton(
-                          onPressed: () {
-                            searchTodos.clear();
-                            applyFilter('');
-                          },
-                          icon: const Icon(
-                            Iconsax.close_circle,
-                            color: Colors.grey,
-                            size: 20,
-                          ),
-                        )
-                      : null,
+                )
+              : null,
+          title: Text(
+            'allTodos'.tr,
+            style: context.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          actions: [
+            Visibility(
+              visible: todoController.selectedTodo.isNotEmpty,
+              child: IconButton(
+                icon: const Icon(
+                  Iconsax.trush_square,
+                  size: 20,
                 ),
+                onPressed: () async {
+                  await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          'deletedTodo'.tr,
+                          style: context.textTheme.titleLarge,
+                        ),
+                        content: Text(
+                          'deletedTodoQuery'.tr,
+                          style: context.textTheme.titleMedium,
+                        ),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Get.back(),
+                              child: Text('cancel'.tr,
+                                  style: context.textTheme.titleMedium
+                                      ?.copyWith(color: Colors.blueAccent))),
+                          TextButton(
+                              onPressed: () {
+                                todoController
+                                    .deleteTodo(todoController.selectedTodo);
+                                todoController.selectedTodo.clear();
+                                todoController.isMultiSelectionTodo.value =
+                                    false;
+                                Get.back();
+                              },
+                              child: Text('delete'.tr,
+                                  style: context.textTheme.titleMedium
+                                      ?.copyWith(color: Colors.red))),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverPersistentHeader(
-                  delegate: MyDelegate(
-                    TabBar(
-                      isScrollable: true,
-                      dividerColor: Colors.transparent,
-                      splashFactory: NoSplash.splashFactory,
-                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                          return Colors.transparent;
-                        },
-                      ),
-                      tabs: [
-                        Tab(text: 'doing'.tr),
-                        Tab(text: 'done'.tr),
-                      ],
+            ),
+          ],
+        ),
+        body: DefaultTabController(
+          length: 2,
+          child: NestedScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                SliverToBoxAdapter(
+                  child: MyTextForm(
+                    labelText: 'searchTodo'.tr,
+                    type: TextInputType.text,
+                    icon: const Icon(
+                      Iconsax.search_normal_1,
+                      size: 20,
                     ),
+                    controller: searchTodos,
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                    onChanged: applyFilter,
+                    iconButton: searchTodos.text.isNotEmpty
+                        ? IconButton(
+                            onPressed: () {
+                              searchTodos.clear();
+                              applyFilter('');
+                            },
+                            icon: const Icon(
+                              Iconsax.close_circle,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          )
+                        : null,
                   ),
-                  floating: true,
-                  pinned: true,
                 ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: [
-              TodosList(
-                calendare: false,
-                allTodos: true,
-                done: false,
-                searchTodo: filter,
-              ),
-              TodosList(
-                calendare: false,
-                allTodos: true,
-                done: true,
-                searchTodo: filter,
-              ),
-            ],
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverPersistentHeader(
+                    delegate: MyDelegate(
+                      TabBar(
+                        isScrollable: true,
+                        dividerColor: Colors.transparent,
+                        splashFactory: NoSplash.splashFactory,
+                        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                          (Set<MaterialState> states) {
+                            return Colors.transparent;
+                          },
+                        ),
+                        tabs: [
+                          Tab(text: 'doing'.tr),
+                          Tab(text: 'done'.tr),
+                        ],
+                      ),
+                    ),
+                    floating: true,
+                    pinned: true,
+                  ),
+                ),
+              ];
+            },
+            body: TabBarView(
+              children: [
+                TodosList(
+                  calendare: false,
+                  allTodos: true,
+                  done: false,
+                  searchTodo: filter,
+                ),
+                TodosList(
+                  calendare: false,
+                  allTodos: true,
+                  done: true,
+                  searchTodo: filter,
+                ),
+              ],
+            ),
           ),
         ),
       ),

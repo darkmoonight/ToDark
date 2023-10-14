@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/controller.dart';
-import 'package:todark/app/modules/todos/widgets/todos_action.dart';
 import 'package:todark/app/services/notification.dart';
 import 'package:todark/main.dart';
 
@@ -13,10 +12,14 @@ class TodoCard extends StatefulWidget {
     required this.todo,
     required this.allTodos,
     required this.calendare,
+    required this.onLongPress,
+    required this.onTap,
   });
   final Todos todo;
   final bool allTodos;
   final bool calendare;
+  final Function() onLongPress;
+  final Function() onTap;
 
   @override
   State<TodoCard> createState() => _TodoCardState();
@@ -29,28 +32,21 @@ class _TodoCardState extends State<TodoCard> {
   Widget build(BuildContext context) {
     return StatefulBuilder(
       builder: (context, innerState) {
-        return Card(
-          margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
-              onTap: () {
-                showModalBottomSheet(
-                  enableDrag: false,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return TodosAction(
-                      text: 'editing'.tr,
-                      edit: true,
-                      todo: widget.todo,
-                      category: true,
-                    );
-                  },
-                );
-              },
+        return GestureDetector(
+          onTap: widget.onTap,
+          onLongPress: widget.onLongPress,
+          child: Card(
+            shape: todoController.isMultiSelectionTodo.isTrue &&
+                    todoController.selectedTodo.contains(widget.todo)
+                ? RoundedRectangleBorder(
+                    side: BorderSide(
+                        color: context.theme.colorScheme.onPrimaryContainer),
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                  )
+                : null,
+            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
               child: Row(
                 children: [
                   Flexible(

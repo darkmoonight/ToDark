@@ -2,8 +2,8 @@ import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/modules/todos/widgets/todo_card.dart';
+import 'package:todark/app/modules/todos/widgets/todos_action.dart';
 import 'package:todark/app/widgets/list_empty.dart';
 
 class TodosList extends StatefulWidget {
@@ -98,65 +98,32 @@ class _TodosListState extends State<TodosList> {
                   children: [
                     ...todos
                         .map(
-                          (todo) => Dismissible(
+                          (todo) => TodoCard(
                             key: ValueKey(todo),
-                            direction: DismissDirection.endToStart,
-                            confirmDismiss: (DismissDirection direction) async {
-                              return await showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      'deletedTodo'.tr,
-                                      style: context.textTheme.titleLarge,
-                                    ),
-                                    content: Text(
-                                      'deletedTodoQuery'.tr,
-                                      style: context.textTheme.titleMedium,
-                                    ),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: () =>
-                                              Get.back(result: false),
-                                          child: Text('cancel'.tr,
-                                              style: context
-                                                  .textTheme.titleMedium
-                                                  ?.copyWith(
-                                                      color:
-                                                          Colors.blueAccent))),
-                                      TextButton(
-                                          onPressed: () =>
-                                              Get.back(result: true),
-                                          child: Text('delete'.tr,
-                                              style: context
-                                                  .textTheme.titleMedium
-                                                  ?.copyWith(
-                                                      color: Colors.red))),
-                                    ],
-                                  );
-                                },
-                              );
+                            todo: todo,
+                            allTodos: widget.allTodos,
+                            calendare: widget.calendare,
+                            onTap: () {
+                              todoController.isMultiSelectionTodo.isTrue
+                                  ? todoController.doMultiSelectionTodo(todo)
+                                  : showModalBottomSheet(
+                                      enableDrag: false,
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (BuildContext context) {
+                                        return TodosAction(
+                                          text: 'editing'.tr,
+                                          edit: true,
+                                          todo: todo,
+                                          category: true,
+                                        );
+                                      },
+                                    );
                             },
-                            onDismissed: (DismissDirection direction) {
-                              todoController.deleteTodo([todo]);
+                            onLongPress: () {
+                              todoController.isMultiSelectionTodo.value = true;
+                              todoController.doMultiSelectionTodo(todo);
                             },
-                            background: Container(
-                              alignment: Alignment.centerRight,
-                              child: const Padding(
-                                padding: EdgeInsets.only(
-                                  right: 15,
-                                ),
-                                child: Icon(
-                                  Iconsax.trush_square,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ),
-                            child: TodoCard(
-                              todo: todo,
-                              allTodos: widget.allTodos,
-                              calendare: widget.calendare,
-                            ),
                           ),
                         )
                         .toList(),

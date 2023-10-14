@@ -119,7 +119,7 @@ class _AllTasksState extends State<AllTasks>
                 child: IconButton(
                   icon: Icon(
                     tabController.index == 0
-                        ? Iconsax.archive_add
+                        ? Iconsax.archive_1
                         : Iconsax.refresh_left_square,
                     size: 20,
                   ),

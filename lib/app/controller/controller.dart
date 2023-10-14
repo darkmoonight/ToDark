@@ -232,13 +232,13 @@ class TodoController extends GetxController {
 
   Future<void> deleteTodo(List<Todos> todoList) async {
     for (var todo in todoList) {
-      todos.remove(todo);
-      isar.writeTxnSync(() => isar.todos.deleteSync(todo.id));
       if (todo.todoCompletedTime != null) {
         if (todo.todoCompletedTime!.isAfter(DateTime.now())) {
           await flutterLocalNotificationsPlugin.cancel(todo.id);
         }
       }
+      todos.remove(todo);
+      isar.writeTxnSync(() => isar.todos.deleteSync(todo.id));
       EasyLoading.showSuccess('todoDelete'.tr, duration: duration);
     }
   }
