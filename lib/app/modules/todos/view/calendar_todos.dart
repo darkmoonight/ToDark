@@ -64,10 +64,10 @@ class _CalendarTodosState extends State<CalendarTodos> {
                     size: 20,
                   ),
                   onPressed: () async {
-                    await showDialog(
+                    await showAdaptiveDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
+                        return AlertDialog.adaptive(
                           title: Text(
                             'deletedTodo'.tr,
                             style: context.textTheme.titleLarge,

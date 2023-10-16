@@ -183,8 +183,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                 elevation: 4,
                                 icon: const Icon(Iconsax.cloud_minus),
                                 text: 'deleteAllBD'.tr,
-                                onPressed: () => Get.dialog(
-                                  AlertDialog(
+                                onPressed: () => showAdaptiveDialog(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog.adaptive(
                                     title: Text(
                                       'deleteAllBDTitle'.tr,
                                       style: context.textTheme.titleLarge,
@@ -325,7 +327,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 text: 'DonationAlerts',
                                 onPressed: () async {
                                   final Uri url = Uri.parse(
-                                      'https://www.donationalerts.com/r/yoshimok');
+                                      'https://www.donationalerts.com/r/darkmoonight');
                                   if (!await launchUrl(url,
                                       mode: LaunchMode.externalApplication)) {
                                     throw Exception('Could not launch $url');

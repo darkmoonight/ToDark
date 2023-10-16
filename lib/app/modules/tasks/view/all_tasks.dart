@@ -87,10 +87,10 @@ class _AllTasksState extends State<AllTasks>
                       size: 20,
                     ),
                     onPressed: () async {
-                      await showDialog(
+                      await showAdaptiveDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
+                          return AlertDialog.adaptive(
                             title: Text(
                               'deleteCategory'.tr,
                               style: context.textTheme.titleLarge,
@@ -135,10 +135,10 @@ class _AllTasksState extends State<AllTasks>
                       size: 20,
                     ),
                     onPressed: () async {
-                      await showDialog(
+                      await showAdaptiveDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
+                          return AlertDialog.adaptive(
                             title: Text(
                               tabController.index == 0
                                   ? 'archiveCategory'.tr
