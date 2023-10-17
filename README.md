@@ -22,7 +22,7 @@ Task Management Application
 - Просмотр задач по дням
 - Редактирование
 - Уведомления
-- Локализация (ru/en/zh/fa/ar/es)
+- Локализация (ru/en/zh/fa/ar/es/fr)
 - Резервное копирование
 - Восстановление данных
 - Удаление всех данных одной кнопкой
@@ -40,7 +40,7 @@ The following features are provided:
 - View tasks by day
 - Editing
 - Notifications
-- Localization (ru/en/zh/fa/ar/es)
+- Localization (ru/en/zh/fa/ar/es/fr)
 - Backup
 - Data recovery
 - Delete all data with one button
