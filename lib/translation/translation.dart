@@ -528,7 +528,8 @@ class Translation extends Translations {
           'archive': 'أرشِف',
           'categoryArchive': 'الفئة في الأرشيف',
           'noArchiveCategory': 'استعد الفئة',
-          'noArchiveCategoryQuery': 'هل أنت متأكد من من رغبتك في إسترجاع الفئة؟',
+          'noArchiveCategoryQuery':
+              'هل أنت متأكد من من رغبتك في إسترجاع الفئة؟',
           'noArchive': 'استعد',
           'noCategoryArchive': 'تم إعادة الفئة',
           'addArchiveCategory': 'أرشف هذه الفئة',
@@ -536,15 +537,15 @@ class Translation extends Translations {
           'notFound': 'لا يوجد شيئ',
           'settings': 'الإعدادات',
           'backup': 'أنشئ نسخة إحتياطية',
-          'restore': 'إستعد من نسخة إحتياطية'
+          'restore': 'إستعد من نسخة إحتياطية',
           'deleteAllBD': 'إخذف جميع بينات المستخدم',
           'deleteAllBDTitle': 'اخذف جميع بينات المستخدم',
-          'deleteAllBDQuery': 'هل أنت متأكد من رغبتك في حذف جميع بينات المستخدم',
+          'deleteAllBDQuery':
+              'هل أنت متأكد من رغبتك في حذف جميع بينات المستخدم',
           'errorPath': 'لم تختر مسار لحفض النسخة الإحتياطية',
           'error': 'حدث خطأ ما',
           'successBackup': 'تم إنشاء النسخة الاحتياطية بنجاح',
-          'errorPathRe':
-              'لم تختر ملف لنسخة إحتياطية لإستعادة بينات المستخدم',
+          'errorPathRe': 'لم تختر ملف لنسخة إحتياطية لإستعادة بينات المستخدم',
           'successRestoreCategory': 'تم إسترجاع الفئات بنجاح',
           'successRestoreTodo': 'تم إسترجاع المهام بنجاح',
           'errorFile': 'لم تختر أي ملفات نسخ إحتياطية',
