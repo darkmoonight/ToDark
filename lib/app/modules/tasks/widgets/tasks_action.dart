@@ -115,7 +115,7 @@ class _TasksActionState extends State<TasksAction> {
               ),
               MyTextForm(
                 elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 controller: titleEdit,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
@@ -129,7 +129,7 @@ class _TasksActionState extends State<TasksAction> {
               ),
               MyTextForm(
                 elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 controller: descEdit,
                 labelText: 'description'.tr,
                 type: TextInputType.multiline,
@@ -138,7 +138,7 @@ class _TasksActionState extends State<TasksAction> {
               ),
               Card(
                 elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: ListTile(
                   splashColor: Colors.transparent,
                   onTap: () async {

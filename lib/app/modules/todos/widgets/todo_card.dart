@@ -44,7 +44,7 @@ class _TodoCardState extends State<TodoCard> {
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                   )
                 : null,
-            margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(

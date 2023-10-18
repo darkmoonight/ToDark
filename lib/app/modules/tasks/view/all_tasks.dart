@@ -203,7 +203,7 @@ class _AllTasksState extends State<AllTasks>
                             ),
                             controller: searchTasks,
                             margin: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 5),
+                                horizontal: 10, vertical: 5),
                             onChanged: applyFilter,
                             iconButton: searchTasks.text.isNotEmpty
                                 ? IconButton(

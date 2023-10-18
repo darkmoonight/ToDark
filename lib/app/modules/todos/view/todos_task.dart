@@ -185,7 +185,7 @@ class _TodosTaskState extends State<TodosTask> {
                         ),
                         controller: searchTodos,
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 5),
+                            horizontal: 10, vertical: 5),
                         onChanged: applyFilter,
                         iconButton: searchTodos.text.isNotEmpty
                             ? IconButton(

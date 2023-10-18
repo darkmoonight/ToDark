@@ -165,7 +165,7 @@ class _TodosActionState extends State<TodosAction> {
                         return MyTextForm(
                           elevation: 4,
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 5),
+                              horizontal: 10, vertical: 5),
                           onChanged: (value) => setState(() {}),
                           controller: textConroller,
                           focusNode: focusNode,
@@ -208,7 +208,7 @@ class _TodosActionState extends State<TodosAction> {
                           AutocompleteOnSelected<Tasks> onSelected,
                           Iterable<Tasks> options) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Align(
                             alignment: Alignment.topCenter,
                             child: Material(
@@ -247,7 +247,7 @@ class _TodosActionState extends State<TodosAction> {
                   : Container(),
               MyTextForm(
                 elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 controller: titleEdit,
                 labelText: 'name'.tr,
                 type: TextInputType.multiline,
@@ -262,7 +262,7 @@ class _TodosActionState extends State<TodosAction> {
               ),
               MyTextForm(
                 elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 controller: descEdit,
                 labelText: 'description'.tr,
                 type: TextInputType.multiline,
@@ -271,7 +271,7 @@ class _TodosActionState extends State<TodosAction> {
               ),
               MyTextForm(
                 elevation: 4,
-                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 onChanged: (value) => setState(() {}),
                 readOnly: true,
                 controller: timeEdit,
