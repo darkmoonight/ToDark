@@ -72,7 +72,7 @@ class _TasksListState extends State<TasksList> {
                           },
                         );
                       },
-                    ).toList(),
+                    ),
                   ],
                 );
         },

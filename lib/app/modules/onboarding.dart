@@ -91,9 +91,9 @@ class _OnBordingState extends State<OnBording> {
 
 class DotIndicator extends StatelessWidget {
   const DotIndicator({
-    Key? key,
+    super.key,
     this.isActive = false,
-  }) : super(key: key);
+  });
 
   final bool isActive;
 

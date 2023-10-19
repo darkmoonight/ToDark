@@ -96,37 +96,35 @@ class _TodosListState extends State<TodosList> {
                 )
               : ListView(
                   children: [
-                    ...todos
-                        .map(
-                          (todo) => TodoCard(
-                            key: ValueKey(todo),
-                            todo: todo,
-                            allTodos: widget.allTodos,
-                            calendare: widget.calendare,
-                            onTap: () {
-                              todoController.isMultiSelectionTodo.isTrue
-                                  ? todoController.doMultiSelectionTodo(todo)
-                                  : showModalBottomSheet(
-                                      enableDrag: false,
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (BuildContext context) {
-                                        return TodosAction(
-                                          text: 'editing'.tr,
-                                          edit: true,
-                                          todo: todo,
-                                          category: true,
-                                        );
-                                      },
+                    ...todos.map(
+                      (todo) => TodoCard(
+                        key: ValueKey(todo),
+                        todo: todo,
+                        allTodos: widget.allTodos,
+                        calendare: widget.calendare,
+                        onTap: () {
+                          todoController.isMultiSelectionTodo.isTrue
+                              ? todoController.doMultiSelectionTodo(todo)
+                              : showModalBottomSheet(
+                                  enableDrag: false,
+                                  context: context,
+                                  isScrollControlled: true,
+                                  builder: (BuildContext context) {
+                                    return TodosAction(
+                                      text: 'editing'.tr,
+                                      edit: true,
+                                      todo: todo,
+                                      category: true,
                                     );
-                            },
-                            onLongPress: () {
-                              todoController.isMultiSelectionTodo.value = true;
-                              todoController.doMultiSelectionTodo(todo);
-                            },
-                          ),
-                        )
-                        .toList(),
+                                  },
+                                );
+                        },
+                        onLongPress: () {
+                          todoController.isMultiSelectionTodo.value = true;
+                          todoController.doMultiSelectionTodo(todo);
+                        },
+                      ),
+                    ),
                   ],
                 );
         },
