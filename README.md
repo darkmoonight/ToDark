@@ -1,62 +1,42 @@
 <div align='center'>
 <img src='/assets/icons/icon.png' width='150'/>
-<h2>ToDark</h2>
+<h2>📝 ToDark</h2>
 </div>
 
-### Short Description:
+Tired of task chaos? ToDark keeps you in control. 📱📅✅
 
-<!-- Приложение для управления задачами -->
+### 📚 Features to Simplify Your Life
 
-Task Management Application
+ToDark offers a range of features to streamline your task management process:
 
-### Description:
+- ✨ **Creating Categories:** Organize your tasks by creating categories that make sense to you.
+- ✅ **Creating Tasks in Categories:** Add tasks within categories for a structured approach.
+- 📋 **Sorting of Tasks:** Easily categorize your tasks as completed or unfulfilled.
+- 📦 **Category Archiving:** Keep your workspace clean by archiving categories.
+- 📊 **View Statistics:** Gain insights into your productivity with task statistics.
+- 📆 **View Tasks by Day:** Stay on top of daily tasks and deadlines.
+- 📝 **Editing:** Make changes to your tasks with ease.
+- 🔔 **Notifications:** Receive reminders to never miss an important task.
+- 🌐 **Localization:** Choose your preferred language from multiple options.
+- 📂 **Backup:** Safeguard your data with backup functionality.
+- 🔄 **Data Recovery:** Restore your information in case of mishaps.
+- 🗑️ **Delete All Data:** Clear your slate with a single button.
+- 🎨 **Beautiful Design**
 
-<!-- Данное приложение позволяет управлять вашими задачами.
-Предоставлены следующие возможности:
-- Создание категорий
-- Создание задач в категориях
-- Сортировка задач (выполненные/невыполненные)
-- Архивирование категории
-- Просмотр статистики
-- Просмотр всех задач сразу
-- Просмотр задач по дням
-- Редактирование
-- Уведомления
-- Локализация (ru/en/zh/fa/ar/es/fr)
-- Резервное копирование
-- Восстановление данных
-- Удаление всех данных одной кнопкой
-Также мы постарались сделать дизайн максимально удобным и красивым. -->
+Our app not only enhances productivity but also offers an intuitive and visually pleasing experience. Enjoy the best of both worlds!
 
-This application allows you to manage your tasks.
-The following features are provided:
-
-- Creating categories
-- Creating tasks in categories
-- Sorting of tasks (completed/unfulfilled)
-- Category archiving
-- View statistics
-- View all tasks at once
-- View tasks by day
-- Editing
-- Notifications
-- Localization (ru/en/zh/fa/ar/es/fr)
-- Backup
-- Data recovery
-- Delete all data with one button
-
-We also tried to make the design as convenient and beautiful as possible.
-
-### Screenshots:
+### 📸 Screenshots
 
 <img src='/readme/1.png' width='200'/> <img src='/readme/2.png' width='200'/> <img src='/readme/3.png' width='200'/> <img src='/readme/4.png' width='200'/> <img src='/readme/5.png' width='200'/> <img src='/readme/6.png' width='200'/> <img src='/readme/7.png' width='200'/>
 
-### Donations:
+### 💰 Support Us
+
+If ToDark has become an indispensable part of your life, consider supporting us through donations:
 
 [![DonationAlerts](https://img.shields.io/badge/DonationAlerts-orange?style=for-the-badge)](https://www.donationalerts.com/r/darkmoonight)
 [![ЮMoney](https://img.shields.io/badge/ЮMoney-violet?style=for-the-badge)](https://yoomoney.ru/to/4100117672775961)
 
-### Download:
+### 📥 Get ToDark Now
 
 [![Play Store](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.yoshi.todark)
 [![RuStore](https://img.shields.io/badge/RuStore-blue?style=for-the-badge&logo=vk&logoColor=white)](https://apps.rustore.ru/app/com.yoshi.todark)
