@@ -233,6 +233,7 @@ class _AllTasksState extends State<AllTasks>
                       sliver: SliverPersistentHeader(
                         delegate: MyDelegate(
                           TabBar(
+                            tabAlignment: TabAlignment.start,
                             controller: tabController,
                             isScrollable: true,
                             dividerColor: Colors.transparent,

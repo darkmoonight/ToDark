@@ -188,6 +188,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                     sliver: SliverPersistentHeader(
                       delegate: MyDelegate(
                         TabBar(
+                          tabAlignment: TabAlignment.start,
                           isScrollable: true,
                           dividerColor: Colors.transparent,
                           splashFactory: NoSplash.splashFactory,
