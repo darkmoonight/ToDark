@@ -92,7 +92,7 @@ class _TodosListState extends State<TodosList> {
                   img: widget.calendare
                       ? 'assets/images/Calendar.png'
                       : 'assets/images/Todo.png',
-                  text: widget.done ? 'copletedTodo'.tr : 'addTodo'.tr,
+                  text: widget.done ? 'completedTodo'.tr : 'addTodo'.tr,
                 )
               : ListView(
                   children: [
