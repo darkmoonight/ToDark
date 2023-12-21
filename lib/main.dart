@@ -56,14 +56,16 @@ void main() async {
   }
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
+  const DarwinInitializationSettings initializationSettingsIos =
+      DarwinInitializationSettings();
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const LinuxInitializationSettings initializationSettingsLinux =
       LinuxInitializationSettings(defaultActionName: 'ToDark');
   const InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-    linux: initializationSettingsLinux,
-  );
+      android: initializationSettingsAndroid,
+      linux: initializationSettingsLinux,
+      iOS: initializationSettingsIos);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await isarInit();
   runApp(const MyApp());
