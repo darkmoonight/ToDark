@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:todark/translation/ar_ar.dart';
-import 'package:todark/translation/de_de.dart';
 import 'package:todark/translation/en_us.dart';
 import 'package:todark/translation/es_es.dart';
 import 'package:todark/translation/fa_ir.dart';
