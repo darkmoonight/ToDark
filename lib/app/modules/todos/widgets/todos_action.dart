@@ -275,7 +275,7 @@ class _TodosActionState extends State<TodosAction> {
                 onChanged: (value) => setState(() {}),
                 readOnly: true,
                 controller: timeEdit,
-                labelText: 'timeComlete'.tr,
+                labelText: 'timeComplete'.tr,
                 type: TextInputType.datetime,
                 icon: const Icon(Iconsax.clock),
                 iconButton: timeEdit.text.isNotEmpty
