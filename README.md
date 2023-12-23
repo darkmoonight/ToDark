@@ -5,8 +5,8 @@
 
 <p align='center'>
  <p align='center'>
-    <a href='https://github.com/darkmoonight/ToDark/stargazers'><img alt='Stars' src='https://img.shields.io/github/stars/darkmoonight/ToDark?style=flat-square&color=ABACD3'/></a>
-    <a href='https://github.com/darkmoonight/ToDark/forks'><img alt='Forks' src='https://img.shields.io/github/forks/darkmoonight/ToDark?style=flat-square&color=ABACD3'/></a>
+    <a href='https://github.com/darkmoonight/ToDark/stargazers'><img alt='Stars' src='https://img.shields.io/github/stars/darkmoonight/ToDark?color=ABACD3'/></a>
+    <a href='https://github.com/darkmoonight/ToDark/forks'><img alt='Forks' src='https://img.shields.io/github/forks/darkmoonight/ToDark?color=ABACD3'/></a>
     <a href='https://github.com/darkmoonight/ToDark/releases'><img alt='GitHub release' src='https://img.shields.io/github/v/release/darkmoonight/ToDark?color=ABACD3'/></a>
     <a href='https://github.com/darkmoonight/ToDark/blob/main/LICENSE'><img alt='License' src='https://img.shields.io/github/license/darkmoonight/ToDark?color=ABACD3'/></a>
  </p>

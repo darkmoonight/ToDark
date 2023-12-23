@@ -20,6 +20,8 @@ class TodoController extends GetxController {
   final selectedTodo = <Todos>[].obs;
   final isMultiSelectionTodo = false.obs;
 
+  RxBool isPop = false.obs;
+
   final duration = const Duration(milliseconds: 500);
   var now = DateTime.now();
 
@@ -287,6 +289,7 @@ class TodoController extends GetxController {
 
   void doMultiSelectionTask(Tasks tasks) {
     if (isMultiSelectionTask.isTrue) {
+      isPop.value = false;
       if (selectedTask.contains(tasks)) {
         selectedTask.remove(tasks);
       } else {
@@ -295,12 +298,20 @@ class TodoController extends GetxController {
 
       if (selectedTask.isEmpty) {
         isMultiSelectionTask.value = false;
+        isPop.value = true;
       }
     }
   }
 
+  void doMultiSelectionTaskClear() {
+    selectedTask.clear();
+    isMultiSelectionTask.value = false;
+    isPop.value = true;
+  }
+
   void doMultiSelectionTodo(Todos todos) {
     if (isMultiSelectionTodo.isTrue) {
+      isPop.value = false;
       if (selectedTodo.contains(todos)) {
         selectedTodo.remove(todos);
       } else {
@@ -309,8 +320,15 @@ class TodoController extends GetxController {
 
       if (selectedTodo.isEmpty) {
         isMultiSelectionTodo.value = false;
+        isPop.value = true;
       }
     }
+  }
+
+  void doMultiSelectionTodoClear() {
+    selectedTodo.clear();
+    isMultiSelectionTodo.value = false;
+    isPop.value = true;
   }
 
   void backup() async {

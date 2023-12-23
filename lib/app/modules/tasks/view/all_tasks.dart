@@ -47,14 +47,15 @@ class _AllTasksState extends State<AllTasks>
         var completedTodos = todoController.completedAllTodos();
         var precent = (completedTodos / createdTodos * 100).toStringAsFixed(0);
 
-        return WillPopScope(
-          onWillPop: () async {
+        return PopScope(
+          canPop: todoController.isPop.value,
+          onPopInvoked: (didPop) {
+            if (didPop) {
+              return;
+            }
+
             if (todoController.isMultiSelectionTask.isTrue) {
-              todoController.selectedTask.clear();
-              todoController.isMultiSelectionTask.value = false;
-              return false;
-            } else {
-              return true;
+              todoController.doMultiSelectionTaskClear();
             }
           },
           child: Scaffold(
@@ -62,10 +63,8 @@ class _AllTasksState extends State<AllTasks>
               centerTitle: true,
               leading: todoController.isMultiSelectionTask.isTrue
                   ? IconButton(
-                      onPressed: () {
-                        todoController.selectedTask.clear();
-                        todoController.isMultiSelectionTask.value = false;
-                      },
+                      onPressed: () =>
+                          todoController.doMultiSelectionTaskClear(),
                       icon: const Icon(
                         Iconsax.close_square,
                         size: 20,
@@ -110,9 +109,7 @@ class _AllTasksState extends State<AllTasks>
                                   onPressed: () {
                                     todoController.deleteTask(
                                         todoController.selectedTask);
-                                    todoController.selectedTask.clear();
-                                    todoController.isMultiSelectionTask.value =
-                                        false;
+                                    todoController.doMultiSelectionTaskClear();
                                     Get.back();
                                   },
                                   child: Text('delete'.tr,
@@ -165,9 +162,7 @@ class _AllTasksState extends State<AllTasks>
                                             todoController.selectedTask)
                                         : todoController.noArchiveTask(
                                             todoController.selectedTask);
-                                    todoController.selectedTask.clear();
-                                    todoController.isMultiSelectionTask.value =
-                                        false;
+                                    todoController.doMultiSelectionTaskClear();
                                     Get.back();
                                   },
                                   child: Text(
