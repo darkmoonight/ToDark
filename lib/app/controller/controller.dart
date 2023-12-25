@@ -20,7 +20,7 @@ class TodoController extends GetxController {
   final selectedTodo = <Todos>[].obs;
   final isMultiSelectionTodo = false.obs;
 
-  RxBool isPop = false.obs;
+  RxBool isPop = true.obs;
 
   final duration = const Duration(milliseconds: 500);
   var now = DateTime.now();
