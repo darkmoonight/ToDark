@@ -82,14 +82,9 @@ class _TodoCardState extends State<TodoCard> {
                             children: [
                               Text(
                                 widget.todo.name,
-                                style: widget.todo.description.isNotEmpty
-                                    ? context.textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 16,
-                                      )
-                                    : context.textTheme.titleLarge?.copyWith(
-                                        fontSize: 16,
-                                      ),
+                                style: context.textTheme.titleLarge?.copyWith(
+                                  fontSize: 16,
+                                ),
                                 overflow: TextOverflow.visible,
                               ),
                               widget.todo.description.isNotEmpty
