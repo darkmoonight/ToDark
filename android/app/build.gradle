@@ -29,6 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+    namespace "com.yoshi.todark"
     compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
@@ -72,14 +73,10 @@ android {
             minifyEnabled true
         }
     }
-
-    namespace 'com.yoshi.todark'
 }
 
 flutter {
     source '../..'
 }
 
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-}
+dependencies {}
