@@ -5,6 +5,7 @@ import 'package:todark/translation/en_us.dart';
 import 'package:todark/translation/es_es.dart';
 import 'package:todark/translation/fa_ir.dart';
 import 'package:todark/translation/fr_fr.dart';
+import 'package:todark/translation/it_it.dart';
 import 'package:todark/translation/ru_ru.dart';
 import 'package:todark/translation/zh_cn.dart';
 import 'package:todark/translation/zh_tw.dart';
@@ -21,5 +22,6 @@ class Translation extends Translations {
         'es_ES': EsEs().messages,
         'fr_FR': FrFr().messages,
         'de_DE': DeDe().messages,
+        'it_IT': ItIt().messages,
       };
 }
