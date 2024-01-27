@@ -13,6 +13,12 @@ This project and everyone participating in it are governed by our [Code of Condu
 3. Make your changes and commit them.
 4. Push your changes to your fork on GitHub.
 5. Open a pull request in the original repository. Provide a clear title and description of your changes.
+
+## Translation addition steps:
+
+1. Create a localization file in the ToDark/lib/translation folder.
+2. Fill it out following the example of the en_us.dart file.
+3. Add a new import statement for your localization and include it in the list of supported localizations in the translation.dart file.
    
 ## Coding Standards
 
