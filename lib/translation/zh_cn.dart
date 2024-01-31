@@ -90,5 +90,8 @@ class ZhCN {
         'light': '浅色',
         'support': '支持',
         'license': '许可证',
+        'timeformat': '时间格式',
+        '12': '12小时制',
+        '24': '24小时制',
       };
 }

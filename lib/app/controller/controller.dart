@@ -164,7 +164,9 @@ class TodoController extends GetxController {
       Tasks task, String title, String desc, String time) async {
     DateTime? date;
     if (time.isNotEmpty) {
-      date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+      date = timeformat == '12'
+          ? DateFormat.yMMMEd(locale.languageCode).add_jm().parse(time)
+          : DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
     }
     List<Todos> getTodos;
     getTodos = isar.todos
@@ -209,7 +211,9 @@ class TodoController extends GetxController {
       Todos todo, Tasks task, String title, String desc, String time) async {
     DateTime? date;
     if (time.isNotEmpty) {
-      date = DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+      date = timeformat == '12'
+          ? DateFormat.yMMMEd(locale.languageCode).add_jm().parse(time)
+          : DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
     }
     isar.writeTxnSync(() {
       todo.name = title;

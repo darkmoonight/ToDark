@@ -111,11 +111,17 @@ class _TodoCardState extends State<TodoCard> {
                                       widget.calendare == false
                                   ? Text(
                                       widget.todo.todoCompletedTime != null
-                                          ? DateFormat.yMMMEd(
-                                                  locale.languageCode)
-                                              .add_Hm()
-                                              .format(widget
-                                                  .todo.todoCompletedTime!)
+                                          ? timeformat == '12'
+                                              ? DateFormat.yMMMEd(
+                                                      locale.languageCode)
+                                                  .add_jm()
+                                                  .format(widget
+                                                      .todo.todoCompletedTime!)
+                                              : DateFormat.yMMMEd(
+                                                      locale.languageCode)
+                                                  .add_Hm()
+                                                  .format(widget
+                                                      .todo.todoCompletedTime!)
                                           : '',
                                       style: context.textTheme.labelLarge,
                                     )
@@ -128,8 +134,11 @@ class _TodoCardState extends State<TodoCard> {
                   ),
                   widget.calendare
                       ? Text(
-                          DateFormat.Hm(locale.languageCode)
-                              .format(widget.todo.todoCompletedTime!),
+                          timeformat == '12'
+                              ? DateFormat.jm(locale.languageCode)
+                                  .format(widget.todo.todoCompletedTime!)
+                              : DateFormat.Hm(locale.languageCode)
+                                  .format(widget.todo.todoCompletedTime!),
                           style: context.textTheme.bodyLarge?.copyWith(
                             color: Colors.grey,
                             fontSize: 12,

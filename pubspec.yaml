@@ -3,7 +3,7 @@ description: Task management application
 
 publish_to: "none"
 
-version: 1.4.7+37
+version: 1.4.9+39
 
 environment:
   sdk: ">=3.2.6 <4.0.0"
@@ -43,7 +43,7 @@ dev_dependencies:
   build_runner: ^2.4.8
   flutter_lints: ^3.0.1
   isar_generator: ^3.1.0+1
-  flutter_native_splash: ^2.3.9
+  flutter_native_splash: ^2.3.10
   flutter_launcher_icons: ^0.13.1
 
 flutter_icons:

@@ -94,6 +94,9 @@ class DeDe {
         'dark': 'Dunkel',
         'light': 'Hell',
         'support': 'Unterstützung',
-        'license': 'Lizenz'
+        'license': 'Lizenz',
+        'timeformat': 'Zeitformat',
+        '12': '12-stunden',
+        '24': '24-stunden',
       };
 }

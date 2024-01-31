@@ -169,6 +169,24 @@ class _SettingsPageState extends State<SettingsPage> {
                               ),
                               SettingCard(
                                 elevation: 4,
+                                icon: const Icon(Iconsax.clock),
+                                text: 'timeformat'.tr,
+                                dropdown: true,
+                                dropdownName: settings.timeformat.tr,
+                                dropdownList: <String>['12'.tr, '24'.tr],
+                                dropdownCange: (String? newValue) {
+                                  isar.writeTxnSync(() {
+                                    settings.timeformat =
+                                        newValue == '12'.tr ? '12' : '24';
+                                    isar.settings.putSync(settings);
+                                  });
+                                  MyApp.updateAppState(context,
+                                    newTimeformat: newValue);
+                                  setState(() {});
+                                },
+                              ),
+                              SettingCard(
+                                elevation: 4,
                                 icon: const Icon(Iconsax.cloud_plus),
                                 text: 'backup'.tr,
                                 onPressed: todoController.backup,

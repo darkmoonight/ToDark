@@ -99,5 +99,8 @@ class FrFr {
         'light': 'Clair',
         'support': 'Support',
         'license': 'Licences',
+        'timeformat': 'Format horaire',
+        '12': '12 heures',
+        '24': '24 heures',
       };
 }

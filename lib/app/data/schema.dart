@@ -7,6 +7,7 @@ class Settings {
   Id id = Isar.autoIncrement;
   bool onboard = false;
   String? theme = 'system';
+  String timeformat = '24';
   bool materialColor = true;
   bool amoledTheme = false;
   String? language;

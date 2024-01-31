@@ -93,6 +93,9 @@ class EnUs {
         'dark': 'Dark',
         'light': 'Light',
         'support': 'Support',
-        'license': 'Licenses'
+        'license': 'Licenses',
+        'timeformat': 'Time format',
+        '12': '12-hour',
+        '24': '24-hour',
       };
 }

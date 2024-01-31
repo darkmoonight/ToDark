@@ -95,5 +95,8 @@ class ItIt {
         'light': 'Chiaro',
         'support': 'Supporto',
         'license': 'Licenze',
+        'timeformat': 'Formato ora',
+        '12': '12 ore',
+        '24': '24 ore',
       };
 }

@@ -100,5 +100,8 @@ class EsEs {
         'light': 'Claro',
         'support': 'Soporte',
         'license': 'Licencias',
+        'timeformat': 'Formato de hora',
+        '12': '12 horas',
+        '24': '24 horas',
       };
 }

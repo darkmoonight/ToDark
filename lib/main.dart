@@ -28,6 +28,7 @@ late Settings settings;
 
 bool amoledTheme = false;
 bool materialColor = false;
+String timeformat = '24';
 Locale locale = const Locale('en', 'US');
 
 final List appLanguages = [
@@ -115,6 +116,7 @@ class MyApp extends StatefulWidget {
     BuildContext context, {
     bool? newAmoledTheme,
     bool? newMaterialColor,
+    String? newTimeformat,
     Locale? newLocale,
   }) async {
     final state = context.findAncestorStateOfType<_MyAppState>()!;
@@ -124,6 +126,9 @@ class MyApp extends StatefulWidget {
     }
     if (newMaterialColor != null) {
       state.changeMarerialTheme(newMaterialColor);
+    }
+    if (newTimeformat != null) {
+      state.changeTimeFormat(newTimeformat);
     }
     if (newLocale != null) {
       state.changeLocale(newLocale);
@@ -149,6 +154,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void changeTimeFormat(String newTimeformat) {
+    setState(() {
+      timeformat = newTimeformat;
+    });
+  }
+
   void changeLocale(Locale newLocale) {
     setState(() {
       locale = newLocale;
@@ -159,6 +170,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     amoledTheme = settings.amoledTheme;
     materialColor = settings.materialColor;
+    timeformat = settings.timeformat;
     locale = Locale(
         settings.language!.substring(0, 2), settings.language!.substring(3));
     super.initState();

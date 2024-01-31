@@ -50,9 +50,13 @@ class _TodosActionState extends State<TodosAction> {
       descEdit = TextEditingController(text: widget.todo!.description);
       timeEdit = TextEditingController(
           text: widget.todo!.todoCompletedTime != null
-              ? DateFormat.yMMMEd(locale.languageCode)
-                  .add_Hm()
-                  .format(widget.todo!.todoCompletedTime!)
+              ? timeformat == '12'
+                  ? DateFormat.yMMMEd(locale.languageCode)
+                      .add_jm()
+                      .format(widget.todo!.todoCompletedTime!)
+                  : DateFormat.yMMMEd(locale.languageCode)
+                      .add_Hm()
+                      .format(widget.todo!.todoCompletedTime!)
               : '');
     }
     super.initState();
@@ -303,8 +307,11 @@ class _TodosActionState extends State<TodosAction> {
                     closeIconColor: Colors.red,
                     backgroundColor: context.theme.primaryColor,
                     onSubmit: (date) {
-                      String formattedDate =
-                          DateFormat.yMMMEd(locale.languageCode)
+                      String formattedDate = timeformat == '12'
+                          ? DateFormat.yMMMEd(locale.languageCode)
+                              .add_jm()
+                              .format(date)
+                          : DateFormat.yMMMEd(locale.languageCode)
                               .add_Hm()
                               .format(date);
                       timeEdit.text = formattedDate;
@@ -314,7 +321,7 @@ class _TodosActionState extends State<TodosAction> {
                     minDateTime: DateTime.now(),
                     maxDateTime: DateTime.now().add(const Duration(days: 1000)),
                     initialDateTime: DateTime.now(),
-                    use24hFormat: true,
+                    use24hFormat: timeformat == '12' ? false : true,
                     dateOrder: DatePickerDateOrder.dmy,
                   ).show(context);
                 },

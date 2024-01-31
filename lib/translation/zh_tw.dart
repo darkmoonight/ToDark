@@ -90,5 +90,8 @@ class ZhTw {
         'light': '淺色',
         'support': '支援',
         'license': '許可證',
+        'timeformat': '時間格式',
+        '12': '12小時制',
+        '24': '24小時制',
       };
 }
