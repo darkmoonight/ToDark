@@ -181,7 +181,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                     isar.settings.putSync(settings);
                                   });
                                   MyApp.updateAppState(context,
-                                    newTimeformat: newValue);
+                                      newTimeformat:
+                                          newValue == '12'.tr ? '12' : '24');
                                   setState(() {});
                                 },
                               ),
