@@ -98,5 +98,6 @@ class DeDe {
         'timeformat': 'Zeitformat',
         '12': '12-stunden',
         '24': '24-stunden',
+        'select': 'Auswählen',
       };
 }

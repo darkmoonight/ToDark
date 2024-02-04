@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -317,6 +317,10 @@ class _TodosActionState extends State<TodosAction> {
                       timeEdit.text = formattedDate;
                       setState(() {});
                     },
+                    buttonContent: Text(
+                      'select'.tr,
+                      textAlign: TextAlign.center,
+                    ),
                     bottomPickerTheme: BottomPickerTheme.blue,
                     minDateTime: DateTime.now(),
                     maxDateTime: DateTime.now().add(const Duration(days: 1000)),

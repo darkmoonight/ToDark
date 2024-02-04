@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/data/schema.dart';
 
 class TaskCard extends StatefulWidget {

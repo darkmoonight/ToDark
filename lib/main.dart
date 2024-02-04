@@ -3,6 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:time_machine/time_machine.dart';
+import 'package:todark/app/controller/isar_contoller.dart';
 import 'package:todark/app/modules/home.dart';
 import 'package:todark/app/modules/onboarding.dart';
 import 'package:todark/theme/theme.dart';
@@ -15,7 +16,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/theme/theme_controller.dart';
 import 'app/data/schema.dart';
-import 'package:path_provider/path_provider.dart';
 import 'translation/translation.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -70,7 +70,8 @@ void main() async {
       linux: initializationSettingsLinux,
       iOS: initializationSettingsIos);
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  await isarInit();
+  await IsarController().openDB();
+  await initSettings();
   runApp(const MyApp());
 }
 
@@ -88,15 +89,7 @@ Future<void> setOptimalDisplayMode() async {
   await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
 }
 
-Future<void> isarInit() async {
-  isar = await Isar.open(
-    [
-      TasksSchema,
-      TodosSchema,
-      SettingsSchema,
-    ],
-    directory: (await getApplicationSupportDirectory()).path,
-  );
+Future<void> initSettings() async {
   settings = isar.settings.where().findFirstSync() ?? Settings();
   if (settings.language == null) {
     settings.language = '${Get.deviceLocale}';

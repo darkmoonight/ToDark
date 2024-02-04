@@ -1,5 +1,5 @@
 import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';

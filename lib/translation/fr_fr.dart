@@ -102,5 +102,6 @@ class FrFr {
         'timeformat': 'Format horaire',
         '12': '12 heures',
         '24': '24 heures',
+        'select': 'Sélectionner',
       };
 }

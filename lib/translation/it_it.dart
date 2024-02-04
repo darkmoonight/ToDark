@@ -98,5 +98,6 @@ class ItIt {
         'timeformat': 'Formato ora',
         '12': '12 ore',
         '24': '24 ore',
+        'select': 'Seleziona',
       };
 }

@@ -3,7 +3,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:todark/app/controller/controller.dart';
+import 'package:todark/app/controller/todo_controller.dart';
+import 'package:todark/app/controller/isar_contoller.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/settings/widgets/settings_card.dart';
 import 'package:todark/main.dart';
@@ -19,6 +20,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final todoController = Get.put(TodoController());
+  final isarController = Get.put(IsarController());
   final themeController = Get.put(ThemeController());
   String? appVersion;
 
@@ -190,13 +192,13 @@ class _SettingsPageState extends State<SettingsPage> {
                                 elevation: 4,
                                 icon: const Icon(Iconsax.cloud_plus),
                                 text: 'backup'.tr,
-                                onPressed: todoController.backup,
+                                onPressed: isarController.createBackUp,
                               ),
                               SettingCard(
                                 elevation: 4,
                                 icon: const Icon(Iconsax.cloud_add),
                                 text: 'restore'.tr,
-                                onPressed: todoController.restore,
+                                onPressed: isarController.restoreDB,
                               ),
                               SettingCard(
                                 elevation: 4,

@@ -1,7 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
@@ -9,8 +7,7 @@
         android:label="ToDark"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:extractNativeLibs="true"
-        android:requestLegacyExternalStorage="true">
+        android:extractNativeLibs="true">
         <activity
             android:name=".MainActivity"
             android:exported="true"
