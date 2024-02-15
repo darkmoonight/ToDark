@@ -3,10 +3,10 @@ description: Task management application
 
 publish_to: "none"
 
-version: 1.4.9+39
+version: 1.5.0+40
 
 environment:
-  sdk: ">=3.2.6 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -14,7 +14,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   get: ^4.6.6
-  path: ^1.8.3
+  path: ^1.9.0
   intl: ^0.18.1
   isar: ^3.1.0+1
   iconsax: ^0.0.8
