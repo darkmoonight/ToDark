@@ -24,6 +24,6 @@ class Translation extends Translations {
         'fr_FR': FrFr().messages,
         'de_DE': DeDe().messages,
         'it_IT': ItIt().messages,
-        'it_IT': TrTr().messages,
+        'tr_TR': TrTr().messages,
       };
 }
