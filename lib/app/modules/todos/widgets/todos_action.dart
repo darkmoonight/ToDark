@@ -297,11 +297,16 @@ class _TodosActionState extends State<TodosAction> {
                 onTap: () {
                   BottomPicker.dateTime(
                     titlePadding: const EdgeInsets.only(top: 10),
-                    title: 'time'.tr,
-                    description: 'timeDesc'.tr,
-                    titleStyle: context.textTheme.titleMedium!,
-                    descriptionStyle: context.textTheme.labelLarge!
-                        .copyWith(color: Colors.grey),
+                    pickerTitle: Text(
+                      'time'.tr,
+                      style: context.textTheme.titleMedium!,
+                    ),
+                    pickerDescription: Text(
+                      'timeDesc'.tr,
+                      style: context.textTheme.labelLarge!
+                          .copyWith(color: Colors.grey),
+                    ),
+                    titleAlignment: Alignment.center,
                     pickerTextStyle:
                         context.textTheme.labelMedium!.copyWith(fontSize: 15),
                     closeIconColor: Colors.red,
