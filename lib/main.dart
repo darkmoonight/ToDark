@@ -28,6 +28,7 @@ late Settings settings;
 
 bool amoledTheme = false;
 bool materialColor = false;
+bool isImage = true;
 String timeformat = '24';
 Locale locale = const Locale('en', 'US');
 
@@ -102,6 +103,11 @@ Future<void> initSettings() async {
     settings.theme = 'system';
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
+
+  if (settings.isImage == null) {
+    settings.isImage = true;
+    isar.writeTxnSync(() => isar.settings.putSync(settings));
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -111,6 +117,7 @@ class MyApp extends StatefulWidget {
     BuildContext context, {
     bool? newAmoledTheme,
     bool? newMaterialColor,
+    bool? newIsImage,
     String? newTimeformat,
     Locale? newLocale,
   }) async {
@@ -127,6 +134,9 @@ class MyApp extends StatefulWidget {
     }
     if (newLocale != null) {
       state.changeLocale(newLocale);
+    }
+    if (newIsImage != null) {
+      state.changeIsImage(newIsImage);
     }
   }
 
@@ -149,6 +159,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void changeIsImage(bool newIsImage) {
+    setState(() {
+      isImage = newIsImage;
+    });
+  }
+
   void changeTimeFormat(String newTimeformat) {
     setState(() {
       timeformat = newTimeformat;
@@ -166,6 +182,7 @@ class _MyAppState extends State<MyApp> {
     amoledTheme = settings.amoledTheme;
     materialColor = settings.materialColor;
     timeformat = settings.timeformat;
+    isImage = settings.isImage!;
     locale = Locale(
         settings.language!.substring(0, 2), settings.language!.substring(3));
     super.initState();

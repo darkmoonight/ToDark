@@ -135,6 +135,21 @@ class _SettingsPageState extends State<SettingsPage> {
                                       newMaterialColor: value);
                                 },
                               ),
+                              SettingCard(
+                                elevation: 4,
+                                icon: const Icon(Iconsax.image),
+                                text: 'isImages'.tr,
+                                switcher: true,
+                                value: settings.isImage,
+                                onChange: (value) {
+                                  isar.writeTxnSync(() {
+                                    settings.isImage = value;
+                                    isar.settings.putSync(settings);
+                                  });
+                                  MyApp.updateAppState(context,
+                                      newIsImage: value);
+                                },
+                              ),
                               const SizedBox(height: 10),
                             ],
                           ),

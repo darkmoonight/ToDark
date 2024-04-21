@@ -93,6 +93,7 @@ class ViVn {
         'dark': 'Tối',
         'light': 'Sáng',
         'support': 'Hỗ trợ',
-        'license': 'Giấy phép'
+        'license': 'Giấy phép',
+        'isImages': 'Hiển thị hình ảnh',
       };
 }

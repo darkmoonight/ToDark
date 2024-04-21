@@ -36,7 +36,8 @@ class _TodosListState extends State<TodosList> {
       padding: const EdgeInsets.only(top: 50),
       child: Obx(
         () {
-          var todos = widget.task != null
+          RxList<Todos> todos = <Todos>[].obs;
+          List<Todos> filteredList = widget.task != null
               ? todoController.todos
                   .where((todo) =>
                       todo.task.value?.id == widget.task?.id &&
@@ -44,7 +45,6 @@ class _TodosListState extends State<TodosList> {
                       (widget.searchTodo.isEmpty ||
                           todo.name.toLowerCase().contains(widget.searchTodo)))
                   .toList()
-                  .obs
               : widget.allTodos
                   ? todoController.todos
                       .where((todo) =>
@@ -55,7 +55,6 @@ class _TodosListState extends State<TodosList> {
                                   .toLowerCase()
                                   .contains(widget.searchTodo)))
                       .toList()
-                      .obs
                   : widget.calendare
                       ? todoController.todos
                           .where((todo) =>
@@ -79,13 +78,24 @@ class _TodosListState extends State<TodosList> {
                               ) &&
                               todo.done == widget.done)
                           .toList()
-                          .obs
                       : todoController.todos;
 
           if (widget.calendare) {
-            todos.sort(
+            filteredList.sort(
                 (a, b) => a.todoCompletedTime!.compareTo(b.todoCompletedTime!));
+          } else {
+            filteredList.sort((a, b) {
+              if (a.fix && !b.fix) {
+                return -1;
+              } else if (!a.fix && b.fix) {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
           }
+
+          todos.value = filteredList.obs;
 
           return todos.isEmpty
               ? ListEmpty(

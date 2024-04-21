@@ -99,5 +99,6 @@ class ItIt {
         '12': '12 ore',
         '24': '24 ore',
         'select': 'Seleziona',
+        'isImages': 'Mostra immagini',
       };
 }

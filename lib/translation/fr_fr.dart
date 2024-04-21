@@ -103,5 +103,6 @@ class FrFr {
         '12': '12 heures',
         '24': '24 heures',
         'select': 'Sélectionner',
+        'isImages': 'Afficher les images',
       };
 }

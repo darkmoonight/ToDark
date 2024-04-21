@@ -104,5 +104,6 @@ class EsEs {
         '12': '12 horas',
         '24': '24 horas',
         'select': 'Seleccionar',
+        'isImages': 'Mostrar imágenes',
       };
 }

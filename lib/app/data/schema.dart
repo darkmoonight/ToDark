@@ -10,6 +10,7 @@ class Settings {
   String timeformat = '24';
   bool materialColor = true;
   bool amoledTheme = false;
+  bool? isImage = true;
   String? language;
 }
 
@@ -33,21 +34,6 @@ class Tasks {
     required this.taskColor,
     this.index,
   });
-
-  Tasks.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        title = json['title'],
-        description = json['description'] ?? '',
-        taskColor = json['taskColor'],
-        archive = json['archive'] ?? false;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': title,
-        'description': description,
-        'todoCompletedTime': taskColor,
-        'done': archive,
-      };
 }
 
 @collection
@@ -57,6 +43,7 @@ class Todos {
   String description;
   DateTime? todoCompletedTime;
   bool done;
+  bool fix;
 
   final task = IsarLink<Tasks>();
 
@@ -66,22 +53,6 @@ class Todos {
     this.description = '',
     this.todoCompletedTime,
     this.done = false,
+    this.fix = false,
   });
-
-  Todos.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        description = json['description'] ?? '',
-        todoCompletedTime = json['todoCompletedTime'] != null
-            ? DateTime.fromMicrosecondsSinceEpoch(json['todoCompletedTime'])
-            : json['todoCompletedTime'],
-        done = json['done'] ?? false;
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'description': description,
-        'todoCompletedTime': todoCompletedTime,
-        'done': done,
-      };
 }

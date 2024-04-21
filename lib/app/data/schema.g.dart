@@ -22,28 +22,33 @@ const SettingsSchema = CollectionSchema(
       name: r'amoledTheme',
       type: IsarType.bool,
     ),
-    r'language': PropertySchema(
+    r'isImage': PropertySchema(
       id: 1,
+      name: r'isImage',
+      type: IsarType.bool,
+    ),
+    r'language': PropertySchema(
+      id: 2,
       name: r'language',
       type: IsarType.string,
     ),
     r'materialColor': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'materialColor',
       type: IsarType.bool,
     ),
     r'onboard': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'onboard',
       type: IsarType.bool,
     ),
     r'theme': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'theme',
       type: IsarType.string,
     ),
     r'timeformat': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'timeformat',
       type: IsarType.string,
     )
@@ -91,11 +96,12 @@ void _settingsSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeBool(offsets[0], object.amoledTheme);
-  writer.writeString(offsets[1], object.language);
-  writer.writeBool(offsets[2], object.materialColor);
-  writer.writeBool(offsets[3], object.onboard);
-  writer.writeString(offsets[4], object.theme);
-  writer.writeString(offsets[5], object.timeformat);
+  writer.writeBool(offsets[1], object.isImage);
+  writer.writeString(offsets[2], object.language);
+  writer.writeBool(offsets[3], object.materialColor);
+  writer.writeBool(offsets[4], object.onboard);
+  writer.writeString(offsets[5], object.theme);
+  writer.writeString(offsets[6], object.timeformat);
 }
 
 Settings _settingsDeserialize(
@@ -107,11 +113,12 @@ Settings _settingsDeserialize(
   final object = Settings();
   object.amoledTheme = reader.readBool(offsets[0]);
   object.id = id;
-  object.language = reader.readStringOrNull(offsets[1]);
-  object.materialColor = reader.readBool(offsets[2]);
-  object.onboard = reader.readBool(offsets[3]);
-  object.theme = reader.readStringOrNull(offsets[4]);
-  object.timeformat = reader.readString(offsets[5]);
+  object.isImage = reader.readBoolOrNull(offsets[1]);
+  object.language = reader.readStringOrNull(offsets[2]);
+  object.materialColor = reader.readBool(offsets[3]);
+  object.onboard = reader.readBool(offsets[4]);
+  object.theme = reader.readStringOrNull(offsets[5]);
+  object.timeformat = reader.readString(offsets[6]);
   return object;
 }
 
@@ -125,14 +132,16 @@ P _settingsDeserializeProp<P>(
     case 0:
       return (reader.readBool(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 2:
-      return (reader.readBool(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 3:
       return (reader.readBool(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 5:
+      return (reader.readStringOrNull(offset)) as P;
+    case 6:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -286,6 +295,32 @@ extension SettingsQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> isImageIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'isImage',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> isImageIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'isImage',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> isImageEqualTo(
+      bool? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'isImage',
+        value: value,
       ));
     });
   }
@@ -753,6 +788,18 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByIsImage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isImage', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByIsImageDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isImage', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'language', Sort.asc);
@@ -840,6 +887,18 @@ extension SettingsQuerySortThenBy
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByIsImage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isImage', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByIsImageDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'isImage', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByLanguage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'language', Sort.asc);
@@ -909,6 +968,12 @@ extension SettingsQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByIsImage() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'isImage');
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByLanguage(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -954,6 +1019,12 @@ extension SettingsQueryProperty
   QueryBuilder<Settings, bool, QQueryOperations> amoledThemeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'amoledTheme');
+    });
+  }
+
+  QueryBuilder<Settings, bool?, QQueryOperations> isImageProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'isImage');
     });
   }
 
@@ -1929,13 +2000,18 @@ const TodosSchema = CollectionSchema(
       name: r'done',
       type: IsarType.bool,
     ),
-    r'name': PropertySchema(
+    r'fix': PropertySchema(
       id: 2,
+      name: r'fix',
+      type: IsarType.bool,
+    ),
+    r'name': PropertySchema(
+      id: 3,
       name: r'name',
       type: IsarType.string,
     ),
     r'todoCompletedTime': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'todoCompletedTime',
       type: IsarType.dateTime,
     )
@@ -1980,8 +2056,9 @@ void _todosSerialize(
 ) {
   writer.writeString(offsets[0], object.description);
   writer.writeBool(offsets[1], object.done);
-  writer.writeString(offsets[2], object.name);
-  writer.writeDateTime(offsets[3], object.todoCompletedTime);
+  writer.writeBool(offsets[2], object.fix);
+  writer.writeString(offsets[3], object.name);
+  writer.writeDateTime(offsets[4], object.todoCompletedTime);
 }
 
 Todos _todosDeserialize(
@@ -1993,9 +2070,10 @@ Todos _todosDeserialize(
   final object = Todos(
     description: reader.readStringOrNull(offsets[0]) ?? '',
     done: reader.readBoolOrNull(offsets[1]) ?? false,
+    fix: reader.readBoolOrNull(offsets[2]) ?? false,
     id: id,
-    name: reader.readString(offsets[2]),
-    todoCompletedTime: reader.readDateTimeOrNull(offsets[3]),
+    name: reader.readString(offsets[3]),
+    todoCompletedTime: reader.readDateTimeOrNull(offsets[4]),
   );
   return object;
 }
@@ -2012,8 +2090,10 @@ P _todosDeserializeProp<P>(
     case 1:
       return (reader.readBoolOrNull(offset) ?? false) as P;
     case 2:
-      return (reader.readString(offset)) as P;
+      return (reader.readBoolOrNull(offset) ?? false) as P;
     case 3:
+      return (reader.readString(offset)) as P;
+    case 4:
       return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -2243,6 +2323,15 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'done',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> fixEqualTo(bool value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'fix',
         value: value,
       ));
     });
@@ -2541,6 +2630,18 @@ extension TodosQuerySortBy on QueryBuilder<Todos, Todos, QSortBy> {
     });
   }
 
+  QueryBuilder<Todos, Todos, QAfterSortBy> sortByFix() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fix', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterSortBy> sortByFixDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fix', Sort.desc);
+    });
+  }
+
   QueryBuilder<Todos, Todos, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -2588,6 +2689,18 @@ extension TodosQuerySortThenBy on QueryBuilder<Todos, Todos, QSortThenBy> {
   QueryBuilder<Todos, Todos, QAfterSortBy> thenByDoneDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'done', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterSortBy> thenByFix() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fix', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterSortBy> thenByFixDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'fix', Sort.desc);
     });
   }
 
@@ -2642,6 +2755,12 @@ extension TodosQueryWhereDistinct on QueryBuilder<Todos, Todos, QDistinct> {
     });
   }
 
+  QueryBuilder<Todos, Todos, QDistinct> distinctByFix() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'fix');
+    });
+  }
+
   QueryBuilder<Todos, Todos, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -2672,6 +2791,12 @@ extension TodosQueryProperty on QueryBuilder<Todos, Todos, QQueryProperty> {
   QueryBuilder<Todos, bool, QQueryOperations> doneProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'done');
+    });
+  }
+
+  QueryBuilder<Todos, bool, QQueryOperations> fixProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'fix');
     });
   }
 

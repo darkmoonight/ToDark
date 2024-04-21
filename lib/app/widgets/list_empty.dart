@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:todark/main.dart';
 
 class ListEmpty extends StatelessWidget {
   const ListEmpty({
@@ -16,10 +17,12 @@ class ListEmpty extends StatelessWidget {
       child: ListView(
         shrinkWrap: true,
         children: [
-          Image.asset(
-            img,
-            scale: 5,
-          ),
+          isImage
+              ? Image.asset(
+                  img,
+                  scale: 5,
+                )
+              : const Offstage(),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Text(

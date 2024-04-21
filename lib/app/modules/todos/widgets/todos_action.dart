@@ -117,43 +117,60 @@ class _TodosActionState extends State<TodosAction> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    IconButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          textTrim(titleEdit);
-                          textTrim(descEdit);
-                          widget.edit
-                              ? todoController.updateTodo(
-                                  widget.todo!,
-                                  selectedTask!,
-                                  titleEdit.text,
-                                  descEdit.text,
-                                  timeEdit.text,
-                                )
-                              : widget.category
-                                  ? todoController.addTodo(
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        widget.edit
+                            ? IconButton(
+                                onPressed: () {
+                                  todoController.updateTodoFix(widget.todo!);
+                                  setState(() {});
+                                },
+                                icon: const Icon(
+                                  Iconsax.attach_square,
+                                  size: 20,
+                                ),
+                              )
+                            : const Offstage(),
+                        IconButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              textTrim(titleEdit);
+                              textTrim(descEdit);
+                              widget.edit
+                                  ? todoController.updateTodo(
+                                      widget.todo!,
                                       selectedTask!,
                                       titleEdit.text,
                                       descEdit.text,
                                       timeEdit.text,
                                     )
-                                  : todoController.addTodo(
-                                      widget.task!,
-                                      titleEdit.text,
-                                      descEdit.text,
-                                      timeEdit.text,
-                                    );
-                          textConroller.clear();
-                          titleEdit.clear();
-                          descEdit.clear();
-                          timeEdit.clear();
-                          Get.back();
-                        }
-                      },
-                      icon: const Icon(
-                        Iconsax.tick_square,
-                        size: 20,
-                      ),
+                                  : widget.category
+                                      ? todoController.addTodo(
+                                          selectedTask!,
+                                          titleEdit.text,
+                                          descEdit.text,
+                                          timeEdit.text,
+                                        )
+                                      : todoController.addTodo(
+                                          widget.task!,
+                                          titleEdit.text,
+                                          descEdit.text,
+                                          timeEdit.text,
+                                        );
+                              textConroller.clear();
+                              titleEdit.clear();
+                              descEdit.clear();
+                              timeEdit.clear();
+                              Get.back();
+                            }
+                          },
+                          icon: const Icon(
+                            Iconsax.tick_square,
+                            size: 20,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

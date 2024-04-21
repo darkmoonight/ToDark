@@ -98,5 +98,6 @@ class EnUs {
         '12': '12-hour',
         '24': '24-hour',
         'select': 'Select',
+        'isImages': 'Show images',
       };
 }

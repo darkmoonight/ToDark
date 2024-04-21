@@ -204,6 +204,18 @@ class TodoController extends GetxController {
     todos.refresh();
   }
 
+  Future<void> updateTodoFix(Todos todo) async {
+    isar.writeTxnSync(() {
+      todo.fix = todo.fix == true ? false : true;
+      isar.todos.putSync(todo);
+    });
+
+    var newTodo = todo;
+    int oldIdx = todos.indexOf(todo);
+    todos[oldIdx] = newTodo;
+    todos.refresh();
+  }
+
   Future<void> updateTodo(
       Todos todo, Tasks task, String title, String desc, String time) async {
     DateTime? date;

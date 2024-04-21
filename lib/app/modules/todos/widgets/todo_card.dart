@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/todo_controller.dart';
@@ -145,6 +146,16 @@ class _TodoCardState extends State<TodoCard> {
                           ),
                         )
                       : const SizedBox.shrink(),
+                  widget.todo.fix
+                      ? const Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Icon(
+                            Iconsax.attach_square,
+                            size: 20,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : const Offstage(),
                 ],
               ),
             ),

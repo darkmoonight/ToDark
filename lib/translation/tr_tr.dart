@@ -98,5 +98,6 @@ class TrTr {
         '12': '12-saat',
         '24': '24-saat',
         'select': 'Seç',
+        'isImages': 'Resimleri göster',
       };
 }
