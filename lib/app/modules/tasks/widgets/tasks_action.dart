@@ -26,15 +26,15 @@ class TasksAction extends StatefulWidget {
 class _TasksActionState extends State<TasksAction> {
   final formKey = GlobalKey<FormState>();
   final todoController = Get.put(TodoController());
-  TextEditingController titleEdit = TextEditingController();
-  TextEditingController descEdit = TextEditingController();
   Color myColor = const Color(0xFF2196F3);
 
   @override
   initState() {
     if (widget.edit) {
-      titleEdit = TextEditingController(text: widget.task!.title);
-      descEdit = TextEditingController(text: widget.task!.description);
+      todoController.titleCategoryEdit =
+          TextEditingController(text: widget.task!.title);
+      todoController.descCategoryEdit =
+          TextEditingController(text: widget.task!.description);
       myColor = Color(widget.task!.taskColor);
     }
     super.initState();
@@ -66,10 +66,48 @@ class _TasksActionState extends State<TasksAction> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        titleEdit.clear();
-                        descEdit.clear();
-                        Get.back();
+                      onPressed: () async {
+                        if (todoController.titleCategoryEdit.text.length >=
+                                20 ||
+                            todoController.descCategoryEdit.text.length >= 20) {
+                          await showAdaptiveDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog.adaptive(
+                                title: Text(
+                                  'clearText'.tr,
+                                  style: context.textTheme.titleLarge,
+                                ),
+                                content: Text('clearTextWarning'.tr,
+                                    style: context.textTheme.titleMedium),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () => Get.back(result: false),
+                                      child: Text('cancel'.tr,
+                                          style: context
+                                              .theme.textTheme.titleMedium
+                                              ?.copyWith(
+                                                  color: Colors.blueAccent))),
+                                  TextButton(
+                                      onPressed: () {
+                                        todoController.titleCategoryEdit
+                                            .clear();
+                                        todoController.descCategoryEdit.clear();
+                                        Get.back(result: true);
+                                      },
+                                      child: Text('delete'.tr,
+                                          style: context
+                                              .theme.textTheme.titleMedium
+                                              ?.copyWith(color: Colors.red))),
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          todoController.titleCategoryEdit.clear();
+                          todoController.descCategoryEdit.clear();
+                          Get.back();
+                        }
                       },
                       icon: const Icon(
                         Iconsax.close_square,
@@ -86,21 +124,23 @@ class _TasksActionState extends State<TasksAction> {
                     IconButton(
                       onPressed: () {
                         if (formKey.currentState!.validate()) {
-                          textTrim(titleEdit);
-                          textTrim(descEdit);
+                          textTrim(todoController.titleCategoryEdit);
+                          textTrim(todoController.descCategoryEdit);
                           if (widget.edit) {
                             todoController.updateTask(
                               widget.task!,
-                              titleEdit.text,
-                              descEdit.text,
+                              todoController.titleCategoryEdit.text,
+                              todoController.descCategoryEdit.text,
                               myColor,
                             );
                             widget.updateTaskName!();
                           } else {
                             todoController.addTask(
-                                titleEdit.text, descEdit.text, myColor);
-                            titleEdit.clear();
-                            descEdit.clear();
+                                todoController.titleCategoryEdit.text,
+                                todoController.descCategoryEdit.text,
+                                myColor);
+                            todoController.titleCategoryEdit.clear();
+                            todoController.descCategoryEdit.clear();
                           }
                           Get.back();
                         }
@@ -116,10 +156,15 @@ class _TasksActionState extends State<TasksAction> {
               MyTextForm(
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                controller: titleEdit,
+                controller: todoController.titleCategoryEdit,
                 labelText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
+                onChanged: (text) {
+                  setState(() {
+                    todoController.titleCategoryEdit.text = text;
+                  });
+                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'validateName'.tr;
@@ -130,11 +175,16 @@ class _TasksActionState extends State<TasksAction> {
               MyTextForm(
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                controller: descEdit,
+                controller: todoController.descCategoryEdit,
                 labelText: 'description'.tr,
                 type: TextInputType.multiline,
                 icon: const Icon(Iconsax.note_text),
                 maxLine: null,
+                onChanged: (text) {
+                  setState(() {
+                    todoController.descCategoryEdit.text = text;
+                  });
+                },
               ),
               Card(
                 elevation: 4,

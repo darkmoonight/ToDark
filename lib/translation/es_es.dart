@@ -105,5 +105,8 @@ class EsEs {
         '24': '24 horas',
         'select': 'Seleccionar',
         'isImages': 'Mostrar imágenes',
+        'clearText': 'Borrar texto',
+        'clearTextWarning':
+            '¡Tienes cambios sin guardar! ¿Estás seguro de que quieres eliminarlos?',
       };
 }

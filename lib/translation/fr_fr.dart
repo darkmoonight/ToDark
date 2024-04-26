@@ -104,5 +104,8 @@ class FrFr {
         '24': '24 heures',
         'select': 'Sélectionner',
         'isImages': 'Afficher les images',
+        'clearText': 'Effacer le texte',
+        'clearTextWarning':
+            'Vous avez des modifications non enregistrées ! Êtes-vous sûr de vouloir les supprimer ?',
       };
 }

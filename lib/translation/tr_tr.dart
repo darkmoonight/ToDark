@@ -28,7 +28,8 @@ class TrTr {
         'timeComplete': 'Yürütme zamanı',
         'addCategory': 'Bir kategori ekle',
         'deleteCategory': 'Bir kategori sil',
-        'deleteCategoryQuery': 'Bir kategoriyi silmek istediğinizden emin misiniz?',
+        'deleteCategoryQuery':
+            'Bir kategoriyi silmek istediğinizden emin misiniz?',
         'todo': 'Yapılacaklar',
         'allTodos': 'Tüm yapılacaklar',
         'create': 'Oluştur',
@@ -43,7 +44,8 @@ class TrTr {
         'todoCreate': 'İş oluşturuldu',
         'duplicateTodo': 'Yapılacak iş zaten var',
         'archiveCategory': 'Bir kategoriyi arşivle',
-        'archiveCategoryQuery': 'Kategorileri arşivlemek istediğinizden emin misiniz?',
+        'archiveCategoryQuery':
+            'Kategorileri arşivlemek istediğinizden emin misiniz?',
         'archive': 'Arşive at',
         'categoryArchive': 'Arşivdeki kategori',
         'noArchiveCategory': 'Kategori iadesi',
@@ -99,5 +101,8 @@ class TrTr {
         '24': '24-saat',
         'select': 'Seç',
         'isImages': 'Resimleri göster',
+        'clearText': 'Metni Temizle',
+        'clearTextWarning':
+            'Kaydedilmemiş değişiklikleriniz var! Onları silmek istediğinizden emin misiniz?',
       };
 }

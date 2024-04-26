@@ -22,6 +22,14 @@ class TodoController extends GetxController {
   final duration = const Duration(milliseconds: 500);
   var now = DateTime.now();
 
+  TextEditingController titleCategoryEdit = TextEditingController();
+  TextEditingController descCategoryEdit = TextEditingController();
+
+  TextEditingController textTodoConroller = TextEditingController();
+  TextEditingController titleTodoEdit = TextEditingController();
+  TextEditingController descTodoEdit = TextEditingController();
+  TextEditingController timeTodoEdit = TextEditingController();
+
   @override
   void onInit() {
     super.onInit();
