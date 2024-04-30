@@ -26,6 +26,7 @@ class TodoController extends GetxController {
   TextEditingController descCategoryEdit = TextEditingController();
 
   TextEditingController textTodoConroller = TextEditingController();
+  TextEditingController transferTodoConroller = TextEditingController();
   TextEditingController titleTodoEdit = TextEditingController();
   TextEditingController descTodoEdit = TextEditingController();
   TextEditingController timeTodoEdit = TextEditingController();
@@ -257,6 +258,27 @@ class TodoController extends GetxController {
     } else {
       await flutterLocalNotificationsPlugin.cancel(todo.id);
     }
+    EasyLoading.showSuccess('updateTodo'.tr, duration: duration);
+  }
+
+  Future<void> transferTodos(List<Todos> todoList, Tasks task) async {
+    List<Todos> todoListCopy = List.from(todoList);
+
+    for (var todo in todoListCopy) {
+      isar.writeTxnSync(() {
+        todo.task.value = task;
+        isar.todos.putSync(todo);
+        todo.task.saveSync();
+      });
+
+      var newTodo = todo;
+      int oldIdx = todos.indexOf(todo);
+      todos[oldIdx] = newTodo;
+    }
+
+    todos.refresh();
+    tasks.refresh();
+
     EasyLoading.showSuccess('updateTodo'.tr, duration: duration);
   }
 

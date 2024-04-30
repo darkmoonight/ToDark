@@ -60,7 +60,7 @@ class _TodosActionState extends State<TodosAction> {
     super.initState();
   }
 
-  Future<List<Tasks>> getTodosAll(String pattern) async {
+  Future<List<Tasks>> getTaskAll(String pattern) async {
     List<Tasks> getTask;
     getTask = isar.tasks.filter().archiveEqualTo(false).findAllSync();
     return getTask.where((element) {
@@ -255,7 +255,7 @@ class _TodosActionState extends State<TodosAction> {
                         if (textEditingValue.text.isEmpty) {
                           return const Iterable<Tasks>.empty();
                         }
-                        return getTodosAll(textEditingValue.text);
+                        return getTaskAll(textEditingValue.text);
                       },
                       onSelected: (Tasks selection) {
                         todoController.textTodoConroller.text = selection.title;

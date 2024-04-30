@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/modules/tasks/widgets/task_card.dart';
-import 'package:todark/app/modules/todos/view/todos_task.dart';
+import 'package:todark/app/modules/todos/view/task_todos.dart';
 import 'package:todark/app/widgets/list_empty.dart';
 
 class TasksList extends StatefulWidget {
