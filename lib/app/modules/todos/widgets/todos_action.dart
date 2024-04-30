@@ -1,5 +1,4 @@
 import 'package:bottom_picker/bottom_picker.dart';
-import 'package:bottom_picker/resources/arrays.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
@@ -370,12 +369,15 @@ class _TodosActionState extends State<TodosAction> {
                       'time'.tr,
                       style: context.textTheme.titleMedium!,
                     ),
-                    pickerDescription: Text(
-                      'timeDesc'.tr,
-                      style: context.textTheme.labelLarge!
-                          .copyWith(color: Colors.grey),
+                    pickerDescription: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'timeDesc'.tr,
+                        style: context.textTheme.labelLarge!
+                            .copyWith(color: Colors.grey),
+                      ),
                     ),
-                    titleAlignment: Alignment.center,
+                    titleAlignment: Alignment.centerLeft,
                     pickerTextStyle:
                         context.textTheme.labelMedium!.copyWith(fontSize: 15),
                     closeIconColor: Colors.red,
@@ -395,7 +397,10 @@ class _TodosActionState extends State<TodosAction> {
                       'select'.tr,
                       textAlign: TextAlign.center,
                     ),
-                    bottomPickerTheme: BottomPickerTheme.blue,
+                    buttonStyle: BoxDecoration(
+                      color: context.theme.colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     minDateTime: DateTime.now(),
                     maxDateTime: DateTime.now().add(const Duration(days: 1000)),
                     initialDateTime: DateTime.now(),
