@@ -24,8 +24,7 @@ ThemeData lightTheme(Color? color, ColorScheme? colorScheme) {
     colorScheme: colorScheme
         ?.copyWith(
           brightness: Brightness.light,
-          background: color,
-          surface: baseLigth.colorScheme.background,
+          surface: baseLigth.colorScheme.surface,
         )
         .harmonized(),
     textTheme: GoogleFonts.getTextTheme('Ubuntu', baseLigth.textTheme),
@@ -41,6 +40,8 @@ ThemeData lightTheme(Color? color, ColorScheme? colorScheme) {
     scaffoldBackgroundColor: color,
     cardTheme: baseLigth.cardTheme.copyWith(
       color: color,
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -48,19 +49,23 @@ ThemeData lightTheme(Color? color, ColorScheme? colorScheme) {
     ),
     bottomSheetTheme: baseLigth.bottomSheetTheme.copyWith(
       backgroundColor: color,
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
     ),
     navigationRailTheme: baseLigth.navigationRailTheme.copyWith(
       backgroundColor: color,
     ),
     navigationBarTheme: baseLigth.navigationBarTheme.copyWith(
       backgroundColor: color,
-      labelTextStyle: MaterialStateProperty.all(
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
+      labelTextStyle: WidgetStateProperty.all(
         const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 12),
       ),
     ),
     inputDecorationTheme: baseLigth.inputDecorationTheme.copyWith(
-      labelStyle: MaterialStateTextStyle.resolveWith(
-        (Set<MaterialState> states) {
+      labelStyle: WidgetStateTextStyle.resolveWith(
+        (Set<WidgetState> states) {
           return const TextStyle(fontSize: 14);
         },
       ),
@@ -86,8 +91,7 @@ ThemeData darkTheme(Color? color, ColorScheme? colorScheme) {
     colorScheme: colorScheme
         ?.copyWith(
           brightness: Brightness.dark,
-          background: color,
-          surface: baseDark.colorScheme.background,
+          surface: baseDark.colorScheme.surface,
         )
         .harmonized(),
     textTheme: GoogleFonts.getTextTheme('Ubuntu', baseDark.textTheme),
@@ -103,6 +107,8 @@ ThemeData darkTheme(Color? color, ColorScheme? colorScheme) {
     scaffoldBackgroundColor: color,
     cardTheme: baseDark.cardTheme.copyWith(
       color: color,
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -110,19 +116,23 @@ ThemeData darkTheme(Color? color, ColorScheme? colorScheme) {
     ),
     bottomSheetTheme: baseDark.bottomSheetTheme.copyWith(
       backgroundColor: color,
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
     ),
     navigationRailTheme: baseDark.navigationRailTheme.copyWith(
       backgroundColor: color,
     ),
     navigationBarTheme: baseDark.navigationBarTheme.copyWith(
       backgroundColor: color,
-      labelTextStyle: MaterialStateProperty.all(
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
+      labelTextStyle: WidgetStateProperty.all(
         const TextStyle(overflow: TextOverflow.ellipsis, fontSize: 12),
       ),
     ),
     inputDecorationTheme: baseDark.inputDecorationTheme.copyWith(
-      labelStyle: MaterialStateTextStyle.resolveWith(
-        (Set<MaterialState> states) {
+      labelStyle: WidgetStateTextStyle.resolveWith(
+        (Set<WidgetState> states) {
           return const TextStyle(fontSize: 14);
         },
       ),

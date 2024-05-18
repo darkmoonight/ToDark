@@ -98,5 +98,6 @@ class ViVn {
         'clearText': 'Xóa văn bản',
         'clearTextWarning':
             'Bạn có các thay đổi chưa được lưu! Bạn có chắc chắn muốn xóa chúng không?',
+        'groups': 'Nhóm của chúng tôi',
       };
 }

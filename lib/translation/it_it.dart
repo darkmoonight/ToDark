@@ -103,5 +103,6 @@ class ItIt {
         'clearText': 'Cancella testo',
         'clearTextWarning':
             'Hai delle modifiche non salvate! Sei sicuro di volerle eliminare?',
+        'groups': 'I nostri gruppi',
       };
 }

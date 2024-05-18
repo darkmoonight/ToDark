@@ -238,8 +238,8 @@ class _TodosTaskState extends State<TodosTask> {
                             dividerColor: Colors.transparent,
                             splashFactory: NoSplash.splashFactory,
                             overlayColor:
-                                MaterialStateProperty.resolveWith<Color?>(
-                              (Set<MaterialState> states) {
+                                WidgetStateProperty.resolveWith<Color?>(
+                              (Set<WidgetState> states) {
                                 return Colors.transparent;
                               },
                             ),

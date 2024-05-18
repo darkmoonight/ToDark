@@ -64,7 +64,7 @@ const SettingsSchema = CollectionSchema(
   getId: _settingsGetId,
   getLinks: _settingsGetLinks,
   attach: _settingsAttach,
-  version: '3.1.0+1',
+  version: '3.1.7',
 );
 
 int _settingsEstimateSize(
@@ -1115,7 +1115,7 @@ const TasksSchema = CollectionSchema(
   getId: _tasksGetId,
   getLinks: _tasksGetLinks,
   attach: _tasksAttach,
-  version: '3.1.0+1',
+  version: '3.1.7',
 );
 
 int _tasksEstimateSize(
@@ -2034,7 +2034,7 @@ const TodosSchema = CollectionSchema(
   getId: _todosGetId,
   getLinks: _todosGetLinks,
   attach: _todosAttach,
-  version: '3.1.0+1',
+  version: '3.1.7',
 );
 
 int _todosEstimateSize(

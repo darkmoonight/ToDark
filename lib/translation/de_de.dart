@@ -103,5 +103,6 @@ class DeDe {
         'clearText': 'Text löschen',
         'clearTextWarning':
             'Sie haben ungespeicherte Änderungen! Möchten Sie sie wirklich löschen?',
+        'groups': 'Unsere Gruppen',
       };
 }

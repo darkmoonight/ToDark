@@ -104,5 +104,6 @@ class TrTr {
         'clearText': 'Metni Temizle',
         'clearTextWarning':
             'Kaydedilmemiş değişiklikleriniz var! Onları silmek istediğinizden emin misiniz?',
+        'groups': 'Gruplarımız',
       };
 }

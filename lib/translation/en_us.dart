@@ -102,5 +102,6 @@ class EnUs {
         'clearText': 'Clear Text',
         'clearTextWarning':
             'You have unsaved changes! Are you sure you want to delete them?',
+        'groups': 'Our groups',
       };
 }

@@ -394,6 +394,66 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SettingCard(
+              icon: const Icon(Iconsax.link_square),
+              text: 'groups'.tr,
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return StatefulBuilder(
+                      builder: (BuildContext context, setState) {
+                        return SingleChildScrollView(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 15),
+                                child: Text(
+                                  'groups'.tr,
+                                  style: context.textTheme.titleLarge?.copyWith(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
+                              SettingCard(
+                                elevation: 4,
+                                icon: const Icon(Iconsax.voice_square),
+                                text: 'Discord',
+                                onPressed: () async {
+                                  final Uri url = Uri.parse(
+                                      'https://discord.gg/JMMa9aHh8f');
+                                  if (!await launchUrl(url,
+                                      mode: LaunchMode.externalApplication)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
+                              ),
+                              SettingCard(
+                                elevation: 4,
+                                icon: const Icon(Iconsax.message_square),
+                                text: 'Telegram',
+                                onPressed: () async {
+                                  final Uri url =
+                                      Uri.parse('https://t.me/darkmoonightX');
+                                  if (!await launchUrl(url,
+                                      mode: LaunchMode.externalApplication)) {
+                                    throw Exception('Could not launch $url');
+                                  }
+                                },
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+            SettingCard(
               icon: const Icon(Iconsax.document),
               text: 'license'.tr,
               onPressed: () => Get.to(

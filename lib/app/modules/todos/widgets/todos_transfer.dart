@@ -156,7 +156,7 @@ class _TodosTransferState extends State<TodosTransfer> {
                       alignment: Alignment.bottomCenter,
                       child: Material(
                         borderRadius: BorderRadius.circular(20),
-                        elevation: 4.0,
+                        elevation: 4,
                         child: ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,

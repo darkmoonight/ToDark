@@ -108,5 +108,6 @@ class EsEs {
         'clearText': 'Borrar texto',
         'clearTextWarning':
             '¡Tienes cambios sin guardar! ¿Estás seguro de que quieres eliminarlos?',
+        'groups': 'Nuestros grupos',
       };
 }

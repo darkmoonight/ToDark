@@ -97,5 +97,6 @@ class ZhCN {
         'isImages': '显示图片',
         'clearText': '清除文本',
         'clearTextWarning': '您有未保存的更改！您确定要删除它们吗？',
+        'groups': '我们的群组',
       };
 }

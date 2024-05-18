@@ -146,6 +146,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                         },
                       ),
                       startingDayOfWeek: StartingDayOfWeek.monday,
+                      weekendDays: const [],
                       firstDay: firstDay,
                       lastDay: lastDay,
                       focusedDay: selectedDay,
@@ -189,8 +190,8 @@ class _CalendarTodosState extends State<CalendarTodos> {
                           dividerColor: Colors.transparent,
                           splashFactory: NoSplash.splashFactory,
                           overlayColor:
-                              MaterialStateProperty.resolveWith<Color?>(
-                            (Set<MaterialState> states) {
+                              WidgetStateProperty.resolveWith<Color?>(
+                            (Set<WidgetState> states) {
                               return Colors.transparent;
                             },
                           ),

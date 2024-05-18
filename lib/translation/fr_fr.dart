@@ -107,5 +107,6 @@ class FrFr {
         'clearText': 'Effacer le texte',
         'clearTextWarning':
             'Vous avez des modifications non enregistrées ! Êtes-vous sûr de vouloir les supprimer ?',
+        'groups': 'Nos groupes',
       };
 }
