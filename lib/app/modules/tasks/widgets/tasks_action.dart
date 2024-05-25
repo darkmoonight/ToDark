@@ -48,6 +48,13 @@ class _TasksActionState extends State<TasksAction> {
   }
 
   @override
+  void dispose() {
+    todoController.titleCategoryEdit.clear();
+    todoController.descCategoryEdit.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
@@ -68,8 +75,8 @@ class _TasksActionState extends State<TasksAction> {
                     IconButton(
                       onPressed: () async {
                         if (todoController.titleCategoryEdit.text.length >=
-                                20 ||
-                            todoController.descCategoryEdit.text.length >= 20) {
+                                40 ||
+                            todoController.descCategoryEdit.text.length >= 40) {
                           await showAdaptiveDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -94,6 +101,7 @@ class _TasksActionState extends State<TasksAction> {
                                             .clear();
                                         todoController.descCategoryEdit.clear();
                                         Get.back(result: true);
+                                        Get.back();
                                       },
                                       child: Text('delete'.tr,
                                           style: context

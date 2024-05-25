@@ -37,6 +37,12 @@ class _TodosTransferState extends State<TodosTransfer> {
   }
 
   @override
+  void dispose() {
+    todoController.transferTodoConroller.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       key: formKeyTransfer,

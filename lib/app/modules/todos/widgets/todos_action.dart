@@ -59,6 +59,15 @@ class _TodosActionState extends State<TodosAction> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    todoController.textTodoConroller.clear();
+    todoController.titleTodoEdit.clear();
+    todoController.descTodoEdit.clear();
+    todoController.timeTodoEdit.clear();
+    super.dispose();
+  }
+
   Future<List<Tasks>> getTaskAll(String pattern) async {
     List<Tasks> getTask;
     getTask = isar.tasks.filter().archiveEqualTo(false).findAllSync();
@@ -96,8 +105,8 @@ class _TodosActionState extends State<TodosAction> {
                   children: [
                     IconButton(
                       onPressed: () async {
-                        if (todoController.titleTodoEdit.text.length >= 20 ||
-                            todoController.descTodoEdit.text.length >= 20) {
+                        if (todoController.titleTodoEdit.text.length >= 40 ||
+                            todoController.descTodoEdit.text.length >= 40) {
                           await showAdaptiveDialog(
                             context: context,
                             builder: (BuildContext context) {
@@ -124,6 +133,7 @@ class _TodosActionState extends State<TodosAction> {
                                         todoController.textTodoConroller
                                             .clear();
                                         Get.back(result: true);
+                                        Get.back();
                                       },
                                       child: Text('delete'.tr,
                                           style: context

@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 showModalBottomSheet(
                   enableDrag: false,
+                  isDismissible: false,
                   context: context,
                   isScrollControlled: true,
                   builder: (BuildContext context) {
