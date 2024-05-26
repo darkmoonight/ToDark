@@ -104,5 +104,13 @@ class ItIt {
         'clearTextWarning':
             'Hai delle modifiche non salvate! Sei sicuro di volerle eliminare?',
         'groups': 'I nostri gruppi',
+        'firstDayOfWeek': 'Primo giorno della settimana',
+        'monday': 'Lunedì',
+        'tuesday': 'Martedì',
+        'wednesday': 'Mercoledì',
+        'thursday': 'Giovedì',
+        'friday': 'Venerdì',
+        'saturday': 'Sabato',
+        'sunday': 'Domenica',
       };
 }

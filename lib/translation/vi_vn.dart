@@ -99,5 +99,13 @@ class ViVn {
         'clearTextWarning':
             'Bạn có các thay đổi chưa được lưu! Bạn có chắc chắn muốn xóa chúng không?',
         'groups': 'Nhóm của chúng tôi',
+        'firstDayOfWeek': 'Ngày đầu tuần',
+        'monday': 'Thứ Hai',
+        'tuesday': 'Thứ Ba',
+        'wednesday': 'Thứ Tư',
+        'thursday': 'Thứ Năm',
+        'friday': 'Thứ Sáu',
+        'saturday': 'Thứ Bảy',
+        'sunday': 'Chủ Nhật',
       };
 }

@@ -98,5 +98,13 @@ class ZhTw {
         'clearText': '清除文字',
         'clearTextWarning': '您有未儲存的變更！您確定要刪除它們嗎？',
         'groups': '我們的群組',
+        'firstDayOfWeek': '一週的第一天',
+        'monday': '星期一',
+        'tuesday': '星期二',
+        'wednesday': '星期三',
+        'thursday': '星期四',
+        'friday': '星期五',
+        'saturday': '星期六',
+        'sunday': '星期日',
       };
 }

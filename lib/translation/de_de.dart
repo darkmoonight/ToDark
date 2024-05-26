@@ -104,5 +104,13 @@ class DeDe {
         'clearTextWarning':
             'Sie haben ungespeicherte Änderungen! Möchten Sie sie wirklich löschen?',
         'groups': 'Unsere Gruppen',
+        'firstDayOfWeek': 'Erster Tag der Woche',
+        'monday': 'Montag',
+        'tuesday': 'Dienstag',
+        'wednesday': 'Mittwoch',
+        'thursday': 'Donnerstag',
+        'friday': 'Freitag',
+        'saturday': 'Samstag',
+        'sunday': 'Sonntag',
       };
 }

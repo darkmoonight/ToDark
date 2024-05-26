@@ -102,5 +102,13 @@ class ArAr {
         'clearTextWarning':
             'لديك تغييرات غير محفوظة! هل أنت متأكد أنك تريد حذفها؟',
         'groups': 'مجموعاتنا',
+        'firstDayOfWeek': 'أول يوم في الأسبوع',
+        'monday': 'الإثنين',
+        'tuesday': 'الثلاثاء',
+        'wednesday': 'الأربعاء',
+        'thursday': 'الخميس',
+        'friday': 'الجمعة',
+        'saturday': 'السبت',
+        'sunday': 'الأحد',
       };
 }

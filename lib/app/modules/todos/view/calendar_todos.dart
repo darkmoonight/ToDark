@@ -21,6 +21,27 @@ class _CalendarTodosState extends State<CalendarTodos> {
   DateTime lastDay = DateTime.now().add(const Duration(days: 1000));
   CalendarFormat calendarFormat = CalendarFormat.week;
 
+  StartingDayOfWeek firstDayOfWeek() {
+    switch (settings.firstDay) {
+      case 'monday':
+        return StartingDayOfWeek.monday;
+      case 'tuesday':
+        return StartingDayOfWeek.tuesday;
+      case 'wednesday':
+        return StartingDayOfWeek.wednesday;
+      case 'thursday':
+        return StartingDayOfWeek.thursday;
+      case 'friday':
+        return StartingDayOfWeek.friday;
+      case 'saturday':
+        return StartingDayOfWeek.saturday;
+      case 'sunday':
+        return StartingDayOfWeek.sunday;
+      default:
+        return StartingDayOfWeek.monday;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -145,7 +166,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                           });
                         },
                       ),
-                      startingDayOfWeek: StartingDayOfWeek.monday,
+                      startingDayOfWeek: firstDayOfWeek(),
                       weekendDays: const [],
                       firstDay: firstDay,
                       lastDay: lastDay,
@@ -189,8 +210,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                           isScrollable: true,
                           dividerColor: Colors.transparent,
                           splashFactory: NoSplash.splashFactory,
-                          overlayColor:
-                              WidgetStateProperty.resolveWith<Color?>(
+                          overlayColor: WidgetStateProperty.resolveWith<Color?>(
                             (Set<WidgetState> states) {
                               return Colors.transparent;
                             },

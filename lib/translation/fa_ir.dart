@@ -106,5 +106,13 @@ class FaIr {
         'clearTextWarning':
             'شما تغییرات ذخیره نشده دارید! آیا مطمئن هستید که می‌خواهید آن‌ها را حذف کنید؟',
         'groups': 'گروه‌های ما',
+        'firstDayOfWeek': 'اولین روز هفته',
+        'monday': 'دوشنبه',
+        'tuesday': 'سه‌شنبه',
+        'wednesday': 'چهارشنبه',
+        'thursday': 'پنج‌شنبه',
+        'friday': 'جمعه',
+        'saturday': 'شنبه',
+        'sunday': 'یک‌شنبه',
       };
 }

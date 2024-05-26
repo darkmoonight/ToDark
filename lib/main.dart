@@ -30,6 +30,7 @@ bool amoledTheme = false;
 bool materialColor = false;
 bool isImage = true;
 String timeformat = '24';
+String firstDay = 'monday';
 Locale locale = const Locale('en', 'US');
 
 final List appLanguages = [
@@ -104,6 +105,11 @@ Future<void> initSettings() async {
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
 
+  if (settings.firstDay == null) {
+    settings.theme = 'monday';
+    isar.writeTxnSync(() => isar.settings.putSync(settings));
+  }
+
   if (settings.isImage == null) {
     settings.isImage = true;
     isar.writeTxnSync(() => isar.settings.putSync(settings));
@@ -119,6 +125,7 @@ class MyApp extends StatefulWidget {
     bool? newMaterialColor,
     bool? newIsImage,
     String? newTimeformat,
+    String? newFirstDay,
     Locale? newLocale,
   }) async {
     final state = context.findAncestorStateOfType<_MyAppState>()!;
@@ -131,6 +138,9 @@ class MyApp extends StatefulWidget {
     }
     if (newTimeformat != null) {
       state.changeTimeFormat(newTimeformat);
+    }
+    if (newFirstDay != null) {
+      state.changeFirstDay(newFirstDay);
     }
     if (newLocale != null) {
       state.changeLocale(newLocale);
@@ -171,6 +181,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void changeFirstDay(String newFirstDay) {
+    setState(() {
+      firstDay = newFirstDay;
+    });
+  }
+
   void changeLocale(Locale newLocale) {
     setState(() {
       locale = newLocale;
@@ -182,6 +198,7 @@ class _MyAppState extends State<MyApp> {
     amoledTheme = settings.amoledTheme;
     materialColor = settings.materialColor;
     timeformat = settings.timeformat;
+    firstDay = settings.firstDay!;
     isImage = settings.isImage!;
     locale = Locale(
         settings.language!.substring(0, 2), settings.language!.substring(3));

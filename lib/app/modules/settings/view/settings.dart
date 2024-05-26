@@ -38,6 +38,26 @@ class _SettingsPageState extends State<SettingsPage> {
     Get.back();
   }
 
+  String firstDayOfWeek(newValue) {
+    if (newValue == 'monday'.tr) {
+      return 'monday';
+    } else if (newValue == 'tuesday'.tr) {
+      return 'tuesday';
+    } else if (newValue == 'wednesday'.tr) {
+      return 'wednesday';
+    } else if (newValue == 'thursday'.tr) {
+      return 'thursday';
+    } else if (newValue == 'friday'.tr) {
+      return 'friday';
+    } else if (newValue == 'saturday'.tr) {
+      return 'saturday';
+    } else if (newValue == 'sunday'.tr) {
+      return 'sunday';
+    } else {
+      return 'monday';
+    }
+  }
+
   @override
   void initState() {
     infoVersion();
@@ -200,6 +220,45 @@ class _SettingsPageState extends State<SettingsPage> {
                                   MyApp.updateAppState(context,
                                       newTimeformat:
                                           newValue == '12'.tr ? '12' : '24');
+                                  setState(() {});
+                                },
+                              ),
+                              SettingCard(
+                                elevation: 4,
+                                icon: const Icon(Iconsax.calendar_edit),
+                                text: 'firstDayOfWeek'.tr,
+                                dropdown: true,
+                                dropdownName: settings.firstDay?.tr,
+                                dropdownList: <String>[
+                                  'monday'.tr,
+                                  'tuesday'.tr,
+                                  'wednesday'.tr,
+                                  'thursday'.tr,
+                                  'friday'.tr,
+                                  'saturday'.tr,
+                                  'sunday'.tr,
+                                ],
+                                dropdownCange: (String? newValue) {
+                                  isar.writeTxnSync(() {
+                                    if (newValue == 'monday'.tr) {
+                                      settings.firstDay = 'monday';
+                                    } else if (newValue == 'tuesday'.tr) {
+                                      settings.firstDay = 'tuesday';
+                                    } else if (newValue == 'wednesday'.tr) {
+                                      settings.firstDay = 'wednesday';
+                                    } else if (newValue == 'thursday'.tr) {
+                                      settings.firstDay = 'thursday';
+                                    } else if (newValue == 'friday'.tr) {
+                                      settings.firstDay = 'friday';
+                                    } else if (newValue == 'saturday'.tr) {
+                                      settings.firstDay = 'saturday';
+                                    } else if (newValue == 'sunday'.tr) {
+                                      settings.firstDay = 'sunday';
+                                    }
+                                    isar.settings.putSync(settings);
+                                  });
+                                  MyApp.updateAppState(context,
+                                      newTimeformat: firstDayOfWeek(newValue));
                                   setState(() {});
                                 },
                               ),

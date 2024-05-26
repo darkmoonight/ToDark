@@ -105,5 +105,13 @@ class TrTr {
         'clearTextWarning':
             'Kaydedilmemiş değişiklikleriniz var! Onları silmek istediğinizden emin misiniz?',
         'groups': 'Gruplarımız',
+        'firstDayOfWeek': 'Haftanın ilk günü',
+        'monday': 'Pazartesi',
+        'tuesday': 'Salı',
+        'wednesday': 'Çarşamba',
+        'thursday': 'Perşembe',
+        'friday': 'Cuma',
+        'saturday': 'Cumartesi',
+        'sunday': 'Pazar',
       };
 }

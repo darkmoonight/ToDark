@@ -108,5 +108,13 @@ class FrFr {
         'clearTextWarning':
             'Vous avez des modifications non enregistrées ! Êtes-vous sûr de vouloir les supprimer ?',
         'groups': 'Nos groupes',
+        'firstDayOfWeek': 'Premier jour de la semaine',
+        'monday': 'Lundi',
+        'tuesday': 'Mardi',
+        'wednesday': 'Mercredi',
+        'thursday': 'Jeudi',
+        'friday': 'Vendredi',
+        'saturday': 'Samedi',
+        'sunday': 'Dimanche',
       };
 }

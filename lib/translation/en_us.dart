@@ -103,5 +103,13 @@ class EnUs {
         'clearTextWarning':
             'You have unsaved changes! Are you sure you want to delete them?',
         'groups': 'Our groups',
+        'firstDayOfWeek': 'First day of the week',
+        'monday': 'Monday',
+        'tuesday': 'Tuesday',
+        'wednesday': 'Wednesday',
+        'thursday': 'Thursday',
+        'friday': 'Friday',
+        'saturday': 'Saturday',
+        'sunday': 'Sunday',
       };
 }

@@ -109,5 +109,13 @@ class EsEs {
         'clearTextWarning':
             '¡Tienes cambios sin guardar! ¿Estás seguro de que quieres eliminarlos?',
         'groups': 'Nuestros grupos',
+        'firstDayOfWeek': 'Primer día de la semana',
+        'monday': 'Lunes',
+        'tuesday': 'Martes',
+        'wednesday': 'Miércoles',
+        'thursday': 'Jueves',
+        'friday': 'Viernes',
+        'saturday': 'Sábado',
+        'sunday': 'Domingo',
       };
 }

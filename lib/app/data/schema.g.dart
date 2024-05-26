@@ -22,33 +22,38 @@ const SettingsSchema = CollectionSchema(
       name: r'amoledTheme',
       type: IsarType.bool,
     ),
-    r'isImage': PropertySchema(
+    r'firstDay': PropertySchema(
       id: 1,
+      name: r'firstDay',
+      type: IsarType.string,
+    ),
+    r'isImage': PropertySchema(
+      id: 2,
       name: r'isImage',
       type: IsarType.bool,
     ),
     r'language': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'language',
       type: IsarType.string,
     ),
     r'materialColor': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'materialColor',
       type: IsarType.bool,
     ),
     r'onboard': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'onboard',
       type: IsarType.bool,
     ),
     r'theme': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'theme',
       type: IsarType.string,
     ),
     r'timeformat': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'timeformat',
       type: IsarType.string,
     )
@@ -74,6 +79,12 @@ int _settingsEstimateSize(
 ) {
   var bytesCount = offsets.last;
   {
+    final value = object.firstDay;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
     final value = object.language;
     if (value != null) {
       bytesCount += 3 + value.length * 3;
@@ -96,12 +107,13 @@ void _settingsSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeBool(offsets[0], object.amoledTheme);
-  writer.writeBool(offsets[1], object.isImage);
-  writer.writeString(offsets[2], object.language);
-  writer.writeBool(offsets[3], object.materialColor);
-  writer.writeBool(offsets[4], object.onboard);
-  writer.writeString(offsets[5], object.theme);
-  writer.writeString(offsets[6], object.timeformat);
+  writer.writeString(offsets[1], object.firstDay);
+  writer.writeBool(offsets[2], object.isImage);
+  writer.writeString(offsets[3], object.language);
+  writer.writeBool(offsets[4], object.materialColor);
+  writer.writeBool(offsets[5], object.onboard);
+  writer.writeString(offsets[6], object.theme);
+  writer.writeString(offsets[7], object.timeformat);
 }
 
 Settings _settingsDeserialize(
@@ -112,13 +124,14 @@ Settings _settingsDeserialize(
 ) {
   final object = Settings();
   object.amoledTheme = reader.readBool(offsets[0]);
+  object.firstDay = reader.readStringOrNull(offsets[1]);
   object.id = id;
-  object.isImage = reader.readBoolOrNull(offsets[1]);
-  object.language = reader.readStringOrNull(offsets[2]);
-  object.materialColor = reader.readBool(offsets[3]);
-  object.onboard = reader.readBool(offsets[4]);
-  object.theme = reader.readStringOrNull(offsets[5]);
-  object.timeformat = reader.readString(offsets[6]);
+  object.isImage = reader.readBoolOrNull(offsets[2]);
+  object.language = reader.readStringOrNull(offsets[3]);
+  object.materialColor = reader.readBool(offsets[4]);
+  object.onboard = reader.readBool(offsets[5]);
+  object.theme = reader.readStringOrNull(offsets[6]);
+  object.timeformat = reader.readString(offsets[7]);
   return object;
 }
 
@@ -132,16 +145,18 @@ P _settingsDeserializeProp<P>(
     case 0:
       return (reader.readBool(offset)) as P;
     case 1:
-      return (reader.readBoolOrNull(offset)) as P;
-    case 2:
       return (reader.readStringOrNull(offset)) as P;
+    case 2:
+      return (reader.readBoolOrNull(offset)) as P;
     case 3:
-      return (reader.readBool(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 4:
       return (reader.readBool(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 6:
+      return (reader.readStringOrNull(offset)) as P;
+    case 7:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -243,6 +258,152 @@ extension SettingsQueryFilter
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'amoledTheme',
         value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'firstDay',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'firstDay',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'firstDay',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'firstDay',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'firstDay',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'firstDay',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'firstDay',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'firstDay',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'firstDay',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'firstDay',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'firstDay',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'firstDay',
+        value: '',
       ));
     });
   }
@@ -788,6 +949,18 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFirstDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByFirstDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstDay', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByIsImage() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'isImage', Sort.asc);
@@ -872,6 +1045,18 @@ extension SettingsQuerySortThenBy
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByAmoledThemeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'amoledTheme', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFirstDay() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstDay', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByFirstDayDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'firstDay', Sort.desc);
     });
   }
 
@@ -968,6 +1153,13 @@ extension SettingsQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByFirstDay(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'firstDay', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByIsImage() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'isImage');
@@ -1019,6 +1211,12 @@ extension SettingsQueryProperty
   QueryBuilder<Settings, bool, QQueryOperations> amoledThemeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'amoledTheme');
+    });
+  }
+
+  QueryBuilder<Settings, String?, QQueryOperations> firstDayProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'firstDay');
     });
   }
 
