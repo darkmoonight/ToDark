@@ -60,10 +60,12 @@ class _TodoCardState extends State<TodoCard> {
                             innerState(() {
                               widget.todo.done = val!;
                             });
+                            DateTime? date = widget.todo.todoCompletedTime;
                             widget.todo.done
                                 ? flutterLocalNotificationsPlugin
                                     .cancel(widget.todo.id)
-                                : widget.todo.todoCompletedTime != null
+                                : (date != null &&
+                                        DateTime.now().isBefore(date))
                                     ? NotificationShow().showNotification(
                                         widget.todo.id,
                                         widget.todo.name,

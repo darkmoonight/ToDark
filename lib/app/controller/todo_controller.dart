@@ -194,7 +194,7 @@ class TodoController extends GetxController {
         isar.todos.putSync(todosCreate);
         todosCreate.task.saveSync();
       });
-      if (time.isNotEmpty) {
+      if (date != null && now.isBefore(date)) {
         NotificationShow().showNotification(
           todosCreate.id,
           todosCreate.name,
@@ -247,7 +247,7 @@ class TodoController extends GetxController {
     todos[oldIdx] = newTodo;
     todos.refresh();
 
-    if (time.isNotEmpty) {
+    if (date != null && now.isBefore(date)) {
       await flutterLocalNotificationsPlugin.cancel(todo.id);
       NotificationShow().showNotification(
         todo.id,
