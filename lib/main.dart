@@ -243,6 +243,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             home: settings.onboard ? const HomePage() : const OnBording(),
             builder: EasyLoading.init(),
+            title: 'ToDark',
           );
         },
       ),
