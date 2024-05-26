@@ -12,7 +12,7 @@ class Settings {
   bool amoledTheme = false;
   bool? isImage = true;
   String? language;
-  String? firstDay = 'monday';
+  String firstDay = 'monday';
 }
 
 @collection

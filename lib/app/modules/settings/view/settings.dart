@@ -228,7 +228,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 icon: const Icon(Iconsax.calendar_edit),
                                 text: 'firstDayOfWeek'.tr,
                                 dropdown: true,
-                                dropdownName: settings.firstDay?.tr,
+                                dropdownName: settings.firstDay.tr,
                                 dropdownList: <String>[
                                   'monday'.tr,
                                   'tuesday'.tr,

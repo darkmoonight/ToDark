@@ -105,11 +105,6 @@ Future<void> initSettings() async {
     isar.writeTxnSync(() => isar.settings.putSync(settings));
   }
 
-  if (settings.firstDay == null) {
-    settings.theme = 'monday';
-    isar.writeTxnSync(() => isar.settings.putSync(settings));
-  }
-
   if (settings.isImage == null) {
     settings.isImage = true;
     isar.writeTxnSync(() => isar.settings.putSync(settings));
@@ -198,7 +193,7 @@ class _MyAppState extends State<MyApp> {
     amoledTheme = settings.amoledTheme;
     materialColor = settings.materialColor;
     timeformat = settings.timeformat;
-    firstDay = settings.firstDay!;
+    firstDay = settings.firstDay;
     isImage = settings.isImage!;
     locale = Locale(
         settings.language!.substring(0, 2), settings.language!.substring(3));

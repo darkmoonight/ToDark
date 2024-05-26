@@ -78,12 +78,7 @@ int _settingsEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.firstDay;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.firstDay.length * 3;
   {
     final value = object.language;
     if (value != null) {
@@ -124,7 +119,7 @@ Settings _settingsDeserialize(
 ) {
   final object = Settings();
   object.amoledTheme = reader.readBool(offsets[0]);
-  object.firstDay = reader.readStringOrNull(offsets[1]);
+  object.firstDay = reader.readString(offsets[1]);
   object.id = id;
   object.isImage = reader.readBoolOrNull(offsets[2]);
   object.language = reader.readStringOrNull(offsets[3]);
@@ -145,7 +140,7 @@ P _settingsDeserializeProp<P>(
     case 0:
       return (reader.readBool(offset)) as P;
     case 1:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 2:
       return (reader.readBoolOrNull(offset)) as P;
     case 3:
@@ -262,24 +257,8 @@ extension SettingsQueryFilter
     });
   }
 
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'firstDay',
-      ));
-    });
-  }
-
-  QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'firstDay',
-      ));
-    });
-  }
-
   QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -292,7 +271,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -307,7 +286,7 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -322,8 +301,8 @@ extension SettingsQueryFilter
   }
 
   QueryBuilder<Settings, Settings, QAfterFilterCondition> firstDayBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1214,7 +1193,7 @@ extension SettingsQueryProperty
     });
   }
 
-  QueryBuilder<Settings, String?, QQueryOperations> firstDayProperty() {
+  QueryBuilder<Settings, String, QQueryOperations> firstDayProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'firstDay');
     });
