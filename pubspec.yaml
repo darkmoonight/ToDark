@@ -54,7 +54,7 @@ dev_dependencies:
   flutter_native_splash: ^2.4.0
   flutter_launcher_icons: ^0.13.1
 
-flutter_icons:
+flutter_launcher_icons:
   android: true
   image_path: "assets/icons/icon.png"
   adaptive_icon_background: "#181818"
