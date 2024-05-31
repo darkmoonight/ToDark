@@ -40,12 +40,13 @@ final List appLanguages = [
   {'name': 'Español', 'locale': const Locale('es', 'ES')},
   {'name': 'Français', 'locale': const Locale('fr', 'FR')},
   {'name': 'Italiano', 'locale': const Locale('it', 'IT')},
+  {'name': '한국어', 'locale': const Locale('ko', 'KR')},
   {'name': 'فارسی', 'locale': const Locale('fa', 'IR')},
   {'name': 'Русский', 'locale': const Locale('ru', 'RU')},
   {'name': 'Tiếng việt', 'locale': const Locale('vi', 'VN')},
   {'name': 'Türkçe', 'locale': const Locale('tr', 'TR')},
-  {'name': '中文', 'locale': const Locale('zh', 'CN')},
-  {'name': '中国传统台湾', 'locale': const Locale('zh', 'TW')},
+  {'name': '中文(简体)', 'locale': const Locale('zh', 'CN')},
+  {'name': '中文(繁體)', 'locale': const Locale('zh', 'TW')},
 ];
 
 void main() async {

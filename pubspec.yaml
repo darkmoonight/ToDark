@@ -3,7 +3,7 @@ description: Task management application
 
 publish_to: "none"
 
-version: 1.5.0+40
+version: 1.5.1+41
 
 environment:
   sdk: ">=3.4.1 <4.0.0"
