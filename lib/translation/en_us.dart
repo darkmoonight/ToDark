@@ -56,7 +56,7 @@ class EnUs {
         'notFound': 'Nothing found',
         'settings': 'Settings',
         'backup': 'Backup of user data',
-        'restore': 'Restore User data',
+        'restore': 'Restore user data',
         'deleteAllBD': 'Delete all data',
         'deleteAllBDTitle': 'Deleting data',
         'deleteAllBDQuery': 'Are you sure you want to delete all the data?',

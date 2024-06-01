@@ -168,11 +168,6 @@ class _TasksActionState extends State<TasksAction> {
                 labelText: 'name'.tr,
                 type: TextInputType.text,
                 icon: const Icon(Iconsax.edit_2),
-                onChanged: (text) {
-                  setState(() {
-                    todoController.titleCategoryEdit.text = text;
-                  });
-                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'validateName'.tr;
@@ -188,11 +183,6 @@ class _TasksActionState extends State<TasksAction> {
                 type: TextInputType.multiline,
                 icon: const Icon(Iconsax.note_text),
                 maxLine: null,
-                onChanged: (text) {
-                  setState(() {
-                    todoController.descCategoryEdit.text = text;
-                  });
-                },
               ),
               Card(
                 elevation: 4,

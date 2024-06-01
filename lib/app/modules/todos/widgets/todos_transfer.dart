@@ -114,7 +114,6 @@ class _TodosTransferState extends State<TodosTransfer> {
                     elevation: 4,
                     margin:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                    onChanged: (value) => setState(() {}),
                     controller: todoController.transferTodoConroller,
                     focusNode: focusNode,
                     labelText: 'selectCategory'.tr,

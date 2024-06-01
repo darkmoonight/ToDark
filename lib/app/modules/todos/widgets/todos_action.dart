@@ -233,7 +233,6 @@ class _TodosActionState extends State<TodosAction> {
                           elevation: 4,
                           margin: const EdgeInsets.symmetric(
                               horizontal: 10, vertical: 5),
-                          onChanged: (value) => setState(() {}),
                           controller: todoController.textTodoConroller,
                           focusNode: focusNode,
                           labelText: 'selectCategory'.tr,
@@ -320,11 +319,6 @@ class _TodosActionState extends State<TodosAction> {
                 labelText: 'name'.tr,
                 type: TextInputType.multiline,
                 icon: const Icon(Iconsax.edit_2),
-                onChanged: (text) {
-                  setState(() {
-                    todoController.titleTodoEdit.text = text;
-                  });
-                },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'validateName'.tr;
@@ -341,20 +335,10 @@ class _TodosActionState extends State<TodosAction> {
                 type: TextInputType.multiline,
                 icon: const Icon(Iconsax.note_text),
                 maxLine: null,
-                onChanged: (text) {
-                  setState(() {
-                    todoController.descTodoEdit.text = text;
-                  });
-                },
               ),
               MyTextForm(
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                onChanged: (text) {
-                  setState(() {
-                    todoController.timeTodoEdit.text = text;
-                  });
-                },
                 readOnly: true,
                 controller: todoController.timeTodoEdit,
                 labelText: 'timeComplete'.tr,
