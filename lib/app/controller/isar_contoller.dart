@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
+import 'package:file_selector/file_selector.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +32,7 @@ class IsarController {
   }
 
   Future<void> createBackUp() async {
-    final backUpDir = await FilePicker.platform.getDirectoryPath();
+    final backUpDir = await getDirectoryPath();
 
     if (backUpDir == null) {
       EasyLoading.showInfo('errorPath'.tr);
@@ -41,15 +41,14 @@ class IsarController {
 
     try {
       final timeStamp = DateFormat('yyyyMMdd_HHmmss').format(now);
-
       final backupFileName = 'backup_todark_db$timeStamp.isar';
+      final backUpFile = File('$backUpDir/$backupFileName');
 
-      final File backUpFile = File('$backUpDir/$backupFileName');
       if (await backUpFile.exists()) {
         await backUpFile.delete();
       }
 
-      await isar.copyToFile('$backUpDir/$backupFileName');
+      await isar.copyToFile(backUpFile.path);
       EasyLoading.showSuccess('successBackup'.tr);
     } catch (e) {
       EasyLoading.showError('error'.tr);
@@ -59,24 +58,24 @@ class IsarController {
 
   Future<void> restoreDB() async {
     final dbDirectory = await getApplicationSupportDirectory();
-    final backupDirectory = await FilePicker.platform.pickFiles();
+    final XFile? backupFile = await openFile();
 
-    if (backupDirectory == null) {
+    if (backupFile == null) {
       EasyLoading.showInfo('errorPathRe'.tr);
       return;
     }
 
     try {
       await isar.close();
-
-      final dbFile = File('${backupDirectory.files.single.path}');
+      final dbFile = File(backupFile.path);
       final dbPath = p.join(dbDirectory.path, 'default.isar');
 
       if (await dbFile.exists()) {
         await dbFile.copy(dbPath);
       }
       EasyLoading.showSuccess('successRestoreCategory'.tr);
-      Future.delayed(const Duration(milliseconds: 500), () => Restart.restartApp());
+      Future.delayed(
+          const Duration(milliseconds: 500), () => Restart.restartApp());
     } catch (e) {
       EasyLoading.showError('error'.tr);
       return Future.error(e);
