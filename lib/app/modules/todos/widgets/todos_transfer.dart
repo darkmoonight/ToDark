@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:isar/isar.dart';
@@ -194,7 +195,7 @@ class _TodosTransferState extends State<TodosTransfer> {
                     );
                   },
                 ),
-                const SizedBox(height: 10),
+                const Gap(10),
               ],
             ),
           ),

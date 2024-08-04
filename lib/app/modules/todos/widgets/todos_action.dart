@@ -1,5 +1,6 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
@@ -413,7 +414,7 @@ class _TodosActionState extends State<TodosAction> {
                     ).show(context);
                   },
                 ),
-                const SizedBox(height: 10),
+                const Gap(10),
               ],
             ),
           ),

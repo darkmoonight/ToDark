@@ -1,3 +1,4 @@
+import 'package:gap/gap.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/modules/home.dart';
 import 'package:todark/app/widgets/button.dart';
@@ -165,7 +166,7 @@ class OnboardContent extends StatelessWidget {
                 style: context.textTheme.titleLarge
                     ?.copyWith(fontWeight: FontWeight.w600),
               ),
-              const SizedBox(height: 10),
+              const Gap(10),
               SizedBox(
                 width: 300,
                 child: Text(

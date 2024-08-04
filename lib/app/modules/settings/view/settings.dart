@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -174,7 +175,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                         newIsImage: value);
                                   },
                                 ),
-                                const SizedBox(height: 10),
+                                const Gap(10),
                               ],
                             ),
                           );
@@ -330,7 +331,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     ),
                                   ),
                                 ),
-                                const SizedBox(height: 10),
+                                const Gap(10),
                               ],
                             ),
                           );
@@ -397,7 +398,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   );
                                 },
                               ),
-                              const SizedBox(height: 10),
+                              const Gap(10),
                             ],
                           );
                         },
@@ -461,7 +462,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     }
                                   },
                                 ),
-                                const SizedBox(height: 10),
+                                const Gap(10),
                               ],
                             ),
                           );
@@ -526,7 +527,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                     }
                                   },
                                 ),
-                                const SizedBox(height: 10),
+                                const Gap(10),
                               ],
                             ),
                           );
