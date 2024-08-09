@@ -47,7 +47,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
     return Obx(
       () => PopScope(
         canPop: todoController.isPop.value,
-        onPopInvoked: (didPop) {
+        onPopInvokedWithResult: (didPop, value) {
           if (didPop) {
             return;
           }

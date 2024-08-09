@@ -35,7 +35,7 @@ class _AllTodosState extends State<AllTodos> {
     return Obx(
       () => PopScope(
         canPop: todoController.isPop.value,
-        onPopInvoked: (didPop) {
+        onPopInvokedWithResult: (didPop, value) {
           if (didPop) {
             return;
           }
@@ -180,8 +180,7 @@ class _AllTodosState extends State<AllTodos> {
                           isScrollable: true,
                           dividerColor: Colors.transparent,
                           splashFactory: NoSplash.splashFactory,
-                          overlayColor:
-                              WidgetStateProperty.resolveWith<Color?>(
+                          overlayColor: WidgetStateProperty.resolveWith<Color?>(
                             (Set<WidgetState> states) {
                               return Colors.transparent;
                             },

@@ -47,6 +47,7 @@ class Todos {
   bool fix;
 
   final task = IsarLink<Tasks>();
+  final subtasks = IsarLinks<Todos>();
 
   Todos({
     this.id = Isar.autoIncrement,

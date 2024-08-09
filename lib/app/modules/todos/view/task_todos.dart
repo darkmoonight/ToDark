@@ -42,7 +42,7 @@ class _TodosTaskState extends State<TodosTask> {
     return Obx(
       () => PopScope(
         canPop: todoController.isPop.value,
-        onPopInvoked: (didPop) {
+        onPopInvokedWithResult: (didPop, value) {
           if (didPop) {
             return;
           }

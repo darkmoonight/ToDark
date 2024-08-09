@@ -2205,6 +2205,12 @@ const TodosSchema = CollectionSchema(
       name: r'task',
       target: r'Tasks',
       single: true,
+    ),
+    r'subtasks': LinkSchema(
+      id: -3095455821402371742,
+      name: r'subtasks',
+      target: r'Todos',
+      single: false,
     )
   },
   embeddedSchemas: {},
@@ -2282,12 +2288,13 @@ Id _todosGetId(Todos object) {
 }
 
 List<IsarLinkBase<dynamic>> _todosGetLinks(Todos object) {
-  return [object.task];
+  return [object.task, object.subtasks];
 }
 
 void _todosAttach(IsarCollection<dynamic> col, Id id, Todos object) {
   object.id = id;
   object.task.attach(col, col.isar.collection<Tasks>(), r'task', id);
+  object.subtasks.attach(col, col.isar.collection<Todos>(), r'subtasks', id);
 }
 
 extension TodosQueryWhereSort on QueryBuilder<Todos, Todos, QWhere> {
@@ -2778,6 +2785,62 @@ extension TodosQueryLinks on QueryBuilder<Todos, Todos, QFilterCondition> {
   QueryBuilder<Todos, Todos, QAfterFilterCondition> taskIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'task', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasks(
+      FilterQuery<Todos> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'subtasks');
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthEqualTo(
+      int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subtasks', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subtasks', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subtasks', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subtasks', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'subtasks', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'subtasks', lower, includeLower, upper, includeUpper);
     });
   }
 }
