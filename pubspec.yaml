@@ -6,7 +6,7 @@ publish_to: "none"
 version: 1.5.2+42
 
 environment:
-  sdk: ">=3.5.0 <4.0.0"
+  sdk: ">=3.5.1 <4.0.0"
 
 dependencies:
   flutter:
@@ -17,9 +17,6 @@ dependencies:
   gap: ^3.0.1
   path: ^1.9.0
   intl: ^0.19.0
-  isar:
-    version: ^3.1.7
-    hosted: https://pub.isar-community.dev/
   iconsax: ^0.0.8
   timezone: ^0.9.4
   # workmanager: ^0.5.2
@@ -33,28 +30,31 @@ dependencies:
   path_provider: ^2.1.4
   file_selector: ^1.0.3
   table_calendar: ^3.1.2
-  flutter_timezone: ^2.1.0
+  flutter_timezone: ^3.0.0
   device_info_plus: ^10.1.2
   package_info_plus: ^8.0.2
   flex_color_picker: ^3.5.1
-  isar_flutter_libs:
-    version: ^3.1.7
-    hosted: https://pub.isar-community.dev/
   flutter_easyloading: ^3.0.5
   flutter_displaymode: ^0.6.0
   sleek_circular_slider: ^2.0.1
   flutter_local_notifications: ^17.2.2
+  isar:
+    version: ^3.1.8
+    hosted: https://pub.isar-community.dev/
+  isar_flutter_libs:
+    version: ^3.1.8
+    hosted: https://pub.isar-community.dev/
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.4.12
   flutter_lints: ^4.0.0
-  isar_generator: 
-    version: ^3.1.7
-    hosted: https://pub.isar-community.dev/
   flutter_native_splash: ^2.4.1
   flutter_launcher_icons: ^0.13.1
+  isar_generator:
+    version: ^3.1.8
+    hosted: https://pub.isar-community.dev/
 
 flutter_launcher_icons:
   android: true
@@ -72,7 +72,15 @@ flutter:
   generate: false
   uses-material-design: true
 
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: assets/fonts/Ubuntu-Bold.ttf
+        - asset: assets/fonts/Ubuntu-Medium.ttf
+        - asset: assets/fonts/Ubuntu-Regular.ttf
+        - asset: assets/fonts/Ubuntu-Light.ttf
+
   assets:
     - assets/images/
     - assets/icons/
-    - assets/google_fonts/
+    - assets/fonts/
