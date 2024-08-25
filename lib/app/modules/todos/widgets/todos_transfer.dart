@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/data/schema.dart';
@@ -69,7 +69,7 @@ class _TodosTransferState extends State<TodosTransfer> {
                           Get.back();
                         },
                         icon: const Icon(
-                          Iconsax.close_square,
+                          IconsaxPlusLinear.close_square,
                           size: 20,
                         ),
                       ),
@@ -96,7 +96,7 @@ class _TodosTransferState extends State<TodosTransfer> {
                               }
                             },
                             icon: const Icon(
-                              Iconsax.tick_square,
+                              IconsaxPlusLinear.tick_square,
                               size: 20,
                             ),
                           ),
@@ -121,12 +121,12 @@ class _TodosTransferState extends State<TodosTransfer> {
                       focusNode: focusNode,
                       labelText: 'selectCategory'.tr,
                       type: TextInputType.text,
-                      icon: const Icon(Iconsax.folder_2),
+                      icon: const Icon(IconsaxPlusLinear.folder_2),
                       iconButton: todoController
                               .transferTodoConroller.text.isNotEmpty
                           ? IconButton(
                               icon: const Icon(
-                                Icons.close,
+                                IconsaxPlusLinear.close_circle,
                                 size: 18,
                               ),
                               onPressed: () {

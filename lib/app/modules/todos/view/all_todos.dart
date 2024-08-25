@@ -1,4 +1,4 @@
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/modules/todos/widgets/todos_list.dart';
 import 'package:todark/app/modules/todos/widgets/todos_transfer.dart';
@@ -51,7 +51,7 @@ class _AllTodosState extends State<AllTodos> {
                 ? IconButton(
                     onPressed: () => todoController.doMultiSelectionTodoClear(),
                     icon: const Icon(
-                      Iconsax.close_square,
+                      IconsaxPlusLinear.close_square,
                       size: 20,
                     ),
                   )
@@ -68,7 +68,7 @@ class _AllTodosState extends State<AllTodos> {
                 replacement: const Offstage(),
                 child: IconButton(
                   icon: const Icon(
-                    Iconsax.arrange_square,
+                    IconsaxPlusLinear.arrange_square,
                     size: 20,
                   ),
                   onPressed: () {
@@ -95,7 +95,7 @@ class _AllTodosState extends State<AllTodos> {
                 visible: todoController.selectedTodo.isNotEmpty,
                 child: IconButton(
                   icon: const Icon(
-                    Iconsax.trush_square,
+                    IconsaxPlusLinear.trash_square,
                     size: 20,
                   ),
                   onPressed: () async {
@@ -147,7 +147,7 @@ class _AllTodosState extends State<AllTodos> {
                       labelText: 'searchTodo'.tr,
                       type: TextInputType.text,
                       icon: const Icon(
-                        Iconsax.search_normal_1,
+                        IconsaxPlusLinear.search_normal_1,
                         size: 20,
                       ),
                       controller: searchTodos,
@@ -161,7 +161,7 @@ class _AllTodosState extends State<AllTodos> {
                                 applyFilter('');
                               },
                               icon: const Icon(
-                                Iconsax.close_circle,
+                                IconsaxPlusLinear.close_circle,
                                 color: Colors.grey,
                                 size: 20,
                               ),

@@ -1,9 +1,10 @@
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:todark/app/modules/todos/widgets/todos_list.dart';
+import 'package:todark/app/modules/todos/widgets/todos_transfer.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
 import 'package:todark/main.dart';
 
@@ -63,7 +64,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                 ? IconButton(
                     onPressed: () => todoController.doMultiSelectionTodoClear(),
                     icon: const Icon(
-                      Iconsax.close_square,
+                      IconsaxPlusLinear.close_square,
                       size: 20,
                     ),
                   )
@@ -77,9 +78,37 @@ class _CalendarTodosState extends State<CalendarTodos> {
             actions: [
               Visibility(
                 visible: todoController.selectedTodo.isNotEmpty,
+                replacement: const Offstage(),
                 child: IconButton(
                   icon: const Icon(
-                    Iconsax.trush_square,
+                    IconsaxPlusLinear.arrange_square,
+                    size: 20,
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      enableDrag: false,
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (BuildContext context) {
+                        return TodosTransfer(
+                          text: 'editing'.tr,
+                          todos: todoController.selectedTodo,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+              Visibility(
+                visible: todoController.selectedTodo.isNotEmpty,
+                child: IconButton(
+                  icon: const Icon(
+                    IconsaxPlusLinear.trash_square,
                     size: 20,
                   ),
                   onPressed: () async {

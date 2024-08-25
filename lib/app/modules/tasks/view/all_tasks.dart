@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/modules/tasks/widgets/task_list.dart';
 import 'package:todark/app/widgets/my_delegate.dart';
@@ -66,7 +66,7 @@ class _AllTasksState extends State<AllTasks>
                       onPressed: () =>
                           todoController.doMultiSelectionTaskClear(),
                       icon: const Icon(
-                        Iconsax.close_square,
+                        IconsaxPlusLinear.close_square,
                         size: 20,
                       ),
                     )
@@ -82,7 +82,7 @@ class _AllTasksState extends State<AllTasks>
                   visible: todoController.selectedTask.isNotEmpty,
                   child: IconButton(
                     icon: const Icon(
-                      Iconsax.trush_square,
+                      IconsaxPlusLinear.trash_square,
                       size: 20,
                     ),
                     onPressed: () async {
@@ -127,8 +127,8 @@ class _AllTasksState extends State<AllTasks>
                   child: IconButton(
                     icon: Icon(
                       tabController.index == 0
-                          ? Iconsax.archive_1
-                          : Iconsax.refresh_left_square,
+                          ? IconsaxPlusLinear.archive_1
+                          : IconsaxPlusLinear.refresh_left_square,
                       size: 20,
                     ),
                     onPressed: () async {
@@ -193,7 +193,7 @@ class _AllTasksState extends State<AllTasks>
                             labelText: 'searchCategory'.tr,
                             type: TextInputType.text,
                             icon: const Icon(
-                              Iconsax.search_normal_1,
+                              IconsaxPlusLinear.search_normal_1,
                               size: 20,
                             ),
                             controller: searchTasks,
@@ -207,7 +207,7 @@ class _AllTasksState extends State<AllTasks>
                                       applyFilter('');
                                     },
                                     icon: const Icon(
-                                      Iconsax.close_circle,
+                                      IconsaxPlusLinear.close_circle,
                                       color: Colors.grey,
                                       size: 20,
                                     ),

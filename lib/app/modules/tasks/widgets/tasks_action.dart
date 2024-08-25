@@ -1,4 +1,5 @@
 import 'package:gap/gap.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/services/utils.dart';
@@ -6,7 +7,6 @@ import 'package:todark/app/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class TasksAction extends StatefulWidget {
   const TasksAction({
@@ -98,7 +98,7 @@ class _TasksActionState extends State<TasksAction> {
                           }
                         },
                         icon: const Icon(
-                          Iconsax.close_square,
+                          IconsaxPlusLinear.close_square,
                           size: 20,
                         ),
                       ),
@@ -134,7 +134,7 @@ class _TasksActionState extends State<TasksAction> {
                           }
                         },
                         icon: const Icon(
-                          Iconsax.tick_square,
+                          IconsaxPlusLinear.tick_square,
                           size: 20,
                         ),
                       ),
@@ -148,7 +148,7 @@ class _TasksActionState extends State<TasksAction> {
                   controller: todoController.titleCategoryEdit,
                   labelText: 'name'.tr,
                   type: TextInputType.text,
-                  icon: const Icon(Iconsax.edit_2),
+                  icon: const Icon(IconsaxPlusLinear.edit),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'validateName'.tr;
@@ -163,7 +163,7 @@ class _TasksActionState extends State<TasksAction> {
                   controller: todoController.descCategoryEdit,
                   labelText: 'description'.tr,
                   type: TextInputType.multiline,
-                  icon: const Icon(Iconsax.note_text),
+                  icon: const Icon(IconsaxPlusLinear.note_text),
                   maxLine: null,
                 ),
                 Card(
@@ -190,7 +190,7 @@ class _TasksActionState extends State<TasksAction> {
                         myColor = newColor;
                       });
                     },
-                    leading: const Icon(Iconsax.colorfilter),
+                    leading: const Icon(IconsaxPlusLinear.colors_square),
                     title: Text(
                       'color'.tr,
                       style: context.textTheme.labelLarge,

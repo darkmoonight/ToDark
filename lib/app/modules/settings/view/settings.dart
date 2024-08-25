@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/controller/isar_contoller.dart';
@@ -32,11 +33,18 @@ class _SettingsPageState extends State<SettingsPage> {
     });
   }
 
-  updateLanguage(Locale locale) {
+  void updateLanguage(Locale locale) {
     settings.language = '$locale';
     isar.writeTxnSync(() => isar.settings.putSync(settings));
     Get.updateLocale(locale);
     Get.back();
+  }
+
+  void urlLauncher(String uri) async {
+    final Uri url = Uri.parse(uri);
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   String firstDayOfWeek(newValue) {
@@ -81,7 +89,7 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             SettingCard(
-              icon: const Icon(Iconsax.brush_1),
+              icon: const Icon(IconsaxPlusLinear.brush_1),
               text: 'appearance'.tr,
               onPressed: () {
                 showModalBottomSheet(
@@ -110,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.moon),
+                                  icon: const Icon(IconsaxPlusLinear.moon),
                                   text: 'theme'.tr,
                                   dropdown: true,
                                   dropdownName: settings.theme?.tr,
@@ -138,7 +146,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.mobile),
+                                  icon: const Icon(IconsaxPlusLinear.mobile),
                                   text: 'amoledTheme'.tr,
                                   switcher: true,
                                   value: settings.amoledTheme,
@@ -150,7 +158,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.colorfilter),
+                                  icon:
+                                      const Icon(IconsaxPlusLinear.colorfilter),
                                   text: 'materialColor'.tr,
                                   switcher: true,
                                   value: settings.materialColor,
@@ -162,7 +171,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.image),
+                                  icon: const Icon(IconsaxPlusLinear.image),
                                   text: 'isImages'.tr,
                                   switcher: true,
                                   value: settings.isImage,
@@ -187,7 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SettingCard(
-              icon: const Icon(Iconsax.code),
+              icon: const Icon(IconsaxPlusLinear.code_1),
               text: 'functions'.tr,
               onPressed: () {
                 showModalBottomSheet(
@@ -216,7 +225,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.clock),
+                                  icon: const Icon(IconsaxPlusLinear.clock_1),
                                   text: 'timeformat'.tr,
                                   dropdown: true,
                                   dropdownName: settings.timeformat.tr,
@@ -235,7 +244,8 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.calendar_edit),
+                                  icon: const Icon(
+                                      IconsaxPlusLinear.calendar_edit),
                                   text: 'firstDayOfWeek'.tr,
                                   dropdown: true,
                                   dropdownName: settings.firstDay.tr,
@@ -275,19 +285,21 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.cloud_plus),
+                                  icon:
+                                      const Icon(IconsaxPlusLinear.cloud_plus),
                                   text: 'backup'.tr,
                                   onPressed: isarController.createBackUp,
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.cloud_add),
+                                  icon: const Icon(IconsaxPlusLinear.cloud_add),
                                   text: 'restore'.tr,
                                   onPressed: isarController.restoreDB,
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.cloud_minus),
+                                  icon:
+                                      const Icon(IconsaxPlusLinear.cloud_minus),
                                   text: 'deleteAllBD'.tr,
                                   onPressed: () => showAdaptiveDialog(
                                     context: context,
@@ -343,7 +355,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SettingCard(
-              icon: const Icon(Iconsax.language_square),
+              icon: const Icon(IconsaxPlusLinear.language_square),
               text: 'language'.tr,
               info: true,
               infoSettings: true,
@@ -409,7 +421,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SettingCard(
-              icon: const Icon(Iconsax.dollar_square),
+              icon: const Icon(IconsaxPlusLinear.dollar_square),
               text: 'support'.tr,
               onPressed: () {
                 showModalBottomSheet(
@@ -438,29 +450,17 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.card),
+                                  icon: const Icon(IconsaxPlusLinear.card),
                                   text: 'DonationAlerts',
-                                  onPressed: () async {
-                                    final Uri url = Uri.parse(
-                                        'https://www.donationalerts.com/r/darkmoonight');
-                                    if (!await launchUrl(url,
-                                        mode: LaunchMode.externalApplication)) {
-                                      throw Exception('Could not launch $url');
-                                    }
-                                  },
+                                  onPressed: () => urlLauncher(
+                                      'https://www.donationalerts.com/r/darkmoonight'),
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.wallet),
+                                  icon: const Icon(IconsaxPlusLinear.wallet),
                                   text: 'ЮMoney',
-                                  onPressed: () async {
-                                    final Uri url = Uri.parse(
-                                        'https://yoomoney.ru/to/4100117672775961');
-                                    if (!await launchUrl(url,
-                                        mode: LaunchMode.externalApplication)) {
-                                      throw Exception('Could not launch $url');
-                                    }
-                                  },
+                                  onPressed: () => urlLauncher(
+                                      'https://yoomoney.ru/to/4100117672775961'),
                                 ),
                                 const Gap(10),
                               ],
@@ -474,7 +474,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SettingCard(
-              icon: const Icon(Iconsax.link_square),
+              icon: const Icon(IconsaxPlusLinear.link_square),
               text: 'groups'.tr,
               onPressed: () {
                 showModalBottomSheet(
@@ -503,29 +503,17 @@ class _SettingsPageState extends State<SettingsPage> {
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.voice_square),
+                                  icon: const Icon(LineAwesomeIcons.discord),
                                   text: 'Discord',
-                                  onPressed: () async {
-                                    final Uri url = Uri.parse(
-                                        'https://discord.gg/JMMa9aHh8f');
-                                    if (!await launchUrl(url,
-                                        mode: LaunchMode.externalApplication)) {
-                                      throw Exception('Could not launch $url');
-                                    }
-                                  },
+                                  onPressed: () => urlLauncher(
+                                      'https://discord.gg/JMMa9aHh8f'),
                                 ),
                                 SettingCard(
                                   elevation: 4,
-                                  icon: const Icon(Iconsax.message_square),
+                                  icon: const Icon(LineAwesomeIcons.telegram),
                                   text: 'Telegram',
-                                  onPressed: () async {
-                                    final Uri url =
-                                        Uri.parse('https://t.me/darkmoonightX');
-                                    if (!await launchUrl(url,
-                                        mode: LaunchMode.externalApplication)) {
-                                      throw Exception('Could not launch $url');
-                                    }
-                                  },
+                                  onPressed: () =>
+                                      urlLauncher('https://t.me/darkmoonightX'),
                                 ),
                                 const Gap(10),
                               ],
@@ -539,7 +527,7 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             SettingCard(
-              icon: const Icon(Iconsax.document),
+              icon: const Icon(IconsaxPlusLinear.document),
               text: 'license'.tr,
               onPressed: () => Get.to(
                 LicensePage(
@@ -559,25 +547,16 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
             SettingCard(
-              icon: const Icon(Iconsax.hierarchy_square_2),
+              icon: const Icon(IconsaxPlusLinear.hierarchy_square_2),
               text: 'version'.tr,
               info: true,
               textInfo: '$appVersion',
             ),
             SettingCard(
-              icon: Image.asset(
-                'assets/images/github.png',
-                scale: 20,
-              ),
+              icon: const Icon(LineAwesomeIcons.github),
               text: '${'project'.tr} GitHub',
-              onPressed: () async {
-                final Uri url =
-                    Uri.parse('https://github.com/DarkMooNight/ToDark');
-                if (!await launchUrl(url,
-                    mode: LaunchMode.externalApplication)) {
-                  throw Exception('Could not launch $url');
-                }
-              },
+              onPressed: () =>
+                  urlLauncher('https://github.com/DarkMooNight/ToDark'),
             ),
           ],
         ),

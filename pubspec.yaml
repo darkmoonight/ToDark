@@ -17,13 +17,13 @@ dependencies:
   gap: ^3.0.1
   path: ^1.9.0
   intl: ^0.19.0
-  iconsax: ^0.0.8
   timezone: ^0.9.4
   # workmanager: ^0.5.2
   # home_widget: ^0.6.0
   restart_app: ^1.2.1
   google_fonts: ^6.2.1
   url_launcher: ^6.3.0
+  iconsax_plus: ^1.0.0
   time_machine: ^0.9.17
   bottom_picker: ^2.8.0
   dynamic_color: ^1.7.0
@@ -36,6 +36,7 @@ dependencies:
   flex_color_picker: ^3.5.1
   flutter_easyloading: ^3.0.5
   flutter_displaymode: ^0.6.0
+  line_awesome_flutter: ^3.0.1
   sleek_circular_slider: ^2.0.1
   flutter_local_notifications: ^17.2.2
   isar:

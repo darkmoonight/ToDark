@@ -1,3 +1,4 @@
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/modules/tasks/widgets/tasks_action.dart';
@@ -8,7 +9,6 @@ import 'package:todark/app/widgets/my_delegate.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 
 class TodosTask extends StatefulWidget {
   const TodosTask({
@@ -58,7 +58,7 @@ class _TodosTaskState extends State<TodosTask> {
                 ? IconButton(
                     onPressed: () => todoController.doMultiSelectionTodoClear(),
                     icon: const Icon(
-                      Iconsax.close_square,
+                      IconsaxPlusLinear.close_square,
                       size: 20,
                     ),
                   )
@@ -67,7 +67,7 @@ class _TodosTaskState extends State<TodosTask> {
                       Get.back();
                     },
                     icon: const Icon(
-                      Iconsax.arrow_left_1,
+                      IconsaxPlusLinear.arrow_left_3,
                       size: 20,
                     ),
                   ),
@@ -99,7 +99,7 @@ class _TodosTaskState extends State<TodosTask> {
                 replacement: const Offstage(),
                 child: IconButton(
                   icon: const Icon(
-                    Iconsax.arrange_square,
+                    IconsaxPlusLinear.arrange_square,
                     size: 20,
                   ),
                   onPressed: () {
@@ -146,13 +146,13 @@ class _TodosTaskState extends State<TodosTask> {
                     );
                   },
                   icon: const Icon(
-                    Iconsax.edit,
+                    IconsaxPlusLinear.edit,
                     size: 20,
                   ),
                 ),
                 child: IconButton(
                   icon: const Icon(
-                    Iconsax.trush_square,
+                    IconsaxPlusLinear.trash_square,
                     size: 20,
                   ),
                   onPressed: () async {
@@ -205,7 +205,7 @@ class _TodosTaskState extends State<TodosTask> {
                         labelText: 'searchTodo'.tr,
                         type: TextInputType.text,
                         icon: const Icon(
-                          Iconsax.search_normal_1,
+                          IconsaxPlusLinear.search_normal_1,
                           size: 20,
                         ),
                         controller: searchTodos,
@@ -219,7 +219,7 @@ class _TodosTaskState extends State<TodosTask> {
                                   applyFilter('');
                                 },
                                 icon: const Icon(
-                                  Iconsax.close_circle,
+                                  IconsaxPlusLinear.close_circle,
                                   color: Colors.grey,
                                   size: 20,
                                 ),
@@ -292,7 +292,7 @@ class _TodosTaskState extends State<TodosTask> {
                 },
               );
             },
-            child: const Icon(Iconsax.add),
+            child: const Icon(IconsaxPlusLinear.add),
           ),
         ),
       ),

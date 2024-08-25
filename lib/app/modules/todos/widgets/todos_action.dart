@@ -1,6 +1,7 @@
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gap/gap.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/data/schema.dart';
@@ -8,7 +9,6 @@ import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:todark/main.dart';
 
 class TodosAction extends StatefulWidget {
@@ -156,7 +156,7 @@ class _TodosActionState extends State<TodosAction> {
                           }
                         },
                         icon: const Icon(
-                          Iconsax.close_square,
+                          IconsaxPlusLinear.close_square,
                           size: 20,
                         ),
                       ),
@@ -177,7 +177,7 @@ class _TodosActionState extends State<TodosAction> {
                                     setState(() {});
                                   },
                                   icon: const Icon(
-                                    Iconsax.attach_square,
+                                    IconsaxPlusLinear.attach_square,
                                     size: 20,
                                   ),
                                 )
@@ -216,7 +216,7 @@ class _TodosActionState extends State<TodosAction> {
                               }
                             },
                             icon: const Icon(
-                              Iconsax.tick_square,
+                              IconsaxPlusLinear.tick_square,
                               size: 20,
                             ),
                           ),
@@ -241,12 +241,12 @@ class _TodosActionState extends State<TodosAction> {
                             focusNode: focusNode,
                             labelText: 'selectCategory'.tr,
                             type: TextInputType.text,
-                            icon: const Icon(Iconsax.folder_2),
+                            icon: const Icon(IconsaxPlusLinear.folder_2),
                             iconButton: todoController
                                     .textTodoConroller.text.isNotEmpty
                                 ? IconButton(
                                     icon: const Icon(
-                                      Icons.close,
+                                      IconsaxPlusLinear.close_circle,
                                       size: 18,
                                     ),
                                     onPressed: () {
@@ -326,7 +326,7 @@ class _TodosActionState extends State<TodosAction> {
                   controller: todoController.titleTodoEdit,
                   labelText: 'name'.tr,
                   type: TextInputType.multiline,
-                  icon: const Icon(Iconsax.edit_2),
+                  icon: const Icon(IconsaxPlusLinear.edit),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'validateName'.tr;
@@ -342,7 +342,7 @@ class _TodosActionState extends State<TodosAction> {
                   controller: todoController.descTodoEdit,
                   labelText: 'description'.tr,
                   type: TextInputType.multiline,
-                  icon: const Icon(Iconsax.note_text),
+                  icon: const Icon(IconsaxPlusLinear.note_text),
                   maxLine: null,
                 ),
                 MyTextForm(
@@ -353,11 +353,11 @@ class _TodosActionState extends State<TodosAction> {
                   controller: todoController.timeTodoEdit,
                   labelText: 'timeComplete'.tr,
                   type: TextInputType.datetime,
-                  icon: const Icon(Iconsax.clock),
+                  icon: const Icon(IconsaxPlusLinear.clock_1),
                   iconButton: todoController.timeTodoEdit.text.isNotEmpty
                       ? IconButton(
                           icon: const Icon(
-                            Icons.close,
+                            IconsaxPlusLinear.close_circle,
                             size: 18,
                           ),
                           onPressed: () {

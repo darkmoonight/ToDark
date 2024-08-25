@@ -1,8 +1,8 @@
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/modules/tasks/view/all_tasks.dart';
 import 'package:todark/app/modules/settings/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:todark/app/modules/tasks/widgets/tasks_action.dart';
 import 'package:todark/app/modules/todos/view/calendar_todos.dart';
 import 'package:todark/app/modules/todos/view/all_todos.dart';
@@ -45,23 +45,23 @@ class _HomePageState extends State<HomePage> {
         selectedIndex: tabIndex,
         destinations: [
           NavigationDestination(
-            icon: const Icon(Iconsax.folder_2),
-            selectedIcon: const Icon(Iconsax.folder_25),
+            icon: const Icon(IconsaxPlusLinear.folder_2),
+            selectedIcon: const Icon(IconsaxPlusBold.folder_2),
             label: 'categories'.tr,
           ),
           NavigationDestination(
-            icon: const Icon(Iconsax.task_square),
-            selectedIcon: const Icon(Iconsax.task_square5),
+            icon: const Icon(IconsaxPlusLinear.task_square),
+            selectedIcon: const Icon(IconsaxPlusBold.task_square),
             label: 'allTodos'.tr,
           ),
           NavigationDestination(
-            icon: const Icon(Iconsax.calendar_1),
-            selectedIcon: const Icon(Iconsax.calendar5),
+            icon: const Icon(IconsaxPlusLinear.calendar),
+            selectedIcon: const Icon(IconsaxPlusBold.calendar),
             label: 'calendar'.tr,
           ),
           NavigationDestination(
-            icon: const Icon(Iconsax.category),
-            selectedIcon: const Icon(Iconsax.category5),
+            icon: const Icon(IconsaxPlusLinear.category),
+            selectedIcon: const Icon(IconsaxPlusBold.category),
             label: 'settings'.tr,
           ),
         ],
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 );
               },
-              child: const Icon(Iconsax.add),
+              child: const Icon(IconsaxPlusLinear.add),
             ),
     );
   }
