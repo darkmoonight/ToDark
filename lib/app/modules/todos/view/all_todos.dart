@@ -74,7 +74,6 @@ class _AllTodosState extends State<AllTodos> {
                   onPressed: () {
                     showModalBottomSheet(
                       enableDrag: false,
-                      isDismissible: false,
                       context: context,
                       isScrollControlled: true,
                       shape: const RoundedRectangleBorder(

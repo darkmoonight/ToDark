@@ -117,7 +117,6 @@ class _TodosListState extends State<TodosList> {
                               ? todoController.doMultiSelectionTodo(todo)
                               : showModalBottomSheet(
                                   enableDrag: false,
-                                  isDismissible: false,
                                   context: context,
                                   isScrollControlled: true,
                                   builder: (BuildContext context) {

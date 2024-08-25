@@ -105,7 +105,6 @@ class _TodosTaskState extends State<TodosTask> {
                   onPressed: () {
                     showModalBottomSheet(
                       enableDrag: false,
-                      isDismissible: false,
                       context: context,
                       isScrollControlled: true,
                       shape: const RoundedRectangleBorder(
@@ -129,7 +128,6 @@ class _TodosTaskState extends State<TodosTask> {
                   onPressed: () {
                     showModalBottomSheet(
                       enableDrag: false,
-                      isDismissible: false,
                       context: context,
                       isScrollControlled: true,
                       shape: const RoundedRectangleBorder(
@@ -282,7 +280,6 @@ class _TodosTaskState extends State<TodosTask> {
             onPressed: () {
               showModalBottomSheet(
                 enableDrag: false,
-                isDismissible: false,
                 context: context,
                 isScrollControlled: true,
                 builder: (BuildContext context) {

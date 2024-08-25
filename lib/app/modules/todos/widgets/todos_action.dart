@@ -108,8 +108,8 @@ class _TodosActionState extends State<TodosAction> {
                     children: [
                       IconButton(
                         onPressed: () async {
-                          if (todoController.titleTodoEdit.text.length >= 40 ||
-                              todoController.descTodoEdit.text.length >= 40) {
+                          if (todoController.titleTodoEdit.text.length > 20 ||
+                              todoController.descTodoEdit.text.length > 20) {
                             await showAdaptiveDialog(
                               context: context,
                               builder: (BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:gap/gap.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/todo_controller.dart';
+import 'package:todark/app/services/utils.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -77,44 +78,17 @@ class _TasksActionState extends State<TasksAction> {
                     children: [
                       IconButton(
                         onPressed: () async {
-                          if (todoController.titleCategoryEdit.text.length >=
-                                  40 ||
-                              todoController.descCategoryEdit.text.length >=
-                                  40) {
-                            await showAdaptiveDialog(
+                          if (todoController.titleCategoryEdit.text.length >
+                                  20 ||
+                              todoController.descCategoryEdit.text.length >
+                                  20) {
+                            showAdaptiveDialogTextIsNotEmpty(
                               context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog.adaptive(
-                                  title: Text(
-                                    'clearText'.tr,
-                                    style: context.textTheme.titleLarge,
-                                  ),
-                                  content: Text('clearTextWarning'.tr,
-                                      style: context.textTheme.titleMedium),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () =>
-                                            Get.back(result: false),
-                                        child: Text('cancel'.tr,
-                                            style: context
-                                                .theme.textTheme.titleMedium
-                                                ?.copyWith(
-                                                    color: Colors.blueAccent))),
-                                    TextButton(
-                                        onPressed: () {
-                                          todoController.titleCategoryEdit
-                                              .clear();
-                                          todoController.descCategoryEdit
-                                              .clear();
-                                          Get.back(result: true);
-                                          Get.back();
-                                        },
-                                        child: Text('delete'.tr,
-                                            style: context
-                                                .theme.textTheme.titleMedium
-                                                ?.copyWith(color: Colors.red))),
-                                  ],
-                                );
+                              onPressed: () {
+                                todoController.titleCategoryEdit.clear();
+                                todoController.descCategoryEdit.clear();
+                                Get.back(result: true);
+                                Get.back();
                               },
                             );
                           } else {
