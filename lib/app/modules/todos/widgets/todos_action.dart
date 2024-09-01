@@ -1,10 +1,9 @@
-import 'package:bottom_picker/bottom_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/services/utils.dart';
@@ -315,48 +314,30 @@ class _TodosActionState extends State<TodosAction> {
           }
         });
       },
-      onPressed: () {
-        BottomPicker.dateTime(
-          titlePadding: const EdgeInsets.only(top: 10),
-          pickerTitle: Text(
-            'time'.tr,
-            style: context.textTheme.titleMedium!,
-          ),
-          pickerDescription: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              'timeDesc'.tr,
-              style: context.textTheme.labelLarge!.copyWith(color: Colors.grey),
-            ),
-          ),
-          titleAlignment: Alignment.centerLeft,
-          pickerTextStyle:
-              context.textTheme.labelMedium!.copyWith(fontSize: 15),
-          closeIconColor: Colors.red,
-          backgroundColor: context.theme.primaryColor,
-          onSubmit: (date) {
-            String formattedDate = timeformat == '12'
-                ? DateFormat.yMMMEd(locale.languageCode).add_jm().format(date)
-                : DateFormat.yMMMEd(locale.languageCode).add_Hm().format(date);
-            timeTodoEdit.text = formattedDate;
-            setState(() {
-              if (widget.edit) controller.time.value = formattedDate;
-            });
-          },
-          buttonContent: Text(
-            'select'.tr,
-            textAlign: TextAlign.center,
-          ),
-          buttonStyle: BoxDecoration(
-            color: context.theme.colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          minDateTime: DateTime.now(),
-          maxDateTime: DateTime.now().add(const Duration(days: 1000)),
-          initialDateTime: DateTime.now(),
-          use24hFormat: timeformat == '12' ? false : true,
-          dateOrder: DatePickerDateOrder.dmy,
-        ).show(context);
+      onPressed: () async {
+        DateTime? dateTime = await showOmniDateTimePicker(
+          context: context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 1000)),
+          is24HourMode: timeformat == '12' ? false : true,
+          minutesInterval: 1,
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          transitionDuration: const Duration(milliseconds: 200),
+        );
+        if (dateTime != null) {
+          String formattedDate = timeformat == '12'
+              ? DateFormat.yMMMEd(locale.languageCode).add_jm().format(dateTime)
+              : DateFormat.yMMMEd(locale.languageCode)
+                  .add_Hm()
+                  .format(dateTime);
+
+          timeTodoEdit.text = formattedDate;
+
+          setState(() {
+            if (widget.edit) controller.time.value = formattedDate;
+          });
+        }
       },
     );
 
@@ -415,8 +396,7 @@ class _TodosActionState extends State<TodosAction> {
                   descriptionInput,
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: attributes,
                   ),
                   Padding(

@@ -56,7 +56,7 @@ ThemeData lightTheme(
       surfaceTintColor:
           color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
       ),
       shadowColor: Colors.transparent,
     ),
@@ -144,7 +144,7 @@ ThemeData darkTheme(
       surfaceTintColor:
           color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(15),
       ),
       shadowColor: Colors.transparent,
     ),

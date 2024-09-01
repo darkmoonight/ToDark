@@ -222,8 +222,7 @@ class _TasksActionState extends State<TasksAction> {
                   descriptionInput,
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: attributes,
                   ),
                   Padding(

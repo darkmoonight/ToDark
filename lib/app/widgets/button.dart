@@ -28,7 +28,7 @@ class MyTextButton extends StatelessWidget {
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
-                Radius.circular(15),
+                Radius.circular(20),
               ),
             ),
           ),
