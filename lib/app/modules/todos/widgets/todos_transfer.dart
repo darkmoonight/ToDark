@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -5,6 +6,8 @@ import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/services/utils.dart';
+import 'package:todark/app/widgets/button.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:todark/main.dart';
 
@@ -26,6 +29,36 @@ class _TodosTransferState extends State<TodosTransfer> {
   final FocusNode focusNode = FocusNode();
   Tasks? selectedTask;
   final formKeyTransfer = GlobalKey<FormState>();
+  TextEditingController transferTodoConroller = TextEditingController();
+
+  late final _EditingController controller;
+
+  @override
+  initState() {
+    controller = _EditingController(selectedTask);
+    super.initState();
+  }
+
+  Future<void> onPopInvokedWithResult(bool didPop, dynamic result) async {
+    if (didPop) {
+      return;
+    } else if (!controller.canCompose.value) {
+      Get.back();
+      return;
+    }
+
+    final shouldPop = await showAdaptiveDialogTextIsNotEmpty(
+      context: context,
+      onPressed: () {
+        transferTodoConroller.clear();
+        Get.back(result: true);
+      },
+    );
+
+    if (shouldPop == true && mounted) {
+      Get.back();
+    }
+  }
 
   Future<List<Tasks>> getTaskAll(String pattern) async {
     List<Tasks> getTask;
@@ -37,170 +70,192 @@ class _TodosTransferState extends State<TodosTransfer> {
     }).toList();
   }
 
+  void onPressed() {
+    if (formKeyTransfer.currentState!.validate()) {
+      if (selectedTask != null) {
+        todoController.transferTodos(widget.todos, selectedTask!);
+        todoController.doMultiSelectionTodoClear();
+        transferTodoConroller.clear();
+        Get.back();
+      }
+    }
+  }
+
   @override
   void dispose() {
-    todoController.transferTodoConroller.clear();
+    transferTodoConroller.clear();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-      child: Form(
-        key: formKeyTransfer,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 5, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          todoController.doMultiSelectionTodoClear();
-                          Get.back();
-                        },
-                        icon: const Icon(
-                          IconsaxPlusLinear.close_square,
-                          size: 20,
-                        ),
-                      ),
-                      Text(
-                        widget.text,
-                        style: context.textTheme.titleLarge?.copyWith(
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (formKeyTransfer.currentState!.validate()) {
-                                if (selectedTask != null) {
-                                  todoController.transferTodos(
-                                      widget.todos, selectedTask!);
-                                  todoController.doMultiSelectionTodoClear();
-                                  todoController.transferTodoConroller.clear();
-                                  Get.back();
-                                }
-                              }
-                            },
-                            icon: const Icon(
-                              IconsaxPlusLinear.tick_square,
-                              size: 20,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+    final todoCategory = RawAutocomplete<Tasks>(
+      focusNode: focusNode,
+      optionsViewOpenDirection: OptionsViewOpenDirection.up,
+      textEditingController: transferTodoConroller,
+      fieldViewBuilder: (BuildContext context,
+          TextEditingController fieldTextEditingController,
+          FocusNode fieldFocusNode,
+          VoidCallback onFieldSubmitted) {
+        return MyTextForm(
+          elevation: 4,
+          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          controller: transferTodoConroller,
+          focusNode: focusNode,
+          labelText: 'selectCategory'.tr,
+          type: TextInputType.text,
+          icon: const Icon(IconsaxPlusLinear.folder_2),
+          iconButton: transferTodoConroller.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(
+                    IconsaxPlusLinear.close_square,
+                    size: 18,
                   ),
-                ),
-                RawAutocomplete<Tasks>(
-                  focusNode: focusNode,
-                  optionsViewOpenDirection: OptionsViewOpenDirection.up,
-                  textEditingController: todoController.transferTodoConroller,
-                  fieldViewBuilder: (BuildContext context,
-                      TextEditingController fieldTextEditingController,
-                      FocusNode fieldFocusNode,
-                      VoidCallback onFieldSubmitted) {
-                    return MyTextForm(
-                      elevation: 4,
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      controller: todoController.transferTodoConroller,
-                      focusNode: focusNode,
-                      labelText: 'selectCategory'.tr,
-                      type: TextInputType.text,
-                      icon: const Icon(IconsaxPlusLinear.folder_2),
-                      iconButton: todoController
-                              .transferTodoConroller.text.isNotEmpty
-                          ? IconButton(
-                              icon: const Icon(
-                                IconsaxPlusLinear.close_circle,
-                                size: 18,
-                              ),
-                              onPressed: () {
-                                todoController.transferTodoConroller.clear();
-                                setState(() {});
-                              },
-                            )
-                          : null,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'selectCategory'.tr;
-                        }
-                        return null;
-                      },
-                    );
+                  onPressed: () {
+                    transferTodoConroller.clear();
+                    setState(() {});
                   },
-                  optionsBuilder: (TextEditingValue textEditingValue) {
-                    if (textEditingValue.text.isEmpty) {
-                      return const Iterable<Tasks>.empty();
-                    }
-                    return getTaskAll(textEditingValue.text);
-                  },
-                  onSelected: (Tasks selection) {
-                    todoController.transferTodoConroller.text = selection.title;
-                    selectedTask = selection;
-                    focusNode.unfocus();
-                  },
-                  displayStringForOption: (Tasks option) => option.title,
-                  optionsViewBuilder: (BuildContext context,
-                      AutocompleteOnSelected<Tasks> onSelected,
-                      Iterable<Tasks> options) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Material(
-                          borderRadius: BorderRadius.circular(20),
-                          elevation: 4,
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemCount: options.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              final Tasks tasks = options.elementAt(index);
-                              return InkWell(
-                                onTap: () => onSelected(tasks),
-                                child: ListTile(
-                                  title: Text(
-                                    tasks.title,
-                                    style: context.textTheme.labelLarge,
-                                  ),
-                                  trailing: Container(
-                                    width: 10,
-                                    height: 10,
-                                    decoration: BoxDecoration(
-                                      color: Color(tasks.taskColor),
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
+                )
+              : null,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'selectCategory'.tr;
+            }
+            return null;
+          },
+        );
+      },
+      optionsBuilder: (TextEditingValue textEditingValue) {
+        if (textEditingValue.text.isEmpty) {
+          return const Iterable<Tasks>.empty();
+        }
+        return getTaskAll(textEditingValue.text);
+      },
+      onSelected: (Tasks selection) {
+        transferTodoConroller.text = selection.title;
+        selectedTask = selection;
+        setState(() {
+          controller.task.value = selectedTask;
+        });
+        focusNode.unfocus();
+      },
+      displayStringForOption: (Tasks option) => option.title,
+      optionsViewBuilder: (BuildContext context,
+          AutocompleteOnSelected<Tasks> onSelected, Iterable<Tasks> options) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Material(
+              borderRadius: BorderRadius.circular(20),
+              elevation: 4,
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: options.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final Tasks tasks = options.elementAt(index);
+                  return InkWell(
+                    onTap: () => onSelected(tasks),
+                    child: ListTile(
+                      title: Text(
+                        tasks.title,
+                        style: context.textTheme.labelLarge,
+                      ),
+                      trailing: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: Color(tasks.taskColor),
+                          shape: BoxShape.circle,
                         ),
                       ),
-                    );
-                  },
-                ),
-                const Gap(10),
-              ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      },
+    );
+
+    final submitButton = ValueListenableBuilder(
+      valueListenable: controller.canCompose,
+      builder: (context, canCompose, _) {
+        return MyTextButton(
+          buttonName: 'done'.tr,
+          onPressed: canCompose ? () => onPressed() : null,
+        );
+      },
+    );
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: onPopInvokedWithResult,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: Form(
+          key: formKeyTransfer,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 14, bottom: 7),
+                    child: Text(
+                      widget.text,
+                      style: context.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  todoCategory,
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: submitButton,
+                  ),
+                  const Gap(10),
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+class _EditingController extends ChangeNotifier {
+  _EditingController(
+    this.initialTask,
+  ) {
+    task.value = initialTask;
+
+    task.addListener(_updateCanCompose);
+  }
+
+  final Tasks? initialTask;
+
+  final task = ValueNotifier<Tasks?>(null);
+
+  final _canCompose = ValueNotifier(false);
+  ValueListenable<bool> get canCompose => _canCompose;
+
+  void _updateCanCompose() => _canCompose.value = (task.value != initialTask);
+
+  @override
+  void dispose() {
+    task.removeListener(_updateCanCompose);
+    super.dispose();
   }
 }

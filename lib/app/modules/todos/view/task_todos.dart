@@ -219,7 +219,7 @@ class _TodosTaskState extends State<TodosTask> {
                                   applyFilter('');
                                 },
                                 icon: const Icon(
-                                  IconsaxPlusLinear.close_circle,
+                                  IconsaxPlusLinear.close_square,
                                   color: Colors.grey,
                                   size: 20,
                                 ),

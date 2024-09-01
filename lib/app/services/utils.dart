@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void showAdaptiveDialogTextIsNotEmpty(
+Future<bool> showAdaptiveDialogTextIsNotEmpty(
     {required BuildContext context, required Function onPressed}) async {
-  await showAdaptiveDialog(
+  return await showAdaptiveDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog.adaptive(

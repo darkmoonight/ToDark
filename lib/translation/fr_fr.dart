@@ -116,5 +116,6 @@ class FrFr {
         'friday': 'Vendredi',
         'saturday': 'Samedi',
         'sunday': 'Dimanche',
+        'todoPined': 'Épingler',
       };
 }

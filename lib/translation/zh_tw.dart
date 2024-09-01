@@ -106,5 +106,6 @@ class ZhTw {
         'friday': '星期五',
         'saturday': '星期六',
         'sunday': '星期日',
+        'todoPined': '釘住',
       };
 }

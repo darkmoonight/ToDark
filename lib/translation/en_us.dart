@@ -111,5 +111,6 @@ class EnUs {
         'friday': 'Friday',
         'saturday': 'Saturday',
         'sunday': 'Sunday',
+        'todoPined': 'Pin',
       };
 }

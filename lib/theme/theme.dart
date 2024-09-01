@@ -50,6 +50,16 @@ ThemeData lightTheme(
     primaryColor: color,
     canvasColor: color,
     scaffoldBackgroundColor: color,
+    chipTheme: baseLigth.chipTheme.copyWith(
+      side: BorderSide.none,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      shadowColor: Colors.transparent,
+    ),
     cardTheme: baseLigth.cardTheme.copyWith(
       color: color,
       surfaceTintColor:
@@ -128,6 +138,16 @@ ThemeData darkTheme(
     primaryColor: color,
     canvasColor: color,
     scaffoldBackgroundColor: color,
+    chipTheme: baseDark.chipTheme.copyWith(
+      side: BorderSide.none,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor:
+          color == oledColor ? Colors.transparent : colorScheme?.surfaceTint,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      shadowColor: Colors.transparent,
+    ),
     cardTheme: baseDark.cardTheme.copyWith(
       color: color,
       surfaceTintColor:

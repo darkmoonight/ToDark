@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/data/schema.dart';
 import 'package:todark/app/controller/todo_controller.dart';
 import 'package:todark/app/services/utils.dart';
+import 'package:todark/app/widgets/button.dart';
 import 'package:todark/app/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
@@ -30,15 +32,23 @@ class _TasksActionState extends State<TasksAction> {
   final todoController = Get.put(TodoController());
   Color myColor = const Color(0xFF2196F3);
 
+  TextEditingController titleCategoryEdit = TextEditingController();
+  TextEditingController descCategoryEdit = TextEditingController();
+
+  late final _EditingController controller;
+
   @override
   initState() {
     if (widget.edit) {
-      todoController.titleCategoryEdit =
-          TextEditingController(text: widget.task!.title);
-      todoController.descCategoryEdit =
-          TextEditingController(text: widget.task!.description);
+      titleCategoryEdit = TextEditingController(text: widget.task!.title);
+      descCategoryEdit = TextEditingController(text: widget.task!.description);
       myColor = Color(widget.task!.taskColor);
     }
+    controller = _EditingController(
+      titleCategoryEdit.text,
+      descCategoryEdit.text,
+      myColor,
+    );
     super.initState();
   }
 
@@ -49,168 +59,226 @@ class _TasksActionState extends State<TasksAction> {
     }
   }
 
+  Future<void> onPopInvokedWithResult(bool didPop, dynamic result) async {
+    if (didPop) {
+      return;
+    } else if (!controller.canCompose.value) {
+      Get.back();
+      return;
+    }
+
+    final shouldPop = await showAdaptiveDialogTextIsNotEmpty(
+      context: context,
+      onPressed: () {
+        titleCategoryEdit.clear();
+        descCategoryEdit.clear();
+        Get.back(result: true);
+      },
+    );
+
+    if (shouldPop == true && mounted) {
+      Get.back();
+    }
+  }
+
+  void onPressed() {
+    if (formKey.currentState!.validate()) {
+      textTrim(titleCategoryEdit);
+      textTrim(descCategoryEdit);
+      if (widget.edit) {
+        todoController.updateTask(
+          widget.task!,
+          titleCategoryEdit.text,
+          descCategoryEdit.text,
+          myColor,
+        );
+        widget.updateTaskName!();
+      } else {
+        todoController.addTask(
+            titleCategoryEdit.text, descCategoryEdit.text, myColor);
+        titleCategoryEdit.clear();
+        descCategoryEdit.clear();
+      }
+      Get.back();
+    }
+  }
+
   @override
   void dispose() {
-    todoController.titleCategoryEdit.clear();
-    todoController.descCategoryEdit.clear();
+    titleCategoryEdit.clear();
+    descCategoryEdit.clear();
+    controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-      child: Form(
-        key: formKey,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).viewInsets.bottom,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, left: 5, right: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () async {
-                          if (todoController.titleCategoryEdit.text.length >
-                                  20 ||
-                              todoController.descCategoryEdit.text.length >
-                                  20) {
-                            showAdaptiveDialogTextIsNotEmpty(
-                              context: context,
-                              onPressed: () {
-                                todoController.titleCategoryEdit.clear();
-                                todoController.descCategoryEdit.clear();
-                                Get.back(result: true);
-                                Get.back();
-                              },
-                            );
-                          } else {
-                            todoController.titleCategoryEdit.clear();
-                            todoController.descCategoryEdit.clear();
-                            Get.back();
-                          }
-                        },
-                        icon: const Icon(
-                          IconsaxPlusLinear.close_square,
-                          size: 20,
-                        ),
+    final titleInput = MyTextForm(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      controller: titleCategoryEdit,
+      labelText: 'name'.tr,
+      type: TextInputType.text,
+      icon: const Icon(IconsaxPlusLinear.edit),
+      onChanged: (value) => controller.title.value = value,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'validateName'.tr;
+        }
+        return null;
+      },
+    );
+
+    final descriptionInput = MyTextForm(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      controller: descCategoryEdit,
+      labelText: 'description'.tr,
+      type: TextInputType.multiline,
+      icon: const Icon(IconsaxPlusLinear.note_text),
+      maxLine: null,
+      onChanged: (value) => controller.description.value = value,
+    );
+
+    final colorInput = ActionChip(
+      elevation: 4,
+      avatar: ColorIndicator(
+        height: 15,
+        width: 15,
+        borderRadius: 20,
+        color: myColor,
+        onSelectFocus: false,
+      ),
+      label: Text(
+        'color'.tr,
+        style: context.textTheme.labelLarge,
+        overflow: TextOverflow.visible,
+      ),
+      onPressed: () async {
+        final Color newColor = await showColorPickerDialog(
+          context,
+          myColor,
+          borderRadius: 20,
+          enableShadesSelection: false,
+          enableTonalPalette: true,
+          pickersEnabled: const <ColorPickerType, bool>{
+            ColorPickerType.accent: false,
+            ColorPickerType.primary: true,
+            ColorPickerType.wheel: false,
+            ColorPickerType.both: false,
+          },
+        );
+        setState(() {
+          myColor = newColor;
+          if (widget.edit) controller.color.value = newColor;
+        });
+      },
+    );
+
+    final submitButton = ValueListenableBuilder(
+      valueListenable: controller.canCompose,
+      builder: (context, canCompose, _) {
+        return MyTextButton(
+          buttonName: 'done'.tr,
+          onPressed: canCompose ? () => onPressed() : null,
+        );
+      },
+    );
+
+    final attributes = Row(
+      children: [
+        colorInput,
+      ],
+    );
+
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: onPopInvokedWithResult,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+        child: Form(
+          key: formKey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 14, bottom: 7),
+                    child: Text(
+                      widget.text,
+                      style: context.textTheme.titleLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
                       ),
-                      Text(
-                        widget.text,
-                        style: context.textTheme.titleLarge?.copyWith(
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          if (formKey.currentState!.validate()) {
-                            textTrim(todoController.titleCategoryEdit);
-                            textTrim(todoController.descCategoryEdit);
-                            if (widget.edit) {
-                              todoController.updateTask(
-                                widget.task!,
-                                todoController.titleCategoryEdit.text,
-                                todoController.descCategoryEdit.text,
-                                myColor,
-                              );
-                              widget.updateTaskName!();
-                            } else {
-                              todoController.addTask(
-                                  todoController.titleCategoryEdit.text,
-                                  todoController.descCategoryEdit.text,
-                                  myColor);
-                              todoController.titleCategoryEdit.clear();
-                              todoController.descCategoryEdit.clear();
-                            }
-                            Get.back();
-                          }
-                        },
-                        icon: const Icon(
-                          IconsaxPlusLinear.tick_square,
-                          size: 20,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                MyTextForm(
-                  elevation: 4,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  controller: todoController.titleCategoryEdit,
-                  labelText: 'name'.tr,
-                  type: TextInputType.text,
-                  icon: const Icon(IconsaxPlusLinear.edit),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'validateName'.tr;
-                    }
-                    return null;
-                  },
-                ),
-                MyTextForm(
-                  elevation: 4,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  controller: todoController.descCategoryEdit,
-                  labelText: 'description'.tr,
-                  type: TextInputType.multiline,
-                  icon: const Icon(IconsaxPlusLinear.note_text),
-                  maxLine: null,
-                ),
-                Card(
-                  elevation: 4,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: ListTile(
-                    splashColor: Colors.transparent,
-                    onTap: () async {
-                      final Color newColor = await showColorPickerDialog(
-                        context,
-                        myColor,
-                        borderRadius: 20,
-                        enableShadesSelection: false,
-                        enableTonalPalette: true,
-                        pickersEnabled: const <ColorPickerType, bool>{
-                          ColorPickerType.accent: false,
-                          ColorPickerType.primary: true,
-                          ColorPickerType.wheel: false,
-                          ColorPickerType.both: false,
-                        },
-                      );
-                      setState(() {
-                        myColor = newColor;
-                      });
-                    },
-                    leading: const Icon(IconsaxPlusLinear.colors_square),
-                    title: Text(
-                      'color'.tr,
-                      style: context.textTheme.labelLarge,
-                      overflow: TextOverflow.visible,
-                    ),
-                    trailing: ColorIndicator(
-                      height: 25,
-                      width: 25,
-                      borderRadius: 20,
-                      color: myColor,
-                      onSelectFocus: false,
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                ),
-                const Gap(10)
-              ],
+                  titleInput,
+                  descriptionInput,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: attributes,
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: submitButton,
+                  ),
+                  const Gap(10)
+                ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+}
+
+class _EditingController extends ChangeNotifier {
+  _EditingController(
+    this.initialTitle,
+    this.initialDescription,
+    this.initialColor,
+  ) {
+    title.value = initialTitle;
+    description.value = initialDescription;
+    color.value = initialColor;
+
+    title.addListener(_updateCanCompose);
+    description.addListener(_updateCanCompose);
+    color.addListener(_updateCanCompose);
+  }
+
+  final String? initialTitle;
+  final String? initialDescription;
+  final Color? initialColor;
+
+  final title = ValueNotifier<String?>(null);
+  final description = ValueNotifier<String?>(null);
+  final color = ValueNotifier<Color?>(null);
+
+  final _canCompose = ValueNotifier(false);
+  ValueListenable<bool> get canCompose => _canCompose;
+
+  void _updateCanCompose() {
+    _canCompose.value = (title.value != initialTitle) ||
+        (description.value != initialDescription) ||
+        (color.value != initialColor);
+  }
+
+  @override
+  void dispose() {
+    title.removeListener(_updateCanCompose);
+    description.removeListener(_updateCanCompose);
+    color.removeListener(_updateCanCompose);
+    super.dispose();
   }
 }

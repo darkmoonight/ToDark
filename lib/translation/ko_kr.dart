@@ -3,12 +3,9 @@ class KoKr {
         'title1': '할 일 정리',
         'title2': '유저 친화적 디자인',
         'title3': '문의하기',
-        'subtitle1':
-            '우리 앱에서는, 할 일들을 분류하고, 하나씩 완료해갈 수 있습니다.',
-        'subtitle2':
-            '모든 탐색은 가능한 한 편리하고 빠르게 앱과 상호 작용할 수 있도록 만들어졌습니다.',
-        'subtitle3':
-            '만약 어떠한 문제라도 거슬리신다면, 이메일 또는 앱 리뷰에서 문의해주세요.',
+        'subtitle1': '우리 앱에서는, 할 일들을 분류하고, 하나씩 완료해갈 수 있습니다.',
+        'subtitle2': '모든 탐색은 가능한 한 편리하고 빠르게 앱과 상호 작용할 수 있도록 만들어졌습니다.',
+        'subtitle3': '만약 어떠한 문제라도 거슬리신다면, 이메일 또는 앱 리뷰에서 문의해주세요.',
         'getStart': '시작하기',
         'next': '다음',
         'week': '주간',
@@ -47,8 +44,7 @@ class KoKr {
         'archive': '보관',
         'categoryArchive': '보관함 안의 카테고리',
         'noArchiveCategory': '카테고리 복원됨',
-        'noArchiveCategoryQuery':
-            '정말로 이 카테고리의 보관을 해제하시겠나요?',
+        'noArchiveCategoryQuery': '정말로 이 카테고리의 보관을 해제하시겠나요?',
         'noArchive': '복원',
         'noCategoryArchive': '카테고리 복원됨',
         'addArchiveCategory': '카테고리를 보관하세요',
@@ -100,8 +96,7 @@ class KoKr {
         'select': '선택',
         'isImages': '이미지 표시',
         'clearText': '텍스트 삭제',
-        'clearTextWarning':
-            '뭔가 달라진 것 같아요! 변경을 취소하시겠어요?',
+        'clearTextWarning': '뭔가 달라진 것 같아요! 변경을 취소하시겠어요?',
         'groups': '우리 그룹',
         'firstDayOfWeek': '한 주의 시작',
         'monday': '월요일',
@@ -111,5 +106,6 @@ class KoKr {
         'friday': '금요일',
         'saturday': '토요일',
         'sunday': '일요일',
+        'todoPined': '고정',
       };
 }

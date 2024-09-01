@@ -13,13 +13,25 @@ class MyTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 45,
       width: double.infinity,
       child: ElevatedButton(
         style: ButtonStyle(
           shadowColor: const WidgetStatePropertyAll(Colors.transparent),
-          backgroundColor: WidgetStatePropertyAll(
-              context.theme.colorScheme.secondaryContainer.withAlpha(80)),
+          backgroundColor:
+              WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+            if (states.contains(WidgetState.disabled)) {
+              return context.theme.colorScheme.outlineVariant;
+            }
+            return context.theme.colorScheme.secondaryContainer.withAlpha(80);
+          }),
+          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+            const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
+              ),
+            ),
+          ),
         ),
         onPressed: onPressed,
         child: Text(

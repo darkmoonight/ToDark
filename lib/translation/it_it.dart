@@ -112,5 +112,6 @@ class ItIt {
         'friday': 'Venerdì',
         'saturday': 'Sabato',
         'sunday': 'Domenica',
+        'todoPined': 'Fissa',
       };
 }

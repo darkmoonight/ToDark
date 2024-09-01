@@ -113,5 +113,6 @@ class TrTr {
         'friday': 'Cuma',
         'saturday': 'Cumartesi',
         'sunday': 'Pazar',
+        'todoPined': 'Sabitlenmiş',
       };
 }

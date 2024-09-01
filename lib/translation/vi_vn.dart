@@ -107,5 +107,6 @@ class ViVn {
         'friday': 'Thứ Sáu',
         'saturday': 'Thứ Bảy',
         'sunday': 'Chủ Nhật',
+        'todoPined': 'Ghim',
       };
 }

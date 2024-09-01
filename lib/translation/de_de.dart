@@ -112,5 +112,6 @@ class DeDe {
         'friday': 'Freitag',
         'saturday': 'Samstag',
         'sunday': 'Sonntag',
+        'todoPined': 'Anheften',
       };
 }

@@ -530,7 +530,7 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: const Icon(IconsaxPlusLinear.document),
               text: 'license'.tr,
               onPressed: () => Get.to(
-                LicensePage(
+                () => LicensePage(
                   applicationIcon: Container(
                     width: 100,
                     height: 100,

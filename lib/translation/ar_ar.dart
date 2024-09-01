@@ -110,5 +110,6 @@ class ArAr {
         'friday': 'الجمعة',
         'saturday': 'السبت',
         'sunday': 'الأحد',
+        'todoPined': 'تثبيت',
       };
 }

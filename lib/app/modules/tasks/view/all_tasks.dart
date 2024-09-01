@@ -207,7 +207,7 @@ class _AllTasksState extends State<AllTasks>
                                       applyFilter('');
                                     },
                                     icon: const Icon(
-                                      IconsaxPlusLinear.close_circle,
+                                      IconsaxPlusLinear.close_square,
                                       color: Colors.grey,
                                       size: 20,
                                     ),

@@ -110,5 +110,6 @@ class RuRu {
         'friday': 'Пятница',
         'saturday': 'Суббота',
         'sunday': 'Воскресенье',
+        'todoPined': 'Закрепить',
       };
 }

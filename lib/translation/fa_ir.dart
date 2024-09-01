@@ -114,5 +114,6 @@ class FaIr {
         'friday': 'جمعه',
         'saturday': 'شنبه',
         'sunday': 'یک‌شنبه',
+        'todoPined': 'پین کردن',
       };
 }

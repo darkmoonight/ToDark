@@ -117,5 +117,6 @@ class EsEs {
         'friday': 'Viernes',
         'saturday': 'Sábado',
         'sunday': 'Domingo',
+        'todoPined': 'Fijar',
       };
 }

@@ -161,7 +161,7 @@ class _AllTodosState extends State<AllTodos> {
                                 applyFilter('');
                               },
                               icon: const Icon(
-                                IconsaxPlusLinear.close_circle,
+                                IconsaxPlusLinear.close_square,
                                 color: Colors.grey,
                                 size: 20,
                               ),

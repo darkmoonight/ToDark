@@ -370,10 +370,10 @@ packages:
     dependency: transitive
     description:
       name: flex_seed_scheme
-      sha256: cc08c81879ecfd2ab840664ce4770980da0b8a319e35f51bcf763849b7f7596b
+      sha256: "86470c8dc470f55dd3e28a6d30e3253a1c176df32903263d7daeabfc0c77dbd4"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.2"
+    version: "3.2.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -465,10 +465,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_timezone
-      sha256: "06150cc6dde7a0309acc3f1c38380819ae774be4d942934c824c4fa64efadffa"
+      sha256: ea53c61c9152f271a5e30624a624184804947b6a733ff2b64186bb2579446892
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -710,10 +710,10 @@ packages:
     dependency: transitive
     description:
       name: mime
-      sha256: "2e123074287cc9fd6c09de8336dae606d1ddb88d9ac47358826db698c176a1f2"
+      sha256: "801fd0b26f14a4a58ccb09d5892c3fbdeff209594300a542492cf13fba9d247a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.6"
   package_config:
     dependency: transitive
     description:
