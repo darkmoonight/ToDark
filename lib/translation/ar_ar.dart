@@ -111,5 +111,9 @@ class ArAr {
         'saturday': 'السبت',
         'sunday': 'الأحد',
         'todoPined': 'تثبيت',
+        'highPriority': 'عالي',
+        'mediumPriority': 'متوسط',
+        'lowPriority': 'منخفض',
+        'noPriority': 'بدون أولوية',
       };
 }

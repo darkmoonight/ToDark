@@ -118,5 +118,9 @@ class EsEs {
         'saturday': 'Sábado',
         'sunday': 'Domingo',
         'todoPined': 'Fijar',
+        'highPriority': 'Alta',
+        'mediumPriority': 'Media',
+        'lowPriority': 'Baja',
+        'noPriority': 'Sin prioridad',
       };
 }

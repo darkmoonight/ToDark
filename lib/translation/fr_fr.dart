@@ -117,5 +117,9 @@ class FrFr {
         'saturday': 'Samedi',
         'sunday': 'Dimanche',
         'todoPined': 'Épingler',
+        'highPriority': 'Haute',
+        'mediumPriority': 'Moyenne',
+        'lowPriority': 'Basse',
+        'noPriority': 'Aucune priorité',
       };
 }

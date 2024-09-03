@@ -112,5 +112,9 @@ class EnUs {
         'saturday': 'Saturday',
         'sunday': 'Sunday',
         'todoPined': 'Pin',
+        'highPriority': 'High',
+        'mediumPriority': 'Medium',
+        'lowPriority': 'Low',
+        'noPriority': 'No priority',
       };
 }

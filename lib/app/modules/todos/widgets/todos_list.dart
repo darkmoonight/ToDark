@@ -70,11 +70,15 @@ class _TodosListState extends State<TodosList> {
                               ) &&
                               todo.todoCompletedTime!.isBefore(
                                 DateTime(
-                                    widget.selectedDay!.year,
-                                    widget.selectedDay!.month,
-                                    widget.selectedDay!.day,
-                                    23,
-                                    59),
+                                  widget.selectedDay!.year,
+                                  widget.selectedDay!.month,
+                                  widget.selectedDay!.day,
+                                  23,
+                                  59,
+                                  59,
+                                  59,
+                                  59,
+                                ),
                               ) &&
                               todo.done == widget.done)
                           .toList()

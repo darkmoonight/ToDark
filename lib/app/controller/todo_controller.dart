@@ -157,8 +157,8 @@ class TodoController extends GetxController {
   }
 
   // Todos
-  Future<void> addTodo(
-      Tasks task, String title, String desc, String time, bool pined) async {
+  Future<void> addTodo(Tasks task, String title, String desc, String time,
+      bool pined, Priority priority) async {
     DateTime? date;
     if (time.isNotEmpty) {
       date = timeformat == '12'
@@ -178,6 +178,8 @@ class TodoController extends GetxController {
       description: desc,
       todoCompletedTime: date,
       fix: pined,
+      createdTime: DateTime.now(),
+      priority: priority,
     )..task.value = task;
 
     if (getTodos.isEmpty) {
@@ -206,7 +208,7 @@ class TodoController extends GetxController {
   }
 
   Future<void> updateTodo(Todos todo, Tasks task, String title, String desc,
-      String time, bool pined) async {
+      String time, bool pined, Priority priority) async {
     DateTime? date;
     if (time.isNotEmpty) {
       date = timeformat == '12'
@@ -218,6 +220,7 @@ class TodoController extends GetxController {
       todo.description = desc;
       todo.todoCompletedTime = date;
       todo.fix = pined;
+      todo.priority = priority;
       todo.task.value = task;
       isar.todos.putSync(todo);
       todo.task.saveSync();

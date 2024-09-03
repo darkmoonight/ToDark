@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
 part 'schema.g.dart';
@@ -43,8 +44,13 @@ class Todos {
   String name;
   String description;
   DateTime? todoCompletedTime;
+  DateTime createdTime;
   bool done;
   bool fix;
+  @enumerated
+  Priority priority;
+  List<String> tags = [];
+  int? index;
 
   final task = IsarLink<Tasks>();
   final subtasks = IsarLinks<Todos>();
@@ -54,7 +60,26 @@ class Todos {
     required this.name,
     this.description = '',
     this.todoCompletedTime,
+    required this.createdTime,
     this.done = false,
     this.fix = false,
+    this.priority = Priority.none,
+    this.tags = const [],
+    this.index,
   });
+}
+
+enum Priority {
+  high(name: 'highPriority', color: Colors.red),
+  medium(name: 'mediumPriority', color: Colors.orange),
+  low(name: 'lowPriority', color: Colors.blue),
+  none(name: 'noPriority');
+
+  const Priority({
+    required this.name,
+    this.color,
+  });
+
+  final String name;
+  final Color? color;
 }

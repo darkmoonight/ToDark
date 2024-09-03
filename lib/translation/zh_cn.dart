@@ -107,5 +107,9 @@ class ZhCN {
         'saturday': '星期六',
         'sunday': '星期日',
         'todoPined': '固定',
+        'highPriority': '高',
+        'mediumPriority': '中',
+        'lowPriority': '低',
+        'noPriority': '无优先级',
       };
 }

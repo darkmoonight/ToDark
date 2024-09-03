@@ -114,5 +114,9 @@ class TrTr {
         'saturday': 'Cumartesi',
         'sunday': 'Pazar',
         'todoPined': 'Sabitlenmiş',
+        'highPriority': 'Yüksek',
+        'mediumPriority': 'Orta',
+        'lowPriority': 'Düşük',
+        'noPriority': 'Öncelik yok',
       };
 }

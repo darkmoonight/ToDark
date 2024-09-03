@@ -107,5 +107,9 @@ class ZhTw {
         'saturday': '星期六',
         'sunday': '星期日',
         'todoPined': '釘住',
+        'highPriority': '高',
+        'mediumPriority': '中',
+        'lowPriority': '低',
+        'noPriority': '無優先順序',
       };
 }

@@ -111,5 +111,9 @@ class RuRu {
         'saturday': 'Суббота',
         'sunday': 'Воскресенье',
         'todoPined': 'Закрепить',
+        'highPriority': 'Высокий',
+        'mediumPriority': 'Средний',
+        'lowPriority': 'Низкий',
+        'noPriority': 'Нет приоритета',
       };
 }

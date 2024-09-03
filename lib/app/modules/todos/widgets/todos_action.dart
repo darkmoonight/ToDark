@@ -44,6 +44,7 @@ class _TodosActionState extends State<TodosAction> {
   TextEditingController timeTodoEdit = TextEditingController();
 
   bool todoPined = false;
+  Priority todoPriority = Priority.none;
 
   late final _EditingController controller;
 
@@ -65,6 +66,7 @@ class _TodosActionState extends State<TodosAction> {
                       .format(widget.todo!.todoCompletedTime!)
               : '');
       todoPined = widget.todo!.fix;
+      todoPriority = widget.todo!.priority;
     }
     controller = _EditingController(
       titleTodoEdit.text,
@@ -72,6 +74,7 @@ class _TodosActionState extends State<TodosAction> {
       timeTodoEdit.text,
       todoPined,
       selectedTask,
+      todoPriority,
     );
     super.initState();
   }
@@ -112,6 +115,7 @@ class _TodosActionState extends State<TodosAction> {
               descTodoEdit.text,
               timeTodoEdit.text,
               todoPined,
+              todoPriority,
             )
           : widget.category
               ? todoController.addTodo(
@@ -120,6 +124,7 @@ class _TodosActionState extends State<TodosAction> {
                   descTodoEdit.text,
                   timeTodoEdit.text,
                   todoPined,
+                  todoPriority,
                 )
               : todoController.addTodo(
                   widget.task!,
@@ -127,6 +132,7 @@ class _TodosActionState extends State<TodosAction> {
                   descTodoEdit.text,
                   timeTodoEdit.text,
                   todoPined,
+                  todoPriority,
                 );
       textTodoConroller.clear();
       titleTodoEdit.clear();
@@ -296,7 +302,7 @@ class _TodosActionState extends State<TodosAction> {
       },
     );
 
-    final todoDate = RawChip(
+    final todoDateWidget = RawChip(
       elevation: 4,
       avatar: const Icon(IconsaxPlusLinear.calendar_search),
       label: Text(
@@ -341,7 +347,57 @@ class _TodosActionState extends State<TodosAction> {
       },
     );
 
-    final todoFix = ChoiceChip(
+    final todoPriorityWidget = MenuAnchor(
+      alignmentOffset: const Offset(0, -160),
+      style: MenuStyle(
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+          const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(15),
+            ),
+          ),
+        ),
+        alignment: AlignmentDirectional.bottomStart,
+      ),
+      menuChildren: [
+        for (final priority in Priority.values)
+          MenuItemButton(
+            leadingIcon: Icon(
+              IconsaxPlusLinear.flag,
+              color: priority.color,
+            ),
+            child: Text(priority.name.tr),
+            onPressed: () {
+              todoPriority = priority;
+              controller.priority.value = priority;
+            },
+          ),
+      ],
+      builder: (context, menuController, _) {
+        return ValueListenableBuilder(
+          valueListenable: controller.priority,
+          builder: (context, priority, _) {
+            return ActionChip(
+              elevation: 4,
+              avatar: Icon(
+                IconsaxPlusLinear.flag,
+                color: priority.color,
+              ),
+              label: Text(priority.name.tr),
+              onPressed: () {
+                if (menuController.isOpen) {
+                  menuController.close();
+                } else {
+                  menuController.open();
+                }
+              },
+            );
+          },
+        );
+      },
+    );
+
+    final todoFixWidget = ChoiceChip(
       elevation: 4,
       avatar: const Icon(IconsaxPlusLinear.attach_square),
       label: Text(
@@ -358,9 +414,11 @@ class _TodosActionState extends State<TodosAction> {
 
     final attributes = Row(
       children: [
-        todoDate,
+        todoDateWidget,
         const Gap(10),
-        todoFix,
+        todoPriorityWidget,
+        const Gap(10),
+        todoFixWidget,
       ],
     );
 
@@ -422,18 +480,21 @@ class _EditingController extends ChangeNotifier {
     this.initialTime,
     this.initialPined,
     this.initialTask,
+    this.initialPriority,
   ) {
     title.value = initialTitle;
     description.value = initialDescription;
     time.value = initialTime;
     pined.value = initialPined;
     task.value = initialTask;
+    priority.value = initialPriority;
 
     title.addListener(_updateCanCompose);
     description.addListener(_updateCanCompose);
     time.addListener(_updateCanCompose);
     pined.addListener(_updateCanCompose);
     task.addListener(_updateCanCompose);
+    priority.addListener(_updateCanCompose);
   }
 
   final String? initialTitle;
@@ -441,12 +502,14 @@ class _EditingController extends ChangeNotifier {
   final String? initialTime;
   final bool? initialPined;
   final Tasks? initialTask;
+  final Priority initialPriority;
 
   final title = ValueNotifier<String?>(null);
   final description = ValueNotifier<String?>(null);
   final time = ValueNotifier<String?>(null);
   final pined = ValueNotifier<bool?>(null);
   final task = ValueNotifier<Tasks?>(null);
+  final priority = ValueNotifier(Priority.none);
 
   final _canCompose = ValueNotifier(false);
   ValueListenable<bool> get canCompose => _canCompose;
@@ -456,7 +519,8 @@ class _EditingController extends ChangeNotifier {
         (description.value != initialDescription) ||
         (time.value != initialTime) ||
         (pined.value != initialPined) ||
-        (task.value != initialTask);
+        (task.value != initialTask) ||
+        (priority.value != initialPriority);
   }
 
   @override
@@ -466,6 +530,7 @@ class _EditingController extends ChangeNotifier {
     time.removeListener(_updateCanCompose);
     pined.removeListener(_updateCanCompose);
     task.removeListener(_updateCanCompose);
+    priority.removeListener(_updateCanCompose);
     super.dispose();
   }
 }

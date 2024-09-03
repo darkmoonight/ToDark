@@ -1,4 +1,6 @@
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
@@ -101,13 +103,26 @@ class _TodoCardState extends State<TodoCard> {
                                     )
                                   : const SizedBox.shrink(),
                               widget.allTodos || widget.calendare
-                                  ? Text(
-                                      widget.todo.task.value!.title,
-                                      style:
-                                          context.textTheme.bodyLarge?.copyWith(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                      ),
+                                  ? Row(
+                                      children: [
+                                        ColorIndicator(
+                                          height: 8,
+                                          width: 8,
+                                          borderRadius: 20,
+                                          color: Color(widget
+                                              .todo.task.value!.taskColor),
+                                          onSelectFocus: false,
+                                        ),
+                                        const Gap(5),
+                                        Text(
+                                          widget.todo.task.value!.title,
+                                          style: context.textTheme.bodyLarge
+                                              ?.copyWith(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ],
                                     )
                                   : const SizedBox.shrink(),
                               widget.todo.todoCompletedTime != null &&
@@ -126,7 +141,19 @@ class _TodoCardState extends State<TodoCard> {
                                                   .format(widget
                                                       .todo.todoCompletedTime!)
                                           : '',
-                                      style: context.textTheme.labelLarge,
+                                      style: context.textTheme.labelLarge
+                                          ?.copyWith(
+                                        color:
+                                            context.theme.colorScheme.secondary,
+                                        fontSize: 13,
+                                      ),
+                                    )
+                                  : const SizedBox.shrink(),
+                              widget.todo.priority != Priority.none
+                                  ? _StatusChip(
+                                      icon: IconsaxPlusLinear.flag,
+                                      color: widget.todo.priority.color,
+                                      label: widget.todo.priority.name.tr,
                                     )
                                   : const SizedBox.shrink(),
                             ],
@@ -164,6 +191,33 @@ class _TodoCardState extends State<TodoCard> {
           ),
         );
       },
+    );
+  }
+}
+
+class _StatusChip extends StatelessWidget {
+  const _StatusChip({
+    required this.icon,
+    required this.color,
+    required this.label,
+  });
+
+  final IconData icon;
+  final Color? color;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Chip(
+      elevation: 4,
+      avatar: Icon(icon, color: color),
+      label: Text(label),
+      padding: EdgeInsets.zero,
+      labelPadding: const EdgeInsets.only(right: 10),
+      visualDensity: const VisualDensity(
+        vertical: -4,
+        horizontal: -4,
+      ),
     );
   }
 }

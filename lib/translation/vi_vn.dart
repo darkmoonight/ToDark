@@ -108,5 +108,9 @@ class ViVn {
         'saturday': 'Thứ Bảy',
         'sunday': 'Chủ Nhật',
         'todoPined': 'Ghim',
+        'highPriority': 'Cao',
+        'mediumPriority': 'Trung bình',
+        'lowPriority': 'Thấp',
+        'noPriority': 'Không ưu tiên',
       };
 }

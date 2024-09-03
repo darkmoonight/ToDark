@@ -107,5 +107,9 @@ class KoKr {
         'saturday': '토요일',
         'sunday': '일요일',
         'todoPined': '고정',
+        'highPriority': '높음',
+        'mediumPriority': '중간',
+        'lowPriority': '낮음',
+        'noPriority': '우선순위 없음',
       };
 }
