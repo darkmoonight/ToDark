@@ -49,7 +49,7 @@ class _TodoCardState extends State<TodoCard> {
                 : null,
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: Row(
                 children: [
                   Flexible(
@@ -101,7 +101,7 @@ class _TodoCardState extends State<TodoCard> {
                                       ),
                                       overflow: TextOverflow.visible,
                                     )
-                                  : const SizedBox.shrink(),
+                                  : const Offstage(),
                               widget.allTodos || widget.calendare
                                   ? Row(
                                       children: [
@@ -124,7 +124,7 @@ class _TodoCardState extends State<TodoCard> {
                                         ),
                                       ],
                                     )
-                                  : const SizedBox.shrink(),
+                                  : const Offstage(),
                               widget.todo.todoCompletedTime != null &&
                                       widget.calendare == false
                                   ? Text(
@@ -145,46 +145,51 @@ class _TodoCardState extends State<TodoCard> {
                                           ?.copyWith(
                                         color:
                                             context.theme.colorScheme.secondary,
-                                        fontSize: 13,
+                                        fontSize: 12,
                                       ),
                                     )
-                                  : const SizedBox.shrink(),
+                                  : const Offstage(),
                               widget.todo.priority != Priority.none
                                   ? _StatusChip(
                                       icon: IconsaxPlusLinear.flag,
                                       color: widget.todo.priority.color,
                                       label: widget.todo.priority.name.tr,
                                     )
-                                  : const SizedBox.shrink(),
+                                  : const Offstage(),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  widget.calendare
-                      ? Text(
-                          timeformat == '12'
-                              ? DateFormat.jm(locale.languageCode)
-                                  .format(widget.todo.todoCompletedTime!)
-                              : DateFormat.Hm(locale.languageCode)
-                                  .format(widget.todo.todoCompletedTime!),
-                          style: context.textTheme.bodyLarge?.copyWith(
-                            color: Colors.grey,
-                            fontSize: 12,
-                          ),
-                        )
-                      : const SizedBox.shrink(),
-                  widget.todo.fix
-                      ? const Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Icon(
-                            IconsaxPlusLinear.attach_square,
-                            size: 20,
-                            color: Colors.grey,
-                          ),
-                        )
-                      : const Offstage(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Column(
+                      children: [
+                        widget.calendare
+                            ? Text(
+                                timeformat == '12'
+                                    ? DateFormat.jm(locale.languageCode)
+                                        .format(widget.todo.todoCompletedTime!)
+                                    : DateFormat.Hm(locale.languageCode)
+                                        .format(widget.todo.todoCompletedTime!),
+                                style: context.textTheme.labelLarge?.copyWith(
+                                  color: context.theme.colorScheme.secondary,
+                                  fontSize: 12,
+                                ),
+                              )
+                            : const Offstage(),
+                        const Gap(5),
+                        widget.todo.fix
+                            ? const Icon(
+                                IconsaxPlusLinear.attach_square,
+                                size: 20,
+                                color: Colors.grey,
+                              )
+                            : const Offstage(),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -208,15 +213,18 @@ class _StatusChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Chip(
-      elevation: 4,
-      avatar: Icon(icon, color: color),
-      label: Text(label),
-      padding: EdgeInsets.zero,
-      labelPadding: const EdgeInsets.only(right: 10),
-      visualDensity: const VisualDensity(
-        vertical: -4,
-        horizontal: -4,
+    return Padding(
+      padding: const EdgeInsets.only(top: 2),
+      child: Chip(
+        elevation: 4,
+        avatar: Icon(icon, color: color),
+        label: Text(label),
+        padding: EdgeInsets.zero,
+        labelPadding: const EdgeInsets.only(right: 10),
+        visualDensity: const VisualDensity(
+          vertical: -4,
+          horizontal: -4,
+        ),
       ),
     );
   }
