@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/modules/tasks/widgets/task_list.dart';
-import 'package:todark/app/widgets/my_delegate.dart';
-import 'package:todark/app/modules/tasks/widgets/statistics.dart';
-import 'package:todark/app/widgets/text_form.dart';
+import 'package:todark/app/ui/tasks/widgets/task_list.dart';
+import 'package:todark/app/ui/widgets/my_delegate.dart';
+import 'package:todark/app/ui/tasks/widgets/statistics.dart';
+import 'package:todark/app/ui/widgets/text_form.dart';
 
 class AllTasks extends StatefulWidget {
   const AllTasks({super.key});

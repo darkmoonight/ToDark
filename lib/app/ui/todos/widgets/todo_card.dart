@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
-import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/data/db.dart';
 import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/services/notification.dart';
+import 'package:todark/app/utils/notification.dart';
 import 'package:todark/main.dart';
 
 class TodoCard extends StatefulWidget {

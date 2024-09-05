@@ -7,7 +7,7 @@ import 'package:path/path.dart' as p;
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:restart_app/restart_app.dart';
-import 'package:todark/app/data/schema.dart';
+import 'package:todark/app/data/db.dart';
 import 'package:todark/main.dart';
 
 class IsarController {

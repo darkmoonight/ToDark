@@ -1,7 +1,7 @@
 import 'package:gap/gap.dart';
-import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/modules/home.dart';
-import 'package:todark/app/widgets/button.dart';
+import 'package:todark/app/data/db.dart';
+import 'package:todark/app/ui/home.dart';
+import 'package:todark/app/ui/widgets/button.dart';
 import 'package:todark/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

@@ -3,9 +3,9 @@ import 'package:todark/app/controller/todo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:todark/app/modules/todos/widgets/todos_list.dart';
-import 'package:todark/app/modules/todos/widgets/todos_transfer.dart';
-import 'package:todark/app/widgets/my_delegate.dart';
+import 'package:todark/app/ui/todos/widgets/todos_list.dart';
+import 'package:todark/app/ui/todos/widgets/todos_transfer.dart';
+import 'package:todark/app/ui/widgets/my_delegate.dart';
 import 'package:todark/main.dart';
 
 class CalendarTodos extends StatefulWidget {

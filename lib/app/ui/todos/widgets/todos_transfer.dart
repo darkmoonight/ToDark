@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:isar/isar.dart';
 import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/utils.dart';
-import 'package:todark/app/widgets/button.dart';
-import 'package:todark/app/widgets/text_form.dart';
+import 'package:todark/app/data/db.dart';
+import 'package:todark/app/utils/show_dialog.dart';
+import 'package:todark/app/ui/widgets/button.dart';
+import 'package:todark/app/ui/widgets/text_form.dart';
 import 'package:todark/main.dart';
 
 class TodosTransfer extends StatefulWidget {

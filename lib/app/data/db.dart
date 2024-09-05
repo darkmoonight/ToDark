@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
 
-part 'schema.g.dart';
+part 'db.g.dart';
 
 @collection
 class Settings {
@@ -72,7 +72,7 @@ class Todos {
 enum Priority {
   high(name: 'highPriority', color: Colors.red),
   medium(name: 'mediumPriority', color: Colors.orange),
-  low(name: 'lowPriority', color: Colors.blue),
+  low(name: 'lowPriority', color: Colors.green),
   none(name: 'noPriority');
 
   const Priority({

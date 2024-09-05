@@ -3,8 +3,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-import 'package:todark/app/data/schema.dart';
-import 'package:todark/app/services/notification.dart';
+import 'package:todark/app/data/db.dart';
+import 'package:todark/app/utils/notification.dart';
 import 'package:todark/main.dart';
 
 class TodoController extends GetxController {

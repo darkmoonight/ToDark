@@ -20,7 +20,7 @@ dependencies:
   timezone: ^0.9.4
   # workmanager: ^0.5.2
   # home_widget: ^0.6.0
-  restart_app: ^1.2.1
+  restart_app: ^1.3.0
   google_fonts: ^6.2.1
   url_launcher: ^6.3.0
   iconsax_plus: ^1.0.0

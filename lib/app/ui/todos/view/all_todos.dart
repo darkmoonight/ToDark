@@ -1,9 +1,9 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/modules/todos/widgets/todos_list.dart';
-import 'package:todark/app/modules/todos/widgets/todos_transfer.dart';
-import 'package:todark/app/widgets/my_delegate.dart';
-import 'package:todark/app/widgets/text_form.dart';
+import 'package:todark/app/ui/todos/widgets/todos_list.dart';
+import 'package:todark/app/ui/todos/widgets/todos_transfer.dart';
+import 'package:todark/app/ui/widgets/my_delegate.dart';
+import 'package:todark/app/ui/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
