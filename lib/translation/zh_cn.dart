@@ -111,5 +111,6 @@ class ZhCN {
         'mediumPriority': '中',
         'lowPriority': '低',
         'noPriority': '无优先级',
+        'tags': '标签',
       };
 }

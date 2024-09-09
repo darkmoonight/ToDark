@@ -117,5 +117,6 @@ class DeDe {
         'mediumPriority': 'Mittel',
         'lowPriority': 'Niedrig',
         'noPriority': 'Keine Priorität',
+        'tags': 'Tags',
       };
 }

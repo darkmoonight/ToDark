@@ -119,5 +119,6 @@ class FaIr {
         'mediumPriority': 'متوسط',
         'lowPriority': 'کم',
         'noPriority': 'بدون اولویت',
+        'tags': 'برچسب‌ها',
       };
 }

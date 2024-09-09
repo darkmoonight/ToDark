@@ -117,5 +117,6 @@ class ItIt {
         'mediumPriority': 'Media',
         'lowPriority': 'Bassa',
         'noPriority': 'Nessuna priorità',
+        'tags': 'Tag',
       };
 }

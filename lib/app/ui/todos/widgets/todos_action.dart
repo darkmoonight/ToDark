@@ -42,9 +42,11 @@ class _TodosActionState extends State<TodosAction> {
   TextEditingController titleTodoEdit = TextEditingController();
   TextEditingController descTodoEdit = TextEditingController();
   TextEditingController timeTodoEdit = TextEditingController();
+  TextEditingController tagsTodoEdit = TextEditingController();
 
   bool todoPined = false;
   Priority todoPriority = Priority.none;
+  List<String> todoTags = [];
 
   late final _EditingController controller;
 
@@ -67,6 +69,7 @@ class _TodosActionState extends State<TodosAction> {
               : '');
       todoPined = widget.todo!.fix;
       todoPriority = widget.todo!.priority;
+      todoTags = widget.todo!.tags;
     }
     controller = _EditingController(
       titleTodoEdit.text,
@@ -75,6 +78,7 @@ class _TodosActionState extends State<TodosAction> {
       todoPined,
       selectedTask,
       todoPriority,
+      todoTags,
     );
     super.initState();
   }
@@ -94,6 +98,7 @@ class _TodosActionState extends State<TodosAction> {
         descTodoEdit.clear();
         timeTodoEdit.clear();
         textTodoConroller.clear();
+        tagsTodoEdit.clear();
         Get.back(result: true);
       },
     );
@@ -116,6 +121,7 @@ class _TodosActionState extends State<TodosAction> {
               timeTodoEdit.text,
               todoPined,
               todoPriority,
+              todoTags,
             )
           : widget.category
               ? todoController.addTodo(
@@ -125,6 +131,7 @@ class _TodosActionState extends State<TodosAction> {
                   timeTodoEdit.text,
                   todoPined,
                   todoPriority,
+                  todoTags,
                 )
               : todoController.addTodo(
                   widget.task!,
@@ -133,21 +140,24 @@ class _TodosActionState extends State<TodosAction> {
                   timeTodoEdit.text,
                   todoPined,
                   todoPriority,
+                  todoTags,
                 );
       textTodoConroller.clear();
       titleTodoEdit.clear();
       descTodoEdit.clear();
       timeTodoEdit.clear();
+      tagsTodoEdit.clear();
       Get.back();
     }
   }
 
   @override
   void dispose() {
-    textTodoConroller.clear();
-    titleTodoEdit.clear();
-    descTodoEdit.clear();
-    timeTodoEdit.clear();
+    textTodoConroller.dispose();
+    titleTodoEdit.dispose();
+    descTodoEdit.dispose();
+    timeTodoEdit.dispose();
+    tagsTodoEdit.dispose();
     controller.dispose();
     super.dispose();
   }
@@ -167,6 +177,32 @@ class _TodosActionState extends State<TodosAction> {
     while (value.text.contains('  ')) {
       value.text = value.text.replaceAll('  ', ' ');
     }
+  }
+
+  Widget _buildChips() {
+    List<Widget> chips = [];
+
+    for (int i = 0; i < todoTags.length; i++) {
+      InputChip actionChip = InputChip(
+        elevation: 4,
+        label: Text(todoTags[i]),
+        deleteIcon: const Icon(IconsaxPlusLinear.close_square),
+        onDeleted: () {
+          setState(() {
+            todoTags = List<String>.from(todoTags)..removeAt(i);
+            controller.tags.value = todoTags;
+          });
+        },
+      );
+
+      chips.add(actionChip);
+    }
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Row(children: chips),
+    );
   }
 
   @override
@@ -262,7 +298,7 @@ class _TodosActionState extends State<TodosAction> {
               );
             },
           )
-        : Container();
+        : const Offstage();
 
     final titleInput = MyTextForm(
       elevation: 4,
@@ -290,6 +326,25 @@ class _TodosActionState extends State<TodosAction> {
       icon: const Icon(IconsaxPlusLinear.note_text),
       maxLine: null,
       onChanged: (value) => controller.description.value = value,
+    );
+
+    final tagsInput = MyTextForm(
+      elevation: 4,
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      controller: tagsTodoEdit,
+      labelText: 'tags'.tr,
+      type: TextInputType.text,
+      icon: const Icon(IconsaxPlusLinear.tag),
+      onFieldSubmitted: (value) {
+        setState(() {
+          if (tagsTodoEdit.text.trim().isNotEmpty) {
+            todoTags = List<String>.from(todoTags)
+              ..add(tagsTodoEdit.text.trim());
+            tagsTodoEdit.clear();
+            controller.tags.value = todoTags;
+          }
+        });
+      },
     );
 
     final submitButton = ValueListenableBuilder(
@@ -452,6 +507,8 @@ class _TodosActionState extends State<TodosAction> {
                   todoCategory,
                   titleInput,
                   descriptionInput,
+                  tagsInput,
+                  _buildChips(),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -481,6 +538,7 @@ class _EditingController extends ChangeNotifier {
     this.initialPined,
     this.initialTask,
     this.initialPriority,
+    this.initialTags,
   ) {
     title.value = initialTitle;
     description.value = initialDescription;
@@ -488,6 +546,7 @@ class _EditingController extends ChangeNotifier {
     pined.value = initialPined;
     task.value = initialTask;
     priority.value = initialPriority;
+    tags.value = initialTags;
 
     title.addListener(_updateCanCompose);
     description.addListener(_updateCanCompose);
@@ -495,6 +554,7 @@ class _EditingController extends ChangeNotifier {
     pined.addListener(_updateCanCompose);
     task.addListener(_updateCanCompose);
     priority.addListener(_updateCanCompose);
+    tags.addListener(_updateCanCompose);
   }
 
   final String? initialTitle;
@@ -503,6 +563,7 @@ class _EditingController extends ChangeNotifier {
   final bool? initialPined;
   final Tasks? initialTask;
   final Priority initialPriority;
+  final List<String>? initialTags;
 
   final title = ValueNotifier<String?>(null);
   final description = ValueNotifier<String?>(null);
@@ -510,6 +571,7 @@ class _EditingController extends ChangeNotifier {
   final pined = ValueNotifier<bool?>(null);
   final task = ValueNotifier<Tasks?>(null);
   final priority = ValueNotifier(Priority.none);
+  final tags = ValueNotifier<List<String>?>(null);
 
   final _canCompose = ValueNotifier(false);
   ValueListenable<bool> get canCompose => _canCompose;
@@ -520,7 +582,8 @@ class _EditingController extends ChangeNotifier {
         (time.value != initialTime) ||
         (pined.value != initialPined) ||
         (task.value != initialTask) ||
-        (priority.value != initialPriority);
+        (priority.value != initialPriority) ||
+        (tags.value != initialTags);
   }
 
   @override
@@ -531,6 +594,7 @@ class _EditingController extends ChangeNotifier {
     pined.removeListener(_updateCanCompose);
     task.removeListener(_updateCanCompose);
     priority.removeListener(_updateCanCompose);
+    tags.removeListener(_updateCanCompose);
     super.dispose();
   }
 }

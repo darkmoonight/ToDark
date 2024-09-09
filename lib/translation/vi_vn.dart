@@ -112,5 +112,6 @@ class ViVn {
         'mediumPriority': 'Trung bình',
         'lowPriority': 'Thấp',
         'noPriority': 'Không ưu tiên',
+        'tags': 'Thẻ',
       };
 }

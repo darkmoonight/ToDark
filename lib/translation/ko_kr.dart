@@ -111,5 +111,6 @@ class KoKr {
         'mediumPriority': '중간',
         'lowPriority': '낮음',
         'noPriority': '우선순위 없음',
+        'tags': '태그',
       };
 }

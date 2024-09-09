@@ -111,5 +111,6 @@ class ZhTw {
         'mediumPriority': '中',
         'lowPriority': '低',
         'noPriority': '無優先順序',
+        'tags': '標籤',
       };
 }

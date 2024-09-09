@@ -149,13 +149,27 @@ class _TodoCardState extends State<TodoCard> {
                                       ),
                                     )
                                   : const Offstage(),
-                              widget.todo.priority != Priority.none
-                                  ? _StatusChip(
-                                      icon: IconsaxPlusLinear.flag,
-                                      color: widget.todo.priority.color,
-                                      label: widget.todo.priority.name.tr,
-                                    )
-                                  : const Offstage(),
+                              SingleChildScrollView(
+                                scrollDirection: Axis.horizontal,
+                                child: Row(
+                                  children: [
+                                    widget.todo.priority != Priority.none
+                                        ? _StatusChip(
+                                            icon: IconsaxPlusLinear.flag,
+                                            color: widget.todo.priority.color,
+                                            label: widget.todo.priority.name.tr,
+                                          )
+                                        : const Offstage(),
+                                    widget.todo.tags.isNotEmpty
+                                        ? Row(
+                                            children: widget.todo.tags
+                                                .map((e) => _TagsChip(label: e))
+                                                .toList(),
+                                          )
+                                        : const Offstage(),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -200,6 +214,32 @@ class _TodoCardState extends State<TodoCard> {
   }
 }
 
+class _TagsChip extends StatelessWidget {
+  const _TagsChip({
+    required this.label,
+  });
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5, top: 2),
+      child: Chip(
+        elevation: 4,
+        avatar: const Icon(IconsaxPlusLinear.tag),
+        label: Text(label),
+        padding: EdgeInsets.zero,
+        labelPadding: const EdgeInsets.only(right: 10),
+        visualDensity: const VisualDensity(
+          vertical: -4,
+          horizontal: -4,
+        ),
+      ),
+    );
+  }
+}
+
 class _StatusChip extends StatelessWidget {
   const _StatusChip({
     required this.icon,
@@ -214,7 +254,7 @@ class _StatusChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 2),
+      padding: const EdgeInsets.only(right: 5, top: 2),
       child: Chip(
         elevation: 4,
         avatar: Icon(icon, color: color),

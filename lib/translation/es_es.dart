@@ -122,5 +122,6 @@ class EsEs {
         'mediumPriority': 'Media',
         'lowPriority': 'Baja',
         'noPriority': 'Sin prioridad',
+        'tags': 'Etiquetas',
       };
 }

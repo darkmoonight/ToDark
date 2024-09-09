@@ -116,5 +116,6 @@ class EnUs {
         'mediumPriority': 'Medium',
         'lowPriority': 'Low',
         'noPriority': 'No priority',
+        'tags': 'Tags',
       };
 }

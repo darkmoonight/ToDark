@@ -115,5 +115,6 @@ class ArAr {
         'mediumPriority': 'متوسط',
         'lowPriority': 'منخفض',
         'noPriority': 'بدون أولوية',
+        'tags': 'العلامات',
       };
 }

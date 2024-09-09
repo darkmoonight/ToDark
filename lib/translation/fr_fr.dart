@@ -121,5 +121,6 @@ class FrFr {
         'mediumPriority': 'Moyenne',
         'lowPriority': 'Basse',
         'noPriority': 'Aucune priorité',
+        'tags': 'Étiquettes',
       };
 }

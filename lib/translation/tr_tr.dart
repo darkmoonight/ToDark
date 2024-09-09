@@ -118,5 +118,6 @@ class TrTr {
         'mediumPriority': 'Orta',
         'lowPriority': 'Düşük',
         'noPriority': 'Öncelik yok',
+        'tags': 'Etiketler',
       };
 }

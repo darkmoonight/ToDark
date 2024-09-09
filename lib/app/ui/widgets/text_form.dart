@@ -11,6 +11,7 @@ class MyTextForm extends StatelessWidget {
     required this.margin,
     this.onTap,
     this.onChanged,
+    this.onFieldSubmitted,
     this.readOnly = false,
     this.validator,
     this.iconButton,
@@ -25,6 +26,7 @@ class MyTextForm extends StatelessWidget {
   final TextEditingController controller;
   final Function()? onTap;
   final Function(String)? onChanged;
+  final Function(String)? onFieldSubmitted;
   final EdgeInsets margin;
   final String? Function(String?)? validator;
   final bool readOnly;
@@ -42,6 +44,7 @@ class MyTextForm extends StatelessWidget {
         readOnly: readOnly,
         onChanged: onChanged,
         onTap: readOnly ? onTap : null,
+        onFieldSubmitted: onFieldSubmitted,
         controller: controller,
         keyboardType: type,
         style: context.textTheme.labelLarge,
