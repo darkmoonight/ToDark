@@ -183,16 +183,19 @@ class _TodosActionState extends State<TodosAction> {
     List<Widget> chips = [];
 
     for (int i = 0; i < todoTags.length; i++) {
-      InputChip actionChip = InputChip(
-        elevation: 4,
-        label: Text(todoTags[i]),
-        deleteIcon: const Icon(IconsaxPlusLinear.close_square),
-        onDeleted: () {
-          setState(() {
-            todoTags = List<String>.from(todoTags)..removeAt(i);
-            controller.tags.value = todoTags;
-          });
-        },
+      Padding actionChip = Padding(
+        padding: const EdgeInsets.only(left: 5),
+        child: InputChip(
+          elevation: 4,
+          label: Text(todoTags[i]),
+          deleteIcon: const Icon(IconsaxPlusLinear.close_square),
+          onDeleted: () {
+            setState(() {
+              todoTags = List<String>.from(todoTags)..removeAt(i);
+              controller.tags.value = todoTags;
+            });
+          },
+        ),
       );
 
       chips.add(actionChip);
