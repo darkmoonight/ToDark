@@ -184,11 +184,11 @@ class _TodosActionState extends State<TodosAction> {
 
     for (int i = 0; i < todoTags.length; i++) {
       Padding actionChip = Padding(
-        padding: const EdgeInsets.only(left: 5),
+        padding: const EdgeInsets.only(right: 5),
         child: InputChip(
           elevation: 4,
           label: Text(todoTags[i]),
-          deleteIcon: const Icon(IconsaxPlusLinear.close_square),
+          deleteIcon: const Icon(IconsaxPlusLinear.close_square, size: 15),
           onDeleted: () {
             setState(() {
               todoTags = List<String>.from(todoTags)..removeAt(i);
@@ -514,7 +514,8 @@ class _TodosActionState extends State<TodosAction> {
                   _buildChips(),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                     child: attributes,
                   ),
                   Padding(
