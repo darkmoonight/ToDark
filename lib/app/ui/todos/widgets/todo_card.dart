@@ -61,6 +61,8 @@ class _TodoCardState extends State<TodoCard> {
                           onChanged: (val) {
                             innerState(() {
                               widget.todo.done = val!;
+                              widget.todo.todoCompletionTime =
+                                  val ? DateTime.now() : null;
                             });
                             DateTime? date = widget.todo.todoCompletedTime;
                             widget.todo.done

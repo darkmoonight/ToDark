@@ -4,16 +4,18 @@ import 'package:get/get.dart';
 class MyTextButton extends StatelessWidget {
   const MyTextButton({
     super.key,
-    required this.buttonName,
+    required this.text,
     required this.onPressed,
+    this.height,
   });
-  final String buttonName;
+  final String text;
   final VoidCallback? onPressed;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45,
+      height: height ?? 45,
       width: double.infinity,
       child: ElevatedButton(
         style: ButtonStyle(
@@ -35,7 +37,7 @@ class MyTextButton extends StatelessWidget {
         ),
         onPressed: onPressed,
         child: Text(
-          buttonName,
+          text,
           style: context.textTheme.titleMedium,
         ),
       ),

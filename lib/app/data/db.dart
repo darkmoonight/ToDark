@@ -45,6 +45,7 @@ class Todos {
   String description;
   DateTime? todoCompletedTime;
   DateTime createdTime;
+  DateTime? todoCompletionTime;
   bool done;
   bool fix;
   @enumerated
@@ -53,13 +54,13 @@ class Todos {
   int? index;
 
   final task = IsarLink<Tasks>();
-  final subtasks = IsarLinks<Todos>();
 
   Todos({
     this.id = Isar.autoIncrement,
     required this.name,
     this.description = '',
     this.todoCompletedTime,
+    this.todoCompletionTime,
     required this.createdTime,
     this.done = false,
     this.fix = false,

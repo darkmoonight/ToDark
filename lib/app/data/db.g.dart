@@ -2212,6 +2212,11 @@ const TodosSchema = CollectionSchema(
       id: 8,
       name: r'todoCompletedTime',
       type: IsarType.dateTime,
+    ),
+    r'todoCompletionTime': PropertySchema(
+      id: 9,
+      name: r'todoCompletionTime',
+      type: IsarType.dateTime,
     )
   },
   estimateSize: _todosEstimateSize,
@@ -2226,12 +2231,6 @@ const TodosSchema = CollectionSchema(
       name: r'task',
       target: r'Tasks',
       single: true,
-    ),
-    r'subtasks': LinkSchema(
-      id: -3095455821402371742,
-      name: r'subtasks',
-      target: r'Todos',
-      single: false,
     )
   },
   embeddedSchemas: {},
@@ -2274,6 +2273,7 @@ void _todosSerialize(
   writer.writeByte(offsets[6], object.priority.index);
   writer.writeStringList(offsets[7], object.tags);
   writer.writeDateTime(offsets[8], object.todoCompletedTime);
+  writer.writeDateTime(offsets[9], object.todoCompletionTime);
 }
 
 Todos _todosDeserialize(
@@ -2294,6 +2294,7 @@ Todos _todosDeserialize(
         Priority.none,
     tags: reader.readStringList(offsets[7]) ?? const [],
     todoCompletedTime: reader.readDateTimeOrNull(offsets[8]),
+    todoCompletionTime: reader.readDateTimeOrNull(offsets[9]),
   );
   return object;
 }
@@ -2324,6 +2325,8 @@ P _todosDeserializeProp<P>(
       return (reader.readStringList(offset) ?? const []) as P;
     case 8:
       return (reader.readDateTimeOrNull(offset)) as P;
+    case 9:
+      return (reader.readDateTimeOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -2347,13 +2350,12 @@ Id _todosGetId(Todos object) {
 }
 
 List<IsarLinkBase<dynamic>> _todosGetLinks(Todos object) {
-  return [object.task, object.subtasks];
+  return [object.task];
 }
 
 void _todosAttach(IsarCollection<dynamic> col, Id id, Todos object) {
   object.id = id;
   object.task.attach(col, col.isar.collection<Tasks>(), r'task', id);
-  object.subtasks.attach(col, col.isar.collection<Todos>(), r'subtasks', id);
 }
 
 extension TodosQueryWhereSort on QueryBuilder<Todos, Todos, QWhere> {
@@ -3218,6 +3220,77 @@ extension TodosQueryFilter on QueryBuilder<Todos, Todos, QFilterCondition> {
       ));
     });
   }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletionTimeIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'todoCompletionTime',
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition>
+      todoCompletionTimeIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'todoCompletionTime',
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletionTimeEqualTo(
+      DateTime? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'todoCompletionTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition>
+      todoCompletionTimeGreaterThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'todoCompletionTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletionTimeLessThan(
+    DateTime? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'todoCompletionTime',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterFilterCondition> todoCompletionTimeBetween(
+    DateTime? lower,
+    DateTime? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'todoCompletionTime',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
 }
 
 extension TodosQueryObject on QueryBuilder<Todos, Todos, QFilterCondition> {}
@@ -3232,62 +3305,6 @@ extension TodosQueryLinks on QueryBuilder<Todos, Todos, QFilterCondition> {
   QueryBuilder<Todos, Todos, QAfterFilterCondition> taskIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.linkLength(r'task', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasks(
-      FilterQuery<Todos> q) {
-    return QueryBuilder.apply(this, (query) {
-      return query.link(q, r'subtasks');
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthEqualTo(
-      int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'subtasks', length, true, length, true);
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'subtasks', 0, true, 0, true);
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'subtasks', 0, false, 999999, true);
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'subtasks', 0, true, length, include);
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(r'subtasks', length, include, 999999, true);
-    });
-  }
-
-  QueryBuilder<Todos, Todos, QAfterFilterCondition> subtasksLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.linkLength(
-          r'subtasks', lower, includeLower, upper, includeUpper);
     });
   }
 }
@@ -3386,6 +3403,18 @@ extension TodosQuerySortBy on QueryBuilder<Todos, Todos, QSortBy> {
   QueryBuilder<Todos, Todos, QAfterSortBy> sortByTodoCompletedTimeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'todoCompletedTime', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterSortBy> sortByTodoCompletionTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'todoCompletionTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterSortBy> sortByTodoCompletionTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'todoCompletionTime', Sort.desc);
     });
   }
 }
@@ -3498,6 +3527,18 @@ extension TodosQuerySortThenBy on QueryBuilder<Todos, Todos, QSortThenBy> {
       return query.addSortBy(r'todoCompletedTime', Sort.desc);
     });
   }
+
+  QueryBuilder<Todos, Todos, QAfterSortBy> thenByTodoCompletionTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'todoCompletionTime', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QAfterSortBy> thenByTodoCompletionTimeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'todoCompletionTime', Sort.desc);
+    });
+  }
 }
 
 extension TodosQueryWhereDistinct on QueryBuilder<Todos, Todos, QDistinct> {
@@ -3554,6 +3595,12 @@ extension TodosQueryWhereDistinct on QueryBuilder<Todos, Todos, QDistinct> {
   QueryBuilder<Todos, Todos, QDistinct> distinctByTodoCompletedTime() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'todoCompletedTime');
+    });
+  }
+
+  QueryBuilder<Todos, Todos, QDistinct> distinctByTodoCompletionTime() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'todoCompletionTime');
     });
   }
 }
@@ -3616,6 +3663,13 @@ extension TodosQueryProperty on QueryBuilder<Todos, Todos, QQueryProperty> {
   QueryBuilder<Todos, DateTime?, QQueryOperations> todoCompletedTimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'todoCompletedTime');
+    });
+  }
+
+  QueryBuilder<Todos, DateTime?, QQueryOperations>
+      todoCompletionTimeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'todoCompletionTime');
     });
   }
 }

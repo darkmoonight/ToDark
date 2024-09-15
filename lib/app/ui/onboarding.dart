@@ -72,8 +72,7 @@ class _OnBordingState extends State<OnBording> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: MyTextButton(
-                buttonName:
-                    pageIndex == data.length - 1 ? 'getStart'.tr : 'next'.tr,
+                text: pageIndex == data.length - 1 ? 'getStart'.tr : 'next'.tr,
                 onPressed: () {
                   pageIndex == data.length - 1
                       ? onBoardHome()

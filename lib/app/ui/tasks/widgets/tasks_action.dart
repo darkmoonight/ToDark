@@ -179,7 +179,7 @@ class _TasksActionState extends State<TasksAction> {
       valueListenable: controller.canCompose,
       builder: (context, canCompose, _) {
         return MyTextButton(
-          buttonName: 'done'.tr,
+          text: 'done'.tr,
           onPressed: canCompose ? () => onPressed() : null,
         );
       },
