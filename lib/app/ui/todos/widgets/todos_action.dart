@@ -351,13 +351,13 @@ class _TodosActionState extends State<TodosAction> {
     );
 
     final submitButton = ValueListenableBuilder(
-            valueListenable: controller.canCompose,
-            builder: (context, canCompose, _) {
-              return MyTextButton(
-                text: 'done'.tr,
-                onPressed: canCompose ? () => onPressed() : null,
-              );
-            },
+      valueListenable: controller.canCompose,
+      builder: (context, canCompose, _) {
+        return MyTextButton(
+          text: 'ready'.tr,
+          onPressed: canCompose ? () => onPressed() : null,
+        );
+      },
     );
 
     final todoDateWidget = RawChip(

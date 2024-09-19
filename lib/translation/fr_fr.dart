@@ -122,5 +122,6 @@ class FrFr {
         'lowPriority': 'Basse',
         'noPriority': 'Aucune priorité',
         'tags': 'Étiquettes',
+        'ready': 'Terminé',
       };
 }

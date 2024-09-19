@@ -118,5 +118,6 @@ class ItIt {
         'lowPriority': 'Bassa',
         'noPriority': 'Nessuna priorità',
         'tags': 'Tag',
+        'ready': 'Fatto',
       };
 }

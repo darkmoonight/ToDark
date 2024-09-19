@@ -123,5 +123,6 @@ class EsEs {
         'lowPriority': 'Baja',
         'noPriority': 'Sin prioridad',
         'tags': 'Etiquetas',
+        'ready': 'Hecho',
       };
 }

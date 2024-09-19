@@ -113,5 +113,6 @@ class ViVn {
         'lowPriority': 'Thấp',
         'noPriority': 'Không ưu tiên',
         'tags': 'Thẻ',
+        'ready': 'Xong',
       };
 }

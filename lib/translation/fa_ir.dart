@@ -120,5 +120,6 @@ class FaIr {
         'lowPriority': 'کم',
         'noPriority': 'بدون اولویت',
         'tags': 'برچسب‌ها',
+        'ready': 'انجام شد',
       };
 }

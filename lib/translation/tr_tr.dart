@@ -119,5 +119,6 @@ class TrTr {
         'lowPriority': 'Düşük',
         'noPriority': 'Öncelik yok',
         'tags': 'Etiketler',
+        'ready': 'Tamamlandı',
       };
 }

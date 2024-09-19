@@ -116,5 +116,6 @@ class RuRu {
         'lowPriority': 'Низкий',
         'noPriority': 'Нет приоритета',
         'tags': 'Теги',
+        'ready': 'Готово',
       };
 }
