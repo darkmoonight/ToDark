@@ -33,6 +33,18 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void onSwipe(DragEndDetails details) {
+    if (details.primaryVelocity! < 0) {
+      if (tabIndex < 3) {
+        changeTabIndex(tabIndex + 1);
+      }
+    } else if (details.primaryVelocity! > 0) {
+      if (tabIndex > 0) {
+        changeTabIndex(tabIndex - 1);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,31 +52,34 @@ class _HomePageState extends State<HomePage> {
         index: tabIndex,
         children: pages,
       ),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) => changeTabIndex(index),
-        selectedIndex: tabIndex,
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(IconsaxPlusLinear.folder_2),
-            selectedIcon: const Icon(IconsaxPlusBold.folder_2),
-            label: 'categories'.tr,
-          ),
-          NavigationDestination(
-            icon: const Icon(IconsaxPlusLinear.task_square),
-            selectedIcon: const Icon(IconsaxPlusBold.task_square),
-            label: 'allTodos'.tr,
-          ),
-          NavigationDestination(
-            icon: const Icon(IconsaxPlusLinear.calendar),
-            selectedIcon: const Icon(IconsaxPlusBold.calendar),
-            label: 'calendar'.tr,
-          ),
-          NavigationDestination(
-            icon: const Icon(IconsaxPlusLinear.category),
-            selectedIcon: const Icon(IconsaxPlusBold.category),
-            label: 'settings'.tr,
-          ),
-        ],
+      bottomNavigationBar: GestureDetector(
+        onHorizontalDragEnd: onSwipe,
+        child: NavigationBar(
+          onDestinationSelected: (int index) => changeTabIndex(index),
+          selectedIndex: tabIndex,
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(IconsaxPlusLinear.folder_2),
+              selectedIcon: const Icon(IconsaxPlusBold.folder_2),
+              label: 'categories'.tr,
+            ),
+            NavigationDestination(
+              icon: const Icon(IconsaxPlusLinear.task_square),
+              selectedIcon: const Icon(IconsaxPlusBold.task_square),
+              label: 'allTodos'.tr,
+            ),
+            NavigationDestination(
+              icon: const Icon(IconsaxPlusLinear.calendar),
+              selectedIcon: const Icon(IconsaxPlusBold.calendar),
+              label: 'calendar'.tr,
+            ),
+            NavigationDestination(
+              icon: const Icon(IconsaxPlusLinear.category),
+              selectedIcon: const Icon(IconsaxPlusBold.category),
+              label: 'settings'.tr,
+            ),
+          ],
+        ),
       ),
       floatingActionButton: tabIndex == 3
           ? null
