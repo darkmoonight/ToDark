@@ -37,7 +37,8 @@ class _TodosActionState extends State<TodosAction> {
   final todoController = Get.put(TodoController());
   Tasks? selectedTask;
   List<Tasks>? task;
-  final FocusNode focusNode = FocusNode();
+  final FocusNode categoryFocusNode = FocusNode();
+  final FocusNode titleFocusNode = FocusNode();
   TextEditingController textTodoConroller = TextEditingController();
   TextEditingController titleTodoEdit = TextEditingController();
   TextEditingController descTodoEdit = TextEditingController();
@@ -212,7 +213,7 @@ class _TodosActionState extends State<TodosAction> {
   Widget build(BuildContext context) {
     final todoCategory = widget.category
         ? RawAutocomplete<Tasks>(
-            focusNode: focusNode,
+            focusNode: categoryFocusNode,
             textEditingController: textTodoConroller,
             fieldViewBuilder: (BuildContext context,
                 TextEditingController fieldTextEditingController,
@@ -222,7 +223,7 @@ class _TodosActionState extends State<TodosAction> {
                 elevation: 4,
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 controller: textTodoConroller,
-                focusNode: focusNode,
+                focusNode: categoryFocusNode,
                 labelText: 'selectCategory'.tr,
                 type: TextInputType.text,
                 icon: const Icon(IconsaxPlusLinear.folder_2),
@@ -252,13 +253,20 @@ class _TodosActionState extends State<TodosAction> {
               }
               return getTaskAll(textEditingValue.text);
             },
-            onSelected: (Tasks selection) {
+            onSelected: (Tasks selection) async {
               textTodoConroller.text = selection.title;
               selectedTask = selection;
               setState(() {
                 if (widget.edit) controller.task.value = selectedTask;
               });
-              focusNode.unfocus();
+
+              Future.microtask(() {
+                if (context.mounted) {
+                  FocusScope.of(context).requestFocus(titleFocusNode);
+                }
+              });
+
+              categoryFocusNode.unfocus();
             },
             displayStringForOption: (Tasks option) => option.title,
             optionsViewBuilder: (BuildContext context,
@@ -310,6 +318,7 @@ class _TodosActionState extends State<TodosAction> {
       labelText: 'name'.tr,
       type: TextInputType.multiline,
       icon: const Icon(IconsaxPlusLinear.edit),
+      focusNode: titleFocusNode,
       onChanged: (value) => controller.title.value = value,
       validator: (value) {
         if (value == null || value.isEmpty) {
