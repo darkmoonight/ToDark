@@ -3,6 +3,7 @@ import 'package:todark/app/controller/todo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:todark/app/data/db.dart';
 import 'package:todark/app/ui/todos/widgets/todos_list.dart';
 import 'package:todark/app/ui/todos/widgets/todos_transfer.dart';
 import 'package:todark/app/ui/widgets/my_delegate.dart';
@@ -20,7 +21,19 @@ class _CalendarTodosState extends State<CalendarTodos> {
   DateTime selectedDay = DateTime.now();
   DateTime firstDay = DateTime.now().add(const Duration(days: -1000));
   DateTime lastDay = DateTime.now().add(const Duration(days: 1000));
-  CalendarFormat calendarFormat = CalendarFormat.week;
+
+  CalendarFormat calendarFormat() {
+    switch (settings.calendarFormat) {
+      case 'week':
+        return CalendarFormat.week;
+      case 'twoWeeks':
+        return CalendarFormat.twoWeeks;
+      case 'month':
+        return CalendarFormat.month;
+      default:
+        return CalendarFormat.week;
+    }
+  }
 
   StartingDayOfWeek firstDayOfWeek() {
     switch (settings.firstDay) {
@@ -219,11 +232,20 @@ class _CalendarTodosState extends State<CalendarTodos> {
                           selectedDay = focused;
                         });
                       },
-                      calendarFormat: calendarFormat,
+                      calendarFormat: calendarFormat(),
                       onFormatChanged: (format) {
                         setState(
                           () {
-                            calendarFormat = format;
+                            isar.writeTxnSync(() {
+                              if (format == CalendarFormat.week) {
+                                settings.calendarFormat = 'week';
+                              } else if (format == CalendarFormat.twoWeeks) {
+                                settings.calendarFormat = 'twoWeeks';
+                              } else if (format == CalendarFormat.month) {
+                                settings.calendarFormat = 'month';
+                              }
+                              isar.settings.putSync(settings);
+                            });
                           },
                         );
                       },

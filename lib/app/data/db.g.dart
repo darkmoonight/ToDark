@@ -22,38 +22,43 @@ const SettingsSchema = CollectionSchema(
       name: r'amoledTheme',
       type: IsarType.bool,
     ),
-    r'firstDay': PropertySchema(
+    r'calendarFormat': PropertySchema(
       id: 1,
+      name: r'calendarFormat',
+      type: IsarType.string,
+    ),
+    r'firstDay': PropertySchema(
+      id: 2,
       name: r'firstDay',
       type: IsarType.string,
     ),
     r'isImage': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'isImage',
       type: IsarType.bool,
     ),
     r'language': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'language',
       type: IsarType.string,
     ),
     r'materialColor': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'materialColor',
       type: IsarType.bool,
     ),
     r'onboard': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'onboard',
       type: IsarType.bool,
     ),
     r'theme': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'theme',
       type: IsarType.string,
     ),
     r'timeformat': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'timeformat',
       type: IsarType.string,
     )
@@ -78,6 +83,7 @@ int _settingsEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
+  bytesCount += 3 + object.calendarFormat.length * 3;
   bytesCount += 3 + object.firstDay.length * 3;
   {
     final value = object.language;
@@ -102,13 +108,14 @@ void _settingsSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeBool(offsets[0], object.amoledTheme);
-  writer.writeString(offsets[1], object.firstDay);
-  writer.writeBool(offsets[2], object.isImage);
-  writer.writeString(offsets[3], object.language);
-  writer.writeBool(offsets[4], object.materialColor);
-  writer.writeBool(offsets[5], object.onboard);
-  writer.writeString(offsets[6], object.theme);
-  writer.writeString(offsets[7], object.timeformat);
+  writer.writeString(offsets[1], object.calendarFormat);
+  writer.writeString(offsets[2], object.firstDay);
+  writer.writeBool(offsets[3], object.isImage);
+  writer.writeString(offsets[4], object.language);
+  writer.writeBool(offsets[5], object.materialColor);
+  writer.writeBool(offsets[6], object.onboard);
+  writer.writeString(offsets[7], object.theme);
+  writer.writeString(offsets[8], object.timeformat);
 }
 
 Settings _settingsDeserialize(
@@ -119,14 +126,15 @@ Settings _settingsDeserialize(
 ) {
   final object = Settings();
   object.amoledTheme = reader.readBool(offsets[0]);
-  object.firstDay = reader.readString(offsets[1]);
+  object.calendarFormat = reader.readString(offsets[1]);
+  object.firstDay = reader.readString(offsets[2]);
   object.id = id;
-  object.isImage = reader.readBoolOrNull(offsets[2]);
-  object.language = reader.readStringOrNull(offsets[3]);
-  object.materialColor = reader.readBool(offsets[4]);
-  object.onboard = reader.readBool(offsets[5]);
-  object.theme = reader.readStringOrNull(offsets[6]);
-  object.timeformat = reader.readString(offsets[7]);
+  object.isImage = reader.readBoolOrNull(offsets[3]);
+  object.language = reader.readStringOrNull(offsets[4]);
+  object.materialColor = reader.readBool(offsets[5]);
+  object.onboard = reader.readBool(offsets[6]);
+  object.theme = reader.readStringOrNull(offsets[7]);
+  object.timeformat = reader.readString(offsets[8]);
   return object;
 }
 
@@ -142,16 +150,18 @@ P _settingsDeserializeProp<P>(
     case 1:
       return (reader.readString(offset)) as P;
     case 2:
-      return (reader.readBoolOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBoolOrNull(offset)) as P;
     case 4:
-      return (reader.readBool(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 5:
       return (reader.readBool(offset)) as P;
     case 6:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 7:
+      return (reader.readStringOrNull(offset)) as P;
+    case 8:
       return (reader.readString(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -253,6 +263,141 @@ extension SettingsQueryFilter
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'amoledTheme',
         value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> calendarFormatEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'calendarFormat',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+      calendarFormatGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'calendarFormat',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+      calendarFormatLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'calendarFormat',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> calendarFormatBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'calendarFormat',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+      calendarFormatStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'calendarFormat',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+      calendarFormatEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'calendarFormat',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+      calendarFormatContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'calendarFormat',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition> calendarFormatMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'calendarFormat',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+      calendarFormatIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'calendarFormat',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterFilterCondition>
+      calendarFormatIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'calendarFormat',
+        value: '',
       ));
     });
   }
@@ -928,6 +1073,18 @@ extension SettingsQuerySortBy on QueryBuilder<Settings, Settings, QSortBy> {
     });
   }
 
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCalendarFormat() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calendarFormat', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> sortByCalendarFormatDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calendarFormat', Sort.desc);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QAfterSortBy> sortByFirstDay() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'firstDay', Sort.asc);
@@ -1024,6 +1181,18 @@ extension SettingsQuerySortThenBy
   QueryBuilder<Settings, Settings, QAfterSortBy> thenByAmoledThemeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'amoledTheme', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCalendarFormat() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calendarFormat', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Settings, Settings, QAfterSortBy> thenByCalendarFormatDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'calendarFormat', Sort.desc);
     });
   }
 
@@ -1132,6 +1301,14 @@ extension SettingsQueryWhereDistinct
     });
   }
 
+  QueryBuilder<Settings, Settings, QDistinct> distinctByCalendarFormat(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'calendarFormat',
+          caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<Settings, Settings, QDistinct> distinctByFirstDay(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1190,6 +1367,12 @@ extension SettingsQueryProperty
   QueryBuilder<Settings, bool, QQueryOperations> amoledThemeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'amoledTheme');
+    });
+  }
+
+  QueryBuilder<Settings, String, QQueryOperations> calendarFormatProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'calendarFormat');
     });
   }
 

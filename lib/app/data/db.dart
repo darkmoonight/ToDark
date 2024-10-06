@@ -14,6 +14,7 @@ class Settings {
   bool? isImage = true;
   String? language;
   String firstDay = 'monday';
+  String calendarFormat = 'week';
 }
 
 @collection
