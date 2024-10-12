@@ -71,9 +71,10 @@ void main() async {
   const LinuxInitializationSettings initializationSettingsLinux =
       LinuxInitializationSettings(defaultActionName: 'ToDark');
   const InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      linux: initializationSettingsLinux,
-      iOS: initializationSettingsIos);
+    android: initializationSettingsAndroid,
+    linux: initializationSettingsLinux,
+    iOS: initializationSettingsIos,
+  );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await IsarController().openDB();
   await initSettings();
