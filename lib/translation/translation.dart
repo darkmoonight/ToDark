@@ -12,6 +12,7 @@ import 'package:todark/translation/zh_cn.dart';
 import 'package:todark/translation/zh_tw.dart';
 import 'package:todark/translation/tr_tr.dart';
 import 'package:todark/translation/vi_vn.dart';
+import 'package:todark/translation/pt_pt.dart';
 
 class Translation extends Translations {
   @override
@@ -29,5 +30,6 @@ class Translation extends Translations {
         'tr_TR': TrTr().messages,
         'vi_VN': ViVn().messages,
         'ko_KR': KoKr().messages,
+        'pt_PT': PtPt().messages,
       };
 }
