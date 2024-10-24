@@ -48,6 +48,7 @@ final List appLanguages = [
   {'name': 'Türkçe', 'locale': const Locale('tr', 'TR')},
   {'name': '中文(简体)', 'locale': const Locale('zh', 'CN')},
   {'name': '中文(繁體)', 'locale': const Locale('zh', 'TW')},
+  {'name': 'Português', 'locale': const Locale('pt', 'PT')},
 ];
 
 void main() async {
