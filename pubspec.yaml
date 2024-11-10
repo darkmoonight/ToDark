@@ -31,8 +31,8 @@ dependencies:
   file_selector: ^1.0.3
   table_calendar: ^3.1.2
   flutter_timezone: ^3.0.1
-  device_info_plus: ^11.1.0
-  package_info_plus: ^8.1.0
+  device_info_plus: ^11.1.1
+  package_info_plus: ^8.1.1
   flex_color_picker: ^3.6.0
   flutter_easyloading: ^3.0.5
   flutter_displaymode: ^0.6.0
