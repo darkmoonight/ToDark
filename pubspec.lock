@@ -266,10 +266,10 @@ packages:
     dependency: transitive
     description:
       name: equatable
-      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      sha256: "567c64b3cb4cf82397aac55f4f0cbd3ca20d77c6c03bedbc4ceaddc08904aef7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.5"
+    version: "2.0.7"
   fake_async:
     dependency: transitive
     description:
@@ -306,10 +306,10 @@ packages:
     dependency: transitive
     description:
       name: file_selector_android
-      sha256: ec439df07c4999faad319ce8ad9e971795c2f1d7132ad5a793b9370a863c6128
+      sha256: "98ac58e878b05ea2fdb204e7f4fc4978d90406c9881874f901428e01d3b18fbc"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.1+10"
+    version: "0.5.1+12"
   file_selector_ios:
     dependency: transitive
     description:
@@ -322,10 +322,10 @@ packages:
     dependency: transitive
     description:
       name: file_selector_linux
-      sha256: "712ce7fab537ba532c8febdb1a8f167b32441e74acd68c3ccb2e36dcb52c4ab2"
+      sha256: "54cbbd957e1156d29548c7d9b9ec0c0ebb6de0a90452198683a7d23aed617a33"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.3"
+    version: "0.9.3+2"
   file_selector_macos:
     dependency: transitive
     description:
@@ -415,10 +415,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_launcher_icons
-      sha256: "619817c4b65b322b5104b6bb6dfe6cda62d9729bd7ad4303ecc8b4e690a67a77"
+      sha256: "31cd0885738e87c72d6f055564d37fabcdacee743b396b78c7636c169cac64f5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.14.1"
+    version: "0.14.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -431,10 +431,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_local_notifications
-      sha256: "725145682706fb0e5a30f93e5cb64f3df7ed7743de749bd555b22bf75ee718c0"
+      sha256: ef41ae901e7529e52934feba19ed82827b11baa67336829564aeab3129460610
       url: "https://pub.dev"
     source: hosted
-    version: "18.0.0"
+    version: "18.0.1"
   flutter_local_notifications_linux:
     dependency: transitive
     description:
@@ -460,10 +460,10 @@ packages:
     dependency: "direct dev"
     description:
       name: flutter_native_splash
-      sha256: ee5c9bd2b74ea8676442fd4ab876b5d41681df49276488854d6c81a5377c0ef1
+      sha256: "1152ab0067ca5a2ebeb862fe0a762057202cceb22b7e62692dcbabf6483891bb"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.3"
   flutter_spinkit:
     dependency: transitive
     description:
@@ -481,10 +481,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_timezone
-      sha256: ea53c61c9152f271a5e30624a624184804947b6a733ff2b64186bb2579446892
+      sha256: "6e6a0a9d0dfc049b209e01e1dee3efd5ff2ddf2375e9de86589761b244eb5a5f"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.1"
+    version: "4.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -790,18 +790,18 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: c464428172cb986b758c6d1724c603097febb8fb855aa265aeecc9280c294d4a
+      sha256: "8c4967f8b7cb46dc914e178daa29813d83ae502e0529d7b0478330616a691ef7"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.12"
+    version: "2.2.14"
   path_provider_foundation:
     dependency: transitive
     description:
       name: path_provider_foundation
-      sha256: f234384a3fdd67f989b4d54a5d73ca2a6c422fa55ae694381ae0f4375cd1ea16
+      sha256: "4843174df4d288f5e29185bd6e72a6fbdf5a4a4602717eed565497429f179942"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.0"
+    version: "2.4.1"
   path_provider_linux:
     dependency: transitive
     description:
@@ -910,10 +910,10 @@ packages:
     dependency: transitive
     description:
       name: shelf_web_socket
-      sha256: "073c147238594ecd0d193f3456a5fe91c4b0abbcc68bf5cd95b36c4e194ac611"
+      sha256: cc36c297b52866d203dbf9332263c94becc2fe0ceaa9681d07b6ef9807023b67
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   simple_gesture_detector:
     dependency: transitive
     description:
@@ -1011,26 +1011,18 @@ packages:
     dependency: transitive
     description:
       name: time
-      sha256: ad8e018a6c9db36cb917a031853a1aae49467a93e0d464683e029537d848c221
+      sha256: "370572cf5d1e58adcb3e354c47515da3f7469dac3a95b447117e728e7be6f461"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.4"
-  time_machine:
-    dependency: "direct main"
-    description:
-      name: time_machine
-      sha256: b39511bf66cc8553d86c1242c43dbf67a17c594d5d7124727c1fdbf331e3989d
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.9.17"
+    version: "2.1.5"
   timezone:
     dependency: "direct main"
     description:
       name: timezone
-      sha256: "2236ec079a174ce07434e89fcd3fcda430025eb7692244139a9cf54fdcf1fc7d"
+      sha256: ffc9d5f4d1193534ef051f9254063fa53d588609418c84299956c3db9383587d
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.4"
+    version: "0.10.0"
   timing:
     dependency: transitive
     description:
@@ -1075,26 +1067,26 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: e43b677296fadce447e987a2f519dcf5f6d1e527dc35d01ffab4fff5b8a7063e
+      sha256: "16a513b6c12bb419304e72ea0ae2ab4fed569920d1c7cb850263fe3acc824626"
       url: "https://pub.dev"
     source: hosted
-    version: "6.3.1"
+    version: "6.3.2"
   url_launcher_linux:
     dependency: transitive
     description:
       name: url_launcher_linux
-      sha256: e2b9622b4007f97f504cd64c0128309dfb978ae66adbe944125ed9e1750f06af
+      sha256: "4e9ba368772369e3e08f231d2301b4ef72b9ff87c31192ef471b380ef29a4935"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.0"
+    version: "3.2.1"
   url_launcher_macos:
     dependency: transitive
     description:
       name: url_launcher_macos
-      sha256: "769549c999acdb42b8bcfa7c43d72bf79a382ca7441ab18a808e101149daf672"
+      sha256: "17ba2000b847f334f16626a574c702b196723af2a289e7a93ffcb79acff855c2"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.2.2"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -1171,10 +1163,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: "84ba388638ed7a8cb3445a320c8273136ab2631cd5f2c57888335504ddab1bc2"
+      sha256: "8b338d4486ab3fbc0ba0db9f9b4f5239b6697fcee427939a40e720cbb9ee0a69"
       url: "https://pub.dev"
     source: hosted
-    version: "5.8.0"
+    version: "5.9.0"
   win32_registry:
     dependency: transitive
     description:
@@ -1203,10 +1195,10 @@ packages:
     dependency: transitive
     description:
       name: xxh3
-      sha256: cbeb0e1d10f4c6bf67b650f395eac0cc689425b5efc2ba0cc3d3e069a0beaeec
+      sha256: "399a0438f5d426785723c99da6b16e136f4953fb1e9db0bf270bd41dd4619916"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "1.2.0"
   yaml:
     dependency: transitive
     description:

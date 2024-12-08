@@ -12,7 +12,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.yoshi.todark"
-    compileSdk = 34
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
