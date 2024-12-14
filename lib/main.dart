@@ -3,7 +3,6 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:time_machine/time_machine.dart';
 import 'package:todark/app/controller/isar_contoller.dart';
 import 'package:todark/app/ui/home.dart';
 import 'package:todark/app/ui/onboarding.dart';
@@ -58,11 +57,7 @@ void main() async {
   if (Platform.isAndroid) {
     await setOptimalDisplayMode();
   }
-  if (Platform.isAndroid || Platform.isIOS) {
-    timeZoneName = await FlutterTimezone.getLocalTimezone();
-  } else {
-    timeZoneName = '${DateTimeZone.local}';
-  }
+  timeZoneName = await FlutterTimezone.getLocalTimezone();
   tz.initializeTimeZones();
   tz.setLocalLocation(tz.getLocation(timeZoneName));
   const DarwinInitializationSettings initializationSettingsIos =
