@@ -209,7 +209,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                         },
                       ),
                       startingDayOfWeek: firstDayOfWeek(),
-                      weekendDays: const [],
+                      weekendDays: const [DateTime.sunday],
                       firstDay: firstDay,
                       lastDay: lastDay,
                       focusedDay: selectedDay,
