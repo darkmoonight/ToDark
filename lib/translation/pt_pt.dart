@@ -95,7 +95,7 @@ class PtPt {
         '24': '24 horas',
         'select': 'Selecionar',
         'isImages': 'Mostrar imagens',
-        'clearText': 'Limpar o texto',
+        'clearText': 'Limpar texto',
         'clearTextWarning': 'Você tem alterações por salvar! Tem certeza de que as deseja excluir?',
         'groups': 'Os nossos grupos',
         'firstDayOfWeek': 'Primeiro dia da semana',
