@@ -1,20 +1,17 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/ui/tasks/widgets/tasks_action.dart';
-import 'package:todark/app/ui/todos/widgets/todos_action.dart';
-import 'package:todark/app/ui/todos/widgets/todos_list.dart';
-import 'package:todark/app/ui/todos/widgets/todos_transfer.dart';
-import 'package:todark/app/ui/widgets/my_delegate.dart';
-import 'package:todark/app/ui/widgets/text_form.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/ui/tasks/widgets/tasks_action.dart';
+import 'package:zest/app/ui/todos/widgets/todos_action.dart';
+import 'package:zest/app/ui/todos/widgets/todos_list.dart';
+import 'package:zest/app/ui/todos/widgets/todos_transfer.dart';
+import 'package:zest/app/ui/widgets/my_delegate.dart';
+import 'package:zest/app/ui/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class TodosTask extends StatefulWidget {
-  const TodosTask({
-    super.key,
-    required this.task,
-  });
+  const TodosTask({super.key, required this.task});
   final Tasks task;
 
   @override
@@ -54,23 +51,25 @@ class _TodosTaskState extends State<TodosTask> {
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            leading: todoController.isMultiSelectionTodo.isTrue
-                ? IconButton(
-                    onPressed: () => todoController.doMultiSelectionTodoClear(),
-                    icon: const Icon(
-                      IconsaxPlusLinear.close_square,
-                      size: 20,
+            leading:
+                todoController.isMultiSelectionTodo.isTrue
+                    ? IconButton(
+                      onPressed:
+                          () => todoController.doMultiSelectionTodoClear(),
+                      icon: const Icon(
+                        IconsaxPlusLinear.close_square,
+                        size: 20,
+                      ),
+                    )
+                    : IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(
+                        IconsaxPlusLinear.arrow_left_3,
+                        size: 20,
+                      ),
                     ),
-                  )
-                : IconButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    icon: const Icon(
-                      IconsaxPlusLinear.arrow_left_3,
-                      size: 20,
-                    ),
-                  ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -85,12 +84,12 @@ class _TodosTaskState extends State<TodosTask> {
                 widget.task.description.isEmpty
                     ? const Offstage()
                     : Text(
-                        widget.task.description,
-                        style: context.textTheme.labelLarge?.copyWith(
-                          color: Colors.grey,
-                        ),
-                        overflow: TextOverflow.ellipsis,
+                      widget.task.description,
+                      style: context.textTheme.labelLarge?.copyWith(
+                        color: Colors.grey,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
               ],
             ),
             actions: [
@@ -98,10 +97,7 @@ class _TodosTaskState extends State<TodosTask> {
                 visible: todoController.selectedTodo.isNotEmpty,
                 replacement: const Offstage(),
                 child: IconButton(
-                  icon: const Icon(
-                    IconsaxPlusLinear.arrange_square,
-                    size: 20,
-                  ),
+                  icon: const Icon(IconsaxPlusLinear.arrange_square, size: 20),
                   onPressed: () {
                     showModalBottomSheet(
                       enableDrag: false,
@@ -145,16 +141,10 @@ class _TodosTaskState extends State<TodosTask> {
                       },
                     );
                   },
-                  icon: const Icon(
-                    IconsaxPlusLinear.edit,
-                    size: 20,
-                  ),
+                  icon: const Icon(IconsaxPlusLinear.edit, size: 20),
                 ),
                 child: IconButton(
-                  icon: const Icon(
-                    IconsaxPlusLinear.trash_square,
-                    size: 20,
-                  ),
+                  icon: const Icon(IconsaxPlusLinear.trash_square, size: 20),
                   onPressed: () async {
                     await showAdaptiveDialog(
                       context: context,
@@ -170,20 +160,29 @@ class _TodosTaskState extends State<TodosTask> {
                           ),
                           actions: [
                             TextButton(
-                                onPressed: () => Get.back(),
-                                child: Text('cancel'.tr,
-                                    style: context.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.blueAccent))),
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                'cancel'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
                             TextButton(
-                                onPressed: () {
-                                  todoController
-                                      .deleteTodo(todoController.selectedTodo);
-                                  todoController.doMultiSelectionTodoClear();
-                                  Get.back();
-                                },
-                                child: Text('delete'.tr,
-                                    style: context.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.red))),
+                              onPressed: () {
+                                todoController.deleteTodo(
+                                  todoController.selectedTodo,
+                                );
+                                todoController.doMultiSelectionTodoClear();
+                                Get.back();
+                              },
+                              child: Text(
+                                'delete'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
                           ],
                         );
                       },
@@ -210,26 +209,30 @@ class _TodosTaskState extends State<TodosTask> {
                         ),
                         controller: searchTodos,
                         margin: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 5),
+                          horizontal: 10,
+                          vertical: 5,
+                        ),
                         onChanged: applyFilter,
-                        iconButton: searchTodos.text.isNotEmpty
-                            ? IconButton(
-                                onPressed: () {
-                                  searchTodos.clear();
-                                  applyFilter('');
-                                },
-                                icon: const Icon(
-                                  IconsaxPlusLinear.close_square,
-                                  color: Colors.grey,
-                                  size: 20,
-                                ),
-                              )
-                            : null,
+                        iconButton:
+                            searchTodos.text.isNotEmpty
+                                ? IconButton(
+                                  onPressed: () {
+                                    searchTodos.clear();
+                                    applyFilter('');
+                                  },
+                                  icon: const Icon(
+                                    IconsaxPlusLinear.close_square,
+                                    color: Colors.grey,
+                                    size: 20,
+                                  ),
+                                )
+                                : null,
                       ),
                     ),
                     SliverOverlapAbsorber(
                       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
+                        context,
+                      ),
                       sliver: SliverPersistentHeader(
                         delegate: MyDelegate(
                           TabBar(
@@ -238,15 +241,12 @@ class _TodosTaskState extends State<TodosTask> {
                             dividerColor: Colors.transparent,
                             splashFactory: NoSplash.splashFactory,
                             overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                return Colors.transparent;
-                              },
-                            ),
-                            tabs: [
-                              Tab(text: 'doing'.tr),
-                              Tab(text: 'done'.tr),
-                            ],
+                                WidgetStateProperty.resolveWith<Color?>((
+                                  Set<WidgetState> states,
+                                ) {
+                                  return Colors.transparent;
+                                }),
+                            tabs: [Tab(text: 'doing'.tr), Tab(text: 'done'.tr)],
                           ),
                         ),
                         floating: true,

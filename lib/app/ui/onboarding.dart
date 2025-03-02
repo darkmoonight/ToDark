@@ -1,8 +1,8 @@
 import 'package:gap/gap.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/ui/home.dart';
-import 'package:todark/app/ui/widgets/button.dart';
-import 'package:todark/main.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/ui/home.dart';
+import 'package:zest/app/ui/widgets/button.dart';
+import 'package:zest/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -51,22 +51,24 @@ class _OnBordingState extends State<OnBording> {
                     pageIndex = index;
                   });
                 },
-                itemBuilder: (context, index) => OnboardContent(
-                  image: data[index].image,
-                  title: data[index].title,
-                  description: data[index].description,
-                ),
+                itemBuilder:
+                    (context, index) => OnboardContent(
+                      image: data[index].image,
+                      title: data[index].title,
+                      description: data[index].description,
+                    ),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ...List.generate(
-                    data.length,
-                    (index) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5),
-                          child: DotIndicator(isActive: index == pageIndex),
-                        )),
+                  data.length,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: DotIndicator(isActive: index == pageIndex),
+                  ),
+                ),
               ],
             ),
             Padding(
@@ -77,12 +79,12 @@ class _OnBordingState extends State<OnBording> {
                   pageIndex == data.length - 1
                       ? onBoardHome()
                       : pageController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease,
-                        );
+                        duration: const Duration(milliseconds: 300),
+                        curve: Curves.ease,
+                      );
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -91,10 +93,7 @@ class _OnBordingState extends State<OnBording> {
 }
 
 class DotIndicator extends StatelessWidget {
-  const DotIndicator({
-    super.key,
-    this.isActive = false,
-  });
+  const DotIndicator({super.key, this.isActive = false});
 
   final bool isActive;
 
@@ -105,9 +104,10 @@ class DotIndicator extends StatelessWidget {
       height: 8,
       width: 8,
       decoration: BoxDecoration(
-        color: isActive
-            ? context.theme.colorScheme.secondary
-            : context.theme.colorScheme.secondaryContainer,
+        color:
+            isActive
+                ? context.theme.colorScheme.secondary
+                : context.theme.colorScheme.secondaryContainer,
         shape: BoxShape.circle,
       ),
     );
@@ -126,17 +126,20 @@ class Onboard {
 
 final List<Onboard> data = [
   Onboard(
-      image: 'assets/images/Task.png',
-      title: 'title1'.tr,
-      description: 'subtitle1'.tr),
+    image: 'assets/images/Task.png',
+    title: 'title1'.tr,
+    description: 'subtitle1'.tr,
+  ),
   Onboard(
-      image: 'assets/images/Design.png',
-      title: 'title2'.tr,
-      description: 'subtitle2'.tr),
+    image: 'assets/images/Design.png',
+    title: 'title2'.tr,
+    description: 'subtitle2'.tr,
+  ),
   Onboard(
-      image: 'assets/images/Feedback.png',
-      title: 'title3'.tr,
-      description: 'subtitle3'.tr),
+    image: 'assets/images/Feedback.png',
+    title: 'title3'.tr,
+    description: 'subtitle3'.tr,
+  ),
 ];
 
 class OnboardContent extends StatelessWidget {
@@ -156,14 +159,12 @@ class OnboardContent extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                image,
-                scale: 5,
-              ),
+              Image.asset(image, scale: 5),
               Text(
                 title,
-                style: context.textTheme.titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w600),
+                style: context.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const Gap(10),
               SizedBox(

@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/controller/isar_contoller.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/ui/settings/widgets/settings_card.dart';
-import 'package:todark/main.dart';
-import 'package:todark/theme/theme_controller.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/controller/isar_contoller.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/ui/settings/widgets/settings_card.dart';
+import 'package:zest/main.dart';
+import 'package:zest/theme/theme_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -545,7 +545,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                       ),
-                      applicationName: 'ToDark',
+                      applicationName: 'Zest',
                       applicationVersion: appVersion,
                     ),
                     transition: Transition.downToUp,
@@ -561,7 +561,7 @@ class _SettingsPageState extends State<SettingsPage> {
               icon: const Icon(LineAwesomeIcons.github),
               text: '${'project'.tr} GitHub',
               onPressed:
-                  () => urlLauncher('https://github.com/DarkMooNight/ToDark'),
+                  () => urlLauncher('https://github.com/DarkMooNight/Zest'),
             ),
           ],
         ),

@@ -3,9 +3,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:isar/isar.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/utils/notification.dart';
-import 'package:todark/main.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/utils/notification.dart';
+import 'package:zest/main.dart';
 
 class TodoController extends GetxController {
   final tasks = <Tasks>[].obs;
@@ -50,7 +50,11 @@ class TodoController extends GetxController {
   }
 
   Future<void> updateTask(
-      Tasks task, String title, String desc, Color myColor) async {
+    Tasks task,
+    String title,
+    String desc,
+    Color myColor,
+  ) async {
     isar.writeTxnSync(() {
       task.title = title;
       task.description = desc;
@@ -85,10 +89,13 @@ class TodoController extends GetxController {
       }
       // Delete Todos
       todos.removeWhere((todo) => todo.task.value?.id == task.id);
-      isar.writeTxnSync(() => isar.todos
-          .filter()
-          .task((q) => q.idEqualTo(task.id))
-          .deleteAllSync());
+      isar.writeTxnSync(
+        () =>
+            isar.todos
+                .filter()
+                .task((q) => q.idEqualTo(task.id))
+                .deleteAllSync(),
+      );
 
       // Delete Task
       tasks.remove(task);
@@ -157,21 +164,30 @@ class TodoController extends GetxController {
   }
 
   // Todos
-  Future<void> addTodo(Tasks task, String title, String desc, String time,
-      bool pined, Priority priority, List<String> tags) async {
+  Future<void> addTodo(
+    Tasks task,
+    String title,
+    String desc,
+    String time,
+    bool pined,
+    Priority priority,
+    List<String> tags,
+  ) async {
     DateTime? date;
     if (time.isNotEmpty) {
-      date = timeformat == '12'
-          ? DateFormat.yMMMEd(locale.languageCode).add_jm().parse(time)
-          : DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+      date =
+          timeformat == '12'
+              ? DateFormat.yMMMEd(locale.languageCode).add_jm().parse(time)
+              : DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
     }
     List<Todos> getTodos;
-    getTodos = isar.todos
-        .filter()
-        .nameEqualTo(title)
-        .task((q) => q.idEqualTo(task.id))
-        .todoCompletedTimeEqualTo(date)
-        .findAllSync();
+    getTodos =
+        isar.todos
+            .filter()
+            .nameEqualTo(title)
+            .task((q) => q.idEqualTo(task.id))
+            .todoCompletedTimeEqualTo(date)
+            .findAllSync();
 
     final todosCreate = Todos(
       name: title,
@@ -208,13 +224,22 @@ class TodoController extends GetxController {
     todos.refresh();
   }
 
-  Future<void> updateTodo(Todos todo, Tasks task, String title, String desc,
-      String time, bool pined, Priority priority, List<String> tags) async {
+  Future<void> updateTodo(
+    Todos todo,
+    Tasks task,
+    String title,
+    String desc,
+    String time,
+    bool pined,
+    Priority priority,
+    List<String> tags,
+  ) async {
     DateTime? date;
     if (time.isNotEmpty) {
-      date = timeformat == '12'
-          ? DateFormat.yMMMEd(locale.languageCode).add_jm().parse(time)
-          : DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
+      date =
+          timeformat == '12'
+              ? DateFormat.yMMMEd(locale.languageCode).add_jm().parse(time)
+              : DateFormat.yMMMEd(locale.languageCode).add_Hm().parse(time);
     }
     isar.writeTxnSync(() {
       todo.name = title;
@@ -305,14 +330,26 @@ class TodoController extends GetxController {
 
   int countTotalTodosCalendar(DateTime date) {
     return todos
-        .where((todo) =>
-            todo.done == false &&
-            todo.todoCompletedTime != null &&
-            todo.task.value?.archive == false &&
-            DateTime(date.year, date.month, date.day, 0, -1)
-                .isBefore(todo.todoCompletedTime!) &&
-            DateTime(date.year, date.month, date.day, 23, 60)
-                .isAfter(todo.todoCompletedTime!))
+        .where(
+          (todo) =>
+              todo.done == false &&
+              todo.todoCompletedTime != null &&
+              todo.task.value?.archive == false &&
+              DateTime(
+                date.year,
+                date.month,
+                date.day,
+                0,
+                -1,
+              ).isBefore(todo.todoCompletedTime!) &&
+              DateTime(
+                date.year,
+                date.month,
+                date.day,
+                23,
+                60,
+              ).isAfter(todo.todoCompletedTime!),
+        )
         .length;
   }
 

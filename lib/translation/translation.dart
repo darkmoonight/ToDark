@@ -1,19 +1,19 @@
 import 'package:get/get.dart';
-import 'package:todark/translation/ar_ar.dart';
-import 'package:todark/translation/de_de.dart';
-import 'package:todark/translation/en_us.dart';
-import 'package:todark/translation/es_es.dart';
-import 'package:todark/translation/fa_ir.dart';
-import 'package:todark/translation/fr_fr.dart';
-import 'package:todark/translation/it_it.dart';
-import 'package:todark/translation/ko_kr.dart';
-import 'package:todark/translation/pl_pl.dart';
-import 'package:todark/translation/ru_ru.dart';
-import 'package:todark/translation/zh_cn.dart';
-import 'package:todark/translation/zh_tw.dart';
-import 'package:todark/translation/tr_tr.dart';
-import 'package:todark/translation/vi_vn.dart';
-import 'package:todark/translation/pt_pt.dart';
+import 'package:zest/translation/ar_ar.dart';
+import 'package:zest/translation/de_de.dart';
+import 'package:zest/translation/en_us.dart';
+import 'package:zest/translation/es_es.dart';
+import 'package:zest/translation/fa_ir.dart';
+import 'package:zest/translation/fr_fr.dart';
+import 'package:zest/translation/it_it.dart';
+import 'package:zest/translation/ko_kr.dart';
+import 'package:zest/translation/pl_pl.dart';
+import 'package:zest/translation/ru_ru.dart';
+import 'package:zest/translation/zh_cn.dart';
+import 'package:zest/translation/zh_tw.dart';
+import 'package:zest/translation/tr_tr.dart';
+import 'package:zest/translation/vi_vn.dart';
+import 'package:zest/translation/pt_pt.dart';
 
 class Translation extends Translations {
   @override

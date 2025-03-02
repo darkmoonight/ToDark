@@ -1,13 +1,13 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:todark/app/controller/todo_controller.dart';
+import 'package:zest/app/controller/todo_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/ui/todos/widgets/todos_list.dart';
-import 'package:todark/app/ui/todos/widgets/todos_transfer.dart';
-import 'package:todark/app/ui/widgets/my_delegate.dart';
-import 'package:todark/main.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/ui/todos/widgets/todos_list.dart';
+import 'package:zest/app/ui/todos/widgets/todos_transfer.dart';
+import 'package:zest/app/ui/widgets/my_delegate.dart';
+import 'package:zest/main.dart';
 
 class CalendarTodos extends StatefulWidget {
   const CalendarTodos({super.key});
@@ -73,15 +73,17 @@ class _CalendarTodosState extends State<CalendarTodos> {
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            leading: todoController.isMultiSelectionTodo.isTrue
-                ? IconButton(
-                    onPressed: () => todoController.doMultiSelectionTodoClear(),
-                    icon: const Icon(
-                      IconsaxPlusLinear.close_square,
-                      size: 20,
-                    ),
-                  )
-                : null,
+            leading:
+                todoController.isMultiSelectionTodo.isTrue
+                    ? IconButton(
+                      onPressed:
+                          () => todoController.doMultiSelectionTodoClear(),
+                      icon: const Icon(
+                        IconsaxPlusLinear.close_square,
+                        size: 20,
+                      ),
+                    )
+                    : null,
             title: Text(
               'calendar'.tr,
               style: context.textTheme.titleLarge?.copyWith(
@@ -93,10 +95,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                 visible: todoController.selectedTodo.isNotEmpty,
                 replacement: const Offstage(),
                 child: IconButton(
-                  icon: const Icon(
-                    IconsaxPlusLinear.arrange_square,
-                    size: 20,
-                  ),
+                  icon: const Icon(IconsaxPlusLinear.arrange_square, size: 20),
                   onPressed: () {
                     showModalBottomSheet(
                       enableDrag: false,
@@ -120,10 +119,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
               Visibility(
                 visible: todoController.selectedTodo.isNotEmpty,
                 child: IconButton(
-                  icon: const Icon(
-                    IconsaxPlusLinear.trash_square,
-                    size: 20,
-                  ),
+                  icon: const Icon(IconsaxPlusLinear.trash_square, size: 20),
                   onPressed: () async {
                     await showAdaptiveDialog(
                       context: context,
@@ -139,20 +135,29 @@ class _CalendarTodosState extends State<CalendarTodos> {
                           ),
                           actions: [
                             TextButton(
-                                onPressed: () => Get.back(),
-                                child: Text('cancel'.tr,
-                                    style: context.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.blueAccent))),
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                'cancel'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
                             TextButton(
-                                onPressed: () {
-                                  todoController
-                                      .deleteTodo(todoController.selectedTodo);
-                                  todoController.doMultiSelectionTodoClear();
-                                  Get.back();
-                                },
-                                child: Text('delete'.tr,
-                                    style: context.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.red))),
+                              onPressed: () {
+                                todoController.deleteTodo(
+                                  todoController.selectedTodo,
+                                );
+                                todoController.doMultiSelectionTodoClear();
+                                Get.back();
+                              },
+                              child: Text(
+                                'delete'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
                           ],
                         );
                       },
@@ -173,37 +178,37 @@ class _CalendarTodosState extends State<CalendarTodos> {
                       calendarBuilders: CalendarBuilders(
                         markerBuilder: (context, day, events) {
                           return Obx(() {
-                            var countTodos =
-                                todoController.countTotalTodosCalendar(day);
+                            var countTodos = todoController
+                                .countTotalTodosCalendar(day);
                             return countTodos != 0
                                 ? selectedDay.isAtSameMomentAs(day)
                                     ? Container(
-                                        width: 16,
-                                        height: 16,
-                                        decoration: const BoxDecoration(
-                                          color: Colors.amber,
-                                          shape: BoxShape.circle,
+                                      width: 16,
+                                      height: 16,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.amber,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '$countTodos',
+                                          style: context.textTheme.bodyLarge
+                                              ?.copyWith(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12,
+                                              ),
                                         ),
-                                        child: Center(
-                                          child: Text(
-                                            '$countTodos',
-                                            style: context.textTheme.bodyLarge
-                                                ?.copyWith(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12,
-                                            ),
-                                          ),
-                                        ),
-                                      )
+                                      ),
+                                    )
                                     : Text(
-                                        '$countTodos',
-                                        style: const TextStyle(
-                                          color: Colors.amber,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 12,
-                                        ),
-                                      )
+                                      '$countTodos',
+                                      style: const TextStyle(
+                                        color: Colors.amber,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12,
+                                      ),
+                                    )
                                 : const SizedBox.shrink();
                           });
                         },
@@ -217,7 +222,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                       availableCalendarFormats: {
                         CalendarFormat.month: 'month'.tr,
                         CalendarFormat.twoWeeks: 'two_week'.tr,
-                        CalendarFormat.week: 'week'.tr
+                        CalendarFormat.week: 'week'.tr,
                       },
                       selectedDayPredicate: (day) {
                         return isSameDay(selectedDay, day);
@@ -234,26 +239,25 @@ class _CalendarTodosState extends State<CalendarTodos> {
                       },
                       calendarFormat: calendarFormat(),
                       onFormatChanged: (format) {
-                        setState(
-                          () {
-                            isar.writeTxnSync(() {
-                              if (format == CalendarFormat.week) {
-                                settings.calendarFormat = 'week';
-                              } else if (format == CalendarFormat.twoWeeks) {
-                                settings.calendarFormat = 'twoWeeks';
-                              } else if (format == CalendarFormat.month) {
-                                settings.calendarFormat = 'month';
-                              }
-                              isar.settings.putSync(settings);
-                            });
-                          },
-                        );
+                        setState(() {
+                          isar.writeTxnSync(() {
+                            if (format == CalendarFormat.week) {
+                              settings.calendarFormat = 'week';
+                            } else if (format == CalendarFormat.twoWeeks) {
+                              settings.calendarFormat = 'twoWeeks';
+                            } else if (format == CalendarFormat.month) {
+                              settings.calendarFormat = 'month';
+                            }
+                            isar.settings.putSync(settings);
+                          });
+                        });
                       },
                     ),
                   ),
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
+                      context,
+                    ),
                     sliver: SliverPersistentHeader(
                       delegate: MyDelegate(
                         TabBar(
@@ -266,10 +270,7 @@ class _CalendarTodosState extends State<CalendarTodos> {
                               return Colors.transparent;
                             },
                           ),
-                          tabs: [
-                            Tab(text: 'doing'.tr),
-                            Tab(text: 'done'.tr),
-                          ],
+                          tabs: [Tab(text: 'doing'.tr), Tab(text: 'done'.tr)],
                         ),
                       ),
                       floating: true,

@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:gap/gap.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/utils/show_dialog.dart';
-import 'package:todark/app/ui/widgets/button.dart';
-import 'package:todark/app/ui/widgets/text_form.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/utils/show_dialog.dart';
+import 'package:zest/app/ui/widgets/button.dart';
+import 'package:zest/app/ui/widgets/text_form.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -95,7 +95,10 @@ class _TasksActionState extends State<TasksAction> {
         widget.updateTaskName!();
       } else {
         todoController.addTask(
-            titleCategoryEdit.text, descCategoryEdit.text, myColor);
+          titleCategoryEdit.text,
+          descCategoryEdit.text,
+          myColor,
+        );
         titleCategoryEdit.clear();
         descCategoryEdit.clear();
       }
@@ -185,11 +188,7 @@ class _TasksActionState extends State<TasksAction> {
       },
     );
 
-    final attributes = Row(
-      children: [
-        colorInput,
-      ],
-    );
+    final attributes = Row(children: [colorInput]);
 
     return PopScope(
       canPop: false,
@@ -226,11 +225,13 @@ class _TasksActionState extends State<TasksAction> {
                     child: attributes,
                   ),
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     child: submitButton,
                   ),
-                  const Gap(10)
+                  const Gap(10),
                 ],
               ),
             ),
@@ -268,7 +269,8 @@ class _EditingController extends ChangeNotifier {
   ValueListenable<bool> get canCompose => _canCompose;
 
   void _updateCanCompose() {
-    _canCompose.value = (title.value != initialTitle) ||
+    _canCompose.value =
+        (title.value != initialTitle) ||
         (description.value != initialDescription) ||
         (color.value != initialColor);
   }

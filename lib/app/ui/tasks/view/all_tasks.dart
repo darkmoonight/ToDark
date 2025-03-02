@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/ui/tasks/widgets/task_list.dart';
-import 'package:todark/app/ui/widgets/my_delegate.dart';
-import 'package:todark/app/ui/tasks/widgets/statistics.dart';
-import 'package:todark/app/ui/widgets/text_form.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/ui/tasks/widgets/task_list.dart';
+import 'package:zest/app/ui/widgets/my_delegate.dart';
+import 'package:zest/app/ui/tasks/widgets/statistics.dart';
+import 'package:zest/app/ui/widgets/text_form.dart';
 
 class AllTasks extends StatefulWidget {
   const AllTasks({super.key});
@@ -41,167 +41,183 @@ class _AllTasksState extends State<AllTasks>
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () {
-        var createdTodos = todoController.createdAllTodos();
-        var completedTodos = todoController.completedAllTodos();
-        var precent = (completedTodos / createdTodos * 100).toStringAsFixed(0);
+    return Obx(() {
+      var createdTodos = todoController.createdAllTodos();
+      var completedTodos = todoController.completedAllTodos();
+      var precent = (completedTodos / createdTodos * 100).toStringAsFixed(0);
 
-        return PopScope(
-          canPop: todoController.isPop.value,
-          onPopInvokedWithResult: (didPop, value) {
-            if (didPop) {
-              return;
-            }
+      return PopScope(
+        canPop: todoController.isPop.value,
+        onPopInvokedWithResult: (didPop, value) {
+          if (didPop) {
+            return;
+          }
 
-            if (todoController.isMultiSelectionTask.isTrue) {
-              todoController.doMultiSelectionTaskClear();
-            }
-          },
-          child: Scaffold(
-            appBar: AppBar(
-              centerTitle: true,
-              leading: todoController.isMultiSelectionTask.isTrue
-                  ? IconButton(
-                      onPressed: () =>
-                          todoController.doMultiSelectionTaskClear(),
+          if (todoController.isMultiSelectionTask.isTrue) {
+            todoController.doMultiSelectionTaskClear();
+          }
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            leading:
+                todoController.isMultiSelectionTask.isTrue
+                    ? IconButton(
+                      onPressed:
+                          () => todoController.doMultiSelectionTaskClear(),
                       icon: const Icon(
                         IconsaxPlusLinear.close_square,
                         size: 20,
                       ),
                     )
-                  : null,
-              title: Text(
-                'categories'.tr,
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w600,
+                    : null,
+            title: Text(
+              'categories'.tr,
+              style: context.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            actions: [
+              Visibility(
+                visible: todoController.selectedTask.isNotEmpty,
+                child: IconButton(
+                  icon: const Icon(IconsaxPlusLinear.trash_square, size: 20),
+                  onPressed: () async {
+                    await showAdaptiveDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog.adaptive(
+                          title: Text(
+                            'deleteCategory'.tr,
+                            style: context.textTheme.titleLarge,
+                          ),
+                          content: Text(
+                            'deleteCategoryQuery'.tr,
+                            style: context.textTheme.titleMedium,
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                'cancel'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                todoController.deleteTask(
+                                  todoController.selectedTask,
+                                );
+                                todoController.doMultiSelectionTaskClear();
+                                Get.back();
+                              },
+                              child: Text(
+                                'delete'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
-              actions: [
-                Visibility(
-                  visible: todoController.selectedTask.isNotEmpty,
-                  child: IconButton(
-                    icon: const Icon(
-                      IconsaxPlusLinear.trash_square,
-                      size: 20,
-                    ),
-                    onPressed: () async {
-                      await showAdaptiveDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog.adaptive(
-                            title: Text(
-                              'deleteCategory'.tr,
-                              style: context.textTheme.titleLarge,
-                            ),
-                            content: Text(
-                              'deleteCategoryQuery'.tr,
-                              style: context.textTheme.titleMedium,
-                            ),
-                            actions: [
-                              TextButton(
-                                  onPressed: () => Get.back(),
-                                  child: Text('cancel'.tr,
-                                      style: context.textTheme.titleMedium
-                                          ?.copyWith(
-                                              color: Colors.blueAccent))),
-                              TextButton(
-                                  onPressed: () {
-                                    todoController.deleteTask(
-                                        todoController.selectedTask);
-                                    todoController.doMultiSelectionTaskClear();
-                                    Get.back();
-                                  },
-                                  child: Text('delete'.tr,
-                                      style: context.textTheme.titleMedium
-                                          ?.copyWith(color: Colors.red))),
-                            ],
-                          );
-                        },
-                      );
-                    },
+              Visibility(
+                visible: todoController.selectedTask.isNotEmpty,
+                child: IconButton(
+                  icon: Icon(
+                    tabController.index == 0
+                        ? IconsaxPlusLinear.archive_1
+                        : IconsaxPlusLinear.refresh_left_square,
+                    size: 20,
                   ),
+                  onPressed: () async {
+                    await showAdaptiveDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog.adaptive(
+                          title: Text(
+                            tabController.index == 0
+                                ? 'archiveCategory'.tr
+                                : 'noArchiveCategory'.tr,
+                            style: context.textTheme.titleLarge,
+                          ),
+                          content: Text(
+                            tabController.index == 0
+                                ? 'archiveCategoryQuery'.tr
+                                : 'noArchiveCategoryQuery'.tr,
+                            style: context.textTheme.titleMedium,
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                'cancel'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                tabController.index == 0
+                                    ? todoController.archiveTask(
+                                      todoController.selectedTask,
+                                    )
+                                    : todoController.noArchiveTask(
+                                      todoController.selectedTask,
+                                    );
+                                todoController.doMultiSelectionTaskClear();
+                                Get.back();
+                              },
+                              child: Text(
+                                tabController.index == 0
+                                    ? 'archive'.tr
+                                    : 'noArchive'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                 ),
-                Visibility(
-                  visible: todoController.selectedTask.isNotEmpty,
-                  child: IconButton(
-                    icon: Icon(
-                      tabController.index == 0
-                          ? IconsaxPlusLinear.archive_1
-                          : IconsaxPlusLinear.refresh_left_square,
-                      size: 20,
-                    ),
-                    onPressed: () async {
-                      await showAdaptiveDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog.adaptive(
-                            title: Text(
-                              tabController.index == 0
-                                  ? 'archiveCategory'.tr
-                                  : 'noArchiveCategory'.tr,
-                              style: context.textTheme.titleLarge,
-                            ),
-                            content: Text(
-                              tabController.index == 0
-                                  ? 'archiveCategoryQuery'.tr
-                                  : 'noArchiveCategoryQuery'.tr,
-                              style: context.textTheme.titleMedium,
-                            ),
-                            actions: [
-                              TextButton(
-                                  onPressed: () => Get.back(),
-                                  child: Text('cancel'.tr,
-                                      style: context.textTheme.titleMedium
-                                          ?.copyWith(
-                                              color: Colors.blueAccent))),
-                              TextButton(
-                                  onPressed: () {
-                                    tabController.index == 0
-                                        ? todoController.archiveTask(
-                                            todoController.selectedTask)
-                                        : todoController.noArchiveTask(
-                                            todoController.selectedTask);
-                                    todoController.doMultiSelectionTaskClear();
-                                    Get.back();
-                                  },
-                                  child: Text(
-                                      tabController.index == 0
-                                          ? 'archive'.tr
-                                          : 'noArchive'.tr,
-                                      style: context.textTheme.titleMedium
-                                          ?.copyWith(color: Colors.red))),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-            body: DefaultTabController(
-              length: 2,
-              child: NestedScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          MyTextForm(
-                            labelText: 'searchCategory'.tr,
-                            type: TextInputType.text,
-                            icon: const Icon(
-                              IconsaxPlusLinear.search_normal_1,
-                              size: 20,
-                            ),
-                            controller: searchTasks,
-                            margin: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
-                            onChanged: applyFilter,
-                            iconButton: searchTasks.text.isNotEmpty
-                                ? IconButton(
+              ),
+            ],
+          ),
+          body: DefaultTabController(
+            length: 2,
+            child: NestedScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverToBoxAdapter(
+                    child: Column(
+                      children: [
+                        MyTextForm(
+                          labelText: 'searchCategory'.tr,
+                          type: TextInputType.text,
+                          icon: const Icon(
+                            IconsaxPlusLinear.search_normal_1,
+                            size: 20,
+                          ),
+                          controller: searchTasks,
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          onChanged: applyFilter,
+                          iconButton:
+                              searchTasks.text.isNotEmpty
+                                  ? IconButton(
                                     onPressed: () {
                                       searchTasks.clear();
                                       applyFilter('');
@@ -212,63 +228,56 @@ class _AllTasksState extends State<AllTasks>
                                       size: 20,
                                     ),
                                   )
-                                : null,
-                          ),
-                          Statistics(
-                            createdTodos: createdTodos,
-                            completedTodos: completedTodos,
-                            precent: precent,
-                          ),
-                        ],
-                      ),
-                    ),
-                    SliverOverlapAbsorber(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
-                      sliver: SliverPersistentHeader(
-                        delegate: MyDelegate(
-                          TabBar(
-                            tabAlignment: TabAlignment.start,
-                            controller: tabController,
-                            isScrollable: true,
-                            dividerColor: Colors.transparent,
-                            splashFactory: NoSplash.splashFactory,
-                            overlayColor:
-                                WidgetStateProperty.resolveWith<Color?>(
-                              (Set<WidgetState> states) {
-                                return Colors.transparent;
-                              },
-                            ),
-                            tabs: [
-                              Tab(text: 'active'.tr),
-                              Tab(text: 'archived'.tr),
-                            ],
-                          ),
+                                  : null,
                         ),
-                        floating: true,
-                        pinned: true,
+                        Statistics(
+                          createdTodos: createdTodos,
+                          completedTodos: completedTodos,
+                          precent: precent,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SliverOverlapAbsorber(
+                    handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                      context,
+                    ),
+                    sliver: SliverPersistentHeader(
+                      delegate: MyDelegate(
+                        TabBar(
+                          tabAlignment: TabAlignment.start,
+                          controller: tabController,
+                          isScrollable: true,
+                          dividerColor: Colors.transparent,
+                          splashFactory: NoSplash.splashFactory,
+                          overlayColor: WidgetStateProperty.resolveWith<Color?>(
+                            (Set<WidgetState> states) {
+                              return Colors.transparent;
+                            },
+                          ),
+                          tabs: [
+                            Tab(text: 'active'.tr),
+                            Tab(text: 'archived'.tr),
+                          ],
+                        ),
                       ),
+                      floating: true,
+                      pinned: true,
                     ),
-                  ];
-                },
-                body: TabBarView(
-                  controller: tabController,
-                  children: [
-                    TasksList(
-                      archived: false,
-                      searhTask: filter,
-                    ),
-                    TasksList(
-                      archived: true,
-                      searhTask: filter,
-                    ),
-                  ],
-                ),
+                  ),
+                ];
+              },
+              body: TabBarView(
+                controller: tabController,
+                children: [
+                  TasksList(archived: false, searhTask: filter),
+                  TasksList(archived: true, searhTask: filter),
+                ],
               ),
             ),
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 }

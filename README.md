@@ -1,22 +1,22 @@
 <div align='center'>
 <img src='/assets/icons/icon.png' width='150'/>
-<h2>📝 ToDark</h2>
+<h2>📝 Zest</h2>
 </div>
 
 <p align='center'>
  <p align='center'>
-    <a href='https://github.com/darkmoonight/ToDark/stargazers'><img alt='Stars' src='https://img.shields.io/github/stars/darkmoonight/ToDark?color=ABACD3'/></a>
-    <a href='https://github.com/darkmoonight/ToDark/forks'><img alt='Forks' src='https://img.shields.io/github/forks/darkmoonight/ToDark?color=ABACD3'/></a>
-    <a href='https://github.com/darkmoonight/ToDark/releases'><img alt='GitHub release' src='https://img.shields.io/github/v/release/darkmoonight/ToDark?color=ABACD3'/></a>
-    <a href='https://github.com/darkmoonight/ToDark/blob/main/LICENSE'><img alt='License' src='https://img.shields.io/github/license/darkmoonight/ToDark?color=ABACD3'/></a>
+    <a href='https://github.com/darkmoonight/Zest/stargazers'><img alt='Stars' src='https://img.shields.io/github/stars/darkmoonight/Zest?color=ABACD3'/></a>
+    <a href='https://github.com/darkmoonight/Zest/forks'><img alt='Forks' src='https://img.shields.io/github/forks/darkmoonight/Zest?color=ABACD3'/></a>
+    <a href='https://github.com/darkmoonight/Zest/releases'><img alt='GitHub release' src='https://img.shields.io/github/v/release/darkmoonight/Zest?color=ABACD3'/></a>
+    <a href='https://github.com/darkmoonight/Zest/blob/main/LICENSE'><img alt='License' src='https://img.shields.io/github/license/darkmoonight/Zest?color=ABACD3'/></a>
  </p>
 </p>
 
-<p align='center'> Tired of task chaos? ToDark keeps you in control. 📱📅✅ </p>
+<p align='center'> Tired of task chaos? Zest keeps you in control. 📱📅✅ </p>
 
 ### 📚 Features to Simplify Your Life
 
-ToDark offers a range of features to streamline your task management process:
+Zest offers a range of features to streamline your task management process:
 
 - ✨ **Creating Categories:** Organize your tasks by creating categories that make sense to you.
 - ✅ **Creating Tasks in Categories:** Add tasks within categories for a structured approach.
@@ -40,17 +40,17 @@ Our app not only enhances productivity but also offers an intuitive and visually
 
 ### 💰 Support Us
 
-If ToDark has become an indispensable part of your life, consider supporting us through donations:
+If Zest has become an indispensable part of your life, consider supporting us through donations:
 
 [![DonationAlerts](https://img.shields.io/badge/DonationAlerts-orange?style=for-the-badge)](https://www.donationalerts.com/r/darkmoonight)
 [![ЮMoney](https://img.shields.io/badge/ЮMoney-violet?style=for-the-badge)](https://yoomoney.ru/to/4100117672775961)
 
-### 📥 Get ToDark Now
+### 📥 Get Zest Now
 
 [![Play Store](https://img.shields.io/badge/Google_Play-414141?style=for-the-badge&logo=google-play&logoColor=white)](https://play.google.com/store/apps/details?id=com.yoshi.todark)
 [![RuStore](https://img.shields.io/badge/RuStore-blue?style=for-the-badge&logo=vk&logoColor=white)](https://apps.rustore.ru/app/com.yoshi.todark)
 
-Or get the latest APK from the [Releases Section](https://github.com/DarkMooNight/ToDark/releases/latest). You can also find the app on IzzyOnDroid via a F-Droid client [here](https://apt.izzysoft.de/fdroid/index/apk/com.yoshi.todark).
+Or get the latest APK from the [Releases Section](https://github.com/DarkMooNight/Zest/releases/latest). You can also find the app on IzzyOnDroid via a F-Droid client [here](https://apt.izzysoft.de/fdroid/index/apk/com.yoshi.todark).
 
 ### 📃 License
 
@@ -58,6 +58,6 @@ This project is licensed under the [MIT License](./LICENSE).
 
 ### 👨‍💻 Our Contributors
 
-<a href='https://github.com/darkmoonight/ToDark/graphs/contributors'>
-  <img src='https://contrib.rocks/image?repo=darkmoonight/ToDark' />
+<a href='https://github.com/darkmoonight/Zest/graphs/contributors'>
+  <img src='https://contrib.rocks/image?repo=darkmoonight/Zest' />
 </a>

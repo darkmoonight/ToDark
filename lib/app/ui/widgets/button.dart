@@ -20,8 +20,9 @@ class MyTextButton extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyle(
           shadowColor: const WidgetStatePropertyAll(Colors.transparent),
-          backgroundColor:
-              WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
+          backgroundColor: WidgetStateProperty.resolveWith<Color>((
+            Set<WidgetState> states,
+          ) {
             if (states.contains(WidgetState.disabled)) {
               return context.theme.colorScheme.outlineVariant;
             }
@@ -29,17 +30,12 @@ class MyTextButton extends StatelessWidget {
           }),
           shape: WidgetStateProperty.all<RoundedRectangleBorder>(
             const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(20)),
             ),
           ),
         ),
         onPressed: onPressed,
-        child: Text(
-          text,
-          style: context.textTheme.titleMedium,
-        ),
+        child: Text(text, style: context.textTheme.titleMedium),
       ),
     );
   }

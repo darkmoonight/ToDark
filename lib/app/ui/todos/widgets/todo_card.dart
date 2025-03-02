@@ -4,10 +4,10 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:intl/intl.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/utils/notification.dart';
-import 'package:todark/main.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/utils/notification.dart';
+import 'package:zest/main.dart';
 
 class TodoCard extends StatefulWidget {
   const TodoCard({
@@ -39,14 +39,16 @@ class _TodoCardState extends State<TodoCard> {
           onTap: widget.onTap,
           onLongPress: widget.onLongPress,
           child: Card(
-            shape: todoController.isMultiSelectionTodo.isTrue &&
-                    todoController.selectedTodo.contains(widget.todo)
-                ? RoundedRectangleBorder(
-                    side: BorderSide(
-                        color: context.theme.colorScheme.onPrimaryContainer),
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  )
-                : null,
+            shape:
+                todoController.isMultiSelectionTodo.isTrue &&
+                        todoController.selectedTodo.contains(widget.todo)
+                    ? RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: context.theme.colorScheme.onPrimaryContainer,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    )
+                    : null,
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
@@ -66,21 +68,22 @@ class _TodoCardState extends State<TodoCard> {
                             });
                             DateTime? date = widget.todo.todoCompletedTime;
                             widget.todo.done
-                                ? flutterLocalNotificationsPlugin
-                                    .cancel(widget.todo.id)
+                                ? flutterLocalNotificationsPlugin.cancel(
+                                  widget.todo.id,
+                                )
                                 : (date != null &&
-                                        DateTime.now().isBefore(date))
-                                    ? NotificationShow().showNotification(
-                                        widget.todo.id,
-                                        widget.todo.name,
-                                        widget.todo.description,
-                                        widget.todo.todoCompletedTime,
-                                      )
-                                    : null;
+                                    DateTime.now().isBefore(date))
+                                ? NotificationShow().showNotification(
+                                  widget.todo.id,
+                                  widget.todo.name,
+                                  widget.todo.description,
+                                  widget.todo.todoCompletedTime,
+                                )
+                                : null;
                             Future.delayed(
-                                const Duration(milliseconds: 300),
-                                () => todoController
-                                    .updateTodoCheck(widget.todo));
+                              const Duration(milliseconds: 300),
+                              () => todoController.updateTodoCheck(widget.todo),
+                            );
                           },
                         ),
                         Expanded(
@@ -96,60 +99,62 @@ class _TodoCardState extends State<TodoCard> {
                               ),
                               widget.todo.description.isNotEmpty
                                   ? Text(
-                                      widget.todo.description,
-                                      style: context.textTheme.labelLarge
-                                          ?.copyWith(
-                                        color: Colors.grey,
-                                      ),
-                                      overflow: TextOverflow.visible,
-                                    )
+                                    widget.todo.description,
+                                    style: context.textTheme.labelLarge
+                                        ?.copyWith(color: Colors.grey),
+                                    overflow: TextOverflow.visible,
+                                  )
                                   : const Offstage(),
                               widget.allTodos || widget.calendare
                                   ? Row(
-                                      children: [
-                                        ColorIndicator(
-                                          height: 8,
-                                          width: 8,
-                                          borderRadius: 20,
-                                          color: Color(widget
-                                              .todo.task.value!.taskColor),
-                                          onSelectFocus: false,
+                                    children: [
+                                      ColorIndicator(
+                                        height: 8,
+                                        width: 8,
+                                        borderRadius: 20,
+                                        color: Color(
+                                          widget.todo.task.value!.taskColor,
                                         ),
-                                        const Gap(5),
-                                        Text(
-                                          widget.todo.task.value!.title,
-                                          style: context.textTheme.bodyLarge
-                                              ?.copyWith(
-                                            color: Colors.grey,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    )
+                                        onSelectFocus: false,
+                                      ),
+                                      const Gap(5),
+                                      Text(
+                                        widget.todo.task.value!.title,
+                                        style: context.textTheme.bodyLarge
+                                            ?.copyWith(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                      ),
+                                    ],
+                                  )
                                   : const Offstage(),
                               widget.todo.todoCompletedTime != null &&
                                       widget.calendare == false
                                   ? Text(
-                                      widget.todo.todoCompletedTime != null
-                                          ? timeformat == '12'
-                                              ? DateFormat.yMMMEd(
-                                                      locale.languageCode)
-                                                  .add_jm()
-                                                  .format(widget
-                                                      .todo.todoCompletedTime!)
-                                              : DateFormat.yMMMEd(
-                                                      locale.languageCode)
-                                                  .add_Hm()
-                                                  .format(widget
-                                                      .todo.todoCompletedTime!)
-                                          : '',
-                                      style: context.textTheme.labelLarge
-                                          ?.copyWith(
-                                        color:
-                                            context.theme.colorScheme.secondary,
-                                        fontSize: 12,
-                                      ),
-                                    )
+                                    widget.todo.todoCompletedTime != null
+                                        ? timeformat == '12'
+                                            ? DateFormat.yMMMEd(
+                                              locale.languageCode,
+                                            ).add_jm().format(
+                                              widget.todo.todoCompletedTime!,
+                                            )
+                                            : DateFormat.yMMMEd(
+                                              locale.languageCode,
+                                            ).add_Hm().format(
+                                              widget.todo.todoCompletedTime!,
+                                            )
+                                        : '',
+                                    style: context.textTheme.labelLarge
+                                        ?.copyWith(
+                                          color:
+                                              context
+                                                  .theme
+                                                  .colorScheme
+                                                  .secondary,
+                                          fontSize: 12,
+                                        ),
+                                  )
                                   : const Offstage(),
                               SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
@@ -157,17 +162,20 @@ class _TodoCardState extends State<TodoCard> {
                                   children: [
                                     widget.todo.priority != Priority.none
                                         ? _StatusChip(
-                                            icon: IconsaxPlusLinear.flag,
-                                            color: widget.todo.priority.color,
-                                            label: widget.todo.priority.name.tr,
-                                          )
+                                          icon: IconsaxPlusLinear.flag,
+                                          color: widget.todo.priority.color,
+                                          label: widget.todo.priority.name.tr,
+                                        )
                                         : const Offstage(),
                                     widget.todo.tags.isNotEmpty
                                         ? Row(
-                                            children: widget.todo.tags
-                                                .map((e) => _TagsChip(label: e))
-                                                .toList(),
-                                          )
+                                          children:
+                                              widget.todo.tags
+                                                  .map(
+                                                    (e) => _TagsChip(label: e),
+                                                  )
+                                                  .toList(),
+                                        )
                                         : const Offstage(),
                                   ],
                                 ),
@@ -184,24 +192,26 @@ class _TodoCardState extends State<TodoCard> {
                       children: [
                         widget.calendare
                             ? Text(
-                                timeformat == '12'
-                                    ? DateFormat.jm(locale.languageCode)
-                                        .format(widget.todo.todoCompletedTime!)
-                                    : DateFormat.Hm(locale.languageCode)
-                                        .format(widget.todo.todoCompletedTime!),
-                                style: context.textTheme.labelLarge?.copyWith(
-                                  color: context.theme.colorScheme.secondary,
-                                  fontSize: 12,
-                                ),
-                              )
+                              timeformat == '12'
+                                  ? DateFormat.jm(
+                                    locale.languageCode,
+                                  ).format(widget.todo.todoCompletedTime!)
+                                  : DateFormat.Hm(
+                                    locale.languageCode,
+                                  ).format(widget.todo.todoCompletedTime!),
+                              style: context.textTheme.labelLarge?.copyWith(
+                                color: context.theme.colorScheme.secondary,
+                                fontSize: 12,
+                              ),
+                            )
                             : const Offstage(),
                         const Gap(5),
                         widget.todo.fix
                             ? const Icon(
-                                IconsaxPlusLinear.attach_square,
-                                size: 20,
-                                color: Colors.grey,
-                              )
+                              IconsaxPlusLinear.attach_square,
+                              size: 20,
+                              color: Colors.grey,
+                            )
                             : const Offstage(),
                       ],
                     ),
@@ -217,9 +227,7 @@ class _TodoCardState extends State<TodoCard> {
 }
 
 class _TagsChip extends StatelessWidget {
-  const _TagsChip({
-    required this.label,
-  });
+  const _TagsChip({required this.label});
 
   final String label;
 
@@ -233,10 +241,7 @@ class _TagsChip extends StatelessWidget {
         label: Text(label),
         padding: EdgeInsets.zero,
         labelPadding: const EdgeInsets.only(right: 10),
-        visualDensity: const VisualDensity(
-          vertical: -4,
-          horizontal: -4,
-        ),
+        visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
       ),
     );
   }
@@ -263,10 +268,7 @@ class _StatusChip extends StatelessWidget {
         label: Text(label),
         padding: EdgeInsets.zero,
         labelPadding: const EdgeInsets.only(right: 10),
-        visualDensity: const VisualDensity(
-          vertical: -4,
-          horizontal: -4,
-        ),
+        visualDensity: const VisualDensity(vertical: -4, horizontal: -4),
       ),
     );
   }

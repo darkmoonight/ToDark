@@ -6,7 +6,10 @@ class MyDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       height: 40,

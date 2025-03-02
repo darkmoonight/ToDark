@@ -4,19 +4,15 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:isar/isar.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/app/utils/show_dialog.dart';
-import 'package:todark/app/ui/widgets/button.dart';
-import 'package:todark/app/ui/widgets/text_form.dart';
-import 'package:todark/main.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/app/utils/show_dialog.dart';
+import 'package:zest/app/ui/widgets/button.dart';
+import 'package:zest/app/ui/widgets/text_form.dart';
+import 'package:zest/main.dart';
 
 class TodosTransfer extends StatefulWidget {
-  const TodosTransfer({
-    super.key,
-    required this.text,
-    required this.todos,
-  });
+  const TodosTransfer({super.key, required this.text, required this.todos});
   final String text;
   final List<Todos> todos;
 
@@ -94,10 +90,12 @@ class _TodosTransferState extends State<TodosTransfer> {
       focusNode: focusNode,
       optionsViewOpenDirection: OptionsViewOpenDirection.up,
       textEditingController: transferTodoConroller,
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController fieldTextEditingController,
-          FocusNode fieldFocusNode,
-          VoidCallback onFieldSubmitted) {
+      fieldViewBuilder: (
+        BuildContext context,
+        TextEditingController fieldTextEditingController,
+        FocusNode fieldFocusNode,
+        VoidCallback onFieldSubmitted,
+      ) {
         return MyTextForm(
           elevation: 4,
           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -106,18 +104,16 @@ class _TodosTransferState extends State<TodosTransfer> {
           labelText: 'selectCategory'.tr,
           type: TextInputType.text,
           icon: const Icon(IconsaxPlusLinear.folder_2),
-          iconButton: transferTodoConroller.text.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(
-                    IconsaxPlusLinear.close_square,
-                    size: 18,
-                  ),
-                  onPressed: () {
-                    transferTodoConroller.clear();
-                    setState(() {});
-                  },
-                )
-              : null,
+          iconButton:
+              transferTodoConroller.text.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(IconsaxPlusLinear.close_square, size: 18),
+                    onPressed: () {
+                      transferTodoConroller.clear();
+                      setState(() {});
+                    },
+                  )
+                  : null,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'selectCategory'.tr;
@@ -141,8 +137,11 @@ class _TodosTransferState extends State<TodosTransfer> {
         focusNode.unfocus();
       },
       displayStringForOption: (Tasks option) => option.title,
-      optionsViewBuilder: (BuildContext context,
-          AutocompleteOnSelected<Tasks> onSelected, Iterable<Tasks> options) {
+      optionsViewBuilder: (
+        BuildContext context,
+        AutocompleteOnSelected<Tasks> onSelected,
+        Iterable<Tasks> options,
+      ) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Align(
@@ -220,8 +219,10 @@ class _TodosTransferState extends State<TodosTransfer> {
                   ),
                   todoCategory,
                   Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     child: submitButton,
                   ),
                   const Gap(10),
@@ -236,9 +237,7 @@ class _TodosTransferState extends State<TodosTransfer> {
 }
 
 class _EditingController extends ChangeNotifier {
-  _EditingController(
-    this.initialTask,
-  ) {
+  _EditingController(this.initialTask) {
     task.value = initialTask;
 
     task.addListener(_updateCanCompose);

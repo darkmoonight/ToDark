@@ -77,10 +77,7 @@ enum Priority {
   low(name: 'lowPriority', color: Colors.green),
   none(name: 'noPriority');
 
-  const Priority({
-    required this.name,
-    this.color,
-  });
+  const Priority({required this.name, this.color});
 
   final String name;
   final Color? color;

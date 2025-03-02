@@ -1,14 +1,21 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE"
+        tools:node="remove"
+    />
 
     <application
-        android:label="ToDark"
+        android:label="Zest"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:extractNativeLibs="true">
+        android:extractNativeLibs="true"
+    >
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -18,27 +25,37 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait"
             android:enableOnBackInvokedCallback="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+        >
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
-                android:resource="@style/NormalTheme" />
+                android:resource="@style/NormalTheme"
+            />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data
-            android:name="flutterEmbedding"
-            android:value="2" />
-        <receiver android:exported="false"
-            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
-        <receiver android:exported="false"
-            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
+        <meta-data android:name="flutterEmbedding" android:value="2" />
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"
+        />
+        <receiver
+            android:exported="false"
+            android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver"
+        >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+                <action
+                    android:name="android.intent.action.MY_PACKAGE_REPLACED"
+                />
+                <action
+                    android:name="android.intent.action.QUICKBOOT_POWERON"
+                />
+                <action
+                    android:name="com.htc.intent.action.QUICKBOOT_POWERON"
+                />
             </intent-filter>
         </receiver>
     </application>

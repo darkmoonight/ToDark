@@ -1,13 +1,13 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:todark/app/ui/tasks/view/all_tasks.dart';
-import 'package:todark/app/ui/settings/view/settings.dart';
+import 'package:zest/app/ui/tasks/view/all_tasks.dart';
+import 'package:zest/app/ui/settings/view/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:todark/app/ui/tasks/widgets/tasks_action.dart';
-import 'package:todark/app/ui/todos/view/calendar_todos.dart';
-import 'package:todark/app/ui/todos/view/all_todos.dart';
-import 'package:todark/app/ui/todos/widgets/todos_action.dart';
-import 'package:todark/theme/theme_controller.dart';
+import 'package:zest/app/ui/tasks/widgets/tasks_action.dart';
+import 'package:zest/app/ui/todos/view/calendar_todos.dart';
+import 'package:zest/app/ui/todos/view/all_todos.dart';
+import 'package:zest/app/ui/todos/widgets/todos_action.dart';
+import 'package:zest/theme/theme_controller.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,12 +20,7 @@ class _HomePageState extends State<HomePage> {
   final themeController = Get.put(ThemeController());
   int tabIndex = 0;
 
-  final pages = const [
-    AllTasks(),
-    AllTodos(),
-    CalendarTodos(),
-    SettingsPage(),
-  ];
+  final pages = const [AllTasks(), AllTodos(), CalendarTodos(), SettingsPage()];
 
   void changeTabIndex(int index) {
     setState(() {
@@ -48,10 +43,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: tabIndex,
-        children: pages,
-      ),
+      body: IndexedStack(index: tabIndex, children: pages),
       bottomNavigationBar: GestureDetector(
         onHorizontalDragEnd: onSwipe,
         child: NavigationBar(
@@ -81,30 +73,28 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: tabIndex == 3
-          ? null
-          : FloatingActionButton(
-              onPressed: () {
-                showModalBottomSheet(
-                  enableDrag: false,
-                  context: context,
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return tabIndex == 0
-                        ? TasksAction(
-                            text: 'create'.tr,
-                            edit: false,
-                          )
-                        : TodosAction(
+      floatingActionButton:
+          tabIndex == 3
+              ? null
+              : FloatingActionButton(
+                onPressed: () {
+                  showModalBottomSheet(
+                    enableDrag: false,
+                    context: context,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return tabIndex == 0
+                          ? TasksAction(text: 'create'.tr, edit: false)
+                          : TodosAction(
                             text: 'create'.tr,
                             edit: false,
                             category: true,
                           );
-                  },
-                );
-              },
-              child: const Icon(IconsaxPlusLinear.add),
-            ),
+                    },
+                  );
+                },
+                child: const Icon(IconsaxPlusLinear.add),
+              ),
     );
   }
 }

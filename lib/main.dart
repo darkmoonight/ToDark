@@ -3,18 +3,18 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
-import 'package:todark/app/controller/isar_contoller.dart';
-import 'package:todark/app/ui/home.dart';
-import 'package:todark/app/ui/onboarding.dart';
-import 'package:todark/theme/theme.dart';
+import 'package:zest/app/controller/isar_contoller.dart';
+import 'package:zest/app/ui/home.dart';
+import 'package:zest/app/ui/onboarding.dart';
+import 'package:zest/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:isar/isar.dart';
-import 'package:todark/theme/theme_controller.dart';
-import 'package:todark/app/utils/device_info.dart';
+import 'package:zest/theme/theme_controller.dart';
+import 'package:zest/app/utils/device_info.dart';
 import 'app/data/db.dart';
 import 'translation/translation.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
@@ -66,7 +66,7 @@ void main() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const LinuxInitializationSettings initializationSettingsLinux =
-      LinuxInitializationSettings(defaultActionName: 'ToDark');
+      LinuxInitializationSettings(defaultActionName: 'Zest');
   const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
     linux: initializationSettingsLinux,
@@ -288,7 +288,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             home: settings.onboard ? const HomePage() : const OnBording(),
             builder: EasyLoading.init(),
-            title: 'ToDark',
+            title: 'Zest',
           );
         },
       ),

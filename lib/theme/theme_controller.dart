@@ -1,12 +1,13 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:todark/app/data/db.dart';
-import 'package:todark/main.dart';
+import 'package:zest/app/data/db.dart';
+import 'package:zest/main.dart';
 
 class ThemeController extends GetxController {
-  ThemeMode get theme => settings.theme == 'system'
-      ? ThemeMode.system
-      : settings.theme == 'dark'
+  ThemeMode get theme =>
+      settings.theme == 'system'
+          ? ThemeMode.system
+          : settings.theme == 'dark'
           ? ThemeMode.dark
           : ThemeMode.light;
 

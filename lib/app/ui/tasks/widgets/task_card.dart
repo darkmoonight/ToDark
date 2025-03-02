@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/data/db.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/data/db.dart';
 
 class TaskCard extends StatefulWidget {
   const TaskCard({
@@ -34,14 +34,16 @@ class _TaskCardState extends State<TaskCard> {
       onTap: widget.onTap,
       onLongPress: widget.onLongPress,
       child: Card(
-        shape: todoController.isMultiSelectionTask.isTrue &&
-                todoController.selectedTask.contains(widget.task)
-            ? RoundedRectangleBorder(
-                side: BorderSide(
-                    color: context.theme.colorScheme.onPrimaryContainer),
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-              )
-            : null,
+        shape:
+            todoController.isMultiSelectionTask.isTrue &&
+                    todoController.selectedTask.contains(widget.task)
+                ? RoundedRectangleBorder(
+                  side: BorderSide(
+                    color: context.theme.colorScheme.onPrimaryContainer,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
+                )
+                : null,
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: ListTile(
           horizontalTitleGap: 10,
@@ -89,15 +91,16 @@ class _TaskCardState extends State<TaskCard> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          subtitle: widget.task.description.isNotEmpty
-              ? Text(
-                  widget.task.description,
-                  style: context.textTheme.labelLarge?.copyWith(
-                    color: Colors.grey,
-                    fontSize: 14,
-                  ),
-                )
-              : null,
+          subtitle:
+              widget.task.description.isNotEmpty
+                  ? Text(
+                    widget.task.description,
+                    style: context.textTheme.labelLarge?.copyWith(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  )
+                  : null,
           trailing: Text(
             '${widget.completedTodos}/${widget.createdTodos}',
             style: context.textTheme.labelMedium?.copyWith(color: Colors.grey),

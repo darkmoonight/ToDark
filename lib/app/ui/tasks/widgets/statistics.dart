@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
-import 'package:todark/main.dart';
+import 'package:zest/main.dart';
 
 class Statistics extends StatelessWidget {
   const Statistics({
@@ -47,8 +47,9 @@ class Statistics extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    DateFormat.MMMMEEEEd(locale.languageCode)
-                        .format(DateTime.now()),
+                    DateFormat.MMMMEEEEd(
+                      locale.languageCode,
+                    ).format(DateTime.now()),
                     style: context.textTheme.titleSmall,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -65,8 +66,9 @@ class Statistics extends StatelessWidget {
                   modifier: (percentage) {
                     return createdTodos != 0 ? '$precent%' : '0%';
                   },
-                  mainLabelStyle:
-                      context.textTheme.labelLarge?.copyWith(fontSize: 18),
+                  mainLabelStyle: context.textTheme.labelLarge?.copyWith(
+                    fontSize: 18,
+                  ),
                 ),
                 customColors: CustomSliderColors(
                   progressBarColors: <Color>[

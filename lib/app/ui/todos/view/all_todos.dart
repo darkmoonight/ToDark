@@ -1,9 +1,9 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:todark/app/controller/todo_controller.dart';
-import 'package:todark/app/ui/todos/widgets/todos_list.dart';
-import 'package:todark/app/ui/todos/widgets/todos_transfer.dart';
-import 'package:todark/app/ui/widgets/my_delegate.dart';
-import 'package:todark/app/ui/widgets/text_form.dart';
+import 'package:zest/app/controller/todo_controller.dart';
+import 'package:zest/app/ui/todos/widgets/todos_list.dart';
+import 'package:zest/app/ui/todos/widgets/todos_transfer.dart';
+import 'package:zest/app/ui/widgets/my_delegate.dart';
+import 'package:zest/app/ui/widgets/text_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -47,15 +47,17 @@ class _AllTodosState extends State<AllTodos> {
         child: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            leading: todoController.isMultiSelectionTodo.isTrue
-                ? IconButton(
-                    onPressed: () => todoController.doMultiSelectionTodoClear(),
-                    icon: const Icon(
-                      IconsaxPlusLinear.close_square,
-                      size: 20,
-                    ),
-                  )
-                : null,
+            leading:
+                todoController.isMultiSelectionTodo.isTrue
+                    ? IconButton(
+                      onPressed:
+                          () => todoController.doMultiSelectionTodoClear(),
+                      icon: const Icon(
+                        IconsaxPlusLinear.close_square,
+                        size: 20,
+                      ),
+                    )
+                    : null,
             title: Text(
               'allTodos'.tr,
               style: context.textTheme.titleLarge?.copyWith(
@@ -67,10 +69,7 @@ class _AllTodosState extends State<AllTodos> {
                 visible: todoController.selectedTodo.isNotEmpty,
                 replacement: const Offstage(),
                 child: IconButton(
-                  icon: const Icon(
-                    IconsaxPlusLinear.arrange_square,
-                    size: 20,
-                  ),
+                  icon: const Icon(IconsaxPlusLinear.arrange_square, size: 20),
                   onPressed: () {
                     showModalBottomSheet(
                       enableDrag: false,
@@ -94,10 +93,7 @@ class _AllTodosState extends State<AllTodos> {
               Visibility(
                 visible: todoController.selectedTodo.isNotEmpty,
                 child: IconButton(
-                  icon: const Icon(
-                    IconsaxPlusLinear.trash_square,
-                    size: 20,
-                  ),
+                  icon: const Icon(IconsaxPlusLinear.trash_square, size: 20),
                   onPressed: () async {
                     await showAdaptiveDialog(
                       context: context,
@@ -113,20 +109,29 @@ class _AllTodosState extends State<AllTodos> {
                           ),
                           actions: [
                             TextButton(
-                                onPressed: () => Get.back(),
-                                child: Text('cancel'.tr,
-                                    style: context.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.blueAccent))),
+                              onPressed: () => Get.back(),
+                              child: Text(
+                                'cancel'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
                             TextButton(
-                                onPressed: () {
-                                  todoController
-                                      .deleteTodo(todoController.selectedTodo);
-                                  todoController.doMultiSelectionTodoClear();
-                                  Get.back();
-                                },
-                                child: Text('delete'.tr,
-                                    style: context.textTheme.titleMedium
-                                        ?.copyWith(color: Colors.red))),
+                              onPressed: () {
+                                todoController.deleteTodo(
+                                  todoController.selectedTodo,
+                                );
+                                todoController.doMultiSelectionTodoClear();
+                                Get.back();
+                              },
+                              child: Text(
+                                'delete'.tr,
+                                style: context.textTheme.titleMedium?.copyWith(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
                           ],
                         );
                       },
@@ -152,26 +157,30 @@ class _AllTodosState extends State<AllTodos> {
                       ),
                       controller: searchTodos,
                       margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       onChanged: applyFilter,
-                      iconButton: searchTodos.text.isNotEmpty
-                          ? IconButton(
-                              onPressed: () {
-                                searchTodos.clear();
-                                applyFilter('');
-                              },
-                              icon: const Icon(
-                                IconsaxPlusLinear.close_square,
-                                color: Colors.grey,
-                                size: 20,
-                              ),
-                            )
-                          : null,
+                      iconButton:
+                          searchTodos.text.isNotEmpty
+                              ? IconButton(
+                                onPressed: () {
+                                  searchTodos.clear();
+                                  applyFilter('');
+                                },
+                                icon: const Icon(
+                                  IconsaxPlusLinear.close_square,
+                                  color: Colors.grey,
+                                  size: 20,
+                                ),
+                              )
+                              : null,
                     ),
                   ),
                   SliverOverlapAbsorber(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                        context),
+                      context,
+                    ),
                     sliver: SliverPersistentHeader(
                       delegate: MyDelegate(
                         TabBar(
@@ -184,10 +193,7 @@ class _AllTodosState extends State<AllTodos> {
                               return Colors.transparent;
                             },
                           ),
-                          tabs: [
-                            Tab(text: 'doing'.tr),
-                            Tab(text: 'done'.tr),
-                          ],
+                          tabs: [Tab(text: 'doing'.tr), Tab(text: 'done'.tr)],
                         ),
                       ),
                       floating: true,
