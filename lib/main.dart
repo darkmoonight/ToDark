@@ -42,6 +42,7 @@ final List appLanguages = [
   {'name': 'Italiano', 'locale': const Locale('it', 'IT')},
   {'name': '한국어', 'locale': const Locale('ko', 'KR')},
   {'name': 'فارسی', 'locale': const Locale('fa', 'IR')},
+  {'name': 'Polski', 'locale': const Locale('pl', 'PL')},
   {'name': 'Русский', 'locale': const Locale('ru', 'RU')},
   {'name': 'Tiếng việt', 'locale': const Locale('vi', 'VN')},
   {'name': 'Türkçe', 'locale': const Locale('tr', 'TR')},
@@ -80,12 +81,17 @@ void main() async {
 Future<void> setOptimalDisplayMode() async {
   final List<DisplayMode> supported = await FlutterDisplayMode.supported;
   final DisplayMode active = await FlutterDisplayMode.active;
-  final List<DisplayMode> sameResolution = supported
-      .where((DisplayMode m) =>
-          m.width == active.width && m.height == active.height)
-      .toList()
-    ..sort((DisplayMode a, DisplayMode b) =>
-        b.refreshRate.compareTo(a.refreshRate));
+  final List<DisplayMode> sameResolution =
+      supported
+          .where(
+            (DisplayMode m) =>
+                m.width == active.width && m.height == active.height,
+          )
+          .toList()
+        ..sort(
+          (DisplayMode a, DisplayMode b) =>
+              b.refreshRate.compareTo(a.refreshRate),
+        );
   final DisplayMode mostOptimalMode =
       sameResolution.isNotEmpty ? sameResolution.first : active;
   await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
@@ -194,7 +200,9 @@ class _MyAppState extends State<MyApp> {
     firstDay = settings.firstDay;
     isImage = settings.isImage!;
     locale = Locale(
-        settings.language!.substring(0, 2), settings.language!.substring(3));
+      settings.language!.substring(0, 2),
+      settings.language!.substring(3),
+    );
     super.initState();
   }
 
@@ -208,33 +216,64 @@ class _MyAppState extends State<MyApp> {
       child: DynamicColorBuilder(
         builder: (lightColorScheme, darkColorScheme) {
           final lightMaterialTheme = lightTheme(
-              lightColorScheme?.surface, lightColorScheme, edgeToEdgeAvailable);
+            lightColorScheme?.surface,
+            lightColorScheme,
+            edgeToEdgeAvailable,
+          );
           final darkMaterialTheme = darkTheme(
-              darkColorScheme?.surface, darkColorScheme, edgeToEdgeAvailable);
-          final darkMaterialThemeOled =
-              darkTheme(oledColor, darkColorScheme, edgeToEdgeAvailable);
+            darkColorScheme?.surface,
+            darkColorScheme,
+            edgeToEdgeAvailable,
+          );
+          final darkMaterialThemeOled = darkTheme(
+            oledColor,
+            darkColorScheme,
+            edgeToEdgeAvailable,
+          );
 
           return GetMaterialApp(
-            theme: materialColor
-                ? lightColorScheme != null
-                    ? lightMaterialTheme
+            theme:
+                materialColor
+                    ? lightColorScheme != null
+                        ? lightMaterialTheme
+                        : lightTheme(
+                          lightColor,
+                          colorSchemeLight,
+                          edgeToEdgeAvailable,
+                        )
                     : lightTheme(
-                        lightColor, colorSchemeLight, edgeToEdgeAvailable)
-                : lightTheme(lightColor, colorSchemeLight, edgeToEdgeAvailable),
-            darkTheme: amoledTheme
-                ? materialColor
-                    ? darkColorScheme != null
-                        ? darkMaterialThemeOled
+                      lightColor,
+                      colorSchemeLight,
+                      edgeToEdgeAvailable,
+                    ),
+            darkTheme:
+                amoledTheme
+                    ? materialColor
+                        ? darkColorScheme != null
+                            ? darkMaterialThemeOled
+                            : darkTheme(
+                              oledColor,
+                              colorSchemeDark,
+                              edgeToEdgeAvailable,
+                            )
                         : darkTheme(
-                            oledColor, colorSchemeDark, edgeToEdgeAvailable)
-                    : darkTheme(oledColor, colorSchemeDark, edgeToEdgeAvailable)
-                : materialColor
+                          oledColor,
+                          colorSchemeDark,
+                          edgeToEdgeAvailable,
+                        )
+                    : materialColor
                     ? darkColorScheme != null
                         ? darkMaterialTheme
                         : darkTheme(
-                            darkColor, colorSchemeDark, edgeToEdgeAvailable)
+                          darkColor,
+                          colorSchemeDark,
+                          edgeToEdgeAvailable,
+                        )
                     : darkTheme(
-                        darkColor, colorSchemeDark, edgeToEdgeAvailable),
+                      darkColor,
+                      colorSchemeDark,
+                      edgeToEdgeAvailable,
+                    ),
             themeMode: themeController.theme,
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
